@@ -1,19 +1,20 @@
 /**
  * 
  */
-package employee.training.test;
+package by.training.nc.dev5;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import employee.training.dao.EmployeeDAO;
-import employee.training.dao.factory.DAOFactory;
+import by.training.nc.dev5.unit2.dao.EmployeeDAO;
+import by.training.nc.dev5.unit2.factory.DAOFactory;
 
 /**
  * @author Andrei Tishkovski
  * 
  */
 public class DAOFactoryTest1 {
-	static Logger logger = Logger.getLogger(DAOFactoryTest1.class.getName());
+	static Logger logger = LogManager.getLogger(DAOFactoryTest1.class.getName());
 
 	/**
 	 * @param args

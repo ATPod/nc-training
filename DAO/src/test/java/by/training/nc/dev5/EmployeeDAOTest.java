@@ -1,10 +1,10 @@
 /**
  * 
  */
-package employee.training.test;
+package by.training.nc.dev5;
 
-import employee.training.dao.EmployeeDAO;
-import employee.training.dao.factory.DAOFactory;
+import by.training.nc.dev5.unit2.dao.EmployeeDAO;
+import by.training.nc.dev5.unit2.factory.DAOFactory;
 import junit.framework.TestCase;
 
 /**

@@ -23,7 +23,8 @@ import by.training.nc.dev5.unit2.factory.MySQLDAOFactory;
  * 
  */
 public class EmployeeMySQLDAO implements EmployeeDAO {
-	
+
+	private static final String SQL = "select id, first_name, last_name, email from employee";
 	// logger for the class
 	static Logger logger = LogManager.getLogger(EmployeeMySQLDAO.class);
 
@@ -71,10 +72,9 @@ public class EmployeeMySQLDAO implements EmployeeDAO {
 	public Collection<Employee> selectEmployees() {
 		try {
 			List<Employee> employees = new ArrayList<Employee>();
-			Employee employeeBean = null;
+			Employee employeeBean;
 			Connection connection = MySQLDAOFactory.getConnection();
-			String querystring = "select id, first_name, last_name, email from employee";
-			PreparedStatement ptmt = connection.prepareStatement(querystring);
+			PreparedStatement ptmt = connection.prepareStatement(SQL);
 			ResultSet rs = ptmt.executeQuery();
 			while (rs.next()) {
 				employeeBean = new Employee();

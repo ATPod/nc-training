@@ -1,4 +1,4 @@
-package employee.training.test;
+package by.training.nc.dev5;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

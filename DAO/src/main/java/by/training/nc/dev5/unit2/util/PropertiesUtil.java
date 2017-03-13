@@ -9,10 +9,10 @@ import java.util.Properties;
  */
 public class PropertiesUtil {
 	
-	public Properties getProperties(String pPropertiesFile){
+	public Properties getProperties(String propertiesFile){
 	  Properties properties = new Properties();
 	  try{
-		  properties.load(this.getClass().getClassLoader().getResourceAsStream(pPropertiesFile));
+		  properties.load(this.getClass().getClassLoader().getResourceAsStream(propertiesFile));
 		  return properties;
 	  }catch(IOException ex){
 		  return null;
