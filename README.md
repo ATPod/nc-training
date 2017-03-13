@@ -15,7 +15,7 @@ Before start working check that following tools are present on your environment:
 3. To start your/new maven module use the following command:
 mvn archetype:generate -DgroupId=by.training.nc.dev5 -DartifactId=YourPrefix-Module-Name -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 
-To avoid name colision use your itinial prefix for instance the prefix for Ivan Petrov is IP
+To avoid name collision use your initial prefix for instance the prefix for Ivan Petrov is IP
 
 4. To add you module for version tracking use the command:
   >git add YourPrefix-Module-Name
