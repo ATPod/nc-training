@@ -31,3 +31,11 @@ To avoid name colision use your itinial prefix for instance the prefix for Ivan 
 
 To name you package please see Java Package Naming:
 http://www.oracle.com/technetwork/java/codeconventions-135099.html
+
+Set up database.
+
+1. Install MySql server https://dev.mysql.com/downloads/installer/
+2. After the setup run MySQL Workbench
+3. From \nc-training\DAO\sql open init_db.sql and execute the script
+   It creates employees db
+4. Now you can run App and see list of all employee from the db

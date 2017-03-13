@@ -5,9 +5,9 @@ import by.training.nc.dev5.unit2.model.Employee;
 
 
 public interface EmployeeDAO {
-	  public int insertEmployee(Employee pEmployee);
-	  public boolean deleteEmployee(String pEmployee);
-	  public Employee findEmployee(String pEmployeeId);
-	  public boolean updateEmployee(String pEmployeeId);
-	  public Collection<Employee> selectEmployees();
+	  int insertEmployee(Employee pEmployee);
+	  boolean deleteEmployee(String pEmployee);
+	  Employee findEmployee(String pEmployeeId);
+	  boolean updateEmployee(String pEmployeeId);
+	  Collection<Employee> selectEmployees();
 }
