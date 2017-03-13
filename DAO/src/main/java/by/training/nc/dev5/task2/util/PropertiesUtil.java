@@ -1,7 +1,4 @@
-/**
- * 
- */
-package employee.training.util;
+package by.training.nc.dev5.task2.util;
 
 import java.io.IOException;
 import java.util.Properties;

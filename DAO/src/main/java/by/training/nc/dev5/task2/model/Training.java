@@ -1,26 +1,26 @@
-/**
- * 
- */
-package employee.training.bean;
+package by.training.nc.dev5.task2.model;
 
 /**
- * @author GEG.BY
- *
+ * @author Andrei Tsishkouski
  */
 public class Training {
-	private int mId;
-	private String mName;
-	public int getmId() {
-		return mId;
-	}
-	public void setId(int pId) {
-		mId = pId;
-	}
-	public String getName() {
-		return mName;
-	}
-	public void setmName(String pName) {
-		mName = pName;
-	}
+    private int id;
+    private String name;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int pId) {
+        id = pId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String pName) {
+        name = pName;
+    }
 
 }

@@ -1,8 +1,8 @@
-package employee.training.dao;
+package by.training.nc.dev5.task2.dao;
 
 import java.util.Collection;
 
-import employee.training.bean.Training;
+import by.training.nc.dev5.task2.model.Training;
 
 public interface TrainingDAO {
 	  public int insertTraining(Training pTraining);

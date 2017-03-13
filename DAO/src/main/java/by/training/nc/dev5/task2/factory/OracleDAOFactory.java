@@ -1,11 +1,11 @@
 /**
  * 
  */
-package employee.training.dao.factory;
+package by.training.nc.dev5.task2.factory;
 
-import employee.training.dao.EmployeeDAO;
-import employee.training.dao.TrainingDAO;
-import employee.training.util.PropertiesUtil;
+import by.training.nc.dev5.task2.dao.EmployeeDAO;
+import by.training.nc.dev5.task2.dao.TrainingDAO;
+import by.training.nc.dev5.task2.util.PropertiesUtil;
 
 /**
  * @author Andrei Tishkovski
@@ -16,7 +16,7 @@ public class OracleDAOFactory extends DAOFactory {
 	private static OracleDAOFactory daoFactory = null; 
 
 	/* (non-Javadoc)
-	 * @see employee.training.dao.factory.DAOFactory#getEmpoyeeDAO()
+	 * @see by.training.nc.dev5.task2.factory.DAOFactory#getEmpoyeeDAO()
 	 */
 	@Override
 	public EmployeeDAO getEmpoyeeDAO() {
@@ -25,7 +25,7 @@ public class OracleDAOFactory extends DAOFactory {
 	}
 
 	/* (non-Javadoc)
-	 * @see employee.training.dao.factory.DAOFactory#getTrainingDAO()
+	 * @see by.training.nc.dev5.task2.factory.DAOFactory#getTrainingDAO()
 	 */
 	@Override
 	public TrainingDAO getTrainingDAO() {

@@ -1,18 +1,18 @@
 /**
  * 
  */
-package employee.training.dao.factory;
+package by.training.nc.dev5.task2.factory;
 
 import java.sql.Connection;
 
 import java.sql.SQLException;
 import java.util.Properties;
 
-import employee.training.dao.EmployeeDAO;
-import employee.training.dao.EmployeeMySQLDAO;
-import employee.training.dao.TrainingDAO;
-import employee.training.dao.TrainingMySQLDAO;
-import employee.training.util.PropertiesUtil;
+import by.training.nc.dev5.task2.dao.EmployeeDAO;
+import by.training.nc.dev5.task2.dao.EmployeeMySQLDAO;
+import by.training.nc.dev5.task2.dao.TrainingDAO;
+import by.training.nc.dev5.task2.dao.TrainingMySQLDAO;
+import by.training.nc.dev5.task2.util.PropertiesUtil;
 import org.apache.commons.dbcp.BasicDataSource;
 
 /**

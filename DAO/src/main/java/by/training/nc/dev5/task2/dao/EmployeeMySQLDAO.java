@@ -1,7 +1,7 @@
 /**
  * 
  */
-package employee.training.dao;
+package by.training.nc.dev5.task2.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,10 +12,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import employee.training.bean.Employee;
-import employee.training.dao.factory.MySQLDAOFactory;
+import by.training.nc.dev5.task2.model.Employee;
+import by.training.nc.dev5.task2.factory.MySQLDAOFactory;
 
 /**
  * @author Andrei_Tsishkouski
@@ -24,7 +25,7 @@ import employee.training.dao.factory.MySQLDAOFactory;
 public class EmployeeMySQLDAO implements EmployeeDAO {
 	
 	// logger for the class
-	static Logger logger = Logger.getLogger(EmployeeMySQLDAO.class);
+	static Logger logger = LogManager.getLogger(EmployeeMySQLDAO.class);
 
 	public EmployeeMySQLDAO() {
 
@@ -33,7 +34,7 @@ public class EmployeeMySQLDAO implements EmployeeDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see employee.training.dao.EmployeeDAO#deleteEmployee(java.lang.String)
+	 * @see by.training.nc.dev5.dao.EmployeeDAO#deleteEmployee(java.lang.String)
 	 */
 	public boolean deleteEmployee(String pEmployee) {
 		// TODO Auto-generated method stub
@@ -43,7 +44,7 @@ public class EmployeeMySQLDAO implements EmployeeDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see employee.training.dao.EmployeeDAO#findEmployee(java.lang.String)
+	 * @see by.training.nc.dev5.dao.EmployeeDAO#findEmployee(java.lang.String)
 	 */
 	public Employee findEmployee(String pEmployeeId) {
 		// TODO Auto-generated method stub
@@ -54,7 +55,7 @@ public class EmployeeMySQLDAO implements EmployeeDAO {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * employee.training.dao.EmployeeDAO#insertEmployee(employee.training.bean
+	 * by.training.nc.dev5.dao.EmployeeDAO#insertEmployee(by.training.nc.dev5.bean
 	 * .Employee)
 	 */
 	public int insertEmployee(Employee pEmployee) {
@@ -65,7 +66,7 @@ public class EmployeeMySQLDAO implements EmployeeDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see employee.training.dao.EmployeeDAO#selectEmployees()
+	 * @see by.training.nc.dev5.dao.EmployeeDAO#selectEmployees()
 	 */
 	public Collection<Employee> selectEmployees() {
 		try {
@@ -84,7 +85,7 @@ public class EmployeeMySQLDAO implements EmployeeDAO {
 				employees.add(employeeBean);
 				logger.debug("Employee.id:" + employeeBean.getId() + 
 						" Employee.firsName:" + employeeBean.getFirstName() + 
-						" Employee.lastName:" + employeeBean.getmLastName() + 
+						" Employee.lastName:" + employeeBean.getLastName() +
 						" Employee.email:" + employeeBean.getEmail());
 			}
 			return employees;
@@ -97,7 +98,7 @@ public class EmployeeMySQLDAO implements EmployeeDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see employee.training.dao.EmployeeDAO#updateEmployee(java.lang.String)
+	 * @see by.training.nc.dev5.dao.EmployeeDAO#updateEmployee(java.lang.String)
 	 */
 	public boolean updateEmployee(String pEmployeeId) {
 		// TODO Auto-generated method stub
