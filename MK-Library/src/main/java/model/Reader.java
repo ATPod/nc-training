@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -9,21 +11,25 @@ import java.util.TreeSet;
 public class Reader {
 
     private String name;
-    private Set<Book> books ;
+    private List<Book> books; // or Set()
 
     public Reader(String name) {
-        books = new TreeSet<>();
+
+        books = new ArrayList<>();    // or TreeSet()
         this.name = name;
     }
 
+    public Reader(String name, List<Book> books) {
 
-
-    public void addBook (Book book){
-
-        books.add(book);
+        this.name = name;
+        this.books = books;
     }
 
 
+    public void addBook(Book book) {
+
+        books.add(book);
+    }
 
 
 }
