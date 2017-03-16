@@ -10,6 +10,7 @@
   <modules>
 	<module>DAO</module>
     <module>NA-DevelopersTeam</module>
+    <module>MK-Library</module>
   </modules>
   <dependencies>
     <dependency>
