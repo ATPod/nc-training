@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by ASUS on 16.03.2017.
  */
-public class LibaryService {
+public class LibraryService {
 
     private Library library = new Library();
 
