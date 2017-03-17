@@ -1,12 +1,11 @@
 package model;
 
-/**
- * Created by ASUS on 16.03.2017.
- */
-public class Book {
+import java.io.Serializable;
+
+
+public class Book implements Serializable,Comparable<Book> {
 
     private String title;
-
 
     public Book(String title) {
         this.title = title;
@@ -38,8 +37,16 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "title='" + title + '\'' +
-                '}';
+        return  title ;
+    }
+
+    @Override
+    public int compareTo(Book o) {
+
+        int result = this.title.compareTo(o.title);
+        if(result!=0)
+            return result;
+
+        return result;
     }
 }
