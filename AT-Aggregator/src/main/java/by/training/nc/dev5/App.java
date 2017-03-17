@@ -18,8 +18,8 @@ import java.util.Iterator;
  */
 public class App {
     private ObjectMapper mapper = new ObjectMapper();
-    private static final  String FILE_NAME = "user";
-    private static final  String FILE_EXTENSION = ".json";
+    private static final String FILE_NAME = "user";
+    private static final String FILE_EXTENSION = ".json";
     private static final Logger logger = LogManager.getLogger(App.class.getName());
 
     private void printEmployeeJSON(Employee employee){
