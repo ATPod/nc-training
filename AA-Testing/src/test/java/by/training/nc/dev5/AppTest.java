@@ -1,5 +1,6 @@
 package by.training.nc.dev5;
 
+import by.training.nc.dev5.beans.test.Test;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -21,7 +22,7 @@ public class AppTest
     }
 
     /**
-     * @return the suite of tests being tested
+     * @return the suite of test being tested
      */
     public static Test suite()
     {
