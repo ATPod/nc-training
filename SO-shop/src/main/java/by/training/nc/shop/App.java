@@ -1,4 +1,4 @@
-package by.training.nc.dev5;
+package by.training.nc.shop;
 
 /**
  * Hello world!
