@@ -39,3 +39,9 @@ Set up database.
 3. From \nc-training\DAO\sql open init_db.sql and execute the script
    It creates employees db
 4. Now you can run App and see list of all employee from the db
+
+Helper
+
+1. To install a JAR in the local repository use the following command:
+  mvn install:install-file -Dfile=<path-to-file> -DgroupId=<group-id> \
+       -DartifactId=<artifact-id> -Dversion=<version> -Dpackaging=<packaging>

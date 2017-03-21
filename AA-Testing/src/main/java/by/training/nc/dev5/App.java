@@ -1,13 +1,13 @@
 package by.training.nc.dev5;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import by.training.nc.dev5.tools.InitializationManager;
+
+public class App {
+    public static void main(String[] args) {
+        InitializationManager.testsDefaultInitialization();
+        InitializationManager.menu();
+        System.out.println("Hello");
+
     }
 }
+
