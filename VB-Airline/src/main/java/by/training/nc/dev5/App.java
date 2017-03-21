@@ -1,13 +1,13 @@
 package by.training.nc.dev5;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import by.training.nc.dev5.services.AirlineSevice;
+
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        AirlineSevice mainService = new AirlineSevice();
+        mainService.init();
+        mainService.menu();
     }
 }
