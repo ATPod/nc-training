@@ -1,12 +1,12 @@
 package by.training.nc.dev5.dao;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by Nikita on 21.03.2017.
  */
 public interface AbstractDao<E, K> {
-    List<E> getAll();
+    Collection<E> getAll();
 
     E getEntityById(K id);
 
@@ -14,5 +14,5 @@ public interface AbstractDao<E, K> {
 
     void delete(K id);
 
-    K create(E entity);
+    E create(E entity);
 }

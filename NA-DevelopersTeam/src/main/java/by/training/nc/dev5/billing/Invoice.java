@@ -83,4 +83,33 @@ public class Invoice {
     public void setProject(Project project) {
         this.project = project;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Invoice invoice = (Invoice) o;
+
+        if (getId() != invoice.getId()) return false;
+        if (Double.compare(invoice.getPrice(), getPrice()) != 0) return false;
+        if (getCustomer() != null ? !getCustomer().equals(invoice.getCustomer()) : invoice.getCustomer() != null)
+            return false;
+        return getProject() != null ? getProject().equals(invoice.getProject()) : invoice.getProject() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getId();
+    }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", project=" + project +
+                ", price=" + price +
+                '}';
+    }
 }

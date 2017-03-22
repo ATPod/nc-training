@@ -12,12 +12,14 @@ public interface DaoFactory {
 
     InvoiceDao getInvoiceDao();
 
+    TermsOfReferenceDao getTermsOfReferenceDao();
+
     static DaoFactory getDaoFactory(int whichFactory){
         switch (whichFactory) {
         case TRANSIENT:
             return new TransientDaoFactory();
         default:
-            throw new IllegalArgumentException("whichFactory");
+            throw new IllegalArgumentException("");
         }
     }
 }

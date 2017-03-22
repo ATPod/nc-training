@@ -1,36 +1,36 @@
 package by.training.nc.dev5.dao.temporal;
 
-import by.training.nc.dev5.billing.Invoice;
-import by.training.nc.dev5.dao.InvoiceDao;
+import by.training.nc.dev5.artifact.TermsOfReference;
+import by.training.nc.dev5.dao.TermsOfReferenceDao;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Nikita on 21.03.2017.
+ * Created by Nikita on 22.03.2017.
  */
-public class TransientInvoiceDao implements InvoiceDao {
-
+public class TransientTermsOfReferenceDao
+        implements TermsOfReferenceDao {
     private int idCounter;
-    private final Map<Integer, Invoice> storage;
+    private final Map<Integer, TermsOfReference> storage;
 
-    public TransientInvoiceDao() {
-        storage = new HashMap<>();
+    public TransientTermsOfReferenceDao() {
+        storage = new HashMap<Integer, TermsOfReference>();
     }
 
     @Override
-    public Collection<Invoice> getAll() {
+    public Collection<TermsOfReference> getAll() {
         return storage.values();
     }
 
     @Override
-    public Invoice getEntityById(Integer id) {
+    public TermsOfReference getEntityById(Integer id) {
         return storage.get(id);
     }
 
     @Override
-    public void update(Invoice entity, Integer id) {
+    public void update(TermsOfReference entity, Integer id) {
         synchronized (storage) {
             storage.remove(id);
             storage.put(id, entity);
@@ -45,7 +45,7 @@ public class TransientInvoiceDao implements InvoiceDao {
     }
 
     @Override
-    public Invoice create(Invoice entity) {
+    public TermsOfReference create(TermsOfReference entity) {
         int id = generateUniqueId();
 
         synchronized (storage) {
@@ -55,7 +55,7 @@ public class TransientInvoiceDao implements InvoiceDao {
         return entity;
     }
 
-    private synchronized int generateUniqueId() {
+    protected int generateUniqueId() {
         return idCounter++;
     }
 }

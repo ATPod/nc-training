@@ -37,6 +37,6 @@ public class BillingService {
     }
 
     public void issueInvoice(Invoice invoice) {
-        // TODO: implement me
+
     }
 }
