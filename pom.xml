@@ -9,11 +9,8 @@
   <url>http://maven.apache.org</url>
   <modules>
 	<module>DAO</module>
-<<<<<<< HEAD
     <module>SO-shop</module>
-=======
     <module>AV-Clinic</module>
->>>>>>> a0cd8d67baab8e6f2af9d91f29e111187a0e7abf
   </modules>
   <dependencies>
     <dependency>
