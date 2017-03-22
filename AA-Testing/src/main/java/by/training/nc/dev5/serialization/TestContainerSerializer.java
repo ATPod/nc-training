@@ -1,14 +1,14 @@
 package by.training.nc.dev5.serialization;
 
-import by.training.nc.dev5.beans.test.Test;
+import by.training.nc.dev5.beans.test.TestContainer;
 
 import java.io.*;
 
 /**
  * Created by NotePad.by on 19.03.2017.
  */
-public class TestSerializator {
-    public boolean serialization(Test t, String filename) {
+public class TestContainerSerializer {
+    public boolean serialization(TestContainer tc, String filename) {
         boolean flag = false;
         File f = new File(filename);
         ObjectOutputStream ostream = null;
@@ -16,7 +16,7 @@ public class TestSerializator {
             FileOutputStream fos = new FileOutputStream(f);
             if (fos != null) {
                 ostream = new ObjectOutputStream(fos);
-                ostream.writeObject(t);
+                ostream.writeObject(tc);
                 flag = true;
             }
 
@@ -39,14 +39,14 @@ public class TestSerializator {
         return flag;
     }
 
-    public Test deserialization(String fileName) throws InvalidObjectException {
+    public TestContainer deserialization(String fileName) throws InvalidObjectException {
         File fr = new File(fileName);
         ObjectInputStream istream = null;
         try {
             FileInputStream fis = new FileInputStream(fr);
             istream = new ObjectInputStream(fis);
-            Test test = (Test) istream.readObject();
-            return test;
+            TestContainer testContainer = (TestContainer) istream.readObject();
+            return testContainer;
         } catch (FileNotFoundException e) {
             System.out.println("Файл для десериализации не существует" + e);
         } catch (IOException e) {
