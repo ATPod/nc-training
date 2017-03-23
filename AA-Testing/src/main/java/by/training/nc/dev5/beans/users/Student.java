@@ -5,20 +5,38 @@ import by.training.nc.dev5.exceptions.StudentLogicException;
 import java.io.Serializable;
 
 /**
- * Created by NotePad.by on 15.03.2017.
+ * This class describes entity <b>Student</b>
+ *
+ * @author Alena Artsiuschcyk
+ * @version 1.0
  */
 public class Student extends User {
     private int balls;
 
+    /**
+     * Creates new entity of the class <b>{@code Student}</b> and initialize it
+     *
+     * @param id      - id
+     * @param name    - name
+     * @param surname - surname
+     * @param balls   - balls
+     */
     public Student(int id, String name, String surname, int balls) {
         super(id, name, surname);
         this.balls = balls;
     }
 
+    /**
+     * @return balls
+     */
     public int getBalls() {
         return balls;
     }
 
+    /**
+     * @param balls - balls to set
+     * @throws StudentLogicException - if balls amount is incorrect
+     */
     public void setBalls(int balls) throws StudentLogicException {
         if (balls < 0) {
             throw new StudentLogicException("Balls amount is incorrect!");
@@ -26,6 +44,9 @@ public class Student extends User {
         this.balls = balls;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+	 */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,6 +59,9 @@ public class Student extends User {
 
     }
 
+    /* (non-Javadoc)
+       * @see java.lang.Object#hashCode()
+       */
     @Override
     public int hashCode() {
         int result = super.hashCode();
@@ -45,6 +69,9 @@ public class Student extends User {
         return result;
     }
 
+    /* (non-Javadoc)
+        * @see java.lang.Object#toString()
+        */
     @Override
     public String toString() {
         return "Student{" +
