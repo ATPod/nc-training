@@ -1,4 +1,4 @@
-package by.training.nc.dev5.beans.Patient.Prescribing;
+package by.training.nc.dev5.beans.patient.prescribing;
 
 import java.io.Serializable;
 

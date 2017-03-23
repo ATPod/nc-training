@@ -1,10 +1,11 @@
 package by.training.nc.dev5.tools;
 
 
-import by.training.nc.dev5.beans.Patient.Patient;
+import by.training.nc.dev5.beans.patient.Patient;
 
 import java.io.*;
 import java.util.*;
+import org.apache.log4j.Logger;
 
 /**
  * Created by user on 17.03.2017
@@ -18,7 +19,7 @@ import java.util.*;
 public final class Operations {
 
     public static Scanner input = new Scanner(System.in);
-
+    private static final Logger log = Logger.getLogger(Operations.class);
 
     /**
      * Checks the right input of numbers
@@ -33,13 +34,13 @@ public final class Operations {
                 if (number >= 0) {
                     return number;
                 } else {
-                    System.out.println("Параметр не может быть отрицательным. Повторите ввод...");
+                    log.info("Параметр не может быть отрицательным. Повторите ввод...");
                     continue;
                 }
 
             } catch (InputMismatchException e) {
-                System.out.println("Неверный формат. Повторите ввод...");
-                Logger.log(e);
+                log.info("Неверный формат. Повторите ввод...");
+                log.error(e.getMessage(), e);
                 continue;
             }
         }
@@ -58,7 +59,7 @@ public final class Operations {
             if (!str.equals("")) {
                 return str;
             } else {
-                System.out.println("Вы ничего не ввели.");
+                log.info("Вы ничего не ввели.");
             }
         }
     }
@@ -75,8 +76,8 @@ public final class Operations {
             //System.out.println("Запись успешно произведена в файл \"" + file.getName() + "\"");
         }
         catch (IOException e) {
-            System.out.println("Ошибка записи. Невозможно создать файл \"" + file.getName() + "\"");
-            Logger.log(e);
+            log.info("Ошибка записи. Невозможно создать файл \"" + file.getName() + "\"");
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -99,11 +100,11 @@ public final class Operations {
 
         }
         catch (IOException e) {
-            Logger.log(e);
+            log.error(e.getMessage(), e);
         }
         catch (ClassNotFoundException e) {
-            System.out.println("Класс не найден...");
-            Logger.log(e);
+            log.info("Класс не найден...");
+            log.error(e.getMessage(), e);
         }
         return fromFile;
     }
