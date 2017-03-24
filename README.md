@@ -79,7 +79,7 @@ Deploy web application module to tomcat
 
 1. Go to nc-training/YOUR-PREFIX-WebApp-Module
 2. Run mvn package
-3. Copy you war
+3. Copy your war
     >from nc-training/YOUR-PREFIX-WebApp-Module/target/YOUR-PREFIX-WebApp.war
 
     >to <your_directory>/apache-tomcat-9.0.0.M18/webapps
