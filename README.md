@@ -80,9 +80,9 @@ Deploy web application module to tomcat
 1. Go to nc-training/YOUR-PREFIX-WebApp-Module
 2. Run mvn package
 3. Copy you war
-  >from training/YOUR-PREFIX-WebApp-Module/target/YOUR-PREFIX-WebApp.war
+    >from nc-training/YOUR-PREFIX-WebApp-Module/target/YOUR-PREFIX-WebApp.war
 
-  >to D:\learning-program\apache-tomcat-9.0.0.M18\webapps
+    >to <your_directory>/apache-tomcat-9.0.0.M18/webapps
 4. Look at cmd where your tomcat 9 is running. See deployment log records:
 24-Mar-2017 17:43:01.498 INFO [ContainerBackgroundProcessor[StandardEngine[Catalina]]] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive D:\learning-program\apache-tomcat-9.0.0.M18\webapps\YOUR-PREFIX-WebApp.war
 24-Mar-2017 17:43:01.569 INFO [ContainerBackgroundProcessor[StandardEngine[Catalina]]] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive D:\learning-program\apache-tomcat-9.0.0.M18\webapps\YOUR-PREFIX-WebApp.war
