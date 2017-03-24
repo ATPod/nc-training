@@ -52,10 +52,10 @@ Set up Tomcat 9
 2. Unzip it to <your path>/apache-tomcat-9.0.0.M18 (e.g D:\learning-program\apache-tomcat-9.0.0.M18)
 3. Download and update content of start-tomcat.bat according to your variables
    In the example it is:
-     set JAVA_HOME=d:\jdk18
-     set CATALINA_HOME="D:\learning-program\apache-tomcat-9.0.0.M18"
-     set CATALINA_BASE=%CATALINA_HOME%
-     %CATALINA_HOME%\bin\catalina.bat run
+     >set JAVA_HOME=d:\jdk18
+     >set CATALINA_HOME="D:\learning-program\apache-tomcat-9.0.0.M18"
+     >set CATALINA_BASE=%CATALINA_HOME%
+     >%CATALINA_HOME%\bin\catalina.bat run
 4. Copy updated file to <your path>/apache-tomcat-9.0.0.M18
 5. Open new cmd and execute the scenario: <your path>/apache-tomcat-9.0.0.M18>start-tomcat.bat
 6. Tomcat should be run. To check if evething is ok go to browser and open the url:
