@@ -59,7 +59,7 @@ Set up Tomcat 9
      >set CATALINA_BASE=%CATALINA_HOME%
 
      >%CATALINA_HOME%\bin\catalina.bat run
-     
+
 4. Copy updated file to <your path>/apache-tomcat-9.0.0.M18
 5. Open new cmd and execute the scenario: <your path>/apache-tomcat-9.0.0.M18>start-tomcat.bat
 6. Tomcat should be run. To check if evething is ok go to browser and open the url:
@@ -74,3 +74,20 @@ Set up web application module
          -DartifactId=YOUR-PREFIX-WebApp-Module
          -DarchetypeArtifactId=maven-archetype-webapp
          -DinteractiveMode=false
+
+Deploy web application module to tomcat
+
+1. Go to nc-training/YOUR-PREFIX-WebApp-Module
+2. Run mvn package
+3. Copy you war
+  >from training/YOUR-PREFIX-WebApp-Module/target/YOUR-PREFIX-WebApp.war
+
+  >to D:\learning-program\apache-tomcat-9.0.0.M18\webapps
+4. Look at cmd where your tomcat 9 is running. See deployment log records:
+24-Mar-2017 17:43:01.498 INFO [ContainerBackgroundProcessor[StandardEngine[Catalina]]] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive D:\learning-program\apache-tomcat-9.0.0.M18\webapps\YOUR-PREFIX-WebApp.war
+24-Mar-2017 17:43:01.569 INFO [ContainerBackgroundProcessor[StandardEngine[Catalina]]] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive D:\learning-program\apache-tomcat-9.0.0.M18\webapps\YOUR-PREFIX-WebApp.war
+
+5. Now go to browser and check the url http://localhost:8080/YOUR-PREFIX-WebApp/index.jsp
+   If everything ok see "Hello world!" message.
+
+
