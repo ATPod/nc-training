@@ -66,4 +66,7 @@ Set up web application module
 1. Go to nc-training directory
 2. Open new cmd
 3. Execute the following mvn command with your parameters:
-  mvn archetype:generate -DgroupId=by.training.nc.dev5 -DartifactId=<YOUR-PREFIX>-WebApp-Module	-DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+  mvn archetype:generate -DgroupId=by.training.nc.dev5
+         -DartifactId=<YOUR-PREFIX>-WebApp-Module
+         -DarchetypeArtifactId=maven-archetype-webapp
+         -DinteractiveMode=false
