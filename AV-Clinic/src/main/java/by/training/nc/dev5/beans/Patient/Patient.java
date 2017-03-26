@@ -1,7 +1,7 @@
-package by.training.nc.dev5.beans.Patient;
+package by.training.nc.dev5.beans.patient;
 
 
-import by.training.nc.dev5.beans.Patient.Prescribing.*;
+import by.training.nc.dev5.beans.patient.prescribing.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
