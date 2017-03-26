@@ -1,5 +1,7 @@
 package by.training.nc.dev5.model;
 
+import by.training.nc.dev5.exception.InputDataException;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,7 +19,10 @@ public class Flight implements Serializable {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(int number) throws InputDataException {
+        if(number < 0){
+            throw new InputDataException("Номер рейса не может быть отричательным!");
+        }
         this.number = number;
     }
 
