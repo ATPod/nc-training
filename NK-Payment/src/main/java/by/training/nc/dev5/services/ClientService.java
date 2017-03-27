@@ -1,7 +1,7 @@
 package by.training.nc.dev5.services;
 
-import by.training.nc.dev5.classes.Client;
-import by.training.nc.dev5.classes.CreditCard;
+import by.training.nc.dev5.entities.Client;
+import by.training.nc.dev5.entities.CreditCard;
 
 import java.io.*;
 import java.util.ArrayList;
