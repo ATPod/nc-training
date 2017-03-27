@@ -6,14 +6,8 @@ import by.training.nc.dev5.entity.*;
  * Created by Nikita on 26.03.2017.
  */
 public abstract class DaoFactory {
-    /**
-     * Represents types of storage, that are connected to the application
-     * and provide data access
-     */
-    public enum StorageType {
-        /** A MySQL database */
-        MYSQL
-    }
+    /** MySQL Database */
+    public static final int MYSQL = 1;
 
     /**
      * Obtains an implementation of {@link CustomerDao} interface
@@ -77,7 +71,7 @@ public abstract class DaoFactory {
      * @return an implementation of DaoFactory that grants access to the
      * storage of the specified type
      */
-    public static DaoFactory getDaoFactory(StorageType storageType) {
+    public static DaoFactory getDaoFactory(int storageType) {
         switch (storageType) {
         case MYSQL:
             return null;
