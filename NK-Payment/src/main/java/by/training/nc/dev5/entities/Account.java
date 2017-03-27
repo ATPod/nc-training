@@ -1,9 +1,6 @@
-package by.training.nc.dev5.classes;
+package by.training.nc.dev5.entities;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.FileOutputStream;
 
 /**
  * Created by AsusPC on 15.03.17.

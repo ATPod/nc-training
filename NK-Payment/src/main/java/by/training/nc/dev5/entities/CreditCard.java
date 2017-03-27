@@ -1,12 +1,9 @@
-package by.training.nc.dev5.classes;
+package by.training.nc.dev5.entities;
 
 
 import by.training.nc.dev5.exceptions.NotCorrectIdException;
 import by.training.nc.dev5.exceptions.NotCorrectPasswordException;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.Arrays;
 
 /**
@@ -51,6 +48,7 @@ public class CreditCard {
         if(password.length == 4){
             this.password = password;
         }else throw new NotCorrectPasswordException("Incorrect Pass");
+
     }
 
     public void setAccount(Account account) {

@@ -1,7 +1,8 @@
 package by.training.nc.dev5.services;
 
-import by.training.nc.dev5.Serialization.Serialization;
-import by.training.nc.dev5.classes.Account;
+import by.training.nc.dev5.tools.Serialization;
+import by.training.nc.dev5.entities.Account;
+import org.apache.logging.log4j.*;
 
 /**
  * Created by AsusPC on 25.03.17.
@@ -10,7 +11,7 @@ import by.training.nc.dev5.classes.Account;
  * @version 1.0
  */
 public class AccountService {
-
+    static Logger logger = LogManager.getLogger(AccountService.class);
     /**
      * describes payment from account
      * @param account
@@ -35,11 +36,11 @@ public class AccountService {
      */
     public static void viewAccount(Account account){
         if(account.isBlocked()){
-            System.out.println("Account is blocked");
+            logger.info("Account is blocked");
         }else {
-            System.out.println("Account is active");
+            logger.info("Account is active");
         }
-        System.out.println("money = " + account.getMoney());
+        logger.info("money = " + account.getMoney());
 
     }
 

@@ -1,4 +1,4 @@
-package by.training.nc.dev5.classes;
+package by.training.nc.dev5.entities;
 
 import java.util.ArrayList;
 

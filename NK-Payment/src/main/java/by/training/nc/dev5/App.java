@@ -1,15 +1,13 @@
 package by.training.nc.dev5;
 
-import by.training.nc.dev5.classes.Client;
-import by.training.nc.dev5.classes.CreditCard;
-import by.training.nc.dev5.classes.Account;
-import by.training.nc.dev5.classes.Admin;
+import by.training.nc.dev5.entities.Client;
+import by.training.nc.dev5.entities.CreditCard;
+import by.training.nc.dev5.entities.Account;
 import by.training.nc.dev5.exceptions.NotCorrectIdException;
 import by.training.nc.dev5.exceptions.NotCorrectPasswordException;
 import by.training.nc.dev5.services.ClientService;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Scanner;
 

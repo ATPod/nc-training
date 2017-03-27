@@ -1,8 +1,8 @@
-package by.training.nc.dev5.fileManager;
+package by.training.nc.dev5.tools;
 
-import by.training.nc.dev5.classes.Account;
-import by.training.nc.dev5.classes.Client;
-import by.training.nc.dev5.classes.CreditCard;
+import by.training.nc.dev5.entities.Account;
+import by.training.nc.dev5.entities.Client;
+import by.training.nc.dev5.entities.CreditCard;
 import by.training.nc.dev5.exceptions.NotCorrectIdException;
 import by.training.nc.dev5.exceptions.NotCorrectPasswordException;
 

@@ -1,6 +1,6 @@
-package by.training.nc.dev5.Serialization;
+package by.training.nc.dev5.tools;
 
-import by.training.nc.dev5.classes.Account;
+import by.training.nc.dev5.entities.Account;
 import java.io.*;
 
 /**

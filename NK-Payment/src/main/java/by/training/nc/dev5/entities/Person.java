@@ -1,6 +1,4 @@
-package by.training.nc.dev5.classes;
-
-import java.util.ArrayList;
+package by.training.nc.dev5.entities;
 
 /**
  * Created by AsusPC on 25.03.17.
