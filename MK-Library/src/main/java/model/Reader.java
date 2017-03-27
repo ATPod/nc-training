@@ -1,33 +1,43 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 
-public class Reader implements Serializable,Comparable<Reader> {
+public class Reader implements Serializable, Comparable<Reader> {
 
+    private int id;
     private String name;
-    private List<Book> books; // or Set()
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Reader() {
+
+    }
 
     public Reader(String name) {
 
-        books = new ArrayList<>(); // or TreeSet()
         this.name = name;
     }
 
-    public Reader(String name, List<Book> books) {
+    public Reader(int id, String name) {
 
+        this.id = id;
         this.name = name;
-        this.books = books;
-    }
-
-
-    public void addBook(Book book) {
-
-        books.add(book);
     }
 
 
@@ -35,7 +45,7 @@ public class Reader implements Serializable,Comparable<Reader> {
     public int compareTo(Reader o) {
 
         int result = this.name.compareTo(o.name);
-        if(result!=0)
+        if (result != 0)
             return result;
 
         return result;

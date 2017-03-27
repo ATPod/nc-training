@@ -2,35 +2,135 @@ package service;
 
 import model.Book;
 import model.Library;
+import model.Loan;
 import model.Reader;
 
+import java.io.*;
 import java.util.List;
+import java.util.Scanner;
 
 
-/**
- * Created by ASUS on 16.03.2017.
- */
 public class LibraryService {
 
-    private Library library = new Library();
+    private Library library;
+
+    public Library getLibrary() {
+        return library;
+    }
+
+    public void setLibrary(Library library) {
+        this.library = library;
+    }
 
 
-    int getBook (Reader reader, Book book) {
+    public LibraryService() {
+        library = new Library();
+    }
 
-        int result = library.getCatalog().getOrDefault(book, -1);
-        if (result == -1 || result == 0) {
+    public LibraryService(Library library) {
+        this.library = library;
+    }
+
+
+    boolean loanBook(Reader reader, Book book) {
+
+        boolean result = (findBook(book) != -1) && (findReader(reader) != 1);
+
+        if (result == false) {
             return result;
         } else {
-            result = library.getCatalog().compute(book, (k, v) -> --v);
-            List<Reader> readers = library.getReaders();
-            readers.get(readers.indexOf(reader)).addBook(book);
+
+            this.library.getLoans().add(new Loan()); ////
         }
         return result;
     }
 
     int findBook(Book book) {
 
-        return library.getCatalog().getOrDefault(book, -1);
+        return library.getBooks().indexOf(book);
+    }
+
+    int findReader(Reader reader) {
+
+        return library.getReaders().indexOf(reader);
+    }
+
+
+    void writeReaders(String file) throws IOException {
+
+        BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(file)));
+        StringBuilder sb = new StringBuilder();
+
+        this.library.getReaders().forEach((reader) -> {
+            sb.append(reader.getId()).append(" ").append(reader.getName()).append("/n");
+        });
+
+        bwr.write(sb.toString());
+        bwr.flush();
+        bwr.close();
+    }
+
+    void writeCatalog(String file) throws IOException {
+
+        BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(file)));
+        StringBuilder sb = new StringBuilder();
+
+        this.library.getBooks().forEach((book)->{
+            sb.append(book.getId()).append(" ").append(book.getTitle()).append("/n");
+        });
+
+        bwr.write(sb.toString());
+        bwr.flush();
+        bwr.close();
+    }
+
+    void readReaders(String file) throws IOException {
+
+        Scanner sc = new Scanner(new FileReader(new File(file)));
+
+        int id;
+        String name;
+
+        List<Book> booksList;
+        while (sc.hasNext()){
+            id = sc.nextInt();
+            name = sc.next();
+            this.library.getReaders().add(new Reader(id,name));
+        }
+
+        sc.close();
+    }
+
+    void readBooks(String file) throws IOException {
+
+        Scanner sc = new Scanner(new FileReader(new File(file)));
+        int id;
+        String title;
+
+        while (sc.hasNext()) {
+            id = sc.nextInt();
+            title = sc.next();
+            this.library.getBooks().add(new Book(id,title));
+
+        }
+    }
+
+    public Library loadLibraryDataFromFile(File file) throws IOException, ClassNotFoundException {  // переделать
+
+        Library library = null;
+        FileReader fr = new FileReader(file);
+        FileInputStream fis = new FileInputStream(file);
+        ObjectInputStream oin = new ObjectInputStream(fis);
+        library = (Library) oin.readObject();
+        return library;
+    }
+
+    public void saveLibraryDataToFile(File file) throws IOException {
+
+        FileOutputStream fos = new FileOutputStream(file);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(this.library);
+        oos.flush();
     }
 
 

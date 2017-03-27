@@ -3,21 +3,41 @@ package model;
 import java.io.Serializable;
 
 
-public class Book implements Serializable,Comparable<Book> {
+public class Book implements Serializable, Comparable<Book> {
 
+
+    private int id;
     private String title;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Book(String title) {
         this.title = title;
     }
 
 
-    public void setTitle(String title) {
-        this.title = title;
+    public Book() {
+
     }
 
-    public String getTitle() {
-        return title;
+    public Book(int id, String title) {
+
+        this.id = id;
+        this.title = title;
     }
 
     @Override
@@ -27,24 +47,30 @@ public class Book implements Serializable,Comparable<Book> {
 
         Book book = (Book) o;
 
-        return title != null ? title.equals(book.title) : book.title == null;
+        if (id != book.id) return false;
+        return title.equals(book.title);
     }
 
     @Override
     public int hashCode() {
-        return title != null ? title.hashCode() : 0;
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + title.hashCode();
+        return result;
     }
 
     @Override
     public String toString() {
-        return  title ;
+        return id + " " + title;
     }
 
     @Override
     public int compareTo(Book o) {
 
-        int result = this.title.compareTo(o.title);
-        if(result!=0)
+        int result = Long.compare(id, o.id);
+        if (result != 0)
+            return result;
+        result = this.title.compareTo(o.title);
+        if (result != 0)
             return result;
 
         return result;
