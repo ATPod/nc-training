@@ -18,6 +18,9 @@ public class UIStarter {
     public static void main(String[] args) {
 
         UIStarter ui = new UIStarter();
+        LibraryService ls = new LibraryService();
+        ui.setLibraryService(ls);
+
 
         Scanner sc = new Scanner(System.in);
         int choose = 0;
@@ -26,8 +29,6 @@ public class UIStarter {
 
             switch (choose){
                 case 1:
-
-                    //by.training.nc.dev5.ui.setLibraryService();
 
                     break;
             }

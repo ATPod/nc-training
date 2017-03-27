@@ -13,11 +13,11 @@ import java.util.Scanner;
 public class LibraryService {
 
     private Library library;
-
+/*
     public Library getLibrary() {
         return library;
     }
-
+*/
     public void setLibrary(Library library) {
         this.library = library;
     }
@@ -32,7 +32,7 @@ public class LibraryService {
     }
 
 
-    boolean loanBook(Reader reader, Book book) {
+    public boolean loanBook(Reader reader, Book book) {
 
         boolean result = (findBook(book) != -1) && (findReader(reader) != 1);
 
@@ -40,7 +40,7 @@ public class LibraryService {
             return result;
         } else {
 
-            this.library.getLoans().add(new Loan()); ////
+            //this.library.getLoans().add(new Loan()); ////
         }
         return result;
     }
@@ -56,7 +56,7 @@ public class LibraryService {
     }
 
 
-    void writeReaders(String file) throws IOException {
+    public void writeReaders(String file) throws IOException {
 
         BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(file)));
         StringBuilder sb = new StringBuilder();
@@ -70,7 +70,7 @@ public class LibraryService {
         bwr.close();
     }
 
-    void writeCatalog(String file) throws IOException {
+    public void writeCatalog(String file) throws IOException {
 
         BufferedWriter bwr = new BufferedWriter(new FileWriter(new File(file)));
         StringBuilder sb = new StringBuilder();
@@ -84,7 +84,7 @@ public class LibraryService {
         bwr.close();
     }
 
-    void readReaders(String file) throws IOException {
+    public  void readReaders(String file) throws IOException {
 
         Scanner sc = new Scanner(new FileReader(new File(file)));
 
@@ -101,7 +101,7 @@ public class LibraryService {
         sc.close();
     }
 
-    void readBooks(String file) throws IOException {
+   public void readBooks(String file) throws IOException {
 
         Scanner sc = new Scanner(new FileReader(new File(file)));
         int id;

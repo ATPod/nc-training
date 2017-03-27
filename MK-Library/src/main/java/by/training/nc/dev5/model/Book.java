@@ -9,7 +9,7 @@ public class Book implements Serializable, Comparable<Book> {
     private int id;
     private String title;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

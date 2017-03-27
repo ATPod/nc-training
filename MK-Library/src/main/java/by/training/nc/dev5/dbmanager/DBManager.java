@@ -20,7 +20,7 @@ public final class DBManager {
         con = getMySQLConnection();
     }
 
-    //Thread safe instatiate method
+
     public static synchronized DBManager getInstance() {
         if (instance == null) {
             instance = new DBManager();
