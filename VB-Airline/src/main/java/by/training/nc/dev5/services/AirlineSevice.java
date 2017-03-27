@@ -1,5 +1,6 @@
 package by.training.nc.dev5.services;
 
+import by.training.nc.dev5.exception.InputDataException;
 import by.training.nc.dev5.model.Brigade;
 import by.training.nc.dev5.model.Flight;
 import by.training.nc.dev5.tools.ConsoleManager;
@@ -8,7 +9,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by Valery on 20.03.2017.
@@ -48,6 +48,8 @@ public class AirlineSevice {
                 flight.setTimeDispatch(in.readLine());
                 flight.setStatus(in.readLine());
                 flights.add(flight);
+            } catch (InputDataException e){
+                System.out.println(e.getMessage());
             } finally {
                 in.close();
             }
@@ -83,7 +85,10 @@ public class AirlineSevice {
                         System.out.println(MENU_SEPARATOR);
                         switch (ConsoleManager.readData.nextInt()){
                             case 1:
-                                flights.add(dispatcher.addFlight());
+                                flights.add(dispatcher.addFlight(ConsoleManager.readNumberFlight(),
+                                                                 ConsoleManager.readDataBrigade(),
+                                                                 ConsoleManager.readTimeDispatch(),
+                                                                 ConsoleManager.readStatus()));
                                 break;
                             case 2:
                                 for(Flight flight:flights){

@@ -1,11 +1,13 @@
 package by.training.nc.dev5.model;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Valery on 20.03.2017.
  */
-public class Brigade {
+public class Brigade implements Serializable {
 
     private List<String> pilots;
     private String navigator;
@@ -42,6 +44,22 @@ public class Brigade {
 
     public void setStewardesses(List<String> stewardesses) {
         this.stewardesses = stewardesses;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Brigade brigade = (Brigade) o;
+        return Objects.equals(pilots, brigade.pilots) &&
+                Objects.equals(navigator, brigade.navigator) &&
+                Objects.equals(radioman, brigade.radioman) &&
+                Objects.equals(stewardesses, brigade.stewardesses);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pilots, navigator, radioman, stewardesses);
     }
 
     @Override
