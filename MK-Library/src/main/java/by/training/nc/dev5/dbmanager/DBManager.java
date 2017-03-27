@@ -1,4 +1,4 @@
-package dbmanager;
+package by.training.nc.dev5.dbmanager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

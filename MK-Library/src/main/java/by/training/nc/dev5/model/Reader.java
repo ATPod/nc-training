@@ -1,7 +1,6 @@
-package model;
+package by.training.nc.dev5.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 
 public class Reader implements Serializable, Comparable<Reader> {

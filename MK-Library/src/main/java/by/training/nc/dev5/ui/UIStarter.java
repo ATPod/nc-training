@@ -1,7 +1,6 @@
-package ui;
+package by.training.nc.dev5.ui;
 
-import model.Library;
-import service.LibraryService;
+import by.training.nc.dev5.service.LibraryService;
 
 import java.util.Scanner;
 
@@ -28,7 +27,7 @@ public class UIStarter {
             switch (choose){
                 case 1:
 
-                    //ui.setLibraryService();
+                    //by.training.nc.dev5.ui.setLibraryService();
 
                     break;
             }

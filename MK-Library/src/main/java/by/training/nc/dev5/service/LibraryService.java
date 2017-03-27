@@ -1,9 +1,9 @@
-package service;
+package by.training.nc.dev5.service;
 
-import model.Book;
-import model.Library;
-import model.Loan;
-import model.Reader;
+import by.training.nc.dev5.model.Book;
+import by.training.nc.dev5.model.Library;
+import by.training.nc.dev5.model.Loan;
+import by.training.nc.dev5.model.Reader;
 
 import java.io.*;
 import java.util.List;
