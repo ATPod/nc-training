@@ -45,3 +45,49 @@ Helper
 1. To install a JAR in the local repository use the following command:
   mvn install:install-file -Dfile=<path-to-file> -DgroupId=<group-id> \
        -DartifactId=<artifact-id> -Dversion=<version> -Dpackaging=<packaging>
+
+Set up Tomcat 9
+
+1. Download corresponding version of tomcat zip archive from https://tomcat.apache.org/download-90.cgi (e.g apache-tomcat-9.0.0.M18-windows-x64.zip)
+2. Unzip it to <your path>/apache-tomcat-9.0.0.M18 (e.g D:\learning-program\apache-tomcat-9.0.0.M18)
+3. Download and update content of start-tomcat.bat according to your variables
+   In the example it is:
+     >set JAVA_HOME=d:\jdk18
+
+     >set CATALINA_HOME="D:\learning-program\apache-tomcat-9.0.0.M18"
+
+     >set CATALINA_BASE=%CATALINA_HOME%
+
+     >%CATALINA_HOME%\bin\catalina.bat run
+
+4. Copy updated file to <your path>/apache-tomcat-9.0.0.M18
+5. Open new cmd and execute the scenario: <your path>/apache-tomcat-9.0.0.M18>start-tomcat.bat
+6. Tomcat should be run. To check if evething is ok go to browser and open the url:
+    http://localhost:8080/index.jsp
+
+Set up web application module
+
+1. Go to nc-training directory
+2. Open new cmd
+3. Execute the following mvn command with your parameters:
+  mvn archetype:generate -DgroupId=by.training.nc.dev5
+         -DartifactId=YOUR-PREFIX-WebApp-Module
+         -DarchetypeArtifactId=maven-archetype-webapp
+         -DinteractiveMode=false
+
+Deploy web application module to tomcat
+
+1. Go to nc-training/YOUR-PREFIX-WebApp-Module
+2. Run mvn package
+3. Copy your war
+    >from nc-training/YOUR-PREFIX-WebApp-Module/target/YOUR-PREFIX-WebApp.war
+
+    >to <your_directory>/apache-tomcat-9.0.0.M18/webapps
+4. Look at cmd where your tomcat 9 is running. See deployment log records:
+24-Mar-2017 17:43:01.498 INFO [ContainerBackgroundProcessor[StandardEngine[Catalina]]] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive D:\learning-program\apache-tomcat-9.0.0.M18\webapps\YOUR-PREFIX-WebApp.war
+24-Mar-2017 17:43:01.569 INFO [ContainerBackgroundProcessor[StandardEngine[Catalina]]] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive D:\learning-program\apache-tomcat-9.0.0.M18\webapps\YOUR-PREFIX-WebApp.war
+
+5. Now go to browser and check the url http://localhost:8080/YOUR-PREFIX-WebApp/index.jsp
+   If everything ok see "Hello world!" message.
+
+

@@ -1,0 +1,13 @@
+Name : asd
+Id : 123
+Status : false
+NumOfCreditCards : 2
+
+CreditCardId : 1234567890123456
+CreditCardPass : 1234
+AccountMoney : 100
+IsBlocked : false
+CreditCardId : 6543210987654321
+CreditCardPass : 1234
+AccountMoney : 50
+IsBlocked : true
