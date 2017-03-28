@@ -1,4 +1,4 @@
-package by.training.nc.dev5.tools;
+package by.training.nc.dev5.utils;
 
 
 import by.training.nc.dev5.beans.patient.Patient;

@@ -2,7 +2,9 @@ package by.training.nc.dev5;
 
 import by.training.nc.dev5.beans.patient.*;
 import by.training.nc.dev5.beans.patient.prescribing.*;
-import by.training.nc.dev5.tools.*;
+import by.training.nc.dev5.dao.interfaces.*;
+import by.training.nc.dev5.utils.*;
+import by.training.nc.dev5.factory.*;
 import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +22,11 @@ public final class Manager {
     private static List<Patient> patients;
     public static StringBuffer folder = new StringBuffer();
     private static final Logger log = Logger.getLogger(Manager.class);
+    private static PatientDAO patientDAO;
+    private static DiagnosisDAO diagnosisDAO;
+    private static DrugDAO drugDAO;
+    private static ProcedureDAO procedureDAO;
+    private static SurgeryDAO surgeryDAO;
 
     /**
      * Initialization
@@ -41,8 +48,16 @@ public final class Manager {
                 .append(File.separator)
                 .append("patients")
                 .append(File.separator);
-        patients = createPatients();
+        DAOFactory mySqlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+        patientDAO = mySqlDAOFactory.getPatientDAO();
+        diagnosisDAO = mySqlDAOFactory.getDiagnosisDAO();
+        drugDAO = mySqlDAOFactory.getDrugDAO();
+        procedureDAO = mySqlDAOFactory.getProcedureDAO();
+        surgeryDAO = mySqlDAOFactory.getSurgeryDAO();
 
+        //patients = createPatients();
+        patients = patientDAO.selectPatients();
+        fillPatientListFields();
     }
 
     /**
@@ -66,6 +81,9 @@ public final class Manager {
         return patients;
     }
 
+    private static void fillPatientListFields(){
+
+    }
     /**
      * Show patients on the console
      */
