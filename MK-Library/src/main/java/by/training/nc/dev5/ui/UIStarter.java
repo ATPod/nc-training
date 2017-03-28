@@ -41,7 +41,7 @@ public class UIStarter {
             switch (choose){
                 case 1:
                     System.out.println("Book insertion");
-                    bookDAO.insertBook(new Book(111,"War and Piece"));
+                    //bookDAO.insertBook(new Book(111,"War and Piece"));
                     break;
 
                 case 2:
