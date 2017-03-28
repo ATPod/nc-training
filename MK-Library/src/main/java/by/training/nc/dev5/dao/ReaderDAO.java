@@ -4,9 +4,7 @@ import by.training.nc.dev5.model.Reader;
 
 import java.util.Collection;
 
-/**
- * Created by ASUS on 28.03.2017.
- */
+
 public interface ReaderDAO {
 
     int insertReader(Reader pReader);
