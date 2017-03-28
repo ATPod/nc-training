@@ -7,6 +7,7 @@ public class Invoice {
     private int id;
     private int projectId;
     private double price;
+    private boolean paid;
 
     /**
      * Gets the value of id
@@ -60,5 +61,23 @@ public class Invoice {
      */
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    /**
+     * Gets the value of paid
+     *
+     * @return the value of paid.
+     */
+    public boolean isPaid() {
+        return paid;
+    }
+
+    /**
+     * Sets the value of paid
+     *
+     * @param paid the new value of paid.
+     */
+    public void setPaid(boolean paid) {
+        this.paid = paid;
     }
 }

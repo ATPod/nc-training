@@ -6,6 +6,7 @@ package by.training.nc.dev5.entity;
 public class Project {
     private int id;
     private int termsOfReferenceId;
+    private int managerId;
 
     /**
      * Gets the value of id
@@ -41,5 +42,23 @@ public class Project {
      */
     public void setTermsOfReferenceId(int termsOfReferenceId) {
         this.termsOfReferenceId = termsOfReferenceId;
+    }
+
+    /**
+     * Gets the value of managerId
+     *
+     * @return the value of managerId.
+     */
+    public int getManagerId() {
+        return managerId;
+    }
+
+    /**
+     * Sets the value of managerId
+     *
+     * @param managerId the new value of managerId.
+     */
+    public void setManagerId(int managerId) {
+        this.managerId = managerId;
     }
 }

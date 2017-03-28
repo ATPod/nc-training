@@ -42,24 +42,4 @@ public class TermsOfReference {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
-
-    /**
-     * Gets the value of managerId
-     *
-     * @return the value of managerId.
-     */
-    public int getManagerId() {
-        return managerId;
-    }
-
-    /**
-     * Sets the value of managerId
-     *
-     * @param managerId the new value of managerId.
-     */
-    public void setManagerId(int managerId) {
-        this.managerId = managerId;
-    }
-
-    private int managerId;
 }

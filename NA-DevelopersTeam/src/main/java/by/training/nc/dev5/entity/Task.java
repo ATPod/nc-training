@@ -6,6 +6,16 @@ package by.training.nc.dev5.entity;
 public class Task {
     private int id;
     private int termsOfReferenceId;
+    private String specification;
+
+    /**
+     * Gets the value of specification
+     *
+     * @return the value of specification.
+     */
+    public String getSpecification() {
+        return specification;
+    }
 
     /**
      * Gets the value of id
@@ -23,6 +33,15 @@ public class Task {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * Sets the value of specification
+     *
+     * @param specification the new value of specification.
+     */
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 
     /**
