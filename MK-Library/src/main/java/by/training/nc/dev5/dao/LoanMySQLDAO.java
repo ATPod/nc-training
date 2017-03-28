@@ -2,14 +2,15 @@ package by.training.nc.dev5.dao;
 
 import by.training.nc.dev5.dbmanager.DBManager;
 import by.training.nc.dev5.model.Loan;
+import by.training.nc.dev5.model.LoanView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("Duplicates")
 
@@ -17,11 +18,14 @@ public class LoanMySQLDAO implements LoanDAO {
 
     private final static  Logger logger = LogManager.getLogger(LoanMySQLDAO.class);
 
-    private static String insertLoanQuery = "INSERT INTO mk-library.loans (id,id_reader,id_book,loan_type) VALUES (?,?,?,?)";
-    private static String findLoan = "SELECT name,title,loan_type FROM `mk-library`.loans  \n" +
+    private static String insertLoanQuery = "INSERT INTO `mk-library`.loans (id,id_reader,id_book,loan_type) VALUES (?,?,?,?)";
+    private static String findLoanQuery = "SELECT name,title,loan_type FROM `mk-library`.loans  \n" +
             "INNER JOIN `mk-library`.books ON id_book=`mk-library`.books.id\n" +
             "INNER JOIN `mk-library`.readers ON id_reader=`mk-library`.readers.id\n" +
             "WHERE `mk-library`.loans.id = ?";
+    private static java.lang.String selectLoansQuery = "SELECT name,title,loan_type FROM `mk-library`.loans  \n" +
+            "INNER JOIN `mk-library`.books ON id_book=`mk-library`.books.id\n" +
+            "INNER JOIN `mk-library`.readers ON id_reader=`mk-library`.readers.id\n" ;
 
 
     @Override
@@ -42,6 +46,7 @@ public class LoanMySQLDAO implements LoanDAO {
             logger.error(e.getMessage());
             System.out.println("Что-то пошло не так"); // =) пофиксить
         }
+
         return -1;
     }
 
@@ -59,7 +64,7 @@ public class LoanMySQLDAO implements LoanDAO {
         Loan loan = null;
         try {
 
-            PreparedStatement statement = connection.prepareStatement(insertLoanQuery);
+            PreparedStatement statement = connection.prepareStatement(findLoanQuery);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
@@ -82,7 +87,35 @@ public class LoanMySQLDAO implements LoanDAO {
     }
 
     @Override
-    public Collection<Loan> selectLoans() {
-        return null;
+    public Collection<LoanView> selectLoans() {
+        Connection connection;
+        connection = DBManager.getInstance().getConnection();
+        List<LoanView> loans = null ;
+        try {
+
+            Statement statement = connection.prepareStatement(selectLoansQuery);
+            ResultSet rs = statement.executeQuery(selectLoansQuery);
+
+            loans = new ArrayList<>();
+
+            String userName ;
+            String bookTitle;
+            String loanType;
+
+            while (rs.next()){
+
+                userName = rs.getString(1);
+                bookTitle =rs.getString(2);
+                loanType =rs.getString(3);
+
+                loans.add(new LoanView(userName,bookTitle,loanType));
+            }
+
+            return loans;
+
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return Collections.emptyList();
     }
 }

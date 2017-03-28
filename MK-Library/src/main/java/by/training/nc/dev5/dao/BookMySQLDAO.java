@@ -5,10 +5,11 @@ import by.training.nc.dev5.model.Book;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 
 @SuppressWarnings("Duplicates")
@@ -19,7 +20,8 @@ public class BookMySQLDAO implements BooksDAO {
     private final static  Logger logger = LogManager.getLogger(BookMySQLDAO.class); ///////!!!!!!!!//////////
 
     private static String insertBookQuery = "INSERT INTO  `books` (id,title) VALUES (?,?)";
-    private static String deleteBookQuery = "DELETE FROM  mk-library.books WHERE id = ?";
+    private static String deleteBookQuery = "DELETE FROM  `books` WHERE id = ?";
+    private static String selectBooksQuery = "SELECT * FROM  `books`";
 
     @Override
     public int insertBook(Book book) {
@@ -71,7 +73,33 @@ public class BookMySQLDAO implements BooksDAO {
 
     @Override
     public Collection<Book> selectBooks() {
-        return null;
+        Connection connection;
+        connection = DBManager.getInstance().getConnection();
+        List<Book> books ;
+        try {
+
+            Statement statement  = connection.createStatement();
+            ResultSet rs = statement.executeQuery(selectBooksQuery);
+
+            books = new ArrayList<>();
+
+            int id ;
+            String title;
+
+            while (rs.next()){
+
+                id = rs.getInt(1);
+                title =rs.getString(2);
+
+                books.add(new Book(id,title));
+            }
+
+            return books;
+
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return Collections.emptyList();
     }
 
 }
