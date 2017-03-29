@@ -1,4 +1,4 @@
-package by.training.nc.dev5.beans.Patient.Prescribing;
+package by.training.nc.dev5.beans.patient.prescribing;
 
 import java.io.Serializable;
 
@@ -9,7 +9,11 @@ import java.io.Serializable;
  * @author varchenko
  * @version 1.0
  */
-public class Procedure extends AbstractPrescribing implements Serializable {
+public class Procedure extends Prescribing implements Serializable {
+
+    public Procedure(){
+        super();
+    }
     /**
      * Creates new entity of the class <b>{@code Procedure}</b> and initialize it
      * @param name 						- name of procedure

@@ -1,9 +1,11 @@
 package by.training.nc.dev5;
 
-import by.training.nc.dev5.beans.Patient.*;
-import by.training.nc.dev5.beans.Patient.Prescribing.*;
-import by.training.nc.dev5.tools.*;
-
+import by.training.nc.dev5.beans.patient.*;
+import by.training.nc.dev5.beans.patient.prescribing.*;
+import by.training.nc.dev5.dao.interfaces.*;
+import by.training.nc.dev5.utils.*;
+import by.training.nc.dev5.factory.*;
+import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,6 +21,12 @@ import java.util.*;
 public final class Manager {
     private static List<Patient> patients;
     public static StringBuffer folder = new StringBuffer();
+    private static final Logger log = Logger.getLogger(Manager.class);
+    private static PatientDAO patientDAO;
+    private static DiagnosisDAO diagnosisDAO;
+    private static DrugDAO drugDAO;
+    private static ProcedureDAO procedureDAO;
+    private static SurgeryDAO surgeryDAO;
 
     /**
      * Initialization
@@ -28,7 +36,7 @@ public final class Manager {
                 .append(File.separator)
                 .append("main")
                 .append(File.separator)
-                .append("java")
+                .append("resources")
                 .append(File.separator)
                 .append("by")
                 .append(File.separator)
@@ -38,10 +46,18 @@ public final class Manager {
                 .append(File.separator)
                 .append("dev5")
                 .append(File.separator)
-                .append("files")
+                .append("patients")
                 .append(File.separator);
-        patients = createPatients();
+        DAOFactory mySqlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+        patientDAO = mySqlDAOFactory.getPatientDAO();
+        diagnosisDAO = mySqlDAOFactory.getDiagnosisDAO();
+        drugDAO = mySqlDAOFactory.getDrugDAO();
+        procedureDAO = mySqlDAOFactory.getProcedureDAO();
+        surgeryDAO = mySqlDAOFactory.getSurgeryDAO();
 
+        //patients = createPatients();
+        patients = patientDAO.selectPatients();
+        fillPatientListFields();
     }
 
     /**
@@ -59,18 +75,21 @@ public final class Manager {
             patients = new ArrayList<Patient>();
         }
         catch (IOException e) {
-            Logger.log(e);
+            log.error(e.getMessage(), e);
         }
 
         return patients;
     }
 
+    private static void fillPatientListFields(){
+
+    }
     /**
      * Show patients on the console
      */
     private static void showPatients(){
         for(int i=0;i<patients.size();i++){
-            System.out.println(i+1+". "+patients.get(i).getName());
+            log.info(i+1+". "+patients.get(i).getName());
         }
     }
 
@@ -80,7 +99,7 @@ public final class Manager {
      */
     private static void showDrugs(int patientId) {
         for(int i=0;i<patients.get(patientId).getDrugs().size();i++){
-            System.out.println(i+1+". "+patients.get(patientId).getDrugs().get(i).getName());
+            log.info(i+1+". "+patients.get(patientId).getDrugs().get(i).getName());
         }
     }
 
@@ -90,7 +109,7 @@ public final class Manager {
      */
     private static void showProcedures(int patientId) {
         for(int i=0;i<patients.get(patientId).getProcedures().size();i++){
-            System.out.println(i+1+". "+patients.get(patientId).getProcedures().get(i).getName());
+            log.info(i+1+". "+patients.get(patientId).getProcedures().get(i).getName());
         }
     }
 
@@ -100,7 +119,7 @@ public final class Manager {
      */
     private static void showSurgeries(int patientId) {
         for(int i=0;i<patients.get(patientId).getSurgeries().size();i++){
-            System.out.println(i+1+". "+patients.get(patientId).getSurgeries().get(i).getName());
+            log.info(i+1+". "+patients.get(patientId).getSurgeries().get(i).getName());
         }
     }
 
@@ -121,11 +140,11 @@ public final class Manager {
     private static void doctorMenu(){
         out:
         while(true) {
-            System.out.println("===========================================================");
-            System.out.println("1. Выбрать пациента");
-            System.out.println("2. Добавить пациента");
-            System.out.println("0. Назад");
-            System.out.println("===========================================================");
+            log.info("===========================================================");
+            log.info("1. Выбрать пациента");
+            log.info("2. Добавить пациента");
+            log.info("0. Назад");
+            log.info("===========================================================");
             switch(Operations.inputNumber()) {
                 case 1:
                     doctorInnerMenu();
@@ -134,11 +153,11 @@ public final class Manager {
                     addPatient();
                     break;
                 case 0:
-                    System.out.println("===========================================================");
+                    log.info("===========================================================");
                     break out;
                 default:
-                    System.out.println("===========================================================");
-                    System.out.println("Неверный выбор либо формат. Повторите...");
+                    log.info("===========================================================");
+                    log.info("Неверный выбор либо формат. Повторите...");
             }
         }
 
@@ -148,11 +167,11 @@ public final class Manager {
      * Add new patient to list
      */
     private static void addPatient() {
-        System.out.println("Введите Фамилию");
+        log.info("Введите Фамилию");
         Patient tempPat = new Patient(Operations.inputString());
         patients.add(tempPat);
         Operations.writeToFile(tempPat,new File(folder.toString() + "patient" + (patients.size()-1) + ".txt"));
-        System.out.println("Пациент добавлен");
+        log.info("Пациент добавлен");
     }
 
     /**
@@ -160,7 +179,7 @@ public final class Manager {
      * @param patientId id of patient
      */
     private static void addDiagnosis(int patientId){
-        System.out.println("Введите диагноз:");
+        log.info("Введите диагноз:");
         Diagnosis tempDiagnosis = new Diagnosis(Operations.inputString());
         List<Diagnosis> tempDiagnosisList = patients.get(patientId).getDiagnosises();
         if(tempDiagnosisList==null)
@@ -170,7 +189,7 @@ public final class Manager {
         tempDiagnosisList.add(tempDiagnosis);
         patients.get(patientId).setDiagnosises(tempDiagnosisList);
         Operations.writeToFile(patients.get(patientId),new File(folder.toString() + "patient" + patientId + ".txt"));
-        System.out.println("Диагноз записан");
+        log.info("Диагноз записан");
     }
 
     /**
@@ -178,7 +197,7 @@ public final class Manager {
      * @param patientId id of patient
      */
     private static void addDrug(int patientId){
-        System.out.println("Введите название лекарства:");
+        log.info("Введите название лекарства:");
         Drug tempDrug = new Drug(Operations.inputString());
         List<Drug> tempDrugList = patients.get(patientId).getDrugs();
         if(tempDrugList==null)
@@ -188,7 +207,7 @@ public final class Manager {
         tempDrugList.add(tempDrug);
         patients.get(patientId).setDrugs(tempDrugList);
         Operations.writeToFile(patients.get(patientId),new File(folder.toString() + "patient" + patientId + ".txt"));
-        System.out.println("Лекарство записано");
+        log.info("Лекарство записано");
     }
 
     /**
@@ -196,7 +215,7 @@ public final class Manager {
      * @param patientId id of patient
      */
     private static void addProcedure(int patientId){
-        System.out.println("Введите название процедуры:");
+        log.info("Введите название процедуры:");
         Procedure tempProcedure = new Procedure(Operations.inputString());
         List<Procedure> tempProcedureList = patients.get(patientId).getProcedures();
         if(tempProcedureList==null)
@@ -206,7 +225,7 @@ public final class Manager {
         tempProcedureList.add(tempProcedure);
         patients.get(patientId).setProcedures(tempProcedureList);
         Operations.writeToFile(patients.get(patientId),new File(folder.toString() + "patient" + patientId + ".txt"));
-        System.out.println("Процедура записана");
+        log.info("Процедура записана");
     }
 
     /**
@@ -214,7 +233,7 @@ public final class Manager {
      * @param patientId id of patient
      */
     private static void addSurgery(int patientId){
-        System.out.println("Введите название операции:");
+        log.info("Введите название операции:");
         Surgery tempSurgery = new Surgery(Operations.inputString());
         List<Surgery> tempSurgeryList = patients.get(patientId).getSurgeries();
         if(tempSurgeryList==null)
@@ -224,7 +243,7 @@ public final class Manager {
         tempSurgeryList.add(tempSurgery);
         patients.get(patientId).setSurgeries(tempSurgeryList);
         Operations.writeToFile(patients.get(patientId),new File(folder.toString() + "patient" + patientId + ".txt"));
-        System.out.println("Операция записана");
+        log.info("Операция записана");
     }
 
     /**
@@ -244,7 +263,7 @@ public final class Manager {
      */
     private static void delDrug(int patientId){
         if(patients.get(patientId).getDrugs().size()==0) {
-            System.out.println("Нет прописанных лекарств");
+            log.info("Нет прописанных лекарств");
 
         }else {
             showDrugs(patientId);
@@ -253,7 +272,7 @@ public final class Manager {
             tempDrugList.remove(drugId);
             patients.get(patientId).setDrugs(tempDrugList);
             Operations.writeToFile(patients.get(patientId),new File(folder.toString() + "patient" + patientId + ".txt"));
-            System.out.println("Приём лекарства проведен");
+            log.info("Приём лекарства проведен");
         }
     }
 
@@ -263,7 +282,7 @@ public final class Manager {
      */
     private static void delProcedure(int patientId){
         if(patients.get(patientId).getProcedures().size()==0) {
-            System.out.println("Нет прописанных процедур");
+            log.info("Нет прописанных процедур");
         }else{
             showProcedures(patientId);
             int procedureId = Operations.inputNumber()-1;
@@ -271,7 +290,7 @@ public final class Manager {
             tempProcedureList.remove(procedureId);
             patients.get(patientId).setProcedures(tempProcedureList);
             Operations.writeToFile(patients.get(patientId),new File(folder.toString() + "patient" + patientId + ".txt"));
-            System.out.println("Процедура проведена");
+            log.info("Процедура проведена");
         }
     }
 
@@ -281,7 +300,7 @@ public final class Manager {
      */
     private static void delSurgery(int patientId){
         if(patients.get(patientId).getSurgeries().size()==0) {
-            System.out.println("Нет прописанных операций");
+            log.info("Нет прописанных операций");
         } else{
             showSurgeries(patientId);
             int surgeryId = Operations.inputNumber()-1;
@@ -289,7 +308,7 @@ public final class Manager {
             tempSurgeryList.remove(surgeryId);
             patients.get(patientId).setSurgeries(tempSurgeryList);
             Operations.writeToFile(patients.get(patientId),new File(folder.toString() + "patient" + patientId + ".txt"));
-            System.out.println("Операция проведена");
+            log.info("Операция проведена");
         }
     }
 
@@ -300,12 +319,12 @@ public final class Manager {
     private static void delPrescribingMenu(int patientId){
         delPrescribings:
         while(true){
-            System.out.println("===========================================================");
-            System.out.println("1. Ввести лекарство");
-            System.out.println("2. Сделать процедуру");
-            System.out.println("3. Сделать операцию");
-            System.out.println("0. Назад");
-            System.out.println("===========================================================");
+            log.info("===========================================================");
+            log.info("1. Ввести лекарство");
+            log.info("2. Сделать процедуру");
+            log.info("3. Сделать операцию");
+            log.info("0. Назад");
+            log.info("===========================================================");
             switch(Operations.inputNumber()){
                 case 1:
                     delDrug(patientId);
@@ -323,7 +342,7 @@ public final class Manager {
                     break delPrescribings;
 
                 default:
-                    System.out.println("Неверный выбор. Повторите");
+                    log.info("Неверный выбор. Повторите");
             }
         }
     }
@@ -335,12 +354,12 @@ public final class Manager {
     private static void addPrescribingMenu(int patientId) {
         addPrescribings:
         while(true){
-            System.out.println("===========================================================");
-            System.out.println("1. Определить лекарство");
-            System.out.println("2. Определить процедуру");
-            System.out.println("3. Определить операцию");
-            System.out.println("0. Назад");
-            System.out.println("===========================================================");
+            log.info("===========================================================");
+            log.info("1. Определить лекарство");
+            log.info("2. Определить процедуру");
+            log.info("3. Определить операцию");
+            log.info("0. Назад");
+            log.info("===========================================================");
             switch(Operations.inputNumber()){
                 case 1:
                     addDrug(patientId);
@@ -358,7 +377,7 @@ public final class Manager {
                     break addPrescribings;
 
                 default:
-                    System.out.println("Неверный выбор. Повторите");
+                    log.info("Неверный выбор. Повторите");
             }
         }
     }
@@ -369,19 +388,18 @@ public final class Manager {
     private static void doctorInnerMenu(){
         out:
         if(patients.size()==0){
-            System.out.println("Нет пациентов");
+            log.info("Нет пациентов");
         }else{
             showPatients();
             int patientId = Operations.inputNumber()-1;
-            label:
             while(true){
-                System.out.println("===========================================================");
-                System.out.println("1. Определить диагноз");
-                System.out.println("2. Определить назначение");
-                System.out.println("3. Выполнить назначение");
-                System.out.println("4. Выписать (удалить) пациента");
-                System.out.println("0. Назад");
-                System.out.println("===========================================================");
+                log.info("===========================================================");
+                log.info("1. Определить диагноз");
+                log.info("2. Определить назначение");
+                log.info("3. Выполнить назначение");
+                log.info("4. Выписать (удалить) пациента");
+                log.info("0. Назад");
+                log.info("===========================================================");
                 switch(Operations.inputNumber()){
                     case 1:
                         addDiagnosis(patientId);
@@ -403,7 +421,7 @@ public final class Manager {
                         break out;
 
                     default:
-                        System.out.println("Неверный выбор. Повторите");
+                        log.info("Неверный выбор. Повторите");
                 }
             }
 
@@ -416,17 +434,17 @@ public final class Manager {
     private static void nurseMenu(){
         out:
         if(patients.size()==0){
-            System.out.println("Нет пациентов");
+            log.info("Нет пациентов");
 
         }else {
             showPatients();
             int patientId = Operations.inputNumber()-1;
             while(true){
-                System.out.println("===========================================================");
-                System.out.println("1. Ввести лекарство");
-                System.out.println("2. Сделать процедуру");
-                System.out.println("0. Назад");
-                System.out.println("===========================================================");
+                log.info("===========================================================");
+                log.info("1. Ввести лекарство");
+                log.info("2. Сделать процедуру");
+                log.info("0. Назад");
+                log.info("===========================================================");
                 switch(Operations.inputNumber()){
                     case 1:
                         delDrug(patientId);
@@ -440,7 +458,7 @@ public final class Manager {
                         break out;
 
                     default:
-                        System.out.println("Неверный выбор. Повторите");
+                        log.info("Неверный выбор. Повторите");
                 }
             }
         }
@@ -451,12 +469,12 @@ public final class Manager {
      */
     public static void mainMenu(){
         while(true){
-            System.out.println("===========================================================");
-            System.out.println("Выберите пользователя:");
-            System.out.println("1. Врач");
-            System.out.println("2. Медсестра");
-            System.out.println("0. Выход");
-            System.out.println("===========================================================");
+            log.info("===========================================================");
+            log.info("Выберите пользователя:");
+            log.info("1. Врач");
+            log.info("2. Медсестра");
+            log.info("0. Выход");
+            log.info("===========================================================");
 
             switch (Operations.inputNumber()) {
                 case 1:
@@ -468,14 +486,14 @@ public final class Manager {
                     break;
 
                 case 0:
-                    System.out.println("===========================================================");
-                    System.out.println("Работа завершена...");
-                    System.out.println("===========================================================");
+                    log.info("===========================================================");
+                    log.info("Работа завершена...");
+                    log.info("===========================================================");
                     System.exit(0);
 
                 default:
-                    System.out.println("===========================================================");
-                    System.out.println("Неверный выбор либо формат. Повторите...");
+                    log.info("===========================================================");
+                    log.info("Неверный выбор либо формат. Повторите...");
             }
         }
     }

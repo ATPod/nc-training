@@ -1,5 +1,7 @@
 package by.training.nc.dev5.services;
 
+import by.training.nc.dev5.exception.InputDataException;
+import by.training.nc.dev5.model.Brigade;
 import by.training.nc.dev5.model.Flight;
 import by.training.nc.dev5.tools.ConsoleManager;
 
@@ -20,20 +22,16 @@ public class DispatcherService {
         return inctance;
     }
 
-    public Flight addFlight(){
+    public Flight addFlight(int number, Brigade brigade, String timeDispatch, String status){
         Flight newFlight = new Flight();
-        System.out.print("Номер рейса: ");
         try {
-            newFlight.setNumber(ConsoleManager.readData.nextInt());
-            ConsoleManager.readData.nextLine();
-        }catch (InputMismatchException e){
-            e.printStackTrace();
+            newFlight.setNumber(number);
+        }catch (InputDataException e){
+            System.out.println(e.getMessage());
         }
-        newFlight.setBrigade(ConsoleManager.readDataBrigade());
-        System.out.print("Время отправки: ");
-        newFlight.setTimeDispatch(ConsoleManager.readData.nextLine());
-        System.out.print("Статус: ");
-        newFlight.setStatus(ConsoleManager.readData.nextLine());
+        newFlight.setBrigade(brigade);
+        newFlight.setTimeDispatch(timeDispatch);
+        newFlight.setStatus(status);
 
         return newFlight;
     }

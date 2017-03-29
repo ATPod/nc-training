@@ -3,6 +3,7 @@ package by.training.nc.dev5.tools;
 import by.training.nc.dev5.model.Brigade;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,6 +12,19 @@ import java.util.Scanner;
  */
 public class ConsoleManager {
     public static Scanner readData = new Scanner(System.in);
+
+    public static int readNumberFlight(){
+        int number = -1;
+        System.out.print("Введите номер рейса: ");
+        try {
+            number = readData.nextInt();
+            ConsoleManager.readData.nextLine();
+        }catch (InputMismatchException e){
+            e.printStackTrace();
+        }
+
+        return number;
+    }
 
     public static Brigade readDataBrigade(){
         Brigade brigade = new Brigade();
@@ -33,5 +47,15 @@ public class ConsoleManager {
         brigade.setStewardesses(tmp);
 
         return brigade;
+    }
+
+    public static String readStatus(){
+        System.out.print("Введите статус рейса: ");
+        return readData.nextLine();
+    }
+
+    public static String readTimeDispatch(){
+        System.out.print("Введите дату и время отпрвки рейса: ");
+        return readData.nextLine();
     }
 }
