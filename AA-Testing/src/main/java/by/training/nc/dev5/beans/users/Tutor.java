@@ -9,6 +9,10 @@ package by.training.nc.dev5.beans.users;
 public class Tutor extends User {
     private String subject;
 
+    public Tutor() {
+
+    }
+
     /**
      * Creates new entity of the class <b>{@code Tutor}</b> and initialize it
      *

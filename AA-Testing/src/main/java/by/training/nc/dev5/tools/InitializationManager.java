@@ -11,10 +11,21 @@ import by.training.nc.dev5.services.TutorService;
 
 import java.io.*;
 import java.util.*;
-
+/**
+ * Initializing options
+ *
+ * @author Alena Artsiuschcyk
+ * @version 1.0
+ *
+ */
 public class InitializationManager {
     private static TestContainer tests = new TestContainer();
 
+    /**
+     *
+     * @param fileName name of file
+     * @return path of file with fileName name
+     */
     public static String getTextFilePath(String fileName) {
         StringBuilder path = new StringBuilder();
         path.append(System.getProperty("user.dir"))
@@ -43,87 +54,26 @@ public class InitializationManager {
         return path.toString();
     }
 
+    /**
+     *
+     * @param fileName file to read
+     */
     public static void readFromFile(String fileName) {
-        tests = new TestContainer();
-        String path = getTextFilePath(fileName);
-        Scanner scan = null;
-        try {
-            scan = new Scanner(new File(path));
-        } catch (FileNotFoundException e) {
-            System.out.println("Не найден файл для чтения!");
-        }
-        while (scan.hasNext()) {
-            List<Question> questions = new ArrayList<>();
-            Map<Integer, String> variants = new HashMap<>();
-            List<Integer> rightAnswersNumbers = new ArrayList<>();
-            scan.findWithinHorizon("Имя автора: ", 0);
-            String authorName = scan.next();
-            scan.findWithinHorizon("Фамилия автора: ", 0);
-            String authorSurname = scan.next();
-            scan.findWithinHorizon("Предмет: ", 0);
-            String subject = scan.next();
-            scan.findWithinHorizon("Название теста: ", 0);
-            String testName = scan.next();
-            scan.findWithinHorizon("Количество вопросов: ", 0);
-            int questionAmount = scan.nextInt();
-            for (int i = 0; i < questionAmount; i++) {
-                scan.findWithinHorizon("Текст вопроса: ", 0);
-                String text = scan.next();
-                scan.findWithinHorizon("Баллы за вопрос: ", 0);
-                int balls = scan.nextInt();
-                scan.findWithinHorizon("Количество вариантов ответа в вопросе: ", 0);
-                int variantAmount = scan.nextInt();
-                for (int j = 0; j < variantAmount; j++) {
-                    int variantNumber = scan.nextInt();
-                    String variantText = scan.next();
-                    variants.put(variantNumber, variantText);
-                }
-                scan.findWithinHorizon("Правильные варианты ответа: ", 0);
-                while (scan.hasNextInt()) {
-                    rightAnswersNumbers.add(scan.nextInt());
-                }
-                questions.add(new Question(text, balls, variants, rightAnswersNumbers));
-            }
-            Test test = new Test(authorName, authorSurname, subject,
-                    testName, questions);
-            tests.addTest(test);
-        }
 
     }
+
+    /**
+     *
+     * @param fileName file to write
+     */
 
     public static void saveToFile(String fileName) {
-        String path = getTextFilePath(fileName);
-        try (PrintWriter printer = new PrintWriter(new BufferedWriter(new FileWriter(new File(fileName))))) {
-            for (Test test : tests.getTests()) {
-                printer.println("Имя автора: " + test.getAuthorName());
-                printer.println("Фамилия автора: " + test.getAuthorSurname());
-                printer.println("Предмет: " + test.getSubject());
-                int questionAmount = test.getQuestions().size();
-                printer.println("Количество вопросов: " + questionAmount);
-                for (Question question : test.getQuestions()) {
-                    printer.println("Текст вопроса: " + question.getText());
-                    printer.println("Баллы за вопрос: " + question.getBalls());
-                    printer.println("Количество вариантов ответа в вопросе: "
-                            + question.getVariants().size());
-                    for (Map.Entry<Integer, String> entry : question.getVariants().entrySet()) {
-                        printer.println(entry.getKey() + " " + entry.getValue());
-                    }
-                    printer.print("Правильные варианты ответа: ");
-                    for (Integer number : question.getRightAnswersNumbers()) {
-                        printer.print(number + " ");
-                    }
-                    printer.println();
-
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
 
     }
 
+    /**
+     * Console menu of application
+     */
     public static void menu() {
         while (true) {
             System.out.println("===========================================================");
@@ -240,8 +190,8 @@ public class InitializationManager {
                     System.out.println("===========================================================");
                     System.out.println("Работа завершена...");
                     saveToFile("Tests");
-                    TestContainerSerializer serializer=new TestContainerSerializer();
-                    serializer.serialization(tests,getTextFilePath("Serialized.dat"));
+                    TestContainerSerializer serializer = new TestContainerSerializer();
+                    serializer.serialization(tests, getTextFilePath("Serialized.dat"));
                     System.out.println("===========================================================");
                     System.exit(0);
 

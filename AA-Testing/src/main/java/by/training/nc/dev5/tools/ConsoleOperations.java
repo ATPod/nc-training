@@ -9,11 +9,20 @@ import by.training.nc.dev5.beans.users.User;
 import java.util.*;
 
 /**
- * Created by NotePad.by on 18.03.2017.
+ * The class {@code ConsoleOperations} contains methods for performing
+ * operations with console.
+ *
+ * @author Alena Artsiuschcyk
+ * @version 1.0
+ *
  */
 public class ConsoleOperations {
     public static Scanner input = new Scanner(System.in);
 
+    /**
+     * Array input from console
+     * @return array of numbers
+     */
     public static List<Integer> inputArray() {
         List<Integer> result = new ArrayList<>();
         input = new Scanner(System.in);
@@ -25,6 +34,10 @@ public class ConsoleOperations {
         return result;
     }
 
+    /**
+     * Number input from console
+     * @return number
+     */
     public static int inputNumber() {
         int number = -1;
         while (number < 0) {
@@ -42,12 +55,20 @@ public class ConsoleOperations {
         return 0;
     }
 
+    /**
+     * String input from console
+     * @return string
+     */
     public static String inputString() {
         input = new Scanner(System.in);
         return input.next();
 
     }
 
+    /**
+     * Tutor object input from console
+     * @return new instance of Tutor object
+     */
     public static Tutor inputTutor() {
         System.out.println("Введите Ваше имя");
         String name = input.next();
@@ -59,6 +80,10 @@ public class ConsoleOperations {
 
     }
 
+    /**
+     * Student object input from console
+     * @return new instance of Student object
+     */
     public static Student inputStudent() {
         System.out.println("Введите Ваше имя");
         String name = input.next();
@@ -67,41 +92,12 @@ public class ConsoleOperations {
         return new Student((int) (Math.random() * 1000), name, surname, 0);
     }
 
+    /**
+     * Question object input from console
+     * @return new instance of Question object
+     */
     public static Question inputQuestion() {
-        input = new Scanner(System.in);
-        System.out.println("Введите текст вопроса: ");
-        String subject = input.next();
-        System.out.println("Введите баллы за вопрос");
-        int balls;
-        while (true) {
-            try {
-                balls = inputNumber();
-            } catch (InputMismatchException e) {
-                System.out.println("Неверный ввод! Повторите...");
-                continue;
-            }
-            break;
-        }
-        System.out.println("Введите количество вариантов ответа");
-        int variantAmount;
-        while (true) {
-            try {
-                variantAmount = inputNumber();
-            } catch (InputMismatchException e) {
-                System.out.println("Неверный ввод! Повторите...");
-                continue;
-            }
-            break;
-        }
-        Map<Integer, String> variants = new HashMap<>();
-        for (int i = 0; i < variantAmount; i++) {
-            System.out.println("Введите вариант ответа №" + (i + 1));
-            String variant = input.next();
-            variants.put(i + 1, variant);
-        }
-        System.out.println("Введите номера правильных вариантов ответа");
-        List<Integer> rightAnswers = inputArray();
-        return new Question(subject, balls, variants, rightAnswers);
+     return null;
     }
 
 }
