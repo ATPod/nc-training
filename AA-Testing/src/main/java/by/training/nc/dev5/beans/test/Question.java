@@ -15,7 +15,7 @@ public class Question implements Serializable {
     private int id;
     private String text;
     private int scores;
-    private List<Variant> answerVariants;
+    private List<Option> answerOptions;
 
     /**
      * Creates new entity of the class <b>{@code Question}</b> and initialize it
@@ -23,14 +23,14 @@ public class Question implements Serializable {
      * @param id             - id
      * @param text           - question text
      * @param scores          - scores for right answer
-     * @param answerVariants -variants of answer
+     * @param answerOptions -variants of answer
      */
 
-    public Question(int id, String text, int scores, List<Variant> answerVariants) {
+    public Question(int id, String text, int scores, List<Option> answerOptions) {
         this.id = id;
         this.text = text;
         this.scores = scores;
-        this.answerVariants = answerVariants;
+        this.answerOptions = answerOptions;
     }
 
     /**
@@ -90,17 +90,17 @@ public class Question implements Serializable {
      * @return variants of question answer
      */
 
-    public List<Variant> getAnswerVariants() {
-        return answerVariants;
+    public List<Option> getAnswerOptions() {
+        return answerOptions;
     }
 
     /**
      *
-     * @param answerVariants variants to set
+     * @param answerOptions variants to set
      */
 
-    public void setAnswerVariants(List<Variant> answerVariants) {
-        this.answerVariants = answerVariants;
+    public void setAnswerOptions(List<Option> answerOptions) {
+        this.answerOptions = answerOptions;
     }
     /* (non-Javadoc)
     * @see java.lang.Object#equals(java.lang.Object)
@@ -115,7 +115,7 @@ public class Question implements Serializable {
         if (id != question.id) return false;
         if (scores != question.scores) return false;
         if (text != null ? !text.equals(question.text) : question.text != null) return false;
-        return answerVariants != null ? answerVariants.equals(question.answerVariants) : question.answerVariants == null;
+        return answerOptions != null ? answerOptions.equals(question.answerOptions) : question.answerOptions == null;
 
     }
     /* (non-Javadoc)
@@ -126,7 +126,7 @@ public class Question implements Serializable {
         int result = id;
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + scores;
-        result = 31 * result + (answerVariants != null ? answerVariants.hashCode() : 0);
+        result = 31 * result + (answerOptions != null ? answerOptions.hashCode() : 0);
         return result;
     }
     /* (non-Javadoc)
@@ -138,7 +138,7 @@ public class Question implements Serializable {
                 "id=" + id +
                 ", text='" + text + '\'' +
                 ", scores=" + scores +
-                ", answerVariants=" + answerVariants +
+                ", answerOptions=" + answerOptions +
                 '}';
     }
 }

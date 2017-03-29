@@ -1,27 +1,27 @@
 package by.training.nc.dev5.beans.test;
 
 /**
- * This class describes entity <b>Variant</b>
+ * This class describes entity <b>Option</b>
  * that represents variant of question answer
  *
  * @author Alena Artsiuschcyk
  * @version 1.0
  */
-public class Variant {
+public class Option {
     private int id;
     private String text;
     private int number;
     private boolean rightness;
 
     /**
-     * Creates new entity of the class <b>{@code Variant}</b> and initialize it
+     * Creates new entity of the class <b>{@code Option}</b> and initialize it
      *
      * @param id        - id
      * @param text      - text
      * @param number    - the number of variant in the question
      * @param rightness -rightness of variant
      */
-    public Variant(int id, String text, int number, boolean rightness) {
+    public Option(int id, String text, int number, boolean rightness) {
         this.id = id;
         this.text = text;
         this.number = number;
@@ -105,12 +105,12 @@ public class Variant {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Variant variant = (Variant) o;
+        Option option = (Option) o;
 
-        if (id != variant.id) return false;
-        if (number != variant.number) return false;
-        if (rightness != variant.rightness) return false;
-        return text != null ? text.equals(variant.text) : variant.text == null;
+        if (id != option.id) return false;
+        if (number != option.number) return false;
+        if (rightness != option.rightness) return false;
+        return text != null ? text.equals(option.text) : option.text == null;
 
     }
     /* (non-Javadoc)
@@ -129,7 +129,7 @@ public class Variant {
              */
     @Override
     public String toString() {
-        return "Variant{" +
+        return "Option{" +
                 "id=" + id +
                 ", text='" + text + '\'' +
                 ", number=" + number +

@@ -1,8 +1,8 @@
 package by.training.nc.dev5.dao.factory;
 
+import by.training.nc.dev5.beans.test.Option;
 import by.training.nc.dev5.beans.test.Question;
 import by.training.nc.dev5.beans.test.Test;
-import by.training.nc.dev5.beans.test.Variant;
 import by.training.nc.dev5.beans.users.Student;
 import by.training.nc.dev5.beans.users.Tutor;
 import by.training.nc.dev5.dao.*;
@@ -59,7 +59,7 @@ public class MySQLDAOFactory extends DAOFactory {
     }
 
     @Override
-    public InterfaceDAO<Variant> getVariantDAO() {
-        return new VariantMySQLDAO();
+    public InterfaceDAO<Option> getVariantDAO() {
+        return new OptionMySQLDAO();
     }
 }

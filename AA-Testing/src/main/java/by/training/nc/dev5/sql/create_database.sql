@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `variants` (
   `id`          INT(11) NOT NULL AUTO_INCREMENT,
   `text`        VARCHAR(50)      DEFAULT NULL,
   `number`      INT(50)          DEFAULT NULL
-  COMMENT 'number of variant in question',
+  COMMENT 'number of option in question',
   `rightness`   BIT(1)           DEFAULT b'0',
   `question_id` INT(50)          DEFAULT NULL,
   PRIMARY KEY (`id`),

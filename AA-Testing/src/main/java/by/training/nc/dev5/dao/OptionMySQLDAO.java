@@ -1,5 +1,6 @@
 package by.training.nc.dev5.dao;
 
+import by.training.nc.dev5.beans.test.Option;
 import by.training.nc.dev5.beans.test.Test;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TestMySQLDAO implements InterfaceDAO<Test> {
+public class OptionMySQLDAO implements InterfaceDAO<Option>{
     @Override
     public Test find(int id) {
         List<Test> tests = getAll("WHERE id=" + id + " LIMIT 0,1");
