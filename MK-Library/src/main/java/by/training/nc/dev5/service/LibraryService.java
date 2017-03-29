@@ -94,7 +94,7 @@ public class LibraryService {
         List<Book> booksList;
         while (sc.hasNext()){
             id = sc.nextInt();
-            name = sc.next();
+            name = sc.nextLine();
             this.library.getReaders().add(new Reader(id,name));
         }
 
@@ -109,7 +109,7 @@ public class LibraryService {
 
         while (sc.hasNext()) {
             id = sc.nextInt();
-            title = sc.next();
+            title = sc.nextLine();
             this.library.getBooks().add(new Book(id,title));
 
         }

@@ -13,6 +13,10 @@ import java.io.Serializable;
 public class Student extends User {
     private int balls;
 
+    public Student() {
+
+    }
+
     /**
      * Creates new entity of the class <b>{@code Student}</b> and initialize it
      *
@@ -74,9 +78,12 @@ public class Student extends User {
         */
     @Override
     public String toString() {
-        return "Student{" +
-                "balls=" + balls +
-                '}';
+        StringBuilder sb=new StringBuilder("Student{"+"\n");
+        sb.append("id: ").append(getId()).append("\n");
+        sb.append("name: ").append(getName()).append("\n");
+        sb.append("surname: ").append(getSurname()).append("\n");
+        sb.append("balls: ").append(getBalls()).append("\n}");
+        return sb.toString();
     }
 }
 

@@ -9,9 +9,7 @@ import by.training.nc.dev5.tools.ConsoleOperations;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by NotePad.by on 16.03.2017.
- */
+
 public class StudentService {
     private static StudentService instance = null;
 
@@ -39,15 +37,7 @@ public class StudentService {
 
     private int answeringQuestion(Student student, Question question,
                                   List<Integer> answers) {
-        Collections.sort(answers);
-        if (answers.equals(question.getRightAnswersNumbers())) {
-            try {
-                student.setBalls(student.getBalls() + question.getBalls());
-                return question.getBalls();
-            } catch (StudentLogicException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+
         return 0;
     }
 }

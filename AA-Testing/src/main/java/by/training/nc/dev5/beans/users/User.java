@@ -11,6 +11,10 @@ public abstract class User {
     private int id;
     private String name;
     private String surname;
+    public User()
+    {
+
+    }
 
     /**
      * Creates new entity of the class <b>{@code User}</b> and initialize it

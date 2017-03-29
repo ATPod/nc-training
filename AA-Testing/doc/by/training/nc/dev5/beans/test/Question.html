@@ -139,7 +139,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr class="altColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../../../by/training/nc/dev5/beans/test/Question.html#Question-java.lang.String-int-java.util.Map-java.util.List-">Question</a></span>(java.lang.String&nbsp;text,
-        int&nbsp;balls,
+        int&nbsp;scores,
         java.util.Map&lt;java.lang.Integer,java.lang.String&gt;&nbsp;variants,
         java.util.List&lt;java.lang.Integer&gt;&nbsp;rightAnswersNumbers)</code>
 <div class="block">Creates new entity of the class <b><code>Question</code></b> and initialize it</div>
@@ -186,7 +186,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../by/training/nc/dev5/beans/test/Question.html#setBalls-int-">setBalls</a></span>(int&nbsp;balls)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../by/training/nc/dev5/beans/test/Question.html#setBalls-int-">setBalls</a></span>(int&nbsp;scores)</code>&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -233,14 +233,14 @@ implements java.io.Serializable</pre>
 <li class="blockList">
 <h4>Question</h4>
 <pre>public&nbsp;Question(java.lang.String&nbsp;text,
-                int&nbsp;balls,
+                int&nbsp;scores,
                 java.util.Map&lt;java.lang.Integer,java.lang.String&gt;&nbsp;variants,
                 java.util.List&lt;java.lang.Integer&gt;&nbsp;rightAnswersNumbers)</pre>
 <div class="block">Creates new entity of the class <b><code>Question</code></b> and initialize it</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>text</code> - -text of question</dd>
-<dd><code>balls</code> - - balls if the answer is right</dd>
+<dd><code>scores</code> - - scores if the answer is right</dd>
 <dd><code>variants</code> - -variants of answer with their numbers</dd>
 <dd><code>rightAnswersNumbers</code> - -numbers of right answers</dd>
 </dl>
@@ -289,7 +289,7 @@ implements java.io.Serializable</pre>
 <pre>public&nbsp;int&nbsp;getBalls()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>balls</dd>
+<dd>scores</dd>
 </dl>
 </li>
 </ul>
@@ -299,10 +299,10 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>setBalls</h4>
-<pre>public&nbsp;void&nbsp;setBalls(int&nbsp;balls)</pre>
+<pre>public&nbsp;void&nbsp;setBalls(int&nbsp;scores)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>balls</code> - - balls to set</dd>
+<dd><code>scores</code> - - scores to set</dd>
 </dl>
 </li>
 </ul>
