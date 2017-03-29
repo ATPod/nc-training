@@ -25,24 +25,36 @@ public class DrugMySQLDAO implements DrugDAO {
 
     }
 
-    public List<Drug> selectPrescribings() {
+    public List<Drug> selectPrescribings(int patientId) {
+        Connection connection=null;
+        PreparedStatement ptmt=null;
         try {
             List<Drug> drugs = new ArrayList<Drug>();
             Drug drugBean;
-            Connection connection = MySQLDAOFactory.getConnection();
-            PreparedStatement ptmt = connection.prepareStatement(SQL);
+            connection = MySQLDAOFactory.getConnection();
+            ptmt = connection.prepareStatement(SQL);
             ResultSet rs = ptmt.executeQuery();
             while (rs.next()) {
-                drugBean = new Drug();
-                drugBean.setId(rs.getInt(1));
-                drugBean.setName(rs.getString(2));
-                drugBean.setPatientId(rs.getInt(3));
-                drugs.add(drugBean);
+                if(rs.getInt(3)==patientId) {
+                    drugBean = new Drug();
+                    drugBean.setId(rs.getInt(1));
+                    drugBean.setName(rs.getString(2));
+                    drugBean.setPatientId(rs.getInt(3));
+                    drugs.add(drugBean);
+                }
             }
             return drugs;
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             return Collections.emptyList();
+        }finally {
+            try {
+                if (ptmt != null) {
+                    ptmt.close();
+                }
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
     }
 }

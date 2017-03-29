@@ -1,6 +1,7 @@
 package by.training.nc.dev5.beans.patient;
 
 
+import by.training.nc.dev5.beans.Entity;
 import by.training.nc.dev5.beans.patient.prescribing.*;
 
 import java.io.Serializable;
@@ -14,16 +15,15 @@ import java.util.List;
  * @author varchenko
  * @version 1.0
  */
-public class Patient implements Serializable{
-    private int id;
+public class Patient extends Entity implements Serializable{
+
     private String name;
     private List<Diagnosis> diagnosises;
     private List<Drug> drugs;
     private List<Procedure> procedures;
     private List<Surgery> surgeries;
 
-    public Patient()
-    {
+    public Patient() {
         this.diagnosises=new ArrayList<Diagnosis>();
         this.drugs=new ArrayList<Drug>();
         this.procedures=new ArrayList<Procedure>();
@@ -42,13 +42,6 @@ public class Patient implements Serializable{
         this.surgeries=new ArrayList<Surgery>();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     /**
      *
@@ -137,7 +130,6 @@ public class Patient implements Serializable{
 
         Patient patient = (Patient) o;
 
-        if (id != patient.id) return false;
         if (name != null ? !name.equals(patient.name) : patient.name != null) return false;
         if (diagnosises != null ? !diagnosises.equals(patient.diagnosises) : patient.diagnosises != null) return false;
         if (drugs != null ? !drugs.equals(patient.drugs) : patient.drugs != null) return false;
@@ -148,8 +140,7 @@ public class Patient implements Serializable{
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (diagnosises != null ? diagnosises.hashCode() : 0);
         result = 31 * result + (drugs != null ? drugs.hashCode() : 0);
         result = 31 * result + (procedures != null ? procedures.hashCode() : 0);
@@ -160,7 +151,6 @@ public class Patient implements Serializable{
     @Override
     public String toString() {
         return "Patient{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", diagnosises=" + diagnosises +
                 ", drugs=" + drugs +

@@ -2,7 +2,9 @@ package by.training.nc.dev5.dao;
 import java.sql.*;
 import java.util.*;
 
-import by.training.nc.dev5.dao.interfaces.PatientDAO;
+import by.training.nc.dev5.beans.patient.prescribing.*;
+import by.training.nc.dev5.dao.interfaces.*;
+import by.training.nc.dev5.factory.DAOFactory;
 import org.apache.log4j.Logger;
 import by.training.nc.dev5.beans.patient.Patient;
 import by.training.nc.dev5.factory.MySQLDAOFactory;
@@ -38,24 +40,47 @@ public class PatientMySQLDAO implements PatientDAO {
 
 
     public List<Patient> selectPatients() {
+        Connection connection=null;
+        PreparedStatement ptmt=null;
         try {
+            DAOFactory mySqlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
+            DiagnosisDAO diagnosisDAO = mySqlDAOFactory.getDiagnosisDAO();
+            DrugDAO drugDAO = mySqlDAOFactory.getDrugDAO();
+            ProcedureDAO procedureDAO = mySqlDAOFactory.getProcedureDAO();
+            SurgeryDAO surgeryDAO = mySqlDAOFactory.getSurgeryDAO();
+
             List<Patient> patients = new ArrayList<Patient>();
             Patient patientBean;
-            Connection connection = MySQLDAOFactory.getConnection();
-            PreparedStatement ptmt = connection.prepareStatement(SQL);
+            connection = MySQLDAOFactory.getConnection();
+            ptmt = connection.prepareStatement(SQL);
             ResultSet rs = ptmt.executeQuery();
             while (rs.next()) {
                 patientBean = new Patient();
                 patientBean.setId(rs.getInt(1));
                 patientBean.setName(rs.getString(2));
+                List<Diagnosis> diagnosises = diagnosisDAO.selectPrescribings(patientBean.getId());
+                List<Drug> drugs = drugDAO.selectPrescribings(patientBean.getId());
+                List<Procedure> procedures = procedureDAO.selectPrescribings(patientBean.getId());
+                List<Surgery> surgeries = surgeryDAO.selectPrescribings(patientBean.getId());
+
+                patientBean.setDiagnosises(diagnosises);
+                patientBean.setDrugs(drugs);
+                patientBean.setProcedures(procedures);
+                patientBean.setSurgeries(surgeries);
                 patients.add(patientBean);
-                log.debug("Patient.id:" + patientBean.getId() +
-                        " Patient.Name:" + patientBean.getName());
             }
             return patients;
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             return Collections.emptyList();
+        }finally {
+            try {
+                if (ptmt != null) {
+                    ptmt.close();
+                }
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
     }
 
