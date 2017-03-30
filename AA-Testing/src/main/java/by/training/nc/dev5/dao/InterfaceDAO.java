@@ -5,8 +5,8 @@ import java.util.List;
 public interface InterfaceDAO <TYPE>{
         TYPE find(int id);
         boolean insert(TYPE entity);
-        boolean update(TYPE entity);
-        boolean delete(TYPE entity);
-        List<TYPE> getAll(String where);
+        boolean update(int entityId);
+        boolean delete(int entityId);
+        List<TYPE> getAll();
     }
 

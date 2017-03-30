@@ -70,13 +70,14 @@ public class ConsoleOperations {
      * @return new instance of Tutor object
      */
     public static Tutor inputTutor() {
-        System.out.println("Введите Ваше имя");
+        /*System.out.println("Введите Ваше имя");
         String name = input.next();
         System.out.println("Введите Вашу фамилию");
         String surname = input.next();
         System.out.println("Введите Ваш предмет");
         String subject = input.next();
-        return new Tutor((int) (Math.random() * 1000), name, surname, subject);
+        return new Tutor((int) (Math.random() * 1000), name, surname, subject);*/
+        return null;
 
     }
 
@@ -85,11 +86,12 @@ public class ConsoleOperations {
      * @return new instance of Student object
      */
     public static Student inputStudent() {
-        System.out.println("Введите Ваше имя");
+        /*System.out.println("Введите Ваше имя");
         String name = input.next();
         System.out.println("Введите Вашу фамилию");
         String surname = input.next();
-        return new Student((int) (Math.random() * 1000), name, surname, 0);
+        return new Student((int) (Math.random() * 1000), name, surname, 0);*/
+        return null;
     }
 
     /**

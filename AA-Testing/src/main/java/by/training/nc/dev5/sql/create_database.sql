@@ -1,82 +1,74 @@
 CREATE DATABASE IF NOT EXISTS `aa-testing`
   DEFAULT CHARACTER SET utf8;
 USE `aa-testing`;
-CREATE TABLE IF NOT EXISTS `tutors` (
-  `id`      INT(50) NOT NULL AUTO_INCREMENT
-  COMMENT 'identificator of tutor',
-  `name`    VARCHAR(50)      DEFAULT NULL
-  COMMENT 'name of tutor',
-  `surname` VARCHAR(50)      DEFAULT NULL
-  COMMENT 'surname of tutor',
-  `subject` VARCHAR(50)      DEFAULT NULL
-  COMMENT 'name of subject',
+
+CREATE TABLE `user_types` (
+  `id`        INT(11)     NOT NULL AUTO_INCREMENT,
+  `type_name` VARCHAR(50) NULL     DEFAULT '0',
   PRIMARY KEY (`id`)
 )
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 3
-  DEFAULT CHARSET = utf8
-  COMMENT = 'Table show data about tutors';
-CREATE TABLE IF NOT EXISTS `tests` (
-  `id`       INT(50) NOT NULL AUTO_INCREMENT
-  COMMENT 'test identificator',
-  `name`     VARCHAR(50)      DEFAULT NULL
+  COMMENT = 'Types of users in system'
+  COLLATE = 'utf8_general_ci'
+  ENGINE = InnoDB;
+CREATE TABLE `users` (
+  `id`       INT(10)     NOT NULL AUTO_INCREMENT,
+  `type`     INT(10)     NULL     DEFAULT NULL,
+  `login`    VARCHAR(50) NULL     DEFAULT NULL,
+  `password` VARCHAR(50) NULL     DEFAULT NULL,
+  `name`     VARCHAR(50) NULL     DEFAULT NULL,
+  `surname`  VARCHAR(50) NULL     DEFAULT NULL,
+  `scores`   INT(10)     NULL     DEFAULT NULL,
+  `subject`  VARCHAR(50) NULL     DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`type`) REFERENCES `user_types` (`id`)
+)
+  COMMENT = 'testing system users\r\n'
+  COLLATE = 'utf8_general_ci'
+  ENGINE = InnoDB;
+CREATE TABLE `tests` (
+  `id`       INT(50)     NOT NULL AUTO_INCREMENT
+  COMMENT 'test identifier',
+  `name`     VARCHAR(50) NULL     DEFAULT NULL
   COMMENT 'name of test',
-  `subject`  VARCHAR(50)      DEFAULT NULL
+  `subject`  VARCHAR(50) NULL     DEFAULT NULL
   COMMENT 'name of subject',
-  `tutor_id` INT(11)          DEFAULT NULL
+  `tutor_id` INT(11)     NULL     DEFAULT NULL
   COMMENT 'tutor id',
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`tutor_id`) REFERENCES `tutors` (`id`)
+  FOREIGN KEY (`tutor_id`) REFERENCES `users` (`id`)
 )
+  COMMENT = 'Table shows data about  tests'
+  COLLATE = 'utf8_general_ci'
   ENGINE = InnoDB
-  AUTO_INCREMENT = 2
-  DEFAULT CHARSET = utf8
-  COMMENT = 'Table shows data about availiable tests';
-CREATE TABLE IF NOT EXISTS `questions` (
+  AUTO_INCREMENT = 2;
+CREATE TABLE `questions` (
   `id`      INT(50)       NOT NULL AUTO_INCREMENT
   COMMENT 'identeficator of test',
   `text`    VARCHAR(1000) NOT NULL DEFAULT '0'
   COMMENT 'text of question',
-  `scores`   VARCHAR(50)   NOT NULL DEFAULT '0'
+  `scores`  VARCHAR(50)   NOT NULL DEFAULT '0'
   COMMENT 'scores for right answer',
-  `fk_test` INT(50) NOT NULL
+  `fk_test` INT(50)       NOT NULL
   COMMENT 'identificator of test',
   PRIMARY KEY (`id`),
   FOREIGN KEY (`fk_test`) REFERENCES `tests` (`id`)
 )
+  COMMENT = 'All questions from tests'
+  COLLATE = 'utf8_general_ci'
   ENGINE = InnoDB
-  AUTO_INCREMENT = 3
-  DEFAULT CHARSET = utf8
-  COMMENT = 'All questions from tests';
-
-CREATE TABLE IF NOT EXISTS `students` (
-  `id`      INT(11) NOT NULL          AUTO_INCREMENT
-  COMMENT 'identeficator of student',
-  `name`    VARCHAR(50)               DEFAULT NULL
-  COMMENT 'name of student',
-  `surname` VARCHAR(50)               DEFAULT NULL
-  COMMENT 'surname of student',
-  `scores`   INT(50) UNSIGNED ZEROFILL DEFAULT NULL
-  COMMENT 'amount of scores',
-  PRIMARY KEY (`id`)
-)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 3
-  DEFAULT CHARSET = utf8
-  COMMENT = 'Table shows data about students';
-
-
-CREATE TABLE IF NOT EXISTS `variants` (
-  `id`          INT(11) NOT NULL AUTO_INCREMENT,
-  `text`        VARCHAR(50)      DEFAULT NULL,
-  `number`      INT(50)          DEFAULT NULL
-  COMMENT 'number of option in question',
-  `rightness`   BIT(1)           DEFAULT b'0',
-  `question_id` INT(50)          DEFAULT NULL,
+  AUTO_INCREMENT = 3;
+CREATE TABLE `options` (
+  `id`          INT(11)     NOT NULL AUTO_INCREMENT,
+  `text`        VARCHAR(50) NULL     DEFAULT NULL,
+  `number`      INT(50)     NULL     DEFAULT NULL
+  COMMENT 'number of variant in question',
+  `rightness`   BIT(1)      NULL     DEFAULT b'0',
+  `question_id` INT(50)     NULL     DEFAULT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`)
 )
+  COMMENT = 'Variants of question answer'
+  COLLATE = 'utf8_general_ci'
   ENGINE = InnoDB
-  AUTO_INCREMENT = 3
-  DEFAULT CHARSET = utf8
-  COMMENT = 'Variants of question answer';
+  AUTO_INCREMENT = 3;
+

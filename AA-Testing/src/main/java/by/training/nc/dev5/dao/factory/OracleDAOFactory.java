@@ -5,16 +5,12 @@ import by.training.nc.dev5.beans.test.Test;
 import by.training.nc.dev5.beans.test.Option;
 import by.training.nc.dev5.beans.users.Student;
 import by.training.nc.dev5.beans.users.Tutor;
+import by.training.nc.dev5.beans.users.User;
 import by.training.nc.dev5.dao.InterfaceDAO;
 
 public class OracleDAOFactory extends DAOFactory{
     @Override
-    public InterfaceDAO<Student> getStudentDAO() {
-        return null;
-    }
-
-    @Override
-    public InterfaceDAO<Tutor> getTutorDAO() {
+    public InterfaceDAO<User> getUserDAO() {
         return null;
     }
 
@@ -29,7 +25,7 @@ public class OracleDAOFactory extends DAOFactory{
     }
 
     @Override
-    public InterfaceDAO<Option> getVariantDAO() {
+    public InterfaceDAO<Option> getOptionDAO() {
         return null;
     }
 }

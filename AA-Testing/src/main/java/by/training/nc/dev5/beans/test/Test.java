@@ -16,11 +16,23 @@ public class Test implements Serializable {
     private String subject;
     private String name;
     private List<Question> questions;
-    public Test()
-    {
+
+    /**
+     * Creates new entity of the class <b>{@code Test}</b>
+     */
+    public Test() {
 
     }
 
+    /**
+     * Creates new entity of the class <b>{@code Test}</b> and initialize it
+     *
+     * @param id             -id
+     * @param authorId       - id of test author
+     * @param subject        -test subject
+     * @param name-          test name
+     * @param questions-test questions
+     */
     public Test(int id, int authorId, String subject, String name, List<Question> questions) {
         this.id = id;
         this.authorId = authorId;
@@ -29,46 +41,87 @@ public class Test implements Serializable {
         this.questions = questions;
     }
 
+    /**
+     * @return test id
+     */
     public int getId() {
         return id;
     }
+
+    /**
+     * @param id-id to set
+     */
 
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * @return author id
+     */
+
     public int getAuthorId() {
         return authorId;
     }
+
+    /**
+     * @param authorId -author id to set
+     */
 
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
 
+    /**
+     * @return test subject
+     */
     public String getSubject() {
         return subject;
     }
+
+    /**
+     * @param subject-subject to set
+     */
 
     public void setSubject(String subject) {
         this.subject = subject;
     }
 
+    /**
+     * @return test name
+     */
+
     public String getName() {
         return name;
     }
+
+    /**
+     * @param name-name to set
+     */
 
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return test questions
+     */
+
     public List<Question> getQuestions() {
         return questions;
     }
+
+    /**
+     * @param questions-questions to set
+     */
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals()
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,6 +137,9 @@ public class Test implements Serializable {
 
     }
 
+    /* (non-Javadoc)
+    * @see java.lang.Object#hashCode()
+    */
     @Override
     public int hashCode() {
         int result = id;
@@ -94,6 +150,9 @@ public class Test implements Serializable {
         return result;
     }
 
+    /* (non-Javadoc)
+    * @see java.lang.Object#toString()
+    */
     @Override
     public String toString() {
         return "Test{" +

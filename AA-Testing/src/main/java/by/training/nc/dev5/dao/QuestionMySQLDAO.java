@@ -1,10 +1,14 @@
 package by.training.nc.dev5.dao;
 
+import by.training.nc.dev5.beans.test.Option;
 import by.training.nc.dev5.beans.test.Question;
-import by.training.nc.dev5.beans.test.Test;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
+import by.training.nc.dev5.sql.SQLQueries;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,62 +16,59 @@ import java.util.List;
 public class QuestionMySQLDAO implements InterfaceDAO<Question> {
     @Override
     public Question find(int id) {
-        List<Question> questions = new ArrayList<>();
         try (Connection connection = MySQLDAOFactory.getConnection();
-             Statement statement = connection.createStatement()
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.FIND_QUESTION)
         ) {
-            questions = getAll("WHERE id=" + id + " LIMIT 0,1");
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs != null) {
+                rs.next();
+                Question question = new Question();
+                question.setId(rs.getInt("id"));
+                question.setText(rs.getString("text"));
+                question.setScores(rs.getInt("scores"));
+                question.setTestId(rs.getInt("fk_test"));
+                return question;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        if (questions.size() > 0) {
-            return questions.get(0);
         }
         return null;
     }
 
     @Override
     public boolean insert(Question question) {
-        try (Connection connection = MySQLDAOFactory.getConnection();
-             Statement statement = connection.createStatement()
-        ) {
-            String insertTestSQL = String.format("INSERT INTO tests(id,name,subject,tutor_id) values('%d','%s','%s','%d');",
-                    test.getId(), test.getName(), test.getSubject(), test.getAuthorId());
-            //executeUpdate returns amount of rows which were changed
-            statement.executeUpdate(insertTestSQL);
-            ResultSet resultSet = statement.executeQuery("SELECT LAST_INSERT_ID();");
-            int result = resultSet.getInt(1);
-            test.setId(result);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return (test.getId() > 0);
-    }
-
-    @Override
-    public boolean update(Test test) {
-        int modifiedRows = 0;
-        String updateTestSQL = String.format(
-                "UPDATE tests SET name = '%s', subject = '%s', tutor_id = '%d', WHERE tests.id = %d",
-                test.getName(), test.getSubject(), test.getAuthorId(), test.getId()
-        );
-        try (Connection connection = MySQLDAOFactory.getConnection();
-             Statement statement = connection.createStatement()
-        ) {
-            modifiedRows = statement.executeUpdate(updateTestSQL);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return (0 < modifiedRows);
-    }
-
-    @Override
-    public boolean delete(Question question) {
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement("DELETE FROM questions WHERE questions.id = ?")
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.INSERT_QUESTION)
         ) {
             statement.setInt(1, question.getId());
+            statement.setString(2, question.getText());
+            statement.setInt(3, question.getScores());
+            statement.setInt(4, question.getTestId());
+            InterfaceDAO<Option> optionMySQLDAO = new MySQLDAOFactory().getOptionDAO();
+            for (Option option : question.getAnswerOptions()) {
+                optionMySQLDAO.insert(option);
+            }
+            modifiedRows = statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return (modifiedRows > 0);
+    }
+
+    @Override
+    public boolean update(int id) {
+        return false;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        int modifiedRows = 0;
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.DELETE_QUESTION)
+        ) {
+            statement.setInt(1, id);
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,22 +77,24 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
     }
 
     @Override
-    public List<Question> getAll(String where) {
+    public List<Question> getAll() {
         List<Question> questions = new ArrayList<>();
-        String sql = "SELECT * FROM questions " + where + " ;";
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM ?  ?   ;")
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.GET_ALL_QUESTIONS)
         ) {
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Test test = new Test();
-                test.setId(rs.getInt("id"));
-                test.setName(rs.getString("name"));
-                tests.add(test);
+                int id = rs.getInt("id");
+                Question question = find(id);
+                if (question != null) {
+                    questions.add(question);
+                }
             }
+
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-        return tests;
+
+        return questions;
     }
 }
