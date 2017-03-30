@@ -8,5 +8,5 @@ import java.util.List;
  * Created by user on 28.03.2017.
  */
 public interface SurgeryDAO {
-    List<Surgery> selectPrescribings();
+    List<Surgery> selectPrescribings(int patientId);
 }

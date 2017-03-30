@@ -14,5 +14,5 @@ public interface DiagnosisDAO {
     boolean deletePrescribing(int prescribingId);
     Prescribing findPrescribing(int prescribingId);
     boolean updatePrescribing(int prescribingId);*/
-    List<Diagnosis> selectPrescribings();
+    List<Diagnosis> selectPrescribings(int patientId);
 }

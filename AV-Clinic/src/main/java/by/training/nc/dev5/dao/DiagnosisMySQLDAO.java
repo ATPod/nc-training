@@ -25,24 +25,36 @@ public class DiagnosisMySQLDAO implements DiagnosisDAO {
 
     }
 
-    public List<Diagnosis> selectPrescribings() {
+    public List<Diagnosis> selectPrescribings(int patientId) {
+        Connection connection=null;
+        PreparedStatement ptmt=null;
         try {
             List<Diagnosis> diagnosises = new ArrayList<Diagnosis>();
             Diagnosis diagnosisBean;
-            Connection connection = MySQLDAOFactory.getConnection();
-            PreparedStatement ptmt = connection.prepareStatement(SQL);
+            connection = MySQLDAOFactory.getConnection();
+            ptmt = connection.prepareStatement(SQL);
             ResultSet rs = ptmt.executeQuery();
             while (rs.next()) {
-                diagnosisBean = new Diagnosis();
-                diagnosisBean.setId(rs.getInt(1));
-                diagnosisBean.setName(rs.getString(2));
-                diagnosisBean.setPatientId(rs.getInt(3));
-                diagnosises.add(diagnosisBean);
+                if(rs.getInt(3)==patientId){
+                    diagnosisBean = new Diagnosis();
+                    diagnosisBean.setId(rs.getInt(1));
+                    diagnosisBean.setName(rs.getString(2));
+                    diagnosisBean.setPatientId(rs.getInt(3));
+                    diagnosises.add(diagnosisBean);
+                }
             }
             return diagnosises;
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             return Collections.emptyList();
+        } finally {
+            try {
+                if (ptmt != null) {
+                    ptmt.close();
+                }
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
     }
 

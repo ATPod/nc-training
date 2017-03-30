@@ -25,24 +25,36 @@ public class SurgeryMySQLDAO implements SurgeryDAO{
 
     }
 
-    public List<Surgery> selectPrescribings() {
+    public List<Surgery> selectPrescribings(int patientId) {
+        Connection connection=null;
+        PreparedStatement ptmt=null;
         try {
             List<Surgery> surgeries = new ArrayList<Surgery>();
             Surgery surgeryBean;
-            Connection connection = MySQLDAOFactory.getConnection();
-            PreparedStatement ptmt = connection.prepareStatement(SQL);
+            connection = MySQLDAOFactory.getConnection();
+            ptmt = connection.prepareStatement(SQL);
             ResultSet rs = ptmt.executeQuery();
             while (rs.next()) {
-                surgeryBean = new Surgery();
-                surgeryBean.setId(rs.getInt(1));
-                surgeryBean.setName(rs.getString(2));
-                surgeryBean.setPatientId(rs.getInt(3));
-                surgeries.add(surgeryBean);
+                if(rs.getInt(3)==patientId) {
+                    surgeryBean = new Surgery();
+                    surgeryBean.setId(rs.getInt(1));
+                    surgeryBean.setName(rs.getString(2));
+                    surgeryBean.setPatientId(rs.getInt(3));
+                    surgeries.add(surgeryBean);
+                }
             }
             return surgeries;
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             return Collections.emptyList();
+        }finally {
+            try {
+                if (ptmt != null) {
+                    ptmt.close();
+                }
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
     }
 }

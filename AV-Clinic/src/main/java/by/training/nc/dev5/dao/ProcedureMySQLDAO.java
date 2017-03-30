@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 /**
  * Created by user on 28.03.2017.
  */
@@ -25,24 +26,36 @@ public class ProcedureMySQLDAO implements ProcedureDAO{
 
     }
 
-    public List<Procedure> selectPrescribings() {
+    public List<Procedure> selectPrescribings(int patientId) {
+        Connection connection=null;
+        PreparedStatement ptmt=null;
         try {
             List<Procedure> procedures = new ArrayList<Procedure>();
             Procedure procedureBean;
-            Connection connection = MySQLDAOFactory.getConnection();
-            PreparedStatement ptmt = connection.prepareStatement(SQL);
+            connection = MySQLDAOFactory.getConnection();
+            ptmt = connection.prepareStatement(SQL);
             ResultSet rs = ptmt.executeQuery();
             while (rs.next()) {
-                procedureBean = new Procedure();
-                procedureBean.setId(rs.getInt(1));
-                procedureBean.setName(rs.getString(2));
-                procedureBean.setPatientId(rs.getInt(3));
-                procedures.add(procedureBean);
+                if(rs.getInt(3)==patientId) {
+                    procedureBean = new Procedure();
+                    procedureBean.setId(rs.getInt(1));
+                    procedureBean.setName(rs.getString(2));
+                    procedureBean.setPatientId(rs.getInt(3));
+                    procedures.add(procedureBean);
+                }
             }
             return procedures;
         } catch (SQLException ex) {
             log.error(ex.getMessage());
             return Collections.emptyList();
+        }finally {
+            try {
+                if (ptmt != null) {
+                    ptmt.close();
+                }
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
     }
 }

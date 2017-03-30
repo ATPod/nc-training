@@ -50,14 +50,14 @@ public final class Manager {
                 .append(File.separator);
         DAOFactory mySqlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
         patientDAO = mySqlDAOFactory.getPatientDAO();
-        diagnosisDAO = mySqlDAOFactory.getDiagnosisDAO();
-        drugDAO = mySqlDAOFactory.getDrugDAO();
-        procedureDAO = mySqlDAOFactory.getProcedureDAO();
-        surgeryDAO = mySqlDAOFactory.getSurgeryDAO();
+        //diagnosisDAO = mySqlDAOFactory.getDiagnosisDAO();
+        //drugDAO = mySqlDAOFactory.getDrugDAO();
+        //procedureDAO = mySqlDAOFactory.getProcedureDAO();
+        //surgeryDAO = mySqlDAOFactory.getSurgeryDAO();
 
         //patients = createPatients();
         patients = patientDAO.selectPatients();
-        fillPatientListFields();
+        //fillPatientListFields();
     }
 
     /**
@@ -81,9 +81,7 @@ public final class Manager {
         return patients;
     }
 
-    private static void fillPatientListFields(){
 
-    }
     /**
      * Show patients on the console
      */

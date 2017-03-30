@@ -1,14 +1,16 @@
 package by.training.nc.dev5.beans.patient.prescribing;
 
+
+import by.training.nc.dev5.beans.Entity;
+
 /**
  * This class describes abstract entity <b>Prescribing</b>
  *
  * @author varchenko
  * @version 1.0
  */
-public class Prescribing {
+public class Prescribing extends Entity {
 
-    private int id;
     private String name;
     private int patientId;
 
@@ -21,14 +23,6 @@ public class Prescribing {
      */
     public Prescribing(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**
@@ -62,7 +56,6 @@ public class Prescribing {
 
         Prescribing that = (Prescribing) o;
 
-        if (id != that.id) return false;
         if (patientId != that.patientId) return false;
         return !(name != null ? !name.equals(that.name) : that.name != null);
 
@@ -70,8 +63,7 @@ public class Prescribing {
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + patientId;
         return result;
     }
