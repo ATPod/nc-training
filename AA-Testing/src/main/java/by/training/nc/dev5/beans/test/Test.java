@@ -12,21 +12,30 @@ import java.util.List;
  */
 public class Test implements Serializable {
     private int id;
+    private int authorId;
     private String subject;
     private String name;
     private List<Question> questions;
 
     /**
+     * Creates new entity of the class <b>{@code Test}</b>
+     */
+    public Test() {
+
+    }
+
+    /**
      * Creates new entity of the class <b>{@code Test}</b> and initialize it
      *
-     * @param id        - id
-     * @param subject   - the name of subject
-     * @param name      - the name of test
-     * @param questions -test questions
+     * @param id             -id
+     * @param authorId       - id of test author
+     * @param subject        -test subject
+     * @param name-          test name
+     * @param questions-test questions
      */
-
-    public Test(int id, String subject, String name, List<Question> questions) {
+    public Test(int id, int authorId, String subject, String name, List<Question> questions) {
         this.id = id;
+        this.authorId = authorId;
         this.subject = subject;
         this.name = name;
         this.questions = questions;
@@ -40,22 +49,38 @@ public class Test implements Serializable {
     }
 
     /**
-     * @param id id to set
+     * @param id-id to set
      */
+
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @return subject of test
+     * @return author id
      */
 
+    public int getAuthorId() {
+        return authorId;
+    }
+
+    /**
+     * @param authorId -author id to set
+     */
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
+
+    /**
+     * @return test subject
+     */
     public String getSubject() {
         return subject;
     }
 
     /**
-     * @param subject subject to set
+     * @param subject-subject to set
      */
 
     public void setSubject(String subject) {
@@ -63,14 +88,15 @@ public class Test implements Serializable {
     }
 
     /**
-     * @return name of test
+     * @return test name
      */
+
     public String getName() {
         return name;
     }
 
     /**
-     * @param name name to set
+     * @param name-name to set
      */
 
     public void setName(String name) {
@@ -86,7 +112,7 @@ public class Test implements Serializable {
     }
 
     /**
-     * @param questions questions to set
+     * @param questions-questions to set
      */
 
     public void setQuestions(List<Question> questions) {
@@ -94,8 +120,8 @@ public class Test implements Serializable {
     }
 
     /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-	 */
+     * @see java.lang.Object#equals()
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -104,6 +130,7 @@ public class Test implements Serializable {
         Test test = (Test) o;
 
         if (id != test.id) return false;
+        if (authorId != test.authorId) return false;
         if (subject != null ? !subject.equals(test.subject) : test.subject != null) return false;
         if (name != null ? !name.equals(test.name) : test.name != null) return false;
         return questions != null ? questions.equals(test.questions) : test.questions == null;
@@ -111,11 +138,12 @@ public class Test implements Serializable {
     }
 
     /* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+    * @see java.lang.Object#hashCode()
+    */
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + authorId;
         result = 31 * result + (subject != null ? subject.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (questions != null ? questions.hashCode() : 0);
@@ -123,12 +151,13 @@ public class Test implements Serializable {
     }
 
     /* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+    * @see java.lang.Object#toString()
+    */
     @Override
     public String toString() {
         return "Test{" +
                 "id=" + id +
+                ", authorId=" + authorId +
                 ", subject='" + subject + '\'' +
                 ", name='" + name + '\'' +
                 ", questions=" + questions +

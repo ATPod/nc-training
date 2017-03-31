@@ -1,7 +1,7 @@
 package by.training.nc.dev5.dao;
 
 import by.training.nc.dev5.beans.test.Option;
-import by.training.nc.dev5.beans.test.Question;
+import by.training.nc.dev5.beans.users.User;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.sql.SQLQueries;
 
@@ -13,22 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class QuestionMySQLDAO implements InterfaceDAO<Question> {
+public class OptionMySQLDAO implements InterfaceDAO<Option> {
     @Override
-    public Question find(int id) {
+    public Option find(int id) {
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.FIND_QUESTION)
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.FIND_OPTION)
         ) {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             if (rs != null) {
                 rs.next();
-                Question question = new Question();
-                question.setId(rs.getInt("id"));
-                question.setText(rs.getString("text"));
-                question.setScores(rs.getInt("scores"));
-                question.setTestId(rs.getInt("fk_test"));
-                return question;
+                Option option = new Option();
+                option.setId(rs.getInt("id"));
+                option.setText(rs.getString("text"));
+                option.setNumber(rs.getInt("number"));
+                option.setRightness(rs.getBoolean("rightness"));
+                option.setQuestionId(rs.getInt("question_id"));
+                return option;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,19 +38,16 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
     }
 
     @Override
-    public boolean insert(Question question) {
+    public boolean insert(Option option) {
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.INSERT_QUESTION)
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.INSERT_OPTION);
         ) {
-            statement.setInt(1, question.getId());
-            statement.setString(2, question.getText());
-            statement.setInt(3, question.getScores());
-            statement.setInt(4, question.getTestId());
-            InterfaceDAO<Option> optionMySQLDAO = new MySQLDAOFactory().getOptionDAO();
-            for (Option option : question.getAnswerOptions()) {
-                optionMySQLDAO.insert(option);
-            }
+            statement.setInt(1, option.getId());
+            statement.setString(2, option.getText());
+            statement.setInt(3, option.getNumber());
+            statement.setBoolean(4, option.isRightness());
+            statement.setInt(5, option.getQuestionId());
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -58,17 +56,17 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
     }
 
     @Override
-    public boolean update(Question entity) {
+    public boolean update(Option entity) {
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_QUESTION);
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_OPTION);
         ) {
             statement.setString(1, entity.getText());
-            statement.setInt(2, entity.getScores());
-            statement.setInt(3, entity.getTestId());
-            statement.setInt(4, entity.getId());
+            statement.setInt(2, entity.getNumber());
+            statement.setBoolean(3, entity.isRightness());
+            statement.setInt(4, entity.getQuestionId());
+            statement.setInt(5, entity.getId());
             modifiedRows = statement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,7 +77,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
     public boolean delete(int id) {
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.DELETE_QUESTION)
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.DELETE_OPTION)
         ) {
             statement.setInt(1, id);
             modifiedRows = statement.executeUpdate();
@@ -90,17 +88,17 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
     }
 
     @Override
-    public List<Question> getAll() {
-        List<Question> questions = new ArrayList<>();
+    public List<Option> getAll() {
+        List<Option> options = new ArrayList<>();
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.GET_ALL_QUESTIONS)
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.GET_ALL_OPTIONS)
         ) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                Question question = find(id);
-                if (question != null) {
-                    questions.add(question);
+                Option option = find(id);
+                if (option != null) {
+                    options.add(option);
                 }
             }
 
@@ -108,6 +106,6 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
             e.printStackTrace();
         }
 
-        return questions;
+        return options;
     }
 }

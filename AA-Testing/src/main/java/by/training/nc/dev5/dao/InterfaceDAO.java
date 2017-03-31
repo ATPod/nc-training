@@ -6,7 +6,7 @@ public interface InterfaceDAO <TYPE>{
         TYPE find(int id);
         boolean insert(TYPE entity);
         boolean update(TYPE entity);
-        boolean delete(TYPE entity);
-        List<TYPE> getAll(String where);
+        boolean delete(int entityId);
+        List<TYPE> getAll();
     }
 
