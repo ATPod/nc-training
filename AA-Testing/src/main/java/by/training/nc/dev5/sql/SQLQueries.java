@@ -8,7 +8,7 @@ public interface SQLQueries {
     String UPDATE_QUESTION="UPDATE questions SET text = ?, scores = ?, fk_test = ?, WHERE questions.id = ?";
     String UPDATE_TEST="UPDATE tests SET name = ?, subject = ?, tutor_id = ?, WHERE tests.id = ?";
     String UPDATE_OPTION="UPDATE options SET text = ?, number = ?, rightness = ?, question_id = ?, WHERE options.id = ?";
-    String UPDATE_USER="UPDATE users SET type = ?, login = ?, password = ?, name = ?, surname = ?, scores = ?, subject = ?, WHERE users.id = ?";
+    String UPDATE_USER="UPDATE users SET login = ?, password = ?, name = ?, surname = ?, scores = ?, subject = ?, WHERE users.id = ?";
 
     String INSERT_QUESTION="INSERT INTO questions(id,text,scores,fk_test) values(?,?,?,?);";
     String INSERT_TEST="INSERT INTO tests(id,name,subject,tutor_id) values(?,?,?,?);";

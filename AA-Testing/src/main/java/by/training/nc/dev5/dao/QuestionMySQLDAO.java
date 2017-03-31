@@ -59,7 +59,20 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
 
     @Override
     public boolean update(Question entity) {
-        return false;
+        int modifiedRows = 0;
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_QUESTION);
+        ) {
+            statement.setString(1, entity.getText());
+            statement.setInt(2, entity.getScores());
+            statement.setInt(3, entity.getTestId());
+            statement.setInt(4, entity.getId());
+            modifiedRows = statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (0 < modifiedRows);
     }
 
     @Override

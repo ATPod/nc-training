@@ -82,8 +82,34 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
 
     @Override
     public boolean update(User entity) {
-        return false;
+        int modifiedRows = 0;
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_USER);
+        ) {
+
+            statement.setString(1, entity.getLogin());
+            statement.setString(2, entity.getPassword());
+            statement.setString(3, entity.getName());
+            statement.setString(4, entity.getSurname());
+            statement.setInt(7,entity.getId());
+            if (entity instanceof Tutor) {
+                statement.setNull(5, Types.INTEGER);
+                statement.setString(6, ((Tutor) entity).getSubject());
+            }
+            else
+            {
+                if (entity instanceof Student) {
+                    statement.setInt(5, ((Student) entity).getScores());
+                    statement.setNull(6, Types.VARCHAR);
+                }
+            }
+            modifiedRows = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (0 < modifiedRows);
     }
+
     @Override
     public boolean delete(int id) {
         int modifiedRows = 0;

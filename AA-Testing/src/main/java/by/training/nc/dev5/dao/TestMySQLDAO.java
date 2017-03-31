@@ -56,7 +56,19 @@ public class TestMySQLDAO implements InterfaceDAO<Test> {
 
     @Override
     public boolean update(Test entity) {
-        return false;
+        int modifiedRows = 0;
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_TEST);
+        ) {
+            statement.setString(1,entity.getName());
+            statement.setString(2,entity.getSubject());
+            statement.setInt(3,entity.getAuthorId());
+            statement.setInt(4,entity.getId());
+           modifiedRows= statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (0 < modifiedRows);
     }
     @Override
     public boolean delete(int id) {

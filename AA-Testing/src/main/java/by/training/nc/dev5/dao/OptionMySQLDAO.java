@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class OptionMySQLDAO implements InterfaceDAO<Option>{
+public class OptionMySQLDAO implements InterfaceDAO<Option> {
     @Override
     public Option find(int id) {
         try (Connection connection = MySQLDAOFactory.getConnection();
@@ -57,7 +57,20 @@ public class OptionMySQLDAO implements InterfaceDAO<Option>{
 
     @Override
     public boolean update(Option entity) {
-        return false;
+        int modifiedRows = 0;
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_OPTION);
+        ) {
+            statement.setString(1, entity.getText());
+            statement.setInt(2, entity.getNumber());
+            statement.setBoolean(3, entity.isRightness());
+            statement.setInt(4, entity.getQuestionId());
+            statement.setInt(5, entity.getId());
+            modifiedRows = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (0 < modifiedRows);
     }
 
     @Override
