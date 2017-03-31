@@ -1,4 +1,5 @@
 package by.training.nc.dev5.dao;
+
 import by.training.nc.dev5.beans.users.Student;
 import by.training.nc.dev5.beans.users.Tutor;
 import by.training.nc.dev5.beans.users.User;
@@ -80,10 +81,9 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
     }
 
     @Override
-    public boolean update(int userId) {
+    public boolean update(User entity) {
         return false;
     }
-
     @Override
     public boolean delete(int id) {
         int modifiedRows = 0;

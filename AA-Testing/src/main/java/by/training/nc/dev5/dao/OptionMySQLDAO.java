@@ -1,6 +1,7 @@
 package by.training.nc.dev5.dao;
 
 import by.training.nc.dev5.beans.test.Option;
+import by.training.nc.dev5.beans.users.User;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.sql.SQLQueries;
 
@@ -55,7 +56,7 @@ public class OptionMySQLDAO implements InterfaceDAO<Option>{
     }
 
     @Override
-    public boolean update(int userId) {
+    public boolean update(Option entity) {
         return false;
     }
 

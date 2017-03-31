@@ -55,10 +55,9 @@ public class TestMySQLDAO implements InterfaceDAO<Test> {
     }
 
     @Override
-    public boolean update(int id) {
+    public boolean update(Test entity) {
         return false;
     }
-
     @Override
     public boolean delete(int id) {
         int modifiedRows = 0;

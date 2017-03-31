@@ -58,7 +58,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
     }
 
     @Override
-    public boolean update(int id) {
+    public boolean update(Question entity) {
         return false;
     }
 
