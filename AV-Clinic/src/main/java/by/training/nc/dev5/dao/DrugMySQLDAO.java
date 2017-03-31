@@ -1,8 +1,8 @@
 package by.training.nc.dev5.dao;
 
 import by.training.nc.dev5.beans.patient.prescribing.Drug;
-import by.training.nc.dev5.dao.interfaces.DrugDAO;
-import by.training.nc.dev5.factory.MySQLDAOFactory;
+import by.training.nc.dev5.dao.interfaces.PrescribingDAO;
+import by.training.nc.dev5.utils.ConnectionPool;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -10,51 +10,59 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by user on 28.03.2017.
  */
-public class DrugMySQLDAO implements DrugDAO {
-    private static final String SQL = "select id, name, patientId from drug";
-    // logger for the class
-    static Logger log = Logger.getLogger(PatientMySQLDAO.class);
+public class DrugMySQLDAO implements PrescribingDAO {
 
-    public DrugMySQLDAO() {
+    static Logger log = Logger.getLogger(DrugMySQLDAO.class);
+    private static final String SQL_QUERY_GET_BY_PATIENT = "SELECT * FROM drug WHERE patientid=?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO drug (name, patientId) VALUES(?, ?)";
+    private static final String SQL_QUERY_DELETE = "DELETE FROM drug WHERE id=?";
 
-    }
-
-    public List<Drug> selectPrescribings(int patientId) {
-        Connection connection=null;
-        PreparedStatement ptmt=null;
+    public List<Drug> getByPatientId(int patientId) {
+        List<Drug> drugs = new ArrayList<Drug>();
+        Connection cn = null;
+        PreparedStatement st = null;
         try {
-            List<Drug> drugs = new ArrayList<Drug>();
-            Drug drugBean;
-            connection = MySQLDAOFactory.getConnection();
-            ptmt = connection.prepareStatement(SQL);
-            ResultSet rs = ptmt.executeQuery();
-            while (rs.next()) {
-                if(rs.getInt(3)==patientId) {
-                    drugBean = new Drug();
-                    drugBean.setId(rs.getInt(1));
-                    drugBean.setName(rs.getString(2));
-                    drugBean.setPatientId(rs.getInt(3));
-                    drugs.add(drugBean);
-                }
+            cn = ConnectionPool.retrieve();
+            st = cn.prepareStatement(SQL_QUERY_GET_BY_PATIENT);
+            st.setInt(1, patientId);
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                Drug temp = new Drug();
+                temp.setId(resultSet.getInt("id"));
+                temp.setName(resultSet.getString("name"));
+                temp.setPatientId(resultSet.getInt("patientId"));
+                drugs.add(temp);
             }
-            return drugs;
-        } catch (SQLException ex) {
-            log.error(ex.getMessage());
-            return Collections.emptyList();
-        }finally {
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
             try {
-                if (ptmt != null) {
-                    ptmt.close();
+                if (st != null) {
+                    st.close();
                 }
-            } catch (SQLException ex) {
-                log.error(ex.getMessage());
+            } catch (SQLException e) {
+                log.error(e);
             }
+            ConnectionPool.putback(cn);
         }
+        return drugs;
     }
+
+    public void add(String name, int patientId){
+        PrescribingMySQLDAO prescribingMySQLDAO = new PrescribingMySQLDAO();
+        prescribingMySQLDAO.setSQL_QUERY_INSERT(SQL_QUERY_INSERT);
+        prescribingMySQLDAO.add(name, patientId);
+    }
+
+    public void delete(int id){
+        PrescribingMySQLDAO prescribingMySQLDAO = new PrescribingMySQLDAO();
+        prescribingMySQLDAO.setSQL_QUERY_DELETE(SQL_QUERY_DELETE);
+        prescribingMySQLDAO.delete(id);
+    }
+
 }

@@ -1,92 +1,126 @@
 package by.training.nc.dev5.dao;
+
 import java.sql.*;
 import java.util.*;
-
-import by.training.nc.dev5.beans.patient.prescribing.*;
 import by.training.nc.dev5.dao.interfaces.*;
-import by.training.nc.dev5.factory.DAOFactory;
+import by.training.nc.dev5.utils.ConnectionPool;
 import org.apache.log4j.Logger;
 import by.training.nc.dev5.beans.patient.Patient;
-import by.training.nc.dev5.factory.MySQLDAOFactory;
+
 /**
  * Created by user on 28.03.2017.
  */
 public class PatientMySQLDAO implements PatientDAO {
 
-    private static final String SQL = "select id, name from patient";
-    // logger for the class
     static Logger log = Logger.getLogger(PatientMySQLDAO.class);
+    private static final String SQL_QUERY_GET_ALL = "SELECT * FROM patient";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO patient (name) VALUES(?)";
+    private static final String SQL_QUERY_DELETE = "DELETE FROM patient WHERE id=?";
+    private static final String SQL_QUERY_GET_BY_ID = "SELECT * FROM patient WHERE id=?";
 
-    public PatientMySQLDAO() {
-
-    }
-
-
-    public boolean deletePatient(int patientId) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-
-    public Patient findPatient(int PatientId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public int insertPatient(Patient patient) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-
-    public List<Patient> selectPatients() {
-        Connection connection=null;
-        PreparedStatement ptmt=null;
+    public void add(String name){
+        Connection cn = null;
+        PreparedStatement st = null;
         try {
-            DAOFactory mySqlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-            DiagnosisDAO diagnosisDAO = mySqlDAOFactory.getDiagnosisDAO();
-            DrugDAO drugDAO = mySqlDAOFactory.getDrugDAO();
-            ProcedureDAO procedureDAO = mySqlDAOFactory.getProcedureDAO();
-            SurgeryDAO surgeryDAO = mySqlDAOFactory.getSurgeryDAO();
-
-            List<Patient> patients = new ArrayList<Patient>();
-            Patient patientBean;
-            connection = MySQLDAOFactory.getConnection();
-            ptmt = connection.prepareStatement(SQL);
-            ResultSet rs = ptmt.executeQuery();
-            while (rs.next()) {
-                patientBean = new Patient();
-                patientBean.setId(rs.getInt(1));
-                patientBean.setName(rs.getString(2));
-                List<Diagnosis> diagnosises = diagnosisDAO.selectPrescribings(patientBean.getId());
-                List<Drug> drugs = drugDAO.selectPrescribings(patientBean.getId());
-                List<Procedure> procedures = procedureDAO.selectPrescribings(patientBean.getId());
-                List<Surgery> surgeries = surgeryDAO.selectPrescribings(patientBean.getId());
-
-                patientBean.setDiagnosises(diagnosises);
-                patientBean.setDrugs(drugs);
-                patientBean.setProcedures(procedures);
-                patientBean.setSurgeries(surgeries);
-                patients.add(patientBean);
-            }
-            return patients;
-        } catch (SQLException ex) {
-            log.error(ex.getMessage());
-            return Collections.emptyList();
-        }finally {
+            cn = ConnectionPool.retrieve();
+            st = cn.prepareStatement(SQL_QUERY_INSERT);
+            st.setString(1, name);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
             try {
-                if (ptmt != null) {
-                    ptmt.close();
+                if (st != null) {
+                    st.close();
                 }
-            } catch (SQLException ex) {
-                log.error(ex.getMessage());
+            } catch (SQLException e) {
+                log.error(e);
             }
+            ConnectionPool.putback(cn);
         }
     }
 
+    public void delete(int patientId){
+        Connection cn = null;
+        PreparedStatement st = null;
+        try {
+            cn = ConnectionPool.retrieve();
+            st = cn.prepareStatement(SQL_QUERY_DELETE);
+            st.setInt(1, patientId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException e) {
+                log.error(e);
+            }
+            ConnectionPool.putback(cn);
+        }
+    }
 
-    public boolean updatePatient(int patientId) {
-        // TODO Auto-generated method stub
-        return false;
+    public List<Patient> getAll(){
+        List<Patient> patients = new ArrayList<Patient>();
+        Patient temp;
+        Connection cn = null;
+        Statement st = null;
+        try {
+            cn = ConnectionPool.retrieve();
+            st = cn.createStatement();
+            ResultSet resultSet = st.executeQuery(SQL_QUERY_GET_ALL);
+            while (resultSet.next()) {
+                temp = new Patient();
+                temp.setId(resultSet.getInt(1));
+                temp.setName(resultSet.getString(2));
+                temp.setDiagnosises(new DiagnosisMySQLDAO().getByPatientId(temp.getId()) );
+                temp.setDrugs(new DrugMySQLDAO().getByPatientId(temp.getId()));
+                temp.setProcedures(new ProcedureMySQLDAO().getByPatientId(temp.getId()));
+                temp.setSurgeries(new SurgeryMySQLDAO().getByPatientId(temp.getId()));
+                patients.add(temp);
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException e) {
+                log.error(e);
+            }
+            ConnectionPool.putback(cn);
+        }
+        return patients;
+    }
+
+    public Patient getById(int patientId) {
+        Patient patient = new Patient();
+        Connection cn = null;
+        PreparedStatement st = null;
+        try {
+            cn = ConnectionPool.retrieve();
+            st = cn.prepareStatement(SQL_QUERY_GET_BY_ID);
+            st.setInt(1, patientId);
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                patient.setId(resultSet.getInt("id"));
+                patient.setName(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException e) {
+                log.error(e);
+            }
+            ConnectionPool.putback(cn);
+        }
+        return patient;
     }
 }
