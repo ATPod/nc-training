@@ -55,7 +55,7 @@ public class FileManager {
                 boolean accountstatus = scanner.nextBoolean();
                 Account account = new Account(money,accountstatus);
                 try {
-                    CreditCard creditcard = new CreditCard(arrid, arrpass, account);
+                    CreditCard creditcard = new CreditCard(arrid, arrpass, account,clientid);
                     list.add(creditcard);
                 }catch (NotCorrectPasswordException e){
                     e.printStackTrace();
