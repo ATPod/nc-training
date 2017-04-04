@@ -10,36 +10,44 @@ public class Tutor extends User {
     private String subject;
 
     /**
-     * Creates new entity of the class <b>{@code Tutor}</b> and initialize it
-     *
-     * @param id      - id
-     * @param name    - name
-     * @param surname - surname
-     * @param subject - subject
+     * Creates new entity of the class <b>{@code Tutor}</b>
      */
+    public Tutor() {
 
-    public Tutor(int id, String name, String surname, String subject) {
-        super(id, name, surname);
+    }
+
+    /**
+     * Creates new entity of the class <b>{@code Tutor}</b> and initialize it
+     * @param id       -id
+     * @param name     -name
+     * @param surname  -surname
+     * @param login    -login
+     * @param password -password
+     * @param subject  -subject
+     */
+    public Tutor(int id, String name, String surname, String login, String password, String subject) {
+        super(id, name, surname, login, password);
         this.subject = subject;
     }
 
     /**
-     * @return subject
+     *
+     * @return tutor subject
      */
     public String getSubject() {
         return subject;
     }
 
     /**
-     * @param subject subject to set
+     *
+     * @param subject-subject to set
      */
     public void setSubject(String subject) {
         this.subject = subject;
     }
-
     /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-	 */
+        * @see java.lang.Object#equals()
+        */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,20 +56,18 @@ public class Tutor extends User {
 
         Tutor tutor = (Tutor) o;
 
-        return subject.equals(tutor.subject);
+        return subject != null ? subject.equals(tutor.subject) : tutor.subject == null;
 
     }
-
     /* (non-Javadoc)
-       * @see java.lang.Object#hashCode()
-       */
+        * @see java.lang.Object#hashCode()
+        */
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + subject.hashCode();
+        result = 31 * result + (subject != null ? subject.hashCode() : 0);
         return result;
     }
-
     /* (non-Javadoc)
         * @see java.lang.Object#toString()
         */

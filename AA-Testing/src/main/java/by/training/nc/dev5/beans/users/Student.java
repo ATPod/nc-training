@@ -1,8 +1,5 @@
 package by.training.nc.dev5.beans.users;
 
-import by.training.nc.dev5.exceptions.StudentLogicException;
-
-import java.io.Serializable;
 
 /**
  * This class describes entity <b>Student</b>
@@ -11,7 +8,14 @@ import java.io.Serializable;
  * @version 1.0
  */
 public class Student extends User {
-    private int balls;
+    private int scores;
+
+    /**
+     * Creates new entity of the class <b>{@code Student}</b>
+     */
+    public Student() {
+
+    }
 
     /**
      * Creates new entity of the class <b>{@code Student}</b> and initialize it
@@ -19,34 +23,31 @@ public class Student extends User {
      * @param id      - id
      * @param name    - name
      * @param surname - surname
-     * @param balls   - balls
+     * @param scores  - scores
      */
-    public Student(int id, String name, String surname, int balls) {
-        super(id, name, surname);
-        this.balls = balls;
+    public Student(int id, String name, String surname, String login, String password, int scores) {
+        super(id, name, surname, login, password);
+        this.scores = scores;
     }
 
     /**
-     * @return balls
+     * @return student scores
      */
-    public int getBalls() {
-        return balls;
+    public int getScores() {
+        return scores;
     }
 
     /**
-     * @param balls - balls to set
-     * @throws StudentLogicException - if balls amount is incorrect
+     * @param scores-scores to set
      */
-    public void setBalls(int balls) throws StudentLogicException {
-        if (balls < 0) {
-            throw new StudentLogicException("Balls amount is incorrect!");
-        }
-        this.balls = balls;
+
+    public void setScores(int scores) {
+        this.scores = scores;
     }
 
     /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-	 */
+    * @see java.lang.Object#equals()
+    */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,27 +56,27 @@ public class Student extends User {
 
         Student student = (Student) o;
 
-        return balls == student.balls;
+        return scores == student.scores;
 
     }
 
     /* (non-Javadoc)
-       * @see java.lang.Object#hashCode()
-       */
+    * @see java.lang.Object#hashCode()
+    */
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + balls;
+        result = 31 * result + scores;
         return result;
     }
 
     /* (non-Javadoc)
-        * @see java.lang.Object#toString()
-        */
+    * @see java.lang.Object#toString()
+    */
     @Override
     public String toString() {
         return "Student{" +
-                "balls=" + balls +
+                "scores=" + scores +
                 '}';
     }
 }

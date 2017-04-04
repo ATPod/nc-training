@@ -3,101 +3,135 @@ package by.training.nc.dev5.beans.test;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
+
 /**
  * This class describes entity <b>Question</b>
  *
  * @author Alena Artsiuschcyk
  * @version 1.0
  */
+
 public class Question implements Serializable {
+    private int id;
+    private int testId;
     private String text;
-    private int balls;
-    private Map<Integer, String> variants;
-    private List<Integer> rightAnswersNumbers;
+    private int scores;
+    private List<Option> answerOptions;
+
+    /**
+     * Creates new entity of the class <b>{@code Question}</b>
+     */
+    public Question()
+    {
+
+    }
+
     /**
      * Creates new entity of the class <b>{@code Question}</b> and initialize it
-     *
-     * @param text      -text of question
-     * @param balls    - balls if the answer is right
-     * @param variants -variants of answer with their numbers
-     * @param rightAnswersNumbers  -numbers of right answers
+     * @param id -id
+     * @param testId - id of test that contains this question
+     * @param text -question text
+     * @param scores- scores for right answer
+     * @param answerOptions-possible answers
      */
-
-    public Question(String text, int balls, Map<Integer, String> variants, List<Integer> rightAnswersNumbers) {
+    public Question(int id, int testId, String text, int scores, List<Option> answerOptions) {
+        this.id = id;
+        this.testId = testId;
         this.text = text;
-        this.balls = balls;
-        this.variants = variants;
-        this.rightAnswersNumbers = rightAnswersNumbers;
+        this.scores = scores;
+        this.answerOptions = answerOptions;
     }
 
     /**
      *
-     * @return text of question
+     * @return question id
      */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     *
+     * @param id-id to set
+     */
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     *
+     * @return id of test that contains this question
+     */
+
+    public int getTestId() {
+        return testId;
+    }
+
+    /**
+     *
+     * @param testId- id of test to set
+     */
+
+    public void setTestId(int testId) {
+        this.testId = testId;
+    }
+
+    /**
+     *
+     * @return question text
+     */
+
     public String getText() {
         return text;
     }
 
     /**
      *
-     * @param text - text to set
+     * @param text-text to set
      */
+
     public void setText(String text) {
         this.text = text;
     }
 
     /**
      *
-     * @return balls
+     * @return scores for the right answer
      */
-    public int getBalls() {
-        return balls;
+
+    public int getScores() {
+        return scores;
     }
 
     /**
      *
-     * @param balls - balls to set
+     * @param scores-scores to set
      */
-    public void setBalls(int balls) {
-        this.balls = balls;
+
+    public void setScores(int scores) {
+        this.scores = scores;
     }
 
     /**
      *
-     * @return variants
+     * @return possible answers
      */
-    public Map<Integer, String> getVariants() {
-        return variants;
+    public List<Option> getAnswerOptions() {
+        return answerOptions;
     }
 
     /**
      *
-     * @param variants - variants to set
+     * @param answerOptions -options to set
      */
 
-    public void setVariants(Map<Integer, String> variants) {
-        this.variants = variants;
-    }
-
-    /**
-     *
-     * @return - list of right answers numbers
-     */
-    public List<Integer> getRightAnswersNumbers() {
-        return rightAnswersNumbers;
-    }
-
-    /**
-     *
-     * @param rightAnswersNumbers -right answers to set
-     */
-    public void setRightAnswersNumbers(List<Integer> rightAnswersNumbers) {
-        this.rightAnswersNumbers = rightAnswersNumbers;
+    public void setAnswerOptions(List<Option> answerOptions) {
+        this.answerOptions = answerOptions;
     }
     /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-	 */
+     * @see java.lang.Object#equals()
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,34 +139,36 @@ public class Question implements Serializable {
 
         Question question = (Question) o;
 
-        if (balls != question.balls) return false;
-        if (!text.equals(question.text)) return false;
-        if (!variants.equals(question.variants)) return false;
-        return rightAnswersNumbers.equals(question.rightAnswersNumbers);
+        if (id != question.id) return false;
+        if (testId != question.testId) return false;
+        if (scores != question.scores) return false;
+        if (text != null ? !text.equals(question.text) : question.text != null) return false;
+        return answerOptions != null ? answerOptions.equals(question.answerOptions) : question.answerOptions == null;
 
     }
     /* (non-Javadoc)
-      * @see java.lang.Object#hashCode()
-      */
+    * @see java.lang.Object#hashCode()
+    */
     @Override
     public int hashCode() {
-        int result = text.hashCode();
-        result = 31 * result + balls;
-        result = 31 * result + variants.hashCode();
-        result = 31 * result + rightAnswersNumbers.hashCode();
+        int result = id;
+        result = 31 * result + testId;
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + scores;
+        result = 31 * result + (answerOptions != null ? answerOptions.hashCode() : 0);
         return result;
     }
     /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-	 */
+    * @see java.lang.Object#toString()
+    */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Вопрос: ").append(text).append(" ");
-        sb.append(balls).append("балла(ов)").append(System.lineSeparator());
-        for (int i = 0; i < variants.size(); i++) {
-            sb.append(i + 1).append(". ").append(variants.get(i + 1)).append(System.lineSeparator());
-        }
-        return sb.toString();
+        return "Question{" +
+                "id=" + id +
+                ", testId=" + testId +
+                ", text='" + text + '\'' +
+                ", scores=" + scores +
+                ", answerOptions=" + answerOptions +
+                '}';
     }
 }
