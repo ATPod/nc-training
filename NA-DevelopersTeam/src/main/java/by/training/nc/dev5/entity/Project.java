@@ -5,8 +5,8 @@ package by.training.nc.dev5.entity;
  */
 public class Project {
     private int id;
-    private int termsOfReferenceId;
-    private int managerId;
+    private Manager manager;
+    private TermsOfReference termsOfReference;
 
     /**
      * Gets the value of id
@@ -27,38 +27,38 @@ public class Project {
     }
 
     /**
-     * Gets the value of termsOfReferenceId
+     * Gets the value of termsOfReference
      *
-     * @return the value of termsOfReferenceId.
+     * @return the value of termsOfReference.
      */
-    public int getTermsOfReferenceId() {
-        return termsOfReferenceId;
+    public TermsOfReference getTermsOfReference() {
+        return termsOfReference;
     }
 
     /**
-     * Sets the value of termsOfReferenceId
+     * Sets the value of termsOfReference
      *
-     * @param termsOfReferenceId the new value of termsOfReferenceId.
+     * @param termsOfReference the new value of termsOfReference.
      */
-    public void setTermsOfReferenceId(int termsOfReferenceId) {
-        this.termsOfReferenceId = termsOfReferenceId;
+    public void setTermsOfReference(TermsOfReference termsOfReference) {
+        this.termsOfReference = termsOfReference;
     }
 
     /**
-     * Gets the value of managerId
+     * Gets the value of manager
      *
-     * @return the value of managerId.
+     * @return the value of manager.
      */
-    public int getManagerId() {
-        return managerId;
+    public Manager getManager() {
+        return manager;
     }
 
     /**
-     * Sets the value of managerId
+     * Sets the value of manager
      *
-     * @param managerId the new value of managerId.
+     * @param manager the new value of manager.
      */
-    public void setManagerId(int managerId) {
-        this.managerId = managerId;
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 }

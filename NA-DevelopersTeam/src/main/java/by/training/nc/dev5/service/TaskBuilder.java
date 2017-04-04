@@ -1,27 +1,29 @@
 package by.training.nc.dev5.service;
 
 import by.training.nc.dev5.dao.DaoFactory;
+import by.training.nc.dev5.dao.QualificationDao;
 import by.training.nc.dev5.dao.TaskDao;
 import by.training.nc.dev5.dao.TaskQuotaDao;
 import by.training.nc.dev5.entity.Qualification;
 import by.training.nc.dev5.entity.Task;
 import by.training.nc.dev5.entity.TaskQuota;
+import by.training.nc.dev5.entity.TermsOfReference;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Nikita on 27.03.2017.
  */
-public abstract class TaskBuilder {
-    private Map<Integer, Integer> qualificationDevelopersNumberMap;
+public class TaskBuilder {
+    private Map<Qualification, TaskQuota> taskQuotas;
     private Task task;
-
-    protected abstract DaoFactory getDaoFactory();
 
     public TaskBuilder() {
         task = new Task();
-        qualificationDevelopersNumberMap = new HashMap<Integer, Integer>();
+        taskQuotas = new HashMap<Qualification, TaskQuota>();
     }
 
     /**
@@ -34,30 +36,25 @@ public abstract class TaskBuilder {
     }
 
     public Task createTask() {
-        DaoFactory daoFactory = getDaoFactory();
-        TaskDao taskDao = daoFactory.getTaskDao();
-        TaskQuotaDao taskQuotaDao = daoFactory.getTaskQuotaDao();
-
-        task.setId(taskDao.create(task));
-
-        for (Map.Entry<Integer, Integer> entry :
-                qualificationDevelopersNumberMap.entrySet()) {
-            TaskQuota tq = new TaskQuota();
-
-            if (entry.getValue() == 0) {
-                continue;
-            }
-            tq.setQualificationId(entry.getKey());
-            tq.setDevelopersNumber(entry.getValue());
-            tq.setTaskId(task.getId());
-
-            tq.setId(taskQuotaDao.create(tq));
-        }
+        task.setTaskQuotas(taskQuotas.values());
 
         return task;
     }
 
-    public void setDevelopersNumber(int qualificationId, int number) {
-        qualificationDevelopersNumberMap.put(qualificationId, number);
+    public void setDevelopersNumber(Qualification qualification, int number) {
+        TaskQuota taskQuota = new TaskQuota();
+
+        if (taskQuotas.containsKey(qualification)) {
+            taskQuotas.remove(qualification);
+        }
+        if (number == 0) {
+            return;
+        }
+
+        taskQuota.setQualification(qualification);
+        taskQuota.setDevelopersNumber(number);
+        taskQuota.setTask(task);
+
+        taskQuotas.put(qualification, taskQuota);
     }
 }

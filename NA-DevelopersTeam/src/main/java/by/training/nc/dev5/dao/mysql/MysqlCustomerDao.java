@@ -7,53 +7,28 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Created by Nikita on 27.03.2017.
  */
-public abstract class MysqlCustomerDao implements CustomerDao {
-    private static String SELECT_ALL_CUSTOMERS_QUERY =
+public class MysqlCustomerDao
+        extends MysqlAbstractDao<Customer>
+        implements CustomerDao {
+
+    private static final String SELECT_ALL_CUSTOMERS_QUERY =
             "SELECT id, name FROM customer";
-    private static String SELECT_CUSTOMER_BY_ID_QUERY =
+    private static final String SELECT_CUSTOMER_BY_ID_QUERY =
             "SELECT name FROM customer WHERE id = ?";
-    private static String UPDATE_CUSTOMER_QUERY =
+    private static final String UPDATE_CUSTOMER_QUERY =
             "UPDATE customer SET name = ? WHERE id = ?";
     private static final String DELETE_FROM_CUSTOMER_QUERY =
             "DELETE FROM customer WHERE id = ?";
     private static final String INSERT_INTO_CUSTOMER_QUERY =
             "INSERT INTO customer(name) VALUES (?)";
 
-    protected abstract Connection getConnection();
-
-    protected abstract void disposeConnection(Connection connection);
-
     public Collection<Customer> getAll() {
-        Connection connection = getConnection();
-        try {
-            PreparedStatement ps = connection.prepareStatement(
-                    SELECT_ALL_CUSTOMERS_QUERY);
-            ResultSet rs = ps.executeQuery();
-            Collection<Customer> result = new ArrayList<Customer>();
-
-            while (rs.next()) {
-                Customer c = new Customer();
-
-                c.setId(rs.getInt("id"));
-                c.setName(rs.getString("name"));
-
-                result.add(c);
-            }
-
-            return result;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disposeConnection(connection);
-        }
-        // TODO: proper exception handling
-        return null;
+        return getAll(SELECT_ALL_CUSTOMERS_QUERY);
     }
 
     /**
@@ -63,34 +38,17 @@ public abstract class MysqlCustomerDao implements CustomerDao {
      * @return a record from the storage or {@code null} if no found
      */
     public Customer getEntityById(Integer id) {
-        Connection connection = getConnection();
+        return getSingleResultByIntParameter(id, SELECT_CUSTOMER_BY_ID_QUERY);
+    }
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(
-                    SELECT_CUSTOMER_BY_ID_QUERY);
+    @Override
+    protected Customer fetchEntity(ResultSet rs) throws SQLException {
+        Customer customer = new Customer();
 
-            ps.setInt(1, id);
+        customer.setId(rs.getInt("id"));
+        customer.setName(rs.getString("name"));
 
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                Customer c = new Customer();
-
-                c.setId(id);
-                c.setName(rs.getString("name"));
-
-                return c;
-            }
-
-            return null;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
-        } finally {
-            disposeConnection(connection);
-        }
-
-        return null;
+        return customer;
     }
 
     /**
@@ -131,25 +89,7 @@ public abstract class MysqlCustomerDao implements CustomerDao {
      * @return true if entry existed and was deleted, false otherwise
      */
     public boolean delete(Integer id) {
-        Connection connection = getConnection();
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(
-                    DELETE_FROM_CUSTOMER_QUERY);
-
-            ps.setInt(1, id);
-
-            if (ps.executeUpdate() != 0) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
-        } finally {
-            disposeConnection(connection);
-        }
-
-        return false;
+        return delete(id, DELETE_FROM_CUSTOMER_QUERY);
     }
 
     /**
@@ -166,18 +106,16 @@ public abstract class MysqlCustomerDao implements CustomerDao {
             PreparedStatement ps = connection.prepareStatement(
                     INSERT_INTO_CUSTOMER_QUERY,
                     PreparedStatement.RETURN_GENERATED_KEYS);
+            ResultSet generatedKeys;
 
             ps.setString(1, entity.getName());
 
-            if (ps.executeUpdate() == 0) {
-                return null;
-            }
+            ps.executeUpdate();
 
-            ResultSet generatedKeys = ps.getGeneratedKeys();
+            generatedKeys = ps.getGeneratedKeys();
+            generatedKeys.next();
 
-            if (generatedKeys.next()) {
-                return (int) generatedKeys.getLong(1);
-            }
+            return (int) generatedKeys.getLong(1);
         } catch (SQLException e) {
             e.printStackTrace();
             // todo

@@ -11,7 +11,19 @@ import java.util.Collection;
  * Created by Nikita on 26.03.2017.
  */
 public interface DeveloperDao extends AbstractDao<Developer, Integer> {
-    Collection<TimeSheet> getTimeSheets(Integer developerId);
-
+    /**
+     * Gets all developers of particular qualification that are not assigned
+     * to any project at the moment.
+     * @param qualificationId qualification of developers to look up.
+     * @return a collection of {@link Developer} objects
+     */
     Collection<Developer> getUnassignedDevelopers(Integer qualificationId);
+
+    /**
+     * Gets developers assigned to this project
+     * @param projectId project id to get assigned developers
+     * @return a collection of developers that are assigned to project
+     * identified by {@code projectId}
+     */
+    Collection<Developer> getDevelopers(Integer projectId);
 }

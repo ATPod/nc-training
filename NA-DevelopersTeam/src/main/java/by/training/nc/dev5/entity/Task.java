@@ -1,12 +1,33 @@
 package by.training.nc.dev5.entity;
 
+import java.util.Collection;
+
 /**
  * Created by Nikita on 26.03.2017.
  */
 public class Task {
     private int id;
-    private int termsOfReferenceId;
     private String specification;
+    private TermsOfReference termsOfReference;
+    private Collection<TaskQuota> taskQuotas;
+
+    /**
+     * Gets the value of termsOfReference
+     *
+     * @return the value of termsOfReference.
+     */
+    public TermsOfReference getTermsOfReference() {
+        return termsOfReference;
+    }
+
+    /**
+     * Sets the value of termsOfReference
+     *
+     * @param termsOfReference the new value of termsOfReference.
+     */
+    public void setTermsOfReference(TermsOfReference termsOfReference) {
+        this.termsOfReference = termsOfReference;
+    }
 
     /**
      * Gets the value of specification
@@ -45,20 +66,20 @@ public class Task {
     }
 
     /**
-     * Gets the value of termsOfReferenceId
+     * Gets the value of taskQuotas
      *
-     * @return the value of termsOfReferenceId.
+     * @return the value of taskQuotas.
      */
-    public int getTermsOfReferenceId() {
-        return termsOfReferenceId;
+    public Collection<TaskQuota> getTaskQuotas() {
+        return taskQuotas;
     }
 
     /**
-     * Sets the value of termsOfReferenceId
+     * Sets the value of taskQuotas
      *
-     * @param termsOfReferenceId the new value of termsOfReferenceId.
+     * @param taskQuotas the new value of taskQuotas.
      */
-    public void setTermsOfReferenceId(int termsOfReferenceId) {
-        this.termsOfReferenceId = termsOfReferenceId;
+    public void setTaskQuotas(Collection<TaskQuota> taskQuotas) {
+        this.taskQuotas = taskQuotas;
     }
 }

@@ -1,11 +1,15 @@
 package by.training.nc.dev5.entity;
 
+import java.util.Collection;
+
 /**
  * Created by Nikita on 26.03.2017.
  */
 public class TermsOfReference {
     private int id;
-    private int customerId;
+    private Customer customer;
+    private Collection<Task> tasks;
+    private Project project;
 
     /**
      * Gets the value of id
@@ -26,20 +30,56 @@ public class TermsOfReference {
     }
 
     /**
-     * Gets the value of customerId
+     * Gets the value of customer
      *
-     * @return the value of customerId.
+     * @return the value of customer.
      */
-    public int getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
     /**
-     * Sets the value of customerId
+     * Sets the value of customer
      *
-     * @param customerId the new value of customerId.
+     * @param customer the new value of customer.
      */
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    /**
+     * Gets the value of tasks
+     *
+     * @return the value of tasks.
+     */
+    public Collection<Task> getTasks() {
+        return tasks;
+    }
+
+    /**
+     * Sets the value of tasks
+     *
+     * @param tasks the new value of tasks.
+     */
+    public void setTasks(Collection<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    /**
+     * Gets the value of project
+     *
+     * @return the value of project.
+     */
+    public Project getProject() {
+        return project;
+    }
+
+    /**
+     * Sets the value of project
+     *
+     * @param project the new value of project.
+     */
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

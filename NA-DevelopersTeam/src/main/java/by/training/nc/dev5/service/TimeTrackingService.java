@@ -13,33 +13,16 @@ import java.util.Map;
  * Created by Nikita on 28.03.2017.
  */
 public class TimeTrackingService {
-    private static final int DAY_MILLIS = 24 * 60 * 60 * 1000;
     private final DaoFactory daoFactory = DaoFactory.getDaoFactory(DaoFactory.MYSQL);
-    private Map<Developer, Date> developerStartTimeMap;
 
-    public TimeTrackingService() {
-        developerStartTimeMap = new HashMap<Developer, Date>();
-    }
-
-    public void startTracking(Developer developer, Date start) {
-        developerStartTimeMap.put(developer, start);
-    }
-    
-    public void stopTracking(Developer developer, Date stop) {
+    public void track(Developer developer, Date date, int timeSpent) {
         TimeSheetDao timeSheetDao = daoFactory.getTimeSheetDao();
         TimeSheet timeSheet = new TimeSheet();
-        Date start = developerStartTimeMap.get(developer);
-        int time = (int) (stop.getTime() - start.getTime());
 
-        if (time > DAY_MILLIS || time < 0) {
-            throw new RuntimeException("Not valid stop date");
-            // TODO: handle this properly
-        }
-        
-        timeSheet.setProjectId(developer.getProjectId());
-        timeSheet.setDeveloperId(developer.getId());
-        timeSheet.setDate(stop);
-        timeSheet.setTime(time);
+        timeSheet.setTime(timeSpent);
+        timeSheet.setDate(date);
+        timeSheet.setProject(developer.getProject());
+        timeSheet.setDeveloper(developer);
 
         timeSheetDao.create(timeSheet);
     }

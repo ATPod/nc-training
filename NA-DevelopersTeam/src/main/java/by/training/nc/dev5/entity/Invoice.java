@@ -5,9 +5,9 @@ package by.training.nc.dev5.entity;
  */
 public class Invoice {
     private int id;
-    private int projectId;
     private double price;
     private boolean paid;
+    private Project project;
 
     /**
      * Gets the value of id
@@ -25,24 +25,6 @@ public class Invoice {
      */
     public void setId(int id) {
         this.id = id;
-    }
-
-    /**
-     * Gets the value of projectId
-     *
-     * @return the value of projectId.
-     */
-    public int getProjectId() {
-        return projectId;
-    }
-
-    /**
-     * Sets the value of projectId
-     *
-     * @param projectId the new value of projectId.
-     */
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
     }
 
     /**
@@ -79,5 +61,23 @@ public class Invoice {
      */
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    /**
+     * Gets the value of project
+     *
+     * @return the value of project.
+     */
+    public Project getProject() {
+        return project;
+    }
+
+    /**
+     * Sets the value of project
+     *
+     * @param project the new value of project.
+     */
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

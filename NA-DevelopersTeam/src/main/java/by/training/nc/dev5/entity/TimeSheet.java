@@ -8,8 +8,8 @@ import java.util.Date;
 public class TimeSheet {
     private int id;
     private Date date;
-    private int projectId;
-    private int developerId;
+    private Developer developer;
+    private Project project;
     private int time;
 
     /**
@@ -49,42 +49,6 @@ public class TimeSheet {
     }
 
     /**
-     * Gets the value of projectId
-     *
-     * @return the value of projectId.
-     */
-    public int getProjectId() {
-        return projectId;
-    }
-
-    /**
-     * Sets the value of projectId
-     *
-     * @param projectId the new value of projectId.
-     */
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
-    }
-
-    /**
-     * Gets the value of developerId
-     *
-     * @return the value of developerId.
-     */
-    public int getDeveloperId() {
-        return developerId;
-    }
-
-    /**
-     * Sets the value of developerId
-     *
-     * @param developerId the new value of developerId.
-     */
-    public void setDeveloperId(int developerId) {
-        this.developerId = developerId;
-    }
-
-    /**
      * Gets the value of time
      *
      * @return the value of time.
@@ -100,5 +64,41 @@ public class TimeSheet {
      */
     public void setTime(int time) {
         this.time = time;
+    }
+
+    /**
+     * Gets the value of developer
+     *
+     * @return the value of developer.
+     */
+    public Developer getDeveloper() {
+        return developer;
+    }
+
+    /**
+     * Sets the value of developer
+     *
+     * @param developer the new value of developer.
+     */
+    public void setDeveloper(Developer developer) {
+        this.developer = developer;
+    }
+
+    /**
+     * Gets the value of project
+     *
+     * @return the value of project.
+     */
+    public Project getProject() {
+        return project;
+    }
+
+    /**
+     * Sets the value of project
+     *
+     * @param project the new value of project.
+     */
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

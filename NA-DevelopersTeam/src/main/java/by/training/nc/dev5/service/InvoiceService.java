@@ -15,7 +15,7 @@ public class InvoiceService {
         InvoiceDao invoiceDao = daoFactory.getInvoiceDao();
         Invoice invoice = new Invoice();
 
-        invoice.setProjectId(project.getId());
+        invoice.setProject(project);
         invoice.setPrice(price);
         invoice.setPaid(false);
 

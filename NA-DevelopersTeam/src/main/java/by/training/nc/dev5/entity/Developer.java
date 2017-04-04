@@ -6,7 +6,26 @@ package by.training.nc.dev5.entity;
 public class Developer {
     private int id;
     private String name;
-    private int projectId;
+    private Qualification qualification;
+    private Project project;
+
+    /**
+     * Gets the value of qualification
+     *
+     * @return the value of qualification.
+     */
+    public Qualification getQualification() {
+        return qualification;
+    }
+
+    /**
+     * Sets the value of qualification
+     *
+     * @param qualification the new value of qualification.
+     */
+    public void setQualification(Qualification qualification) {
+        this.qualification = qualification;
+    }
 
     /**
      * Gets the value of id
@@ -45,20 +64,20 @@ public class Developer {
     }
 
     /**
-     * Gets the value of projectId
+     * Gets the value of project
      *
-     * @return the value of projectId.
+     * @return the value of project.
      */
-    public int getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
     /**
-     * Sets the value of projectId
+     * Sets the value of project
      *
-     * @param projectId the new value of projectId.
+     * @param project the new value of project.
      */
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

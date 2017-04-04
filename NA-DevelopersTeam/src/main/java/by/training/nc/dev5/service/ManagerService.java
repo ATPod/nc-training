@@ -13,10 +13,6 @@ public class ManagerService {
 
     public TermsOfReferenceBuilder getTermsOfReferenceBuilder() {
         return new TermsOfReferenceBuilder() {
-            @Override
-            protected DaoFactory getDaoFactory() {
-                return daoFactory;
-            }
         };
     }
 
@@ -25,8 +21,8 @@ public class ManagerService {
         Project project = new Project();
         ProjectDao dao = daoFactory.getProjectDao();
 
-        project.setTermsOfReferenceId(termsOfReference.getId());
-        project.setManagerId(manager.getId());
+        project.setTermsOfReference(termsOfReference);
+        project.setManager(manager);
 
         project.setId(dao.create(project));
 
@@ -36,7 +32,7 @@ public class ManagerService {
     }
 
     protected void assignDevelopers(TermsOfReference tor) {
-        TermsOfReferenceDao torDao = daoFactory.getTermsOfReferenceDao();
+        TaskDao torDao = daoFactory.getTaskDao();
 
         for (Task task : torDao.getTasks(tor.getId())) {
             assignDevelopersForTask(task);
@@ -44,24 +40,23 @@ public class ManagerService {
     }
 
     private void assignDevelopersForTask(Task task) {
-        TermsOfReferenceDao torDao = daoFactory.getTermsOfReferenceDao();
         DeveloperDao devDao = daoFactory.getDeveloperDao();
-        TaskDao taskDao = daoFactory.getTaskDao();
-        TermsOfReference tor = torDao.getEntityById(
-                task.getTermsOfReferenceId());
+        TermsOfReference tor = task.getTermsOfReference();
+        TaskQuotaDao taskQuotaDao = daoFactory.getTaskQuotaDao();
+        ProjectDao projectDao = daoFactory.getProjectDao();
 
-        for (TaskQuota tq : taskDao.getTaskQuotas(task.getId())) {
+        for (TaskQuota tq : taskQuotaDao.getTaskQuotas(task.getId())) {
             Collection<Developer> developers;
 
             developers = devDao.getUnassignedDevelopers(
-                    tq.getQualificationId());
+                    tq.getQualification().getId());
             if (developers.size() == 0) {
                 throw new RuntimeException(" TODO: Not enough developers");
                 // TODO: handle this situation properly
             }
 
             for (Developer d : developers) {
-                d.setProjectId(torDao.getProject(tor.getId()).getId());
+                d.setProject(projectDao.getProject(tor.getId()));
                 devDao.update(d);
             }
         }

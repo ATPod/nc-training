@@ -4,12 +4,11 @@ import by.training.nc.dev5.dao.*;
 import by.training.nc.dev5.entity.*;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * Created by Nikita on 27.03.2017.
  */
-public class MySqlDaoFactory extends DaoFactory {
+public class MysqlDaoFactory extends DaoFactory {
     private Connection getConnection() {
         return null;
     }
@@ -20,20 +19,7 @@ public class MySqlDaoFactory extends DaoFactory {
      * @return a dao for {@link Customer} objects
      */
     public CustomerDao getCustomerDao() {
-        return new MysqlCustomerDao() {
-            protected Connection getConnection() {
-                return MySqlDaoFactory.this.getConnection();
-            }
-
-            protected void disposeConnection(Connection connection) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException("connection.close");
-                    // TODO: handle properly
-                }
-            }
-        };
+        return new MysqlCustomerDao();
     }
 
     /**
@@ -42,7 +28,7 @@ public class MySqlDaoFactory extends DaoFactory {
      * @return a dao for {@link Developer} objects
      */
     public DeveloperDao getDeveloperDao() {
-        return null;
+        return new MysqlDeveloperDao();
     }
 
     /**
@@ -51,7 +37,7 @@ public class MySqlDaoFactory extends DaoFactory {
      * @return a dao for {@link Manager} objects
      */
     public ManagerDao getManagerDao() {
-        return null;
+        return new MysqlManagerDao();
     }
 
     /**
@@ -60,7 +46,7 @@ public class MySqlDaoFactory extends DaoFactory {
      * @return a dao for {@link Invoice} objects
      */
     public InvoiceDao getInvoiceDao() {
-        return null;
+        return new MysqlInvoiceDao();
     }
 
     /**
@@ -69,7 +55,7 @@ public class MySqlDaoFactory extends DaoFactory {
      * @return a dao for {@link Project} objects
      */
     public ProjectDao getProjectDao() {
-        return null;
+        return new MysqlProjectDao();
     }
 
     /**
@@ -79,7 +65,7 @@ public class MySqlDaoFactory extends DaoFactory {
      * objects
      */
     public TermsOfReferenceDao getTermsOfReferenceDao() {
-        return null;
+        return new MysqlTermsOfReferenceDao();
     }
 
     /**
@@ -88,7 +74,7 @@ public class MySqlDaoFactory extends DaoFactory {
      * @return a dao for {@link Task} objects
      */
     public TaskDao getTaskDao() {
-        return null;
+        return new MysqlTaskDao();
     }
 
     /**
@@ -107,7 +93,7 @@ public class MySqlDaoFactory extends DaoFactory {
      * objects
      */
     public QualificationDao getQualificationDao() {
-        return null;
+        return new MysqlQualificationDao();
     }
 
     /**
