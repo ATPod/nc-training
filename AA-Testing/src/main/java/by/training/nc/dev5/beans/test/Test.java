@@ -11,67 +11,76 @@ import java.util.List;
  * @version 1.0
  */
 public class Test implements Serializable {
-    private String authorName;
-    private String authorSurname;
+    private int id;
+    private int authorId;
     private String subject;
     private String name;
     private List<Question> questions;
 
     /**
+     * Creates new entity of the class <b>{@code Test}</b>
+     */
+    public Test() {
+
+    }
+
+    /**
      * Creates new entity of the class <b>{@code Test}</b> and initialize it
      *
-     * @param authorName    -name of author
-     * @param authorSurname - surname of author
-     * @param subject       - subject of test
-     * @param questions     -list of questions
-     * @param name          -name of test
+     * @param id             -id
+     * @param authorId       - id of test author
+     * @param subject        -test subject
+     * @param name-          test name
+     * @param questions-test questions
      */
-
-    public Test(String authorName, String authorSurname, String subject, String name, List<Question> questions) {
-        this.authorName = authorName;
-        this.authorSurname = authorSurname;
+    public Test(int id, int authorId, String subject, String name, List<Question> questions) {
+        this.id = id;
+        this.authorId = authorId;
         this.subject = subject;
         this.name = name;
         this.questions = questions;
     }
 
     /**
-     * @return name of author
+     * @return test id
      */
-    public String getAuthorName() {
-        return authorName;
+    public int getId() {
+        return id;
     }
 
     /**
-     * @param authorName - name of author to set
+     * @param id-id to set
      */
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
-     * @return surname of author
+     * @return author id
      */
-    public String getAuthorSurname() {
-        return authorSurname;
+
+    public int getAuthorId() {
+        return authorId;
     }
 
     /**
-     * @param authorSurname name of author to set
+     * @param authorId -author id to set
      */
-    public void setAuthorSurname(String authorSurname) {
-        this.authorSurname = authorSurname;
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 
     /**
-     * @return subject
+     * @return test subject
      */
     public String getSubject() {
         return subject;
     }
 
     /**
-     * @param subject - subject to set
+     * @param subject-subject to set
      */
 
     public void setSubject(String subject) {
@@ -79,14 +88,15 @@ public class Test implements Serializable {
     }
 
     /**
-     * @return - name of test
+     * @return test name
      */
+
     public String getName() {
         return name;
     }
 
     /**
-     * @param name - name to set
+     * @param name-name to set
      */
 
     public void setName(String name) {
@@ -94,7 +104,7 @@ public class Test implements Serializable {
     }
 
     /**
-     * @return questions of test
+     * @return test questions
      */
 
     public List<Question> getQuestions() {
@@ -102,7 +112,7 @@ public class Test implements Serializable {
     }
 
     /**
-     * @param questions - questions to set
+     * @param questions-questions to set
      */
 
     public void setQuestions(List<Question> questions) {
@@ -110,8 +120,8 @@ public class Test implements Serializable {
     }
 
     /* (non-Javadoc)
-         * @see java.lang.Object#equals(java.lang.Object)
-         */
+     * @see java.lang.Object#equals()
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,36 +129,38 @@ public class Test implements Serializable {
 
         Test test = (Test) o;
 
-        if (!authorName.equals(test.authorName)) return false;
-        if (!authorSurname.equals(test.authorSurname)) return false;
-        if (!subject.equals(test.subject)) return false;
-        return name.equals(test.name) && questions.equals(test.questions);
+        if (id != test.id) return false;
+        if (authorId != test.authorId) return false;
+        if (subject != null ? !subject.equals(test.subject) : test.subject != null) return false;
+        if (name != null ? !name.equals(test.name) : test.name != null) return false;
+        return questions != null ? questions.equals(test.questions) : test.questions == null;
 
     }
 
     /* (non-Javadoc)
-      * @see java.lang.Object#hashCode()
-      */
+    * @see java.lang.Object#hashCode()
+    */
     @Override
     public int hashCode() {
-        int result = authorName.hashCode();
-        result = 31 * result + authorSurname.hashCode();
-        result = 31 * result + subject.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + questions.hashCode();
+        int result = id;
+        result = 31 * result + authorId;
+        result = 31 * result + (subject != null ? subject.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (questions != null ? questions.hashCode() : 0);
         return result;
     }
 
     /* (non-Javadoc)
-         * @see java.lang.Object#toString()
-         */
+    * @see java.lang.Object#toString()
+    */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Тест ");
-        sb.append(name).append("\n");
-        for (Question question : questions) {
-            sb.append(question).append("\n");
-        }
-        return sb.toString();
+        return "Test{" +
+                "id=" + id +
+                ", authorId=" + authorId +
+                ", subject='" + subject + '\'' +
+                ", name='" + name + '\'' +
+                ", questions=" + questions +
+                '}';
     }
 }

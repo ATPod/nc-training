@@ -6,6 +6,8 @@ import by.training.nc.dev5.entities.Account;
 import by.training.nc.dev5.exceptions.NotCorrectIdException;
 import by.training.nc.dev5.exceptions.NotCorrectPasswordException;
 import by.training.nc.dev5.services.ClientService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import java.util.Scanner;
 public class App {
     private static ArrayList<Client> clientlist;
     private static int arrid[],arrpass[];
+    static Logger logger = LogManager.getLogger(App.class);
+    static Client tempClient;
 
     public static void getIdAndPass(){
         Scanner in = new Scanner(System.in);
@@ -52,7 +56,7 @@ public class App {
         getIdAndPass();
         Account account = new Account();
         try {
-            creditcard = new CreditCard(arrid, arrpass, account);
+            creditcard = new CreditCard(arrid, arrpass, account,tempClient.getId());
             arrid = null;
             arrpass = null;
             return creditcard;
@@ -83,6 +87,7 @@ public class App {
         }else {
             System.out.println("Incorrect enter");
         }
+        tempClient = client;
         return client;
     }
 
@@ -226,7 +231,7 @@ public class App {
                     importClientFromFile();
                     break;
                 case 9:
-                    System.out.println("addClient,refilAccount,makePayment,viewCreditCard,serialize,deserialize,end");
+                    logger.info("addClient,refilAccount,makePayment,viewCreditCard,serialize,deserialize,end");
                     break;
                 case 10:
                     System.exit(0);

@@ -1,6 +1,7 @@
 package by.training.nc.dev5.beans.patient;
 
 
+import by.training.nc.dev5.beans.Entity;
 import by.training.nc.dev5.beans.patient.prescribing.*;
 
 import java.io.Serializable;
@@ -14,12 +15,20 @@ import java.util.List;
  * @author varchenko
  * @version 1.0
  */
-public class Patient implements Serializable{
+public class Patient extends Entity implements Serializable{
+
     private String name;
     private List<Diagnosis> diagnosises;
     private List<Drug> drugs;
     private List<Procedure> procedures;
     private List<Surgery> surgeries;
+
+    public Patient() {
+        this.diagnosises=new ArrayList<Diagnosis>();
+        this.drugs=new ArrayList<Drug>();
+        this.procedures=new ArrayList<Procedure>();
+        this.surgeries=new ArrayList<Surgery>();
+    }
 
     /**
      * Creates new entity of the class <b>{@code Patient}</b> and initialize it
@@ -32,6 +41,7 @@ public class Patient implements Serializable{
         this.procedures=new ArrayList<Procedure>();
         this.surgeries=new ArrayList<Surgery>();
     }
+
 
     /**
      *
@@ -141,7 +151,7 @@ public class Patient implements Serializable{
     @Override
     public String toString() {
         return "Patient{" +
-                "name='" + name + '\'' +
+                ", name='" + name + '\'' +
                 ", diagnosises=" + diagnosises +
                 ", drugs=" + drugs +
                 ", procedures=" + procedures +

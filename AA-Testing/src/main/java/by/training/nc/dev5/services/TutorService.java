@@ -31,7 +31,6 @@ public class TutorService {
         for (int i = 0; i < questionAmount; i++) {
             questions.add(ConsoleOperations.inputQuestion());
         }
-        return new Test(tutor.getName(), tutor.getSurname(),
-                tutor.getSubject(), testName, questions);
+        return null;
     }
 }

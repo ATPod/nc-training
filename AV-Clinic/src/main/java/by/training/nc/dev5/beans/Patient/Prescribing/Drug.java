@@ -9,7 +9,10 @@ import java.io.Serializable;
  * @author varchenko
  * @version 1.0
  */
-public class Drug extends AbstractPrescribing implements Serializable {
+public class Drug extends Prescribing implements Serializable {
+    public Drug(){
+        super();
+    }
     /**
      * Creates new entity of the class <b>{@code Drug}</b> and initialize it
      * @param name 						- name of drug

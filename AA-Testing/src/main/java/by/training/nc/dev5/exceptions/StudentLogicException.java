@@ -1,8 +1,5 @@
 package by.training.nc.dev5.exceptions;
 
-/**
- * Created by NotePad.by on 18.03.2017.
- */
 public class StudentLogicException extends Exception {
     public StudentLogicException() {
     }
