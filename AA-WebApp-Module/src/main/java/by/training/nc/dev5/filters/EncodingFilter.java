@@ -1,6 +1,3 @@
-/**
- * Copyright (c) 2015, Khudnitsky. All rights reserved.
- */
 package by.training.nc.dev5.filters;
 
 import javax.servlet.*;
