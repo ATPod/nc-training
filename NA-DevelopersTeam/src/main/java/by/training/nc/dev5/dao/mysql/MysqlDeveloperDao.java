@@ -4,6 +4,7 @@ import by.training.nc.dev5.dao.DeveloperDao;
 import by.training.nc.dev5.dao.ProjectDao;
 import by.training.nc.dev5.dao.QualificationDao;
 import by.training.nc.dev5.entity.Developer;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,6 +38,10 @@ public class MysqlDeveloperDao
             "SELECT id, name, project_id, qualification_id" +
             " FROM developer" +
             " WHERE ISNULL(project_id) AND qualification_id = ?";
+    private static final String SELECT_DEVELOPERS_BY_PROJECT_QUERY =
+            "SELECT id, name, project_id, qualification_id" +
+            " FROM developer" +
+            " WHERE project_id = ?";
 
     /**
      * Gets all instances of type {@code E} that are located in data storage
@@ -44,7 +49,7 @@ public class MysqlDeveloperDao
      * @return a collection of objects of type {@code E} located in the storage. If no
      * objects found, empty collection is returned.
      */
-    public Collection<Developer> getAll() {
+    public Collection<Developer> getAll() throws DataAccessException {
         return getAll(SELECT_ALL_DEVELOPERS_QUERY);
     }
 
@@ -54,13 +59,13 @@ public class MysqlDeveloperDao
      * @param id a unique identifier of desired record
      * @return a record from the storage or {@code null} if no found
      */
-    public Developer getEntityById(Integer id) {
+    public Developer getEntityById(Integer id) throws DataAccessException {
         return getSingleResultByIntParameter(id, SELECT_DEVELOPER_BY_ID_QUERY);
     }
 
     @Override
     protected Developer fetchEntity(ResultSet rs)
-            throws SQLException {
+            throws SQLException, DataAccessException {
         Developer d = new Developer();
         ProjectDao projectDao = new MysqlProjectDao();
         QualificationDao qualificationDao = new MysqlQualificationDao();
@@ -90,7 +95,7 @@ public class MysqlDeveloperDao
      * @param entity an entity to update
      * @return true if entity exists and was updated, false otherwise
      */
-    public boolean update(Developer entity) {
+    public boolean update(Developer entity) throws DataAccessException {
         Connection conn = getConnection();
 
         try {
@@ -125,7 +130,7 @@ public class MysqlDeveloperDao
      * @param id an identifier of entry to delete
      * @return true if entry existed and was deleted, false otherwise
      */
-    public boolean delete(Integer id) {
+    public boolean delete(Integer id) throws DataAccessException {
         return delete(id, DELETE_DEVELOPER_QUERY);
     }
 
@@ -136,7 +141,7 @@ public class MysqlDeveloperDao
      * @param entity an entity to create
      * @return an id of created entity
      */
-    public Integer create(Developer entity) {
+    public Integer create(Developer entity) throws DataAccessException {
         Connection conn = getConnection();
 
         try {
@@ -157,7 +162,11 @@ public class MysqlDeveloperDao
 
             generatedKeys.next();
 
-            return (int) generatedKeys.getLong(1);
+            int id = (int) generatedKeys.getLong(1);
+
+            entity.setId(id);
+
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
             // todo
@@ -168,7 +177,7 @@ public class MysqlDeveloperDao
         return null;
     }
 
-    public Collection<Developer> getUnassignedDevelopers(Integer qualificationId) {
+    public Collection<Developer> getUnassignedDevelopers(Integer qualificationId) throws DataAccessException {
         Connection conn = getConnection();
 
         try {
@@ -204,8 +213,10 @@ public class MysqlDeveloperDao
      * @return a collection of developers that are assigned to project
      * identified by {@code projectId}
      */
-    public Collection<Developer> getDevelopers(Integer projectId) {
-        // todo
-        return null;
+    public Collection<Developer> getDevelopers(Integer projectId)
+            throws DataAccessException {
+
+        return getCollectionByIntParameter(
+                projectId, SELECT_DEVELOPERS_BY_PROJECT_QUERY);
     }
 }

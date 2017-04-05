@@ -4,6 +4,7 @@ import by.training.nc.dev5.dao.DaoFactory;
 import by.training.nc.dev5.dao.TimeSheetDao;
 import by.training.nc.dev5.entity.Developer;
 import by.training.nc.dev5.entity.TimeSheet;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +25,10 @@ public class TimeTrackingService {
         timeSheet.setProject(developer.getProject());
         timeSheet.setDeveloper(developer);
 
-        timeSheetDao.create(timeSheet);
+        try {
+            timeSheetDao.create(timeSheet);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

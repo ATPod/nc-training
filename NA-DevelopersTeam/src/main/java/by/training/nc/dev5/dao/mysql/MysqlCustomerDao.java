@@ -2,6 +2,8 @@ package by.training.nc.dev5.dao.mysql;
 
 import by.training.nc.dev5.dao.CustomerDao;
 import by.training.nc.dev5.entity.Customer;
+import by.training.nc.dev5.exception.ConnectionException;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +21,7 @@ public class MysqlCustomerDao
     private static final String SELECT_ALL_CUSTOMERS_QUERY =
             "SELECT id, name FROM customer";
     private static final String SELECT_CUSTOMER_BY_ID_QUERY =
-            "SELECT name FROM customer WHERE id = ?";
+            "SELECT id, name FROM customer WHERE id = ?";
     private static final String UPDATE_CUSTOMER_QUERY =
             "UPDATE customer SET name = ? WHERE id = ?";
     private static final String DELETE_FROM_CUSTOMER_QUERY =
@@ -27,7 +29,7 @@ public class MysqlCustomerDao
     private static final String INSERT_INTO_CUSTOMER_QUERY =
             "INSERT INTO customer(name) VALUES (?)";
 
-    public Collection<Customer> getAll() {
+    public Collection<Customer> getAll() throws DataAccessException {
         return getAll(SELECT_ALL_CUSTOMERS_QUERY);
     }
 
@@ -37,7 +39,7 @@ public class MysqlCustomerDao
      * @param id a unique identifier of desired record
      * @return a record from the storage or {@code null} if no found
      */
-    public Customer getEntityById(Integer id) {
+    public Customer getEntityById(Integer id) throws DataAccessException {
         return getSingleResultByIntParameter(id, SELECT_CUSTOMER_BY_ID_QUERY);
     }
 
@@ -59,7 +61,7 @@ public class MysqlCustomerDao
      * @param entity an entity to update
      * @return true if entity exists and was updated, false otherwise
      */
-    public boolean update(Customer entity) {
+    public boolean update(Customer entity) throws DataAccessException {
         Connection connection = getConnection();
 
         try {
@@ -88,7 +90,7 @@ public class MysqlCustomerDao
      * @param id an identifier of entry to delete
      * @return true if entry existed and was deleted, false otherwise
      */
-    public boolean delete(Integer id) {
+    public boolean delete(Integer id) throws DataAccessException {
         return delete(id, DELETE_FROM_CUSTOMER_QUERY);
     }
 
@@ -99,7 +101,7 @@ public class MysqlCustomerDao
      * @param entity an entity to create
      * @return an id of created entity
      */
-    public Integer create(Customer entity) {
+    public Integer create(Customer entity) throws DataAccessException {
         Connection connection = getConnection();
 
         try {
@@ -115,7 +117,11 @@ public class MysqlCustomerDao
             generatedKeys = ps.getGeneratedKeys();
             generatedKeys.next();
 
-            return (int) generatedKeys.getLong(1);
+            int id = (int) generatedKeys.getLong(1);
+
+            entity.setId(id);
+
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
             // todo

@@ -4,6 +4,7 @@ import by.training.nc.dev5.dao.ManagerDao;
 import by.training.nc.dev5.dao.ProjectDao;
 import by.training.nc.dev5.dao.TermsOfReferenceDao;
 import by.training.nc.dev5.entity.Project;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,7 +39,7 @@ public class MysqlProjectDao
             " FROM project" +
             " WHERE terms_of_reference_id = ?";
 
-    protected Project fetchEntity(ResultSet rs) throws SQLException {
+    protected Project fetchEntity(ResultSet rs) throws SQLException, DataAccessException {
         Project project = new Project();
         TermsOfReferenceDao torDao = new MysqlTermsOfReferenceDao();
         ManagerDao managerDao = new MysqlManagerDao();
@@ -52,15 +53,15 @@ public class MysqlProjectDao
         return project;
     }
 
-    public Collection<Project> getAll() {
+    public Collection<Project> getAll() throws DataAccessException {
         return getAll(SELECT_ALL_PROJECTS_QUERY);
     }
 
-    public Project getEntityById(Integer id) {
+    public Project getEntityById(Integer id) throws DataAccessException {
         return getSingleResultByIntParameter(id, SELECT_PROJECT_BY_ID_QUERY);
     }
 
-    public boolean update(Project entity) {
+    public boolean update(Project entity) throws DataAccessException {
         Connection conn = getConnection();
 
         try {
@@ -82,11 +83,11 @@ public class MysqlProjectDao
         return false;
     }
 
-    public boolean delete(Integer id) {
+    public boolean delete(Integer id) throws DataAccessException {
         return delete(id, DELETE_PROJECT_QUERY);
     }
 
-    public Integer create(Project entity) {
+    public Integer create(Project entity) throws DataAccessException {
         Connection conn = getConnection();
 
         try {
@@ -103,7 +104,11 @@ public class MysqlProjectDao
 
             generatedKeys.next();
 
-            return (int) generatedKeys.getLong(1);
+            int id = (int) generatedKeys.getLong(1);
+
+            entity.setId(id);
+
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
             // todo
@@ -114,7 +119,7 @@ public class MysqlProjectDao
         return null;
     }
 
-    public Project getProject(Integer termsOfReferenceId) {
+    public Project getProject(Integer termsOfReferenceId) throws DataAccessException {
         return getSingleResultByIntParameter(termsOfReferenceId,
                 SELECT_PROJECT_BY_TERMS_OF_REFERENCE_QUERY);
     }

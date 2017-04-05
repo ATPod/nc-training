@@ -3,6 +3,7 @@ package by.training.nc.dev5.dao.mysql;
 import by.training.nc.dev5.dao.CustomerDao;
 import by.training.nc.dev5.dao.TermsOfReferenceDao;
 import by.training.nc.dev5.entity.TermsOfReference;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,8 +31,9 @@ public class MysqlTermsOfReferenceDao
     private static final String INSERT_INTO_TERMS_OF_REFERENCE_QUERY =
             "INSERT  INTO terms_of_reference(customer_id) VALUES (?)";
 
-//TODO
-    protected TermsOfReference fetchEntity(ResultSet rs) throws SQLException {
+    protected TermsOfReference fetchEntity(ResultSet rs)
+            throws SQLException, DataAccessException {
+
         TermsOfReference termsOfReference = new TermsOfReference();
         CustomerDao customerDao = new MysqlCustomerDao();
         int customerId = rs.getInt("customer_id");
@@ -47,7 +49,7 @@ public class MysqlTermsOfReferenceDao
      * @return a collection of objects of type {@code E} located in the storage. If no
      * objects found, empty collection is returned.
      */
-    public Collection<TermsOfReference> getAll() {
+    public Collection<TermsOfReference> getAll() throws DataAccessException {
         return getAll(SELECT_ALL_TERMS_OF_REFERENCES_QUERY);
     }
 
@@ -57,8 +59,9 @@ public class MysqlTermsOfReferenceDao
      * @param id a unique identifier of desired record
      * @return a record from the storage or {@code null} if no found
      */
-    public TermsOfReference getEntityById(Integer id) {
-        return getSingleResultByIntParameter(id, SELECT_TERMS_OF_REFERENCE_BY_ID_QUERY);
+    public TermsOfReference getEntityById(Integer id) throws DataAccessException {
+        return getSingleResultByIntParameter(
+                id, SELECT_TERMS_OF_REFERENCE_BY_ID_QUERY);
     }
 
     /**
@@ -69,7 +72,7 @@ public class MysqlTermsOfReferenceDao
      * @param entity an entity to update
      * @return true if entity exists and was updated, false otherwise
      */
-    public boolean update(TermsOfReference entity) {
+    public boolean update(TermsOfReference entity) throws DataAccessException {
         Connection conn = getConnection();
 
         try {
@@ -96,7 +99,7 @@ public class MysqlTermsOfReferenceDao
      * @param id an identifier of entry to delete
      * @return true if entry existed and was deleted, false otherwise
      */
-    public boolean delete(Integer id) {
+    public boolean delete(Integer id) throws DataAccessException {
         return delete(id, DELETE_FROM_TERMS_OF_REFERENCE_QUERY);
     }
 
@@ -107,7 +110,7 @@ public class MysqlTermsOfReferenceDao
      * @param entity an entity to create
      * @return an id of created entity
      */
-    public Integer create(TermsOfReference entity) {
+    public Integer create(TermsOfReference entity) throws DataAccessException {
         Connection conn = getConnection();
 
         try {

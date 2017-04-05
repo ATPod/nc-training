@@ -2,6 +2,7 @@ package by.training.nc.dev5.dao.mysql;
 
 import by.training.nc.dev5.dao.ManagerDao;
 import by.training.nc.dev5.entity.Manager;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,28 +34,8 @@ public class MysqlManagerDao
      * @return a collection of objects of type {@code E} located in the storage. If no
      * objects found, empty collection is returned.
      */
-    public Collection<Manager> getAll() {
-        Connection conn = getConnection();
-
-        try {
-            PreparedStatement ps = conn.prepareStatement(
-                    SELECT_ALL_MANAGERS_QUERY);
-            ResultSet rs = ps.executeQuery();
-            Collection<Manager> result = new ArrayList<Manager>();
-
-            while (rs.next()) {
-                result.add(fetchEntity(rs));
-            }
-
-            return result;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
-        } finally {
-            disposeConnection(conn);
-        }
-
-        return null;
+    public Collection<Manager> getAll() throws DataAccessException {
+        return getAll(SELECT_ALL_MANAGERS_QUERY);
     }
 
     @Override
@@ -73,7 +54,7 @@ public class MysqlManagerDao
      * @param id a unique identifier of desired record
      * @return a record from the storage or {@code null} if no found
      */
-    public Manager getEntityById(Integer id) {
+    public Manager getEntityById(Integer id) throws DataAccessException {
         return getSingleResultByIntParameter(id, SELECT_MANAGER_BY_ID_QUERY);
     }
 
@@ -85,7 +66,7 @@ public class MysqlManagerDao
      * @param entity an entity to update
      * @return true if entity exists and was updated, false otherwise
      */
-    public boolean update(Manager entity) {
+    public boolean update(Manager entity) throws DataAccessException {
         Connection conn = getConnection();
 
         try {
@@ -112,7 +93,7 @@ public class MysqlManagerDao
      * @param id an identifier of entry to delete
      * @return true if entry existed and was deleted, false otherwise
      */
-    public boolean delete(Integer id) {
+    public boolean delete(Integer id) throws DataAccessException {
         return delete(id, DELETE_MANAGER_QUERY);
     }
 
@@ -123,7 +104,7 @@ public class MysqlManagerDao
      * @param entity an entity to create
      * @return an id of created entity
      */
-    public Integer create(Manager entity) {
+    public Integer create(Manager entity) throws DataAccessException {
         Connection conn = getConnection();
 
         try {
@@ -139,7 +120,11 @@ public class MysqlManagerDao
 
             generatedKeys.next();
 
-            return (int) generatedKeys.getLong(1);
+            int id = (int) generatedKeys.getLong(1);
+
+            entity.setId(id);
+
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
             // todo

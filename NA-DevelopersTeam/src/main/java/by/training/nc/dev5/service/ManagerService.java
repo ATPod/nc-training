@@ -2,6 +2,7 @@ package by.training.nc.dev5.service;
 
 import by.training.nc.dev5.dao.*;
 import by.training.nc.dev5.entity.*;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.util.Collection;
 
@@ -11,39 +12,64 @@ import java.util.Collection;
 public class ManagerService {
     private final DaoFactory daoFactory = DaoFactory.getDaoFactory(DaoFactory.MYSQL);
 
-    public TermsOfReferenceBuilder getTermsOfReferenceBuilder() {
-        return new TermsOfReferenceBuilder() {
-        };
-    }
+    public Project applyTermsOfReference(
+            Manager manager,
+            TermsOfReference termsOfReference) {
 
-    public Project applyTermsOfReference(Manager manager,
-                                      TermsOfReference termsOfReference) {
         Project project = new Project();
-        ProjectDao dao = daoFactory.getProjectDao();
+        ProjectDao projectDao = daoFactory.getProjectDao();
 
         project.setTermsOfReference(termsOfReference);
         project.setManager(manager);
 
-        project.setId(dao.create(project));
-
-        assignDevelopers(termsOfReference);
+        try {
+            persistTermsOfReference(termsOfReference);
+            projectDao.create(project);
+            assignDevelopers(project);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            // todo
+        }
 
         return project;
     }
 
-    protected void assignDevelopers(TermsOfReference tor) {
-        TaskDao torDao = daoFactory.getTaskDao();
+    private void persistTermsOfReference(TermsOfReference tor)
+            throws DataAccessException {
 
-        for (Task task : torDao.getTasks(tor.getId())) {
-            assignDevelopersForTask(task);
+        TermsOfReferenceDao torDao = daoFactory.getTermsOfReferenceDao();
+        TaskDao taskDao = daoFactory.getTaskDao();
+        TaskQuotaDao taskQuotaDao = daoFactory.getTaskQuotaDao();
+
+        torDao.create(tor);
+        for (Task task : tor.getTasks()) {
+            taskDao.create(task);
+
+            for (TaskQuota taskQuota : task.getTaskQuotas()) {
+                taskQuotaDao.create(taskQuota);
+            }
         }
     }
 
-    private void assignDevelopersForTask(Task task) {
+    private void assignDevelopers(Project project)
+            throws DataAccessException {
+
+        TaskDao torDao = daoFactory.getTaskDao();
+        Collection<Task> tasks;
+
+        tasks = torDao.getTasks(project.getTermsOfReference().getId());
+
+        for (Task task : tasks) {
+            assignDevelopersForTask(project, task);
+        }
+    }
+
+    private void assignDevelopersForTask(Project project, Task task)
+            throws DataAccessException {
+
         DeveloperDao devDao = daoFactory.getDeveloperDao();
         TermsOfReference tor = task.getTermsOfReference();
         TaskQuotaDao taskQuotaDao = daoFactory.getTaskQuotaDao();
-        ProjectDao projectDao = daoFactory.getProjectDao();
 
         for (TaskQuota tq : taskQuotaDao.getTaskQuotas(task.getId())) {
             Collection<Developer> developers;
@@ -56,7 +82,7 @@ public class ManagerService {
             }
 
             for (Developer d : developers) {
-                d.setProject(projectDao.getProject(tor.getId()));
+                d.setProject(project);
                 devDao.update(d);
             }
         }

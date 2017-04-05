@@ -22,6 +22,7 @@ public class Connector {
 
     public Connection getConnection() throws ConnectionException {
         ConfigurationManager config = ConfigurationManager.getInstance();
+
         String url = config.getString("database.url");
         String user = config.getString("database.user");
         String password = config.getString("database.password");
@@ -32,13 +33,13 @@ public class Connector {
 
             return DriverManager.getConnection(url, user, password);
         } catch (InstantiationException e) {
-            throw new ConnectionException(e);
+            throw new ConnectionException("Failed to instantiate driver", e);
         } catch (ClassNotFoundException e) {
-            throw new ConnectionException(e);
+            throw new ConnectionException("Driver was not loaded", e);
         } catch (IllegalAccessException e) {
-            throw new ConnectionException(e);
+            throw new ConnectionException("Inaccessible driver class", e);
         } catch (SQLException e) {
-            throw new ConnectionException(e);
+            throw new ConnectionException("Could not connect to database", e);
         }
     }
 }

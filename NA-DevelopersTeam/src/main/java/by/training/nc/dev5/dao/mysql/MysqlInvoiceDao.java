@@ -3,6 +3,7 @@ package by.training.nc.dev5.dao.mysql;
 import by.training.nc.dev5.dao.InvoiceDao;
 import by.training.nc.dev5.dao.ProjectDao;
 import by.training.nc.dev5.entity.Invoice;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,12 +32,12 @@ public class MysqlInvoiceDao
             "INSERT INTO invoice(project_id, price, paid)" +
                     " VALUES (?, ?, ?)";
 
-    public Collection<Invoice> getAll() {
+    public Collection<Invoice> getAll() throws DataAccessException {
         return getAll(SELECT_ALL_INVOICES_QUERY);
     }
 
     @Override
-    protected Invoice fetchEntity(ResultSet rs) throws SQLException {
+    protected Invoice fetchEntity(ResultSet rs) throws SQLException, DataAccessException {
         Invoice invoice = new Invoice();
         ProjectDao projectDao = new MysqlProjectDao();
         int projectId = rs.getInt("project_id");
@@ -49,11 +50,11 @@ public class MysqlInvoiceDao
         return invoice;
     }
 
-    public Invoice getEntityById(Integer id) {
+    public Invoice getEntityById(Integer id) throws DataAccessException {
         return getSingleResultByIntParameter(id, SELECT_INVOICE_BY_ID_QUERY);
     }
 
-    public boolean update(Invoice entity) {
+    public boolean update(Invoice entity) throws DataAccessException {
         Connection conn = getConnection();
 
         try {
@@ -76,11 +77,11 @@ public class MysqlInvoiceDao
         return false;
     }
 
-    public boolean delete(Integer id) {
+    public boolean delete(Integer id) throws DataAccessException {
         return delete(id, DELETE_INVOICE_QUERY);
     }
 
-    public Integer create(Invoice entity) {
+    public Integer create(Invoice entity) throws DataAccessException {
         Connection conn = getConnection();
 
         try {
@@ -98,7 +99,11 @@ public class MysqlInvoiceDao
 
             generatedKeys.next();
 
-            return (int) generatedKeys.getLong(1);
+            int id = (int) generatedKeys.getLong(1);
+
+            entity.setId(id);
+
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
             // todo

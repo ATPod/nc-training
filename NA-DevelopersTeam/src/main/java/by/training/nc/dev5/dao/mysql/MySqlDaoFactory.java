@@ -2,6 +2,8 @@ package by.training.nc.dev5.dao.mysql;
 
 import by.training.nc.dev5.dao.*;
 import by.training.nc.dev5.entity.*;
+import by.training.nc.dev5.exception.ConnectionException;
+import by.training.nc.dev5.util.Connector;
 
 import java.sql.Connection;
 
@@ -9,9 +11,6 @@ import java.sql.Connection;
  * Created by Nikita on 27.03.2017.
  */
 public class MysqlDaoFactory extends DaoFactory {
-    private Connection getConnection() {
-        return null;
-    }
 
     /**
      * Obtains an implementation of {@link CustomerDao} interface
@@ -83,7 +82,7 @@ public class MysqlDaoFactory extends DaoFactory {
      * @return a dao for {@link TimeSheet} objects
      */
     public TimeSheetDao getTimeSheetDao() {
-        return null;
+        return new MysqlTimeSheetDao();
     }
 
     /**
@@ -103,6 +102,6 @@ public class MysqlDaoFactory extends DaoFactory {
      * objects
      */
     public TaskQuotaDao getTaskQuotaDao() {
-        return null;
+        return new MysqlTaskQuotaDao();
     }
 }

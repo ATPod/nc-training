@@ -1,6 +1,7 @@
 package by.training.nc.dev5.dao;
 
 import by.training.nc.dev5.entity.TimeSheet;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.util.Collection;
 
@@ -13,5 +14,5 @@ public interface TimeSheetDao extends AbstractDao<TimeSheet, Integer> {
      * @param developerId   an id of developer to see time sheets of
      * @return a collection of {@link TimeSheet} objects
      */
-    Collection<TimeSheet> getTimeSheets(Integer developerId);
+    Collection<TimeSheet> getTimeSheets(Integer developerId) throws DataAccessException;
 }

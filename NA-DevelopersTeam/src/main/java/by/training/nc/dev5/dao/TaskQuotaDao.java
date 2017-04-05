@@ -1,6 +1,7 @@
 package by.training.nc.dev5.dao;
 
 import by.training.nc.dev5.entity.TaskQuota;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.util.Collection;
 
@@ -13,5 +14,5 @@ public interface TaskQuotaDao extends AbstractDao<TaskQuota, Integer> {
      * @param taskId a task id to get task quotas of
      * @return a collection of task quotas
      */
-    Collection<TaskQuota> getTaskQuotas(int taskId);
+    Collection<TaskQuota> getTaskQuotas(int taskId) throws DataAccessException;
 }

@@ -1,5 +1,6 @@
 package by.training.nc.dev5;
 
+import by.training.nc.dev5.dao.mysql.MysqlCustomerDaoTest;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -25,7 +26,9 @@ public class AppTest
      */
     public static Test suite()
     {
-        return new TestSuite( AppTest.class );
+        return new TestSuite(
+                AppTest.class,
+                MysqlCustomerDaoTest.class);
     }
 
     /**

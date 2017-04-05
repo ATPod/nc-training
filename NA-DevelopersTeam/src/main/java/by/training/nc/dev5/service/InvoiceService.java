@@ -4,6 +4,7 @@ import by.training.nc.dev5.dao.DaoFactory;
 import by.training.nc.dev5.dao.InvoiceDao;
 import by.training.nc.dev5.entity.Invoice;
 import by.training.nc.dev5.entity.Project;
+import by.training.nc.dev5.exception.DataAccessException;
 
 /**
  * Created by Nikita on 28.03.2017.
@@ -19,13 +20,23 @@ public class InvoiceService {
         invoice.setPrice(price);
         invoice.setPaid(false);
 
-        invoice.setId(invoiceDao.create(invoice));
+        try {
+            invoice.setId(invoiceDao.create(invoice));
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            // todo
+        }
     }
 
     public void payInvoice(Invoice invoice) {
         InvoiceDao invoiceDao = daoFactory.getInvoiceDao();
 
         invoice.setPaid(true);
-        invoiceDao.update(invoice);
+        try {
+            invoiceDao.update(invoice);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            // todo
+        }
     }
 }

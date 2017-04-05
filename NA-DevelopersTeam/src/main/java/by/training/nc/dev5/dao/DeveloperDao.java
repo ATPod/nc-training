@@ -4,6 +4,7 @@ import by.training.nc.dev5.entity.Developer;
 import by.training.nc.dev5.entity.Project;
 import by.training.nc.dev5.entity.Qualification;
 import by.training.nc.dev5.entity.TimeSheet;
+import by.training.nc.dev5.exception.DataAccessException;
 
 import java.util.Collection;
 
@@ -17,7 +18,7 @@ public interface DeveloperDao extends AbstractDao<Developer, Integer> {
      * @param qualificationId qualification of developers to look up.
      * @return a collection of {@link Developer} objects
      */
-    Collection<Developer> getUnassignedDevelopers(Integer qualificationId);
+    Collection<Developer> getUnassignedDevelopers(Integer qualificationId) throws DataAccessException;
 
     /**
      * Gets developers assigned to this project
@@ -25,5 +26,5 @@ public interface DeveloperDao extends AbstractDao<Developer, Integer> {
      * @return a collection of developers that are assigned to project
      * identified by {@code projectId}
      */
-    Collection<Developer> getDevelopers(Integer projectId);
+    Collection<Developer> getDevelopers(Integer projectId) throws DataAccessException;
 }
