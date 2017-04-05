@@ -11,16 +11,15 @@ import java.util.NoSuchElementException;
  *
  */
 public class Runner {
+
     private static final Logger log = Logger.getLogger(Runner.class);
+
     public static void main(String[] args) {
         try{
-            Manager.initialization();
-            Manager.mainMenu();
+            Menu.mainMenu();
         }
         catch(NoSuchElementException e){
-            log.error(e.getMessage(), e);
-            log.info("ОШИБКА. Проверьте корректность файлов и перезапустите приложение.");
+            log.error(e);
         }
-
     }
 }

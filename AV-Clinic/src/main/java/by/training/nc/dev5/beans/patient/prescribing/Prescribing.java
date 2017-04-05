@@ -25,6 +25,7 @@ public class Prescribing extends Entity {
         this.name = name;
     }
 
+
     /**
      *
      * @return the name
