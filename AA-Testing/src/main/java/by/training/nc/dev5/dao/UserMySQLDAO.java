@@ -4,6 +4,7 @@ import by.training.nc.dev5.beans.users.Student;
 import by.training.nc.dev5.beans.users.Tutor;
 import by.training.nc.dev5.beans.users.User;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
+import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
 import by.training.nc.dev5.sql.SQLQueries;
 
 import java.sql.*;
@@ -144,5 +145,51 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
         }
 
         return users;
+    }
+
+    @Override
+    public List<User> getAll(String where,String... params) {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(where)
+        ) {
+            int paramAmount=params.length;
+            for(int i=0;i<paramAmount;i++)
+            {
+                statement.setString((i+1),params[i]);
+            }
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                User user = find(id);
+                if (user != null) {
+                    users.add(user);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+
+    public User getAuthorizedUser(String login, String password) {
+        User user = null;
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQLQueries.FIND_BY_LOGIN_PASSWORD)
+        ) {
+            statement.setString(1, login);
+            statement.setString(2, password);
+            ResultSet rs = statement.executeQuery();
+            if (rs != null) {
+                rs.next();
+                int id = rs.getInt("id");
+                user = find(id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }

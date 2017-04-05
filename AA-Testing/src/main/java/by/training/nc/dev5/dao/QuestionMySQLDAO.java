@@ -3,6 +3,7 @@ package by.training.nc.dev5.dao;
 import by.training.nc.dev5.beans.test.Option;
 import by.training.nc.dev5.beans.test.Question;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
+import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
 import by.training.nc.dev5.sql.SQLQueries;
 
 import java.sql.Connection;
@@ -109,5 +110,10 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
         }
 
         return questions;
+    }
+
+    @Override
+    public List<Question> getAll(String where,String...params) {
+        return null;
     }
 }

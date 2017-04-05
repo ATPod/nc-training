@@ -1,8 +1,8 @@
 package by.training.nc.dev5.dao;
 
 import by.training.nc.dev5.beans.test.Option;
-import by.training.nc.dev5.beans.users.User;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
+import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
 import by.training.nc.dev5.sql.SQLQueries;
 
 import java.sql.Connection;
@@ -107,5 +107,11 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
         }
 
         return options;
+    }
+
+    @Override
+    //params-параметры для запроса
+    public List<Option> getAll(String where,String...params) {
+        return null;
     }
 }
