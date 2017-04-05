@@ -9,6 +9,6 @@
 <h4>Выберите операцию:</h4>
 <a href="controller?command=showtests">Добавить тест в систему</a> <br/>
 <a href="controller?command=showresults">Просмотреть список студентов</a> <br/>
-<a href="controller?command=logoutuser">Выйти из системы</a> <br/>
+<a href="controller?command=LogoutUser">Выйти из системы</a> <br/>
 </body>
 </html>

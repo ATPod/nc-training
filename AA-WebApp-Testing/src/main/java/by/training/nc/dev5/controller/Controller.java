@@ -1,7 +1,7 @@
 package by.training.nc.dev5.controller;
 
 import by.training.nc.dev5.commands.Command;
-import by.training.nc.dev5.commands.Commands;
+import by.training.nc.dev5.commands.CommandFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +13,7 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = null;
-        Command command = Commands.defineCommand(request);
+        Command command = CommandFactory.defineCommand(request);
         page = command.execute(request);
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
@@ -31,6 +31,6 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
+        processRequest(request, response);
     }
 }

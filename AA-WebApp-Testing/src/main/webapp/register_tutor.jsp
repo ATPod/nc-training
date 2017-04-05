@@ -5,7 +5,7 @@
 </head>
 <body>
 <form name="registration" method="POST" action="controller?command=registertutor">
-    <input type="hidden" name="command" value="registertutor"/>
+    <input type="hidden" name="command" value="RegisterTutor"/>
     <p><b>Введите данные тьютора: </b></p>
     <table>
         <tr>

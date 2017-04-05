@@ -4,8 +4,8 @@
     <title>Регистрация студента</title>
 </head>
 <body>
-<form name="registration" method="POST" action="controller?command=registerstudent">
-    <input type="hidden" name="command" value="registerstudent"/>
+<form name="registration" method="POST" action="controller?command=RegisterStudent">
+    <input type="hidden" name="command" value="RegisterStudent"/>
     <p><b>Введите данные студента: </b></p>
     <table>
         <tr>

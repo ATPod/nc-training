@@ -6,8 +6,8 @@
     <title>Авторизация</title>
 </head>
 <body>
-<form name="loginForm" method="POST"action="controller?command=login">
-    <input type="hidden" name="command" value="login"/>
+<form name="loginForm" method="POST"action="controller?command=Login">
+    <input type="hidden" name="command" value="Login"/>
     <p><b>Вход в систему: </b></p>
     <table>
         <tr>

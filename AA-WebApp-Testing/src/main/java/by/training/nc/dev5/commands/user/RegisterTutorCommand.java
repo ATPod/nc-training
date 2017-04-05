@@ -1,10 +1,9 @@
 package by.training.nc.dev5.commands.user;
 
-import by.training.nc.dev5.beans.users.Student;
 import by.training.nc.dev5.beans.users.Tutor;
 import by.training.nc.dev5.beans.users.User;
 import by.training.nc.dev5.commands.AbstractCommand;
-import by.training.nc.dev5.commands.Commands;
+import by.training.nc.dev5.constants.JspPaths;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
 
@@ -22,6 +21,6 @@ public class RegisterTutorCommand extends AbstractCommand {
         String subject=request.getParameter("subject");
         Tutor tutor = new Tutor(0, name, surname, login, password, subject);
         dao.insert(tutor);
-        return Commands.REGISTERTUTOR.redirectJSP;
+        return JspPaths.LOGIN_PAGE_PATH;
     }
 }

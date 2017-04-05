@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Добро пожаловать в систему тестирования!</h1>
-<a href="controller?command=gotologin">Войти</a> <br/>
-<a href="controller?command=gotoregistration">Зарегистрироваться</a> <br/>
+<a href="controller?command=GoToLogin">Войти</a> <br/>
+<a href="controller?command=GoToRegistration">Зарегистрироваться</a> <br/>
 </body>
 </html>
