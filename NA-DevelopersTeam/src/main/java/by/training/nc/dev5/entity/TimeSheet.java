@@ -7,11 +7,11 @@ import java.util.Date;
  */
 public class TimeSheet {
     private int id;
+
     private Date date;
     private Developer developer;
     private Project project;
     private int time;
-
     /**
      * Gets the value of id
      *
@@ -100,5 +100,16 @@ public class TimeSheet {
      */
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    @Override
+    public String toString() {
+        return "TimeSheet{" +
+                "id=" + id +
+                ", date=" + date +
+                ", developer=" + developer +
+                ", project=" + project +
+                ", time=" + time +
+                '}';
     }
 }

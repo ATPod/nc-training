@@ -10,7 +10,26 @@ import java.util.Collection;
  * Created by Nikita on 28.03.2017.
  */
 public class ManagerService {
-    private final DaoFactory daoFactory = DaoFactory.getDaoFactory(DaoFactory.MYSQL);
+    private final DaoFactory daoFactory =
+            DaoFactory.getDaoFactory(DaoFactory.MYSQL);
+    private static ManagerService INSTANCE = new ManagerService();
+
+    public static ManagerService getInstance() {
+        return INSTANCE;
+    }
+
+    public Collection<TermsOfReference> getPendingTermsOfReference() {
+        TermsOfReferenceDao torDao = daoFactory.getTermsOfReferenceDao();
+
+        try {
+            return torDao.getTermsOfReferenceWithNoProject();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            // todo
+        }
+
+        return null;
+    }
 
     public Project applyTermsOfReference(
             Manager manager,
@@ -19,12 +38,14 @@ public class ManagerService {
         Project project = new Project();
         ProjectDao projectDao = daoFactory.getProjectDao();
 
+        termsOfReference.setProject(project);
         project.setTermsOfReference(termsOfReference);
         project.setManager(manager);
 
         try {
-            persistTermsOfReference(termsOfReference);
+            pullTermsOfReference(termsOfReference);
             projectDao.create(project);
+
             assignDevelopers(project);
         } catch (DataAccessException e) {
             e.printStackTrace();
@@ -34,20 +55,13 @@ public class ManagerService {
         return project;
     }
 
-    private void persistTermsOfReference(TermsOfReference tor)
+    private void pullTermsOfReference(TermsOfReference tor)
             throws DataAccessException {
 
-        TermsOfReferenceDao torDao = daoFactory.getTermsOfReferenceDao();
-        TaskDao taskDao = daoFactory.getTaskDao();
-        TaskQuotaDao taskQuotaDao = daoFactory.getTaskQuotaDao();
+        if (tor.getTasks() == null) {
+            TaskDao taskDao = daoFactory.getTaskDao();
 
-        torDao.create(tor);
-        for (Task task : tor.getTasks()) {
-            taskDao.create(task);
-
-            for (TaskQuota taskQuota : task.getTaskQuotas()) {
-                taskQuotaDao.create(taskQuota);
-            }
+            tor.setTasks(taskDao.getTasks(tor.getId()));
         }
     }
 

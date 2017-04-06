@@ -61,4 +61,13 @@ public class Project {
     public void setManager(Manager manager) {
         this.manager = manager;
     }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", manager=" + manager +
+                ", termsOfReference=" + termsOfReference +
+                '}';
+    }
 }

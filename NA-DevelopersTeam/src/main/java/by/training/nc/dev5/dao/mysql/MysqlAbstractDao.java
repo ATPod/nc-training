@@ -18,7 +18,7 @@ public abstract class MysqlAbstractDao<E> implements AbstractDao<E, Integer> {
         try {
             return Connector.getInstance().getConnection();
         } catch (ConnectionException e) {
-            throw new DataAccessException("Unable to obtain connection");
+            throw new DataAccessException("Unable to obtain connection", e);
         }
     }
 

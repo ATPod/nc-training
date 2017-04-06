@@ -82,4 +82,12 @@ public class TermsOfReference {
     public void setProject(Project project) {
         this.project = project;
     }
+
+    @Override
+    public String toString() {
+        return "TermsOfReference{" +
+                "id=" + id +
+                ", customer=" + customer +
+                '}';
+    }
 }

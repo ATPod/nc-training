@@ -80,4 +80,14 @@ public class Invoice {
     public void setProject(Project project) {
         this.project = project;
     }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "id=" + id +
+                ", price=" + price +
+                ", paid=" + paid +
+                ", project=" + project +
+                '}';
+    }
 }

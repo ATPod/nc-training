@@ -80,4 +80,14 @@ public class TaskQuota {
     public void setTask(Task task) {
         this.task = task;
     }
+
+    @Override
+    public String toString() {
+        return "TaskQuota{" +
+                "id=" + id +
+                ", developersNumber=" + developersNumber +
+                ", qualification=" + qualification +
+                ", task=" + task +
+                '}';
+    }
 }

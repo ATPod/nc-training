@@ -55,6 +55,14 @@ public class Customer {
     }
 
     @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         int result = getId();
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);

@@ -82,4 +82,13 @@ public class Task {
     public void setTaskQuotas(Collection<TaskQuota> taskQuotas) {
         this.taskQuotas = taskQuotas;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", specification='" + specification + '\'' +
+                ", termsOfReference=" + termsOfReference +
+                '}';
+    }
 }

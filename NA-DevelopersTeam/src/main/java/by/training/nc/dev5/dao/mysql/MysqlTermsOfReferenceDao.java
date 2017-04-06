@@ -30,15 +30,24 @@ public class MysqlTermsOfReferenceDao
             "DELETE FROM terms_of_reference WHERE id = ?";
     private static final String INSERT_INTO_TERMS_OF_REFERENCE_QUERY =
             "INSERT  INTO terms_of_reference(customer_id) VALUES (?)";
+    private static final String
+            SELECT_TERMS_OF_REFERENCE_WITH_NO_PROJECT_QUERY =
+                "SELECT t.id AS id, t.customer_id AS customer_id" +
+                "  FROM terms_of_reference t" +
+                "  LEFT JOIN project p" +
+                "  ON t.id = p.terms_of_reference_id" +
+                "  WHERE p.id IS NULL";
 
     protected TermsOfReference fetchEntity(ResultSet rs)
             throws SQLException, DataAccessException {
 
         TermsOfReference termsOfReference = new TermsOfReference();
         CustomerDao customerDao = new MysqlCustomerDao();
+
         int customerId = rs.getInt("customer_id");
 
         termsOfReference.setCustomer(customerDao.getEntityById(customerId));
+        termsOfReference.setId(rs.getInt("id"));
 
         return termsOfReference;
     }
@@ -135,5 +144,11 @@ public class MysqlTermsOfReferenceDao
         }
 
         return null;
+    }
+
+    public Collection<TermsOfReference> getTermsOfReferenceWithNoProject()
+            throws DataAccessException {
+
+        return getAll(SELECT_TERMS_OF_REFERENCE_WITH_NO_PROJECT_QUERY);
     }
 }
