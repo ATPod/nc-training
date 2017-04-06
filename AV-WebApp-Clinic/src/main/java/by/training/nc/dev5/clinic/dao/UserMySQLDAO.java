@@ -5,6 +5,7 @@ import by.training.nc.dev5.clinic.beans.User;
 import by.training.nc.dev5.clinic.constants.AccessLevels;
 import by.training.nc.dev5.clinic.constants.ColumnNames;
 import by.training.nc.dev5.clinic.constants.SqlRequests;
+import by.training.nc.dev5.clinic.dao.interfaces.UserDAO;
 import by.training.nc.dev5.clinic.filters.UserType;
 import by.training.nc.dev5.clinic.logger.ClinicLogger;
 
@@ -15,25 +16,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum  UserDAO implements AbstractDAO<User> {
+public enum UserMySQLDAO implements UserDAO {
     INSTANCE;
 
-    public List<User> findAll() throws SQLException {
-        //Connection connection = ConnectionPool.INSTANCE.getConnection();
-        //PreparedStatement statement = connection.prepareStatement(SqlRequests.GET_ALL_CLIENTS);
-        //ResultSet result = statement.executeQuery();
-        List<User> list = new ArrayList<User>();
-        /*while(result.next()){
-            User user = new User();
-            user.setFirstName(result.getString(ColumnNames.USER_FIRST_NAME));
-            user.setLastName(result.getString(ColumnNames.USER_LAST_NAME));
-            list.add(user);
-        }
-        ConnectionPool.INSTANCE.releaseConnection(connection);*/
-        return list;
-    }
-
-    public User getUserByLogin(String login) throws SQLException{
+    public User getByLogin(String login) throws SQLException{
         User user = null;
         Connection cn = null;
         PreparedStatement st = null;
@@ -130,7 +116,7 @@ public enum  UserDAO implements AbstractDAO<User> {
             st.setString(1, login);
             ResultSet result = st.executeQuery();
             while(result.next()){
-                if(AccessLevels.DOCTOR == result.getInt("access_level")){
+                if(AccessLevels.DOCTOR == result.getInt(ColumnNames.USER_ACCESS_LEVEL)){
                     userType = UserType.DOCTOR;
                 }
                 else{
@@ -152,7 +138,7 @@ public enum  UserDAO implements AbstractDAO<User> {
         return userType;
     }
 
-    public void createEntity(User user) throws SQLException{
+    public void add(User user) throws SQLException{
         Connection cn = null;
         PreparedStatement st = null;
         try {
@@ -176,7 +162,4 @@ public enum  UserDAO implements AbstractDAO<User> {
         }
     }
 
-    public User getEntityById(int id) throws SQLException {
-        throw new UnsupportedOperationException();
-    }
 }

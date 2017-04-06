@@ -8,13 +8,11 @@ public class ColumnNames {
     public static final String USER_LOGIN = "login";
     public static final String USER_PASSWORD = "password";
     public static final String USER_ACCESS_LEVEL = "access_level";
-    public static final String ACCOUNT_CURRENCY = "currency";
-    public static final String ACCOUNT_AMOUNT = "amount";
-    public static final String ACCOUNT_STATUS = "status";
-    public static final String CARD_ID = "cid";
-    public static final String CARD_VALIDITY = "validity";
-    public static final String OPERATION_ID = "oid";
-    public static final String OPERATION_DESCRIPTION = "description";
-    public static final String OPERATION_AMOUNT = "amount";
-    public static final String OPERATION_DATE = "date";
+
+    public static final String PRESCRIBING_ID = "id";
+    public static final String PRESCRIBING_NAME = "name";
+    public static final String PRESCRIBING_PATIENT_ID = "patientid";
+
+    public static final String PATIENT_ID = "id";
+    public static final String PATIENT_NAME = "name";
 }

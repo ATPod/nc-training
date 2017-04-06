@@ -5,7 +5,7 @@ import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
-import by.training.nc.dev5.clinic.dao.UserDAO;
+import by.training.nc.dev5.clinic.dao.UserMySQLDAO;
 import by.training.nc.dev5.clinic.logger.ClinicLogger;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
 import by.training.nc.dev5.clinic.managers.MessageManager;
@@ -72,7 +72,7 @@ public class RegistrationCommand extends AbstractCommand {
         user.setLogin(login);
         user.setPassword(password);
         user.setAccessLevel(Integer.valueOf(accessLevelString));
-        UserDAO.INSTANCE.createEntity(user);
+        UserMySQLDAO.INSTANCE.add(user);
     }
 
     private boolean areFieldsFullStocked(){
@@ -85,7 +85,7 @@ public class RegistrationCommand extends AbstractCommand {
 
     private boolean isNewUser() throws SQLException{
         boolean isNew = false;
-        if(UserDAO.INSTANCE.isNewUser(login)){
+        if(UserMySQLDAO.INSTANCE.isNewUser(login)){
             isNew = true;
         }
         return isNew;

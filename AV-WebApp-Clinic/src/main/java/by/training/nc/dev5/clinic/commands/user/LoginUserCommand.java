@@ -5,7 +5,7 @@ import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
-import by.training.nc.dev5.clinic.dao.UserDAO;
+import by.training.nc.dev5.clinic.dao.UserMySQLDAO;
 import by.training.nc.dev5.clinic.filters.UserType;
 import by.training.nc.dev5.clinic.logger.ClinicLogger;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
@@ -24,10 +24,10 @@ public class LoginUserCommand extends AbstractCommand {
         String page = null;
 
         try {
-            if(UserDAO.INSTANCE.isAuthorized(login, password)){
+            if(UserMySQLDAO.INSTANCE.isAuthorized(login, password)){
                 HttpSession session = request.getSession();
-                User user = UserDAO.INSTANCE.getUserByLogin(login);
-                UserType userType = UserDAO.INSTANCE.checkAccessLevel(login);
+                User user = UserMySQLDAO.INSTANCE.getByLogin(login);
+                UserType userType = UserMySQLDAO.INSTANCE.checkAccessLevel(login);
                 session.setAttribute(Parameters.USERTYPE, userType);
                 session.setAttribute(Parameters.USER, user);
                 if(UserType.DOCTOR.equals(userType)){

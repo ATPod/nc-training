@@ -59,8 +59,4 @@ public class ConnectionPool {
             }
         }
     }
-
-    public int getAvailableConnsCnt() {
-        return availableConns.size();
-    }
 }
