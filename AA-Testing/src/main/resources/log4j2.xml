@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <!-- Секция аппендеров -->
+    <Appenders>
+        <!-- Файловый аппендер -->
+        <File name="file" fileName="AA-Testing\src\main\java\by\training\nc\dev5\logger\log.txt">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern>
+            </PatternLayout>
+        </File>
+        <!--Консольный аппендер-->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{ABSOLUTE} %5p %t %c{1}:%M:%L - %m%n"/>
+        </Console>
+    </Appenders>
+    <!-- Секция логгеров -->
+    <Loggers>
+        <!-- Корневой логгер -->
+        <Root level="trace">
+            <AppenderRef ref="file" level="TRACE"/>
+        </Root>
+        <!-- Логгер для классов пакета -->
+        <Logger name="by.training.nc.dev5" level="trace" additivity="false">
+            <AppenderRef ref="file" level="TRACE"/>
+        </Logger>
+    </Loggers>
+</Configuration>

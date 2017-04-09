@@ -4,6 +4,7 @@ import by.training.nc.dev5.beans.test.Option;
 import by.training.nc.dev5.beans.test.Question;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
+import by.training.nc.dev5.logger.TestingSystemLogger;
 import by.training.nc.dev5.sql.SQLQueries;
 
 import java.sql.Connection;
@@ -26,13 +27,13 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
                 rs.next();
                 Question question = new Question();
                 question.setId(rs.getInt("id"));
-                question.setText(rs.getString("text"));
                 question.setScores(rs.getInt("scores"));
+                question.setText(rs.getString("text"));
                 question.setTestId(rs.getInt("fk_test"));
                 return question;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return null;
     }
@@ -45,15 +46,15 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
         ) {
             statement.setInt(1, question.getId());
             statement.setString(2, question.getText());
-            statement.setInt(3, question.getScores());
             statement.setInt(4, question.getTestId());
+            statement.setInt(3, question.getScores());
             InterfaceDAO<Option> optionMySQLDAO = new MySQLDAOFactory().getOptionDAO();
             for (Option option : question.getAnswerOptions()) {
                 optionMySQLDAO.insert(option);
             }
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return (modifiedRows > 0);
     }
@@ -65,13 +66,13 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
              PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_QUESTION);
         ) {
             statement.setString(1, entity.getText());
-            statement.setInt(2, entity.getScores());
             statement.setInt(3, entity.getTestId());
+            statement.setInt(2, entity.getScores());
             statement.setInt(4, entity.getId());
             modifiedRows = statement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -85,7 +86,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
             statement.setInt(1, id);
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -98,15 +99,14 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
         ) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
-                Question question = find(id);
+                Question question = find(rs.getInt("id"));
                 if (question != null) {
                     questions.add(question);
                 }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(e.getClass(),e.getMessage());
         }
 
         return questions;
