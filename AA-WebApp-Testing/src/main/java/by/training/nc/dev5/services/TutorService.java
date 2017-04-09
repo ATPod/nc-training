@@ -6,11 +6,6 @@ import by.training.nc.dev5.beans.users.Tutor;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
-/**
- * Created by NotePad.by on 16.03.2017.
- */
 //Service for tutor
 public class TutorService {
     private static TutorService instance = null;

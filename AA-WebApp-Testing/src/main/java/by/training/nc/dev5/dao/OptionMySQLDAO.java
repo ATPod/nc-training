@@ -3,6 +3,7 @@ package by.training.nc.dev5.dao;
 import by.training.nc.dev5.beans.test.Option;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
+import by.training.nc.dev5.logger.TestingSystemLogger;
 import by.training.nc.dev5.sql.SQLQueries;
 
 import java.sql.Connection;
@@ -32,7 +33,8 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
                 return option;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+
         }
         return null;
     }
@@ -50,7 +52,7 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
             statement.setInt(5, option.getQuestionId());
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return (modifiedRows > 0);
     }
@@ -68,7 +70,7 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
             statement.setInt(5, entity.getId());
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -82,7 +84,7 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
             statement.setInt(1, id);
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -103,7 +105,8 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+
         }
 
         return options;
@@ -111,7 +114,7 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
 
     @Override
     //params-параметры для запроса
-    public List<Option> getAll(String where,String...params) {
+    public List<Option> getAll(String where, String... params) {
         return null;
     }
 }

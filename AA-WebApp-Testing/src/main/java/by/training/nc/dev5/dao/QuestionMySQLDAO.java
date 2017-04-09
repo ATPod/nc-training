@@ -4,6 +4,7 @@ import by.training.nc.dev5.beans.test.Option;
 import by.training.nc.dev5.beans.test.Question;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
+import by.training.nc.dev5.logger.TestingSystemLogger;
 import by.training.nc.dev5.sql.SQLQueries;
 
 import java.sql.Connection;
@@ -32,7 +33,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
                 return question;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return null;
     }
@@ -53,7 +54,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
             }
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return (modifiedRows > 0);
     }
@@ -71,7 +72,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
             modifiedRows = statement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -85,7 +86,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
             statement.setInt(1, id);
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -106,7 +107,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
 
         return questions;
