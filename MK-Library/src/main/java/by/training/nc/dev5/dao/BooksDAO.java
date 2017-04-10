@@ -9,7 +9,7 @@ public interface BooksDAO {
 
     int insertBook(Book pBook);
     boolean deleteBook(int id);
-    Book findBook(String pBookId);
+    Book findBook(int id);
     boolean updateBook(String pBookId);
     Collection<Book> selectBooks();
 

@@ -22,6 +22,7 @@ public class BookMySQLDAO implements BooksDAO {
     private static String insertBookQuery = "INSERT INTO  `books` (id,title) VALUES (?,?)";
     private static String deleteBookQuery = "DELETE FROM  `books` WHERE id = ?";
     private static String selectBooksQuery = "SELECT * FROM  `books`";
+    private static String findBookQuery = "SELECT * FROM `books` WHERE id = ?";
 
     @Override
     public int insertBook(Book book) {
@@ -56,13 +57,34 @@ public class BookMySQLDAO implements BooksDAO {
             return true;
         } catch (SQLException e) {
             logger.error(e.getMessage());
-            System.out.println("Что-то пошло не так"); // =) пофиксить
         }
         return false;
     }
 
     @Override
-    public Book findBook(String pBookId) {
+    public Book findBook(int id) {
+        Connection connection;
+        connection = DBManager.getInstance().getConnection();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement(findBookQuery);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            Book book = null;
+            
+            while(rs.next()){
+                
+                book = new Book(rs.getInt(1),
+                            rs.getString(2));
+                
+            }
+            
+            
+            return book;
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
         return null;
     }
 
