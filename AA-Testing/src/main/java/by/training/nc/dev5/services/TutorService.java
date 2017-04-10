@@ -8,11 +8,6 @@ import by.training.nc.dev5.tools.ConsoleOperations;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by NotePad.by on 16.03.2017.
- */
-//Service for tutor
 public class TutorService {
     private static TutorService instance = null;
 
@@ -31,7 +26,6 @@ public class TutorService {
         for (int i = 0; i < questionAmount; i++) {
             questions.add(ConsoleOperations.inputQuestion());
         }
-        return new Test(tutor.getName(), tutor.getSurname(),
-                tutor.getSubject(), testName, questions);
+        return null;
     }
 }

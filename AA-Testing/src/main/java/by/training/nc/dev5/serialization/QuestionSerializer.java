@@ -1,12 +1,10 @@
 package by.training.nc.dev5.serialization;
 
 import by.training.nc.dev5.beans.test.Question;
+import by.training.nc.dev5.logger.TestingSystemLogger;
 
 import java.io.*;
 
-/**
- * Created by NotePad.by on 19.03.2017.
- */
 public class QuestionSerializer {
     public boolean serialization(Question q, String filename) {
         boolean flag = false;
@@ -21,11 +19,11 @@ public class QuestionSerializer {
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден! " + e);
+            TestingSystemLogger.INSTANCE.logError(getClass(), "Файл не найден!");
         } catch (NotSerializableException e) {
-            System.out.println("Класс не поддерживает сериализацию " + e);
+            TestingSystemLogger.INSTANCE.logError(getClass(), "Класс не поддерживают сериализацию!");
         } catch (IOException e) {
-            System.err.println(e);
+            TestingSystemLogger.INSTANCE.logError(getClass(), "Ошибка ввода-вывода!");
         } finally {
             try {
                 if (ostream != null) {
@@ -33,7 +31,7 @@ public class QuestionSerializer {
                 }
 
             } catch (IOException e) {
-                System.err.println("ошибка закрытия потока");
+                TestingSystemLogger.INSTANCE.logError(getClass(), "Ошибка закрытия потока!");
             }
         }
         return flag;
@@ -48,18 +46,18 @@ public class QuestionSerializer {
             Question question = (Question) istream.readObject();
             return question;
         } catch (FileNotFoundException e) {
-            System.out.println("Файл для десериализации не существует" + e);
+            TestingSystemLogger.INSTANCE.logError(getClass(), "Файл для десериализации не существует");
         } catch (IOException e) {
-            System.out.println("I/O ошибка: " + e);
+            TestingSystemLogger.INSTANCE.logError(getClass(), "I/O ошибка: " + e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         } finally {
             try {
                 if (istream != null) {
                     istream.close();
                 }
             } catch (IOException e) {
-                System.err.println("ошибка закрытия потока ");
+                TestingSystemLogger.INSTANCE.logError(getClass(), "ошибка закрытия потока ");
             }
         }
         throw new InvalidObjectException("объект не восстановлен!");

@@ -10,13 +10,14 @@
     <modules>
         <module>DAO</module>
         <module>AA-Testing</module>
+        <module>AA-WebApp-Testing</module>
         <module>AT-Aggregator</module>
+        <module>AT-WebApp</module>
         <module>MK-Library</module>
         <module>NA-DevelopersTeam</module>
         <module>VB-Airline</module>
         <module>SO-shop</module>
         <module>AV-Clinic</module>
-    <module>MK-WebApp-Library</module>
   </modules>
     <dependencies>
         <dependency>

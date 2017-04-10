@@ -13,17 +13,21 @@ public class CreditCard {
     private Account account;
     private int id[];
     private int password[];
+    int clientId;
 
     public CreditCard(){
         this.id = new int [16];
         this.password = new int [4];
         account = new Account();
+        clientId = 0;
     }
 
-    public CreditCard(int []id,int []password,Account account) throws NotCorrectPasswordException, NotCorrectIdException {
+    public CreditCard(int []id,int []password,Account account, int clientId)
+            throws NotCorrectPasswordException, NotCorrectIdException {
         this.id = new int [16];
         this.password = new int [4];
         this.account = account;
+        this.clientId = clientId;
         if(id.length == 16 && password.length == 4) {
             this.id = id;
             this.password = password;
@@ -42,6 +46,14 @@ public class CreditCard {
 
     public int[] getId() {
         return id;
+    }
+
+    public int getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 
     public void setPassword(int[] password) throws NotCorrectPasswordException {
@@ -68,7 +80,7 @@ public class CreditCard {
         if(!super.equals(obj)) return false;
         CreditCard creditcard = (CreditCard) obj;
         return (this.id == creditcard.getId() && this.password == creditcard.getPassword() &&
-                this.account == creditcard.getAccount());
+                this.account == creditcard.getAccount() && this.clientId == creditcard.getClientId());
     }
 
     @Override
