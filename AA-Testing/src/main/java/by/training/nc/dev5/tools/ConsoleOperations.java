@@ -1,25 +1,21 @@
 package by.training.nc.dev5.tools;
 
+import by.training.nc.dev5.beans.test.Option;
 import by.training.nc.dev5.beans.test.Question;
 import by.training.nc.dev5.beans.test.Test;
+import by.training.nc.dev5.beans.test.TestContainer;
 import by.training.nc.dev5.beans.users.Student;
 import by.training.nc.dev5.beans.users.Tutor;
-import by.training.nc.dev5.beans.users.User;
-import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
-import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
 import by.training.nc.dev5.services.StudentService;
 import by.training.nc.dev5.services.TutorService;
-import by.training.nc.dev5.sql.SQLQueries;
+import by.training.nc.dev5.utils.Utils;
 
 import java.util.*;
 
 public class ConsoleOperations {
-    private static InterfaceDAO<Test> testDAO;
     private static Scanner input;
 
     static {
-        MySQLDAOFactory factory = new MySQLDAOFactory();
-        testDAO = factory.getTestDAO();
         input = new Scanner(System.in);
     }
 
@@ -29,12 +25,21 @@ public class ConsoleOperations {
      * @return array of numbers
      */
     private static List<Integer> inputArray() {
-        List<Integer> result = new ArrayList<>();
-        input = new Scanner(System.in);
-        String stringArray = input.next();
-        String[] stringNumbers = stringArray.split(" ");
-        for (String number : stringNumbers) {
-            result.add(Integer.parseInt(number));
+        List<Integer> result=null;
+        while (true) {
+            try {
+                result = new ArrayList<>();
+                input = new Scanner(System.in);
+                String stringArray = input.next();
+                String[] stringNumbers = stringArray.split(" ");
+                for (String number : stringNumbers) {
+                    result.add(Integer.parseInt(number));
+                }
+            } catch (NumberFormatException e) {
+               System.out.println("Неверный формат. Повторите ввод...");
+                continue;
+            }
+            break;
         }
         return result;
     }
@@ -72,36 +77,35 @@ public class ConsoleOperations {
 
     }
 
-    private static User loginUser() {
-        MySQLDAOFactory factory = new MySQLDAOFactory();
-        InterfaceDAO<User> userDAO = factory.getUserDAO();
-        String login = null;
-        String password = null;
-        User user = null;
-        while (true) {
-            System.out.println("Введите логин пользователя...");
-            login = inputString();
-            System.out.println("Введите пароль пользователя...");
-            password = inputString();
-            List<User> loginUsers = userDAO.getAll(SQLQueries.FIND_BY_LOGIN_PASSWORD, login, password);
-            if (loginUsers.size() != 0) {
-                user = loginUsers.get(0);
-                break;
-            } else {
-                System.out.println("Пользователя с данным логином и паролем нет в системе.  Повторите ввод... ");
-            }
-        }
-        System.out.println("Добро пожаловать, " + user.getName() + " " + user.getSurname() + "!");
-        return user;
-    }
-
     /**
      * Question object input from console
      *
      * @return new instance of Question object
      */
     public static Question inputQuestion() {
-        return null;
+        int questionId = Utils.generateNumber(0, 100);
+        List<Option> answerOptions = new ArrayList<>();
+        System.out.println("Введите текст вопроса...");
+        String text = inputString();
+        System.out.println("Введите баллы за вопрос...");
+        int scores = inputNumber();
+        System.out.println("Количество вариантов ответа...");
+        int optionNumber = inputNumber();
+        for (int i = 0; i < optionNumber; i++) {
+            int optionId = Utils.generateNumber(0, 100);
+            System.out.println("Введите текст варианта ответа№ " + (i + 1));
+            String optionText = inputString();
+            Option option = new Option(optionId, questionId, optionText, i + 1, false);
+            answerOptions.add(option);
+        }
+        System.out.println("Введите правильные варианты ответа (разделитель-пробел)...");
+        List<Integer> integers = inputArray();
+        for (Option option : answerOptions) {
+            if (integers.contains(option.getNumber())) {
+                option.setRightness(true);
+            }
+        }
+        return new Question(questionId, 0, text, scores, answerOptions);
     }
 
     public static void consoleMenu() {
@@ -116,7 +120,9 @@ public class ConsoleOperations {
 
             switch (ConsoleOperations.inputNumber()) {
                 case 1:
-                    Tutor tutor = (Tutor) ConsoleOperations.loginUser();
+                    Tutor tutor = new Tutor();
+                    int tutorId = Utils.generateNumber(0, 100);
+                    tutor.setId(tutorId);
                     TutorService tutorService = TutorService.getInstance();
                     out:
                     while (true) {
@@ -130,14 +136,14 @@ public class ConsoleOperations {
                         switch (ConsoleOperations.inputNumber()) {
                             case 1:
                                 System.out.println("===========================================================");
-                                System.out.println(testDAO.getAll().toString());
+                                System.out.println(TestContainer.INSTANCE);
                                 break;
 
                             case 2:
                                 System.out.println("Введите название теста (одно слово без пробелов)");
                                 String testName = ConsoleOperations.inputString();
                                 System.out.println("Введите количество вопросов");
-                                int questionAmount = 0;
+                                int questionAmount;
                                 while (true) {
                                     try {
                                         questionAmount = ConsoleOperations.inputNumber();
@@ -148,8 +154,7 @@ public class ConsoleOperations {
                                     break;
                                 }
                                 Test test = tutorService.creatingTest(tutor, testName, questionAmount);
-                                testDAO.insert(test);
-                                System.out.println(testDAO.getAll().toString());
+                                TestContainer.INSTANCE.addTest(test);
                                 break;
 
                             case 0:
@@ -163,7 +168,9 @@ public class ConsoleOperations {
                     }
                     break;
                 case 2:
-                    Student student = (Student) ConsoleOperations.loginUser();
+                    Student student = new Student();
+                    int studentId = Utils.generateNumber(0, 100);
+                    student.setId(studentId);
                     StudentService studentService = StudentService.getInstance();
                     studentMenu:
                     while (true) {
@@ -177,17 +184,17 @@ public class ConsoleOperations {
                         switch (ConsoleOperations.inputNumber()) {
                             case 1:
                                 System.out.println("===========================================================");
-                                System.out.println(testDAO.getAll().toString());
+                                System.out.println(TestContainer.INSTANCE);
                                 break;
 
                             case 2:
                                 List<List<Integer>> questionAnswers = new ArrayList<>();
                                 System.out.println("Введите название теста (одно слово без пробела)");
                                 String testName = ConsoleOperations.inputString();
-                                Test test = testDAO.getAll(SQLQueries.FIND_TEST_BY_NAME, testName).get(0);
+                                Test test = TestContainer.INSTANCE.getTest(testName);
                                 if (test != null) {
                                     for (Question question : test.getQuestions()) {
-                                        List<Integer> answer = new ArrayList<>();
+                                        List<Integer> answer;
                                         System.out.println(question);
                                         System.out.println("Введите Ваши вариант(ы) ответа (разделитель-пробел)");
                                         while (true) {
@@ -221,6 +228,7 @@ public class ConsoleOperations {
                     System.out.println("===========================================================");
                     System.out.println("Работа завершена...");
                     System.out.println("===========================================================");
+                    InitializationManager.saveTests("Tests");
                     System.exit(0);
 
                 default:

@@ -155,12 +155,12 @@ public class Test implements Serializable {
     */
     @Override
     public String toString() {
-        return "Test{" +
-                "id=" + id +
-                ", authorId=" + authorId +
-                ", subject='" + subject + '\'' +
-                ", name='" + name + '\'' +
-                ", questions=" + questions +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Тест " + name).append("\n");
+        for (Question question : questions) {
+            sb.append(question);
+        }
+        sb.append("\n");
+        return sb.toString();
     }
 }
