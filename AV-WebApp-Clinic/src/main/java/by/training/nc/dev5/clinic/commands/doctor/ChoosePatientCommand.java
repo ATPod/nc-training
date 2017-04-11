@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by user on 11.04.2017.
  */
-public class ChoosePatient extends AbstractCommand {
+public class ChoosePatientCommand extends AbstractCommand {
 
     @SuppressWarnings("rawtypes")
     public String execute(HttpServletRequest request) {
@@ -25,6 +25,7 @@ public class ChoosePatient extends AbstractCommand {
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
             if(request.getParameter(Parameters.PATIENT_ID) != null){
+                session.setAttribute(Parameters.PATIENT_ID, request.getParameter(Parameters.PATIENT_ID));
                 page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_INNER_MENU);
             }
             else if(!((List)session.getAttribute(Parameters.PATIENTS_LIST)).isEmpty()){

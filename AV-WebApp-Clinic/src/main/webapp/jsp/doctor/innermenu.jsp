@@ -19,23 +19,23 @@
                 <td align="center"><strong>Выполнить</strong></td>
             </tr>
             <tr>
-                <td><a href="controller?command=backtochoosepatient">Диагноз</a></td>
-                <td><a href="controller?command=backtochoosepatient">Снять диагноз</a></td>
+                <td><a href="controller?command=gotoadddiagnosis">Диагноз</a></td>
+                <td><a href="controller?command=gotodeldiagnosis">Снять диагноз</a></td>
             </tr>
             <tr>
-                <td><a href="controller?command=backtochoosepatient">Лекарство</a></td>
-                <td><a href="controller?command=backtochoosepatient">Ввести лекарство</a></td>
+                <td><a href="controller?command=gotoadddrug">Лекарство</a></td>
+                <td><a href="controller?command=gotodeldrug">Ввести лекарство</a></td>
             </tr>
             <tr>
-                <td><a href="controller?command=backtochoosepatient">Процедура</a></td>
-                <td><a href="controller?command=backtochoosepatient">Сделать процедуру</a></td>
+                <td><a href="controller?command=gotoaddprocedure">Процедура</a></td>
+                <td><a href="controller?command=gotodelprocedure">Сделать процедуру</a></td>
             </tr>
             <tr>
-                <td><a href="controller?command=backtochoosepatient">Операция</a></td>
-                <td><a href="controller?command=backtochoosepatient">Сделать операцию</a></td>
+                <td><a href="controller?command=gotoaddsurgery">Операция</a></td>
+                <td><a href="controller?command=gotodelsurgery">Сделать операцию</a></td>
             </tr>
         </table>
-        <a href="controller?command=backtochoosepatient">Выписать пациента (удалить карточку)</a><br/>
+        <a href="controller?command=delpatient">Выписать пациента (удалить карточку)</a><br/>
         <a href="controller?command=backtochoosepatient">Вернуться к выбору пациента</a><br/>
         <a href="controller?command=logout">Выйти из системы</a><br/>
     </form>

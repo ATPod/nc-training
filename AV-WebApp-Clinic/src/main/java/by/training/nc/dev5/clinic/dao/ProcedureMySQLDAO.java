@@ -50,13 +50,48 @@ public enum  ProcedureMySQLDAO implements PrescribingDAO<Procedure> {
         return procedures;
     }
 
-    public void add(String name, int patientId){
-        PrescribingMySQLDAO prescribingMySQLDAO = new PrescribingMySQLDAO();
-        prescribingMySQLDAO.add(name, patientId, SqlRequests.INSERT_PROCEDURE);
+    public void add(Procedure temp){
+        Connection cn = null;
+        PreparedStatement st = null;
+        try {
+            cn = ConnectionPool.retrieve();
+            st = cn.prepareStatement(SqlRequests.ADD_PROCEDURE);
+            st.setString(1, temp.getName());
+            st.setInt(2, temp.getPatientId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException e) {
+                ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+            }
+            ConnectionPool.putback(cn);
+        }
     }
 
     public void delete(int id){
-        PrescribingMySQLDAO prescribingMySQLDAO = new PrescribingMySQLDAO();
-        prescribingMySQLDAO.delete(id, SqlRequests.DELETE_PROCEDURE);
+        Connection cn = null;
+        PreparedStatement st = null;
+        try {
+            cn = ConnectionPool.retrieve();
+            st = cn.prepareStatement(SqlRequests.DELETE_PROCEDURE);
+            st.setInt(1, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException e) {
+                ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+            }
+            ConnectionPool.putback(cn);
+        }
     }
 }
