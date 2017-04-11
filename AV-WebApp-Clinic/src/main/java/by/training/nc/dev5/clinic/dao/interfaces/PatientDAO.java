@@ -8,8 +8,8 @@ import java.util.List;
  * Created by user on 06.04.2017.
  */
 public interface PatientDAO {
-    void add(String name);
-    void delete(int patientId);
+    //void add(String name);
+    //void delete(int patientId);
     List<Patient> getAll();
-    Patient getById(int patientId);
+    //Patient getById(int patientId);
 }

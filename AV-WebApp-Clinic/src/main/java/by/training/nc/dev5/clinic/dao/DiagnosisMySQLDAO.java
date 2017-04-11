@@ -1,6 +1,6 @@
 package by.training.nc.dev5.clinic.dao;
 
-import by.training.nc.dev5.clinic.ConnectionPool.ConnectionPool;
+import by.training.nc.dev5.clinic.connectionpool.ConnectionPool;
 import by.training.nc.dev5.clinic.beans.patient.prescribing.Diagnosis;
 import by.training.nc.dev5.clinic.constants.ColumnNames;
 import by.training.nc.dev5.clinic.constants.SqlRequests;

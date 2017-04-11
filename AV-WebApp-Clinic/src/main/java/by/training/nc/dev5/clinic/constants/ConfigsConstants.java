@@ -12,8 +12,9 @@ public class ConfigsConstants {
     public static final String REGISTRATION_PAGE_PATH = "path.page.registration";
     public static final String ERROR_PAGE_PATH = "path.page.error";
 
-
     public static final String DOCTOR_PAGE_PATH = "path.page.doctor";
+    public static final String DOCTOR_SHOW_PATIENTS_PAGE = "path.page.doctor.patients";
+    public static final String DOCTOR_INNER_MENU = "path.page.doctor.innermenu";
 
     public static final String NURSE_PAGE_PATH = "path.page.nurse";
 

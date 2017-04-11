@@ -1,7 +1,7 @@
 package by.training.nc.dev5.clinic.commands.factory;
 
 import by.training.nc.dev5.clinic.commands.Command;
-import by.training.nc.dev5.clinic.commands.doctor.GoToChoosePatient;
+import by.training.nc.dev5.clinic.commands.doctor.*;
 import by.training.nc.dev5.clinic.commands.user.*;
 
 /**
@@ -12,7 +12,7 @@ public enum CommandType {
     LOGIN, LOGOUT, REGISTRATION, GOTOREGISTRATION, BACK,
 
     // doctor commands
-    PATIENTS;
+    GOTOCHOOSEPATIENT, CHOOSEPATIENT, BACKTODOCTORMAIN, BACKTOCHOOSEPATIENT;
 
     public Command getCurrentCommand() throws EnumConstantNotPresentException{
         switch(this){
@@ -31,8 +31,17 @@ public enum CommandType {
             case BACK:
                 return new GoBackCommand();
 
-            case PATIENTS:
+            case GOTOCHOOSEPATIENT:
                 return new GoToChoosePatient();
+
+            case CHOOSEPATIENT:
+                return new ChoosePatient();
+
+            case BACKTODOCTORMAIN:
+                return new GoBackToDoctorMainCommand();
+
+            case BACKTOCHOOSEPATIENT:
+                return new GoBackToChoosePatientCommand();
 
             default:
                 throw new EnumConstantNotPresentException(this.getDeclaringClass(), this.name());
