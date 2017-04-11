@@ -8,7 +8,8 @@ public class Parameters {
     public static final String PASSWORD = "password";
     public static final String ACCESS_LEVEL = "access_level";
     public static final String USERTYPE = "userType";
-    public static final String USER_LIST = "userList";
+    public static final String PATIENTS_LIST = "patientsList";
+    public static final String PATIENT_ID = "patientId";
     public static final String USER = "user";
     public static final String COMMAND = "command";
     public static final String ERROR_DATABASE = "errorDatabase";

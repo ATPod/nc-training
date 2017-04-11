@@ -2,6 +2,7 @@ package by.training.nc.dev5.clinic.commands.user;
 
 import by.training.nc.dev5.clinic.beans.User;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
+import by.training.nc.dev5.clinic.constants.AccessLevels;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
@@ -19,16 +20,15 @@ import java.sql.SQLException;
 public class RegistrationCommand extends AbstractCommand {
     private static String login;
     private static String password;
-    private static String accessLevelString;
+    private static String accessLevel;
 
     public String execute(HttpServletRequest request) {
         String page = null;
         login = request.getParameter(Parameters.LOGIN);
         password = request.getParameter(Parameters.PASSWORD);
-        accessLevelString = request.getParameter(Parameters.ACCESS_LEVEL);
+        accessLevel = request.getParameter(Parameters.ACCESS_LEVEL);
         try{
             if(areFieldsFullStocked()){
-                int accessLevel = Integer.valueOf(accessLevelString);
                 if(isNewUser()){
                     if(accessLevelisCorrect(accessLevel) ) {
                         registrate();
@@ -71,13 +71,13 @@ public class RegistrationCommand extends AbstractCommand {
         User user = new User();
         user.setLogin(login);
         user.setPassword(password);
-        user.setAccessLevel(Integer.valueOf(accessLevelString));
+        user.setAccessLevel(accessLevel);
         UserMySQLDAO.INSTANCE.add(user);
     }
 
     private boolean areFieldsFullStocked(){
         boolean isFullStocked = false;
-        if(!login.isEmpty() & !password.isEmpty() & !accessLevelString.isEmpty() ){
+        if(!login.isEmpty() & !password.isEmpty() & !(accessLevel==null) ){
             isFullStocked = true;
         }
         return isFullStocked;
@@ -91,9 +91,9 @@ public class RegistrationCommand extends AbstractCommand {
         return isNew;
     }
 
-    private boolean accessLevelisCorrect(int accessLevel){
+    private boolean accessLevelisCorrect(String accessLevel){
         boolean isCorrect = false;
-        if(accessLevel==1 || accessLevel==2){
+        if(accessLevel.equals(AccessLevels.DOCTOR) || accessLevel.equals(AccessLevels.NURSE)){
             isCorrect = true;
         }
         return isCorrect;
