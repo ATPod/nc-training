@@ -1,0 +1,2 @@
+2017-04-09 11:42:26,085 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method
+2017-04-09 11:42:27,022 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 

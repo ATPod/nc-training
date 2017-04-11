@@ -22,7 +22,7 @@ public abstract class DAOFactory {
 
         switch (factoryType) {
             case ORACLE:
-                return null;
+                return new OracleDAOFactory();
             case MYSQL:
                 return new MySQLDAOFactory();
             default:

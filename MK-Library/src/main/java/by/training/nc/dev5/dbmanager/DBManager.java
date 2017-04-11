@@ -11,6 +11,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
+/*
+    private final static String driverClassName = "com.mysql.jdbc.Driver";
+    private final static String URL = "jdbc:mysql://localhost:3306/mk-library";
+    private final static String password = "1234";
+    private final static String name = "root";
+ */
+
 public final class DBManager {
 
 
@@ -22,15 +29,6 @@ public final class DBManager {
     private static final String CONNECTION_URL = "connectionUrl";
     private static final String USER = "user";
     private static final String PASSWORD = "password";
-
-
-/*
-    private final static String driverClassName = "com.mysql.jdbc.Driver";
-    private final static String URL = "jdbc:mysql://localhost:3306/mk-library";
-    private final static String password = "1234";
-    private final static String name = "root";
- */
-
 
     private static DBManager instance;
     private Connection con;

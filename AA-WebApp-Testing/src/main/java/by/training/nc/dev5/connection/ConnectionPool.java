@@ -1,5 +1,7 @@
 package by.training.nc.dev5.connection;
 
+import by.training.nc.dev5.logger.TestingSystemLogger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,7 +25,7 @@ public class ConnectionPool {
         try {
             Class.forName(driver);
         } catch (Exception e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         this.connectionUrl = url;
         for (int i = 0; i < initialSize; i++) {
@@ -36,7 +38,7 @@ public class ConnectionPool {
         try {
             conn = DriverManager.getConnection(connectionUrl);
         } catch (Exception e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return conn;
     }

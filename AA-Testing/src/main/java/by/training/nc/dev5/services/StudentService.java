@@ -23,8 +23,8 @@ public class StudentService {
     public int passingTest(Student student, Test test,
                            List<List<Integer>> questionAnswers) {
         int studentResult = 0;
-        int questionAmount = test.getQuestions().size();
         List<Question> testQuestions = test.getQuestions();
+        int questionAmount = testQuestions.size();
         for (int i = 0; i < questionAmount; i++) {
             studentResult += answeringQuestion(student, testQuestions.get(i),
                     questionAnswers.get(i));

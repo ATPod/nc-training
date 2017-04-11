@@ -4,6 +4,7 @@ import by.training.nc.dev5.beans.test.Question;
 import by.training.nc.dev5.beans.test.Test;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
+import by.training.nc.dev5.logger.TestingSystemLogger;
 import by.training.nc.dev5.sql.SQLQueries;
 
 import java.sql.*;
@@ -23,13 +24,13 @@ public class TestMySQLDAO implements InterfaceDAO<Test> {
                 rs.next();
                 Test test = new Test();
                 test.setId(rs.getInt("id"));
-                test.setName(rs.getString("name"));
                 test.setSubject(rs.getString("subject"));
+                test.setName(rs.getString("name"));
                 test.setAuthorId(rs.getInt("tutor_id"));
                 return test;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return null;
     }
@@ -42,15 +43,15 @@ public class TestMySQLDAO implements InterfaceDAO<Test> {
         ) {
             statement.setInt(1, test.getId());
             statement.setString(2, test.getName());
-            statement.setString(3, test.getSubject());
             statement.setInt(4, test.getAuthorId());
+            statement.setString(3, test.getSubject());
             InterfaceDAO<Question> questionMySQLDAO = new MySQLDAOFactory().getQuestionDAO();
             for (Question question : test.getQuestions()) {
                 questionMySQLDAO.insert(question);
             }
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return (modifiedRows > 0);
     }
@@ -63,11 +64,11 @@ public class TestMySQLDAO implements InterfaceDAO<Test> {
         ) {
             statement.setString(1,entity.getName());
             statement.setString(2,entity.getSubject());
-            statement.setInt(3,entity.getAuthorId());
             statement.setInt(4,entity.getId());
-           modifiedRows= statement.executeUpdate();
+            statement.setInt(3,entity.getAuthorId());
+            modifiedRows= statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -101,7 +102,7 @@ public class TestMySQLDAO implements InterfaceDAO<Test> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
 
         return tests;

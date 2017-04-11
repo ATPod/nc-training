@@ -1,12 +1,10 @@
 package by.training.nc.dev5.serialization;
 
 import by.training.nc.dev5.beans.test.TestContainer;
+import by.training.nc.dev5.logger.TestingSystemLogger;
 
 import java.io.*;
 
-/**
- * Created by NotePad.by on 19.03.2017.
- */
 public class TestContainerSerializer {
     public boolean serialization(TestContainer tc, String filename) {
         boolean flag = false;
@@ -21,11 +19,11 @@ public class TestContainerSerializer {
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден! " + e);
+            TestingSystemLogger.INSTANCE.logError(getClass(),"Файл не найден! " + e);
         } catch (NotSerializableException e) {
-            System.out.println("Класс не поддерживает сериализацию " + e);
+            TestingSystemLogger.INSTANCE.logError(getClass(),"Класс не поддерживает сериализацию " + e);
         } catch (IOException e) {
-            System.err.println(e);
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         } finally {
             try {
                 if (ostream != null) {
@@ -33,7 +31,7 @@ public class TestContainerSerializer {
                 }
 
             } catch (IOException e) {
-                System.err.println("ошибка закрытия потока");
+                TestingSystemLogger.INSTANCE.logError(getClass(),"ошибка закрытия потока");
             }
         }
         return flag;
@@ -59,7 +57,7 @@ public class TestContainerSerializer {
                     istream.close();
                 }
             } catch (IOException e) {
-                System.err.println("ошибка закрытия потока ");
+                TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
             }
         }
         throw new InvalidObjectException("объект не восстановлен!");

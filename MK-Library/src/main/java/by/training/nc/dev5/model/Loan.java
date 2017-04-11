@@ -6,8 +6,12 @@ import java.io.Serializable;
 public class Loan implements Serializable {
 
     private int id;
-    private int readerID;
+    private int readerID; //книги / читатели
     private int bookID;
+
+    private Reader reader;
+    private Book book;
+
     private String loanType;
     private String readerName;
     private String bookTitle;
@@ -18,6 +22,19 @@ public class Loan implements Serializable {
         this.bookTitle = bookTitle;
         this.loanType = loanType;
     }
+
+
+    public Loan(int id, Reader reader, Book book, String loanType) {
+        this.id = id;
+        this.reader = reader;
+        this.book = book;
+        this.loanType = loanType;
+    }
+
+
+
+
+
 
     public int getId() {
         return id;

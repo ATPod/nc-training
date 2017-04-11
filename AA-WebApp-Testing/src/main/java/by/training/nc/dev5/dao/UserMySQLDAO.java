@@ -5,6 +5,7 @@ import by.training.nc.dev5.beans.users.Tutor;
 import by.training.nc.dev5.beans.users.User;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
+import by.training.nc.dev5.logger.TestingSystemLogger;
 import by.training.nc.dev5.sql.SQLQueries;
 
 import java.sql.*;
@@ -15,6 +16,7 @@ import java.util.List;
 public class UserMySQLDAO implements InterfaceDAO<User> {
     @Override
     public User find(int id) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke find method");
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLQueries.FIND_USER);
         ) {
@@ -47,13 +49,14 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return null;
     }
 
     @Override
     public boolean insert(User user) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke insert method");
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLQueries.INSERT_USER);
@@ -76,13 +79,14 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
             }
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return (modifiedRows > 0);
     }
 
     @Override
     public boolean update(User entity) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke update method");
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_USER);
@@ -92,13 +96,11 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
             statement.setString(2, entity.getPassword());
             statement.setString(3, entity.getName());
             statement.setString(4, entity.getSurname());
-            statement.setInt(7,entity.getId());
+            statement.setInt(7, entity.getId());
             if (entity instanceof Tutor) {
                 statement.setNull(5, Types.INTEGER);
                 statement.setString(6, ((Tutor) entity).getSubject());
-            }
-            else
-            {
+            } else {
                 if (entity instanceof Student) {
                     statement.setInt(5, ((Student) entity).getScores());
                     statement.setNull(6, Types.VARCHAR);
@@ -106,13 +108,14 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
             }
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return (0 < modifiedRows);
     }
 
     @Override
     public boolean delete(int id) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke delete method");
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLQueries.DELETE_USER)
@@ -120,76 +123,56 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
             statement.setInt(1, id);
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return (0 < modifiedRows);
     }
 
     @Override
     public List<User> getAll() {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
         List<User> users = new ArrayList<>();
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLQueries.GET_ALL_USERS)
         ) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
-                User user = find(id);
+                User user = find(rs.getInt("id"));
                 if (user != null) {
                     users.add(user);
                 }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
 
         return users;
     }
 
     @Override
-    public List<User> getAll(String where,String... params) {
+    public List<User> getAll(String where, String... params) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
         List<User> users = new ArrayList<>();
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(where)
         ) {
-            int paramAmount=params.length;
-            for(int i=0;i<paramAmount;i++)
-            {
-                statement.setString((i+1),params[i]);
+            int paramAmount = params.length;
+            for (int i = 0; i < paramAmount; i++) {
+                statement.setString((i + 1), params[i]);
             }
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
-                User user = find(id);
+                User user = find(rs.getInt("id"));
                 if (user != null) {
                     users.add(user);
                 }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
 
         return users;
-    }
-
-    public User getAuthorizedUser(String login, String password) {
-        User user = null;
-        try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.FIND_BY_LOGIN_PASSWORD)
-        ) {
-            statement.setString(1, login);
-            statement.setString(2, password);
-            ResultSet rs = statement.executeQuery();
-            if (rs != null) {
-                rs.next();
-                int id = rs.getInt("id");
-                user = find(id);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return user;
     }
 }
