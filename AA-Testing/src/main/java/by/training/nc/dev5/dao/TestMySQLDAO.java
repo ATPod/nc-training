@@ -24,9 +24,12 @@ public class TestMySQLDAO implements InterfaceDAO<Test> {
                 rs.next();
                 Test test = new Test();
                 test.setId(rs.getInt("id"));
-                test.setSubject(rs.getString("subject"));
-                test.setName(rs.getString("name"));
-                test.setAuthorId(rs.getInt("tutor_id"));
+                String subject=rs.getString("subject");
+                test.setSubject(subject);
+                String name=rs.getString("name");
+                test.setName(name);
+                int tutor_id=rs.getInt("tutor_id");
+                test.setAuthorId(tutor_id);
                 return test;
             }
         } catch (SQLException e) {
