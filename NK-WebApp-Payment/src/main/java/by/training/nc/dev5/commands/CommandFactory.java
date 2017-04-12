@@ -15,8 +15,6 @@ public class CommandFactory {
     static {
         commands.put(GO_TO_LOGIN, new GoToLoginCommand());
         commands.put(GO_TO_REGISTRATION, new GoToRegistration());
-        commands.put(GO_TO_CLIENT_REGISTRATION, new GoToClientRegistrationForm());
-        commands.put(GO_TO_ADMIN_REGISTRATION, new GoToAdminRegistrationForm());
         commands.put(REGISTER_CLIENT,  new RegisterClientCommand());
         commands.put(LOGIN, new LoginUserCommand());
         commands.put(CLIENT_MENU,  new RegisterClientCommand());

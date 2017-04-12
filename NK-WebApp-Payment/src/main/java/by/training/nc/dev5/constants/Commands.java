@@ -6,8 +6,6 @@ package by.training.nc.dev5.constants;
 public interface Commands {
     String GO_TO_LOGIN = "GoToLogin";
     String GO_TO_REGISTRATION = "GoToRegistration";
-    String GO_TO_CLIENT_REGISTRATION = "GoToClientRegistration";
-    String GO_TO_ADMIN_REGISTRATION = "GoToAdminRegistration";
     String REGISTER_CLIENT = "RegisterClient";
     String LOGIN = "Login";
     String CLIENT_MENU = "ClientMenu";
