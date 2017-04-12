@@ -11,4 +11,11 @@ public interface Commands {
     String STUDENT_MENU = "StudentMenu";
     String TUTOR_MENU = "TutorMenu";
     String LOGOUT_USER = "LogoutUser";
+    String SHOW_TESTS="ShowTests";
+    String SHOW_TEST="ShowTest";
+    String SHOW_RESULT="ShowResult";
+    String SHOW_STUDENTS="ShowStudents";
+    String CREATE_TEST="CreateTest";
+    String FILL_TEST="FillTest";
+    String ADD_TEST="AddTest";
 }

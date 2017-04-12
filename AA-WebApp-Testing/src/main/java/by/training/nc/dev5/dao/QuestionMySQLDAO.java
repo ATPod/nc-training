@@ -33,7 +33,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
                 return question;
             }
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return null;
     }
@@ -54,7 +54,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
             }
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return (modifiedRows > 0);
     }
@@ -72,7 +72,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
             modifiedRows = statement.executeUpdate();
 
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -86,7 +86,7 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
             statement.setInt(1, id);
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -107,14 +107,39 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
             }
 
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
 
         return questions;
     }
 
     @Override
-    public List<Question> getAll(String where,String...params) {
+    public List<Question> getAll(String where, String... params) {
         return null;
+    }
+
+    @Override
+    public List<Question> getAll(String where, Integer... params) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
+        List<Question> questions = new ArrayList<>();
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(where)
+        ) {
+            int paramAmount = params.length;
+            for (int i = 0; i < paramAmount; i++) {
+                statement.setInt((i + 1), params[i]);
+            }
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Question question = find(rs.getInt("id"));
+                if (question != null) {
+                    questions.add(question);
+                }
+            }
+
+        } catch (SQLException e) {
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+        }
+      return questions;
     }
 }

@@ -10,4 +10,11 @@ public interface JspPaths {
     String TUTOR_MENU="/tutor_menu.jsp";
     String STUDENT_MENU="/student_menu.jsp";
     String INDEX_PAGE_PATH = "/index.jsp";
+    String TESTS="/all_tests.jsp";
+    String TEST_TO_PASS="/test.jsp";
+    String SHOW_RESULT="/show_result.jsp";
+    String STUDENTS_LIST="/students.jsp";
+    String CREATE_TEST="/create_test_form.jsp";
+    String FILL_TEST_FORM="/fill_test_form.jsp";
+    String ADD_TEST="/add_test.jsp";
 }

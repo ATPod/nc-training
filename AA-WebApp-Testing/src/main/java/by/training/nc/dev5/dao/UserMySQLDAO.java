@@ -175,4 +175,29 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
 
         return users;
     }
+
+    @Override
+    public List<User> getAll(String where, Integer... params) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
+        List<User> users = new ArrayList<>();
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(where)
+        ) {
+            int paramAmount = params.length;
+            for (int i = 0; i < paramAmount; i++) {
+                statement.setInt((i + 1), params[i]);
+            }
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                User user = find(rs.getInt("id"));
+                if (user != null) {
+                    users.add(user);
+                }
+            }
+
+        } catch (SQLException e) {
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+        }
+        return users;
+    }
 }

@@ -25,4 +25,7 @@ public interface SQLQueries {
     String GET_ALL_OPTIONS="SELECT * FROM options;";
     String GET_ALL_USERS="SELECT * FROM users;";
     String FIND_BY_LOGIN_PASSWORD = "SELECT * FROM users WHERE login = ? AND password = ? ;";
+    String FIND_TEST_QUESTIONS="SELECT * FROM questions WHERE fk_test= ? ;";
+    String FIND_QUESTION_OPTIONS="SELECT * FROM options WHERE question_id= ? ;";
+    String FIND_STUDENTS="SELECT * FROM users WHERE type= ? ;";
 }

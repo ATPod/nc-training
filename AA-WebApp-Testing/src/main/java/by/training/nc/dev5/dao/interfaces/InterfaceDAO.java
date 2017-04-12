@@ -9,6 +9,7 @@ public interface InterfaceDAO <TYPE>{
         boolean delete(int entityId);
         List<TYPE> getAll();
         List<TYPE> getAll(String where, String... params);
+        List<TYPE> getAll(String where, Integer... params);
 
 
 }

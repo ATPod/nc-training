@@ -118,6 +118,32 @@ public class TestMySQLDAO implements InterfaceDAO<Test> {
 
     @Override
     public List<Test> getAll(String where, String... params) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
+        List<Test> tests = new ArrayList<>();
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(where)
+        ) {
+            int paramAmount = params.length;
+            for (int i = 0; i < paramAmount; i++) {
+                statement.setString((i + 1), params[i]);
+            }
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Test test = find(rs.getInt("id"));
+                if (test != null) {
+                    tests.add(test);
+                }
+            }
+
+        } catch (SQLException e) {
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+        }
+
+        return tests;
+    }
+
+    @Override
+    public List<Test> getAll(String where, Integer... params) {
         return null;
     }
 }

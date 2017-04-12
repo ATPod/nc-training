@@ -117,4 +117,29 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
     public List<Option> getAll(String where, String... params) {
         return null;
     }
+
+    @Override
+    public List<Option> getAll(String where, Integer... params) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
+        List<Option> options = new ArrayList<>();
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(where)
+        ) {
+            int paramAmount = params.length;
+            for (int i = 0; i < paramAmount; i++) {
+                statement.setInt((i + 1), params[i]);
+            }
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Option option = find(rs.getInt("id"));
+                if (option != null) {
+                    options.add(option);
+                }
+            }
+
+        } catch (SQLException e) {
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+        }
+        return options;
+    }
 }

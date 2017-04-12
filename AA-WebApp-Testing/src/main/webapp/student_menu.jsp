@@ -7,8 +7,7 @@
 <h2>Здравствуйте, ${user.name} ${user.surname}</h2>
 <h3>Вы вошли в систему</h3>
 <h4>Выберите операцию:</h4>
-<a href="controller?command=showtests">Просмотреть список тестов</a> <br/>
-<a href="controller?command=showresults">Просмотреть результаты предыдущих тестов</a> <br/>
+<a href="controller?command=ShowTests">Просмотреть список тестов</a> <br/>
 <a href="controller?command=LogoutUser">Выйти из системы</a> <br/>
 </body>
 </html>
