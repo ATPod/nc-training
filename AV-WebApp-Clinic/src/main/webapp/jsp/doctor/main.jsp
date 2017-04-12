@@ -8,7 +8,7 @@
 <body>
 <h3>Вы вошли в систему как доктор</h3>
 <h4>Выберите операцию:</h4>
-<a href="controller?command=patients">Выбрать пациента</a> <br/>
+<a href="controller?command=gotochoosepatient">Выбрать пациента</a> <br/>
 <a href="controller?command=gotoaddpatient">Добавить пациента</a> <br/>
 <a href="controller?command=logout">Выйти из системы</a> <br/>
 </body>

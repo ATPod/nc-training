@@ -6,7 +6,7 @@ package by.training.nc.dev5.clinic.beans;
 public class User extends Entity {
     private String login;
     private String password;
-    private int accessLevel;
+    private String accessLevel;
 
     /**
      * @return the login
@@ -36,11 +36,11 @@ public class User extends Entity {
         this.password = password;
     }
 
-    public int getAccessLevel() {
+    public String getAccessLevel() {
         return accessLevel;
     }
 
-    public void setAccessLevel(int accessLevel) {
+    public void setAccessLevel(String accessLevel) {
         this.accessLevel = accessLevel;
     }
 }

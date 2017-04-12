@@ -1,4 +1,4 @@
-package by.training.nc.dev5.clinic.ConnectionPool;
+package by.training.nc.dev5.clinic.connectionpool;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

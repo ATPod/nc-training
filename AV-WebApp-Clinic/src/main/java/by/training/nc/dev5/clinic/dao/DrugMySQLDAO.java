@@ -1,6 +1,6 @@
 package by.training.nc.dev5.clinic.dao;
 
-import by.training.nc.dev5.clinic.ConnectionPool.ConnectionPool;
+import by.training.nc.dev5.clinic.connectionpool.ConnectionPool;
 import by.training.nc.dev5.clinic.beans.patient.prescribing.Drug;
 import by.training.nc.dev5.clinic.constants.ColumnNames;
 import by.training.nc.dev5.clinic.constants.SqlRequests;
@@ -50,13 +50,48 @@ public enum  DrugMySQLDAO implements PrescribingDAO<Drug> {
         return drugs;
     }
 
-    public void add(String name, int patientId){
-        PrescribingMySQLDAO prescribingMySQLDAO = new PrescribingMySQLDAO();
-        prescribingMySQLDAO.add(name, patientId, SqlRequests.INSERT_DRUG);
+    public void add(Drug temp){
+        Connection cn = null;
+        PreparedStatement st = null;
+        try {
+            cn = ConnectionPool.retrieve();
+            st = cn.prepareStatement(SqlRequests.ADD_DRUG);
+            st.setString(1, temp.getName());
+            st.setInt(2, temp.getPatientId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException e) {
+                ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+            }
+            ConnectionPool.putback(cn);
+        }
     }
 
     public void delete(int id){
-        PrescribingMySQLDAO prescribingMySQLDAO = new PrescribingMySQLDAO();
-        prescribingMySQLDAO.delete(id, SqlRequests.DELETE_DRUG);
+        Connection cn = null;
+        PreparedStatement st = null;
+        try {
+            cn = ConnectionPool.retrieve();
+            st = cn.prepareStatement(SqlRequests.DELETE_DRUG);
+            st.setInt(1, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException e) {
+                ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+            }
+            ConnectionPool.putback(cn);
+        }
     }
 }

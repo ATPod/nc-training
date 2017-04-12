@@ -1,6 +1,6 @@
 package by.training.nc.dev5.clinic.dao;
 
-import by.training.nc.dev5.clinic.ConnectionPool.ConnectionPool;
+import by.training.nc.dev5.clinic.connectionpool.ConnectionPool;
 import by.training.nc.dev5.clinic.beans.User;
 import by.training.nc.dev5.clinic.constants.AccessLevels;
 import by.training.nc.dev5.clinic.constants.ColumnNames;
@@ -13,8 +13,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public enum UserMySQLDAO implements UserDAO {
     INSTANCE;
@@ -33,7 +31,7 @@ public enum UserMySQLDAO implements UserDAO {
                 user.setId(result.getInt(ColumnNames.USER_ID));
                 user.setLogin(result.getString(ColumnNames.USER_LOGIN));
                 user.setPassword(result.getString(ColumnNames.USER_PASSWORD));
-                user.setAccessLevel(result.getInt(ColumnNames.USER_ACCESS_LEVEL));
+                user.setAccessLevel(result.getString(ColumnNames.USER_ACCESS_LEVEL));
             }
         } catch (SQLException e) {
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
@@ -116,7 +114,7 @@ public enum UserMySQLDAO implements UserDAO {
             st.setString(1, login);
             ResultSet result = st.executeQuery();
             while(result.next()){
-                if(AccessLevels.DOCTOR == result.getInt(ColumnNames.USER_ACCESS_LEVEL)){
+                if(AccessLevels.DOCTOR.equals(result.getString(ColumnNames.USER_ACCESS_LEVEL))){
                     userType = UserType.DOCTOR;
                 }
                 else{
@@ -146,7 +144,7 @@ public enum UserMySQLDAO implements UserDAO {
             st = cn.prepareStatement(SqlRequests.ADD_USER);
             st.setString(1, user.getLogin());
             st.setString(2, user.getPassword());
-            st.setInt(3, user.getAccessLevel());
+            st.setString(3, user.getAccessLevel());
             st.executeUpdate();
         } catch (SQLException e) {
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());

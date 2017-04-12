@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface PrescribingDAO <T extends Entity>  {
 
-    void add(String s, int patientId) throws SQLException;
+    void add(T temp) throws SQLException;
     List<T> getByPatientId(int patientId) throws SQLException;
     void delete(int id) throws SQLException;
 }
