@@ -1,5 +1,6 @@
 package by.training.nc.dev5.dao;
 
+import by.training.nc.dev5.dao.dao.LoanDAO;
 import by.training.nc.dev5.dbmanager.DBManager;
 import by.training.nc.dev5.model.Book;
 import by.training.nc.dev5.model.Loan;
@@ -61,7 +62,7 @@ public class LoanMySQLDAO implements LoanDAO {
     }
 
     @Override
-    public boolean deleteLoan(String pLoan) {
+    public boolean deleteLoan(int id) {
         return false;
     }
 

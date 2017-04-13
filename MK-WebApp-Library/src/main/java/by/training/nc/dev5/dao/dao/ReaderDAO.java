@@ -1,4 +1,4 @@
-package by.training.nc.dev5.dao;
+package by.training.nc.dev5.dao.dao;
 
 import by.training.nc.dev5.model.Reader;
 
@@ -9,7 +9,7 @@ public interface ReaderDAO {
 
     int insertReader(Reader pReader);
     boolean deleteReader(int id);
-    Reader findReader(String pReaderId);
-    boolean updateReader(String pReaderId);
+    Reader findReader(int id);
+    boolean updateReader(Reader reader);
     Collection<Reader> selectReaders();
 }

@@ -1,5 +1,6 @@
 package by.training.nc.dev5.dao;
 
+import by.training.nc.dev5.dao.dao.BooksDAO;
 import by.training.nc.dev5.dbmanager.DBManager;
 import by.training.nc.dev5.model.Book;
 import org.apache.logging.log4j.LogManager;

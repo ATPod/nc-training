@@ -1,4 +1,4 @@
-package by.training.nc.dev5.dao;
+package by.training.nc.dev5.dao.dao;
 
 import by.training.nc.dev5.model.Book;
 
