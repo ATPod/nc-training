@@ -1,11 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<meta http-equiv="Cache-Control" content="no-cache">
 <html>
 <head>
     <title>Прохождение теста</title>
 </head>
 <body>
 <form name="testsTable" method="POST" action="controller?command=ShowResult">
+    <input type="hidden" name="testId" value="${test.id}"/>
     <input type="hidden" name="command" value="ShowResult"/>
     <table border="1">
         <tr bgcolor="#afeeee" align="center">
@@ -19,7 +21,7 @@
                 <tr>
                     <td align="center">${option.number}</td>
                     <td align="left">${option.text}</td>
-                    <td align="center"><input type="checkbox"></td>
+                    <td align="center"><input type="checkbox" name="answer${option.id}" value="1"></td>
                 </tr>
             </c:forEach>
         </c:forEach>

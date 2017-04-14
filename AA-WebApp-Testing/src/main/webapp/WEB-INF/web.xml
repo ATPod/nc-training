@@ -22,4 +22,7 @@
         <filter-name>Encoding</filter-name>
         <servlet-name>Controller</servlet-name>
     </filter-mapping>
+    <session-config>
+        <session-timeout>15</session-timeout>
+    </session-config>
 </web-app>

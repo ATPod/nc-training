@@ -7,10 +7,7 @@ import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
 import by.training.nc.dev5.logger.TestingSystemLogger;
 import by.training.nc.dev5.sql.SQLQueries;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +24,8 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
                 rs.next();
                 Question question = new Question();
                 question.setId(rs.getInt("id"));
-                question.setText(rs.getString("text"));
                 question.setScores(rs.getInt("scores"));
+                question.setText(rs.getString("text"));
                 question.setTestId(rs.getInt("fk_test"));
                 return question;
             }
@@ -38,25 +35,38 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
         return null;
     }
 
+    //returns id of inserted question
     @Override
-    public boolean insert(Question question) {
-        int modifiedRows = 0;
+    public int insert(Question question) {
+        MySQLDAOFactory factory = new MySQLDAOFactory();
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.INSERT_QUESTION)
+             PreparedStatement questionStatement = connection.prepareStatement
+                     (SQLQueries.INSERT_QUESTION, Statement.RETURN_GENERATED_KEYS)
         ) {
-            statement.setInt(1, question.getId());
-            statement.setString(2, question.getText());
-            statement.setInt(3, question.getScores());
-            statement.setInt(4, question.getTestId());
-            InterfaceDAO<Option> optionMySQLDAO = new MySQLDAOFactory().getOptionDAO();
-            for (Option option : question.getAnswerOptions()) {
-                optionMySQLDAO.insert(option);
+            List<Option> options = question.getAnswerOptions();
+            questionStatement.setString(1, question.getText());
+            questionStatement.setInt(2, question.getScores());
+            questionStatement.setInt(3, question.getTestId());
+            int affectedRows = questionStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Error! Question is not inserted!");
             }
-            modifiedRows = statement.executeUpdate();
+            ResultSet generatedKeys = questionStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                InterfaceDAO<Option> optionDAO = factory.getOptionDAO();
+                int questionId = generatedKeys.getInt(1);
+                for (Option option : options) {
+                    option.setQuestionId(questionId);
+                    optionDAO.insert(option);
+                }
+                return questionId;
+            } else {
+                throw new SQLException("Creating question failed, no ID obtained.");
+            }
         } catch (SQLException e) {
             TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
-        return (modifiedRows > 0);
+        return -1;
     }
 
     @Override
@@ -66,8 +76,8 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
              PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_QUESTION);
         ) {
             statement.setString(1, entity.getText());
-            statement.setInt(2, entity.getScores());
             statement.setInt(3, entity.getTestId());
+            statement.setInt(2, entity.getScores());
             statement.setInt(4, entity.getId());
             modifiedRows = statement.executeUpdate();
 
@@ -99,15 +109,14 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
         ) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
-                Question question = find(id);
+                Question question = find(rs.getInt("id"));
                 if (question != null) {
                     questions.add(question);
                 }
             }
 
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(e.getClass(), e.getMessage());
         }
 
         return questions;
@@ -118,7 +127,6 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
         return null;
     }
 
-    @Override
     public List<Question> getAll(String where, Integer... params) {
         TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
         List<Question> questions = new ArrayList<>();
@@ -140,6 +148,6 @@ public class QuestionMySQLDAO implements InterfaceDAO<Question> {
         } catch (SQLException e) {
             TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
-      return questions;
+        return questions;
     }
 }

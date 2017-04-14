@@ -1,11 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: NotePad.by
-  Date: 12.04.2017
-  Time: 7:28
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<meta http-equiv="Cache-Control" content="no-cache">
 <html>
 <head>
     <title>Заполнение параметров теста</title>

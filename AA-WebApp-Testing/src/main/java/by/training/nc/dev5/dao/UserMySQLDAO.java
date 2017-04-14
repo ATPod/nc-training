@@ -29,9 +29,9 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
                     Student student = new Student();
                     student.setId(rs.getInt("id"));
                     student.setLogin(rs.getString("login"));
-                    student.setPassword(rs.getString("password"));
                     student.setName(rs.getString("name"));
                     student.setSurname(rs.getString("surname"));
+                    student.setPassword(rs.getString("password"));
                     student.setScores(rs.getInt("scores"));
                     return student;
                 } else {
@@ -40,9 +40,9 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
                         tutor.setId(rs.getInt("id"));
                         tutor.setLogin(rs.getString("login"));
                         tutor.setPassword(rs.getString("password"));
-                        tutor.setName(rs.getString("name"));
                         tutor.setSurname(rs.getString("surname"));
                         tutor.setSubject(rs.getString("subject"));
+                        tutor.setName(rs.getString("name"));
                         return tutor;
                     }
                 }
@@ -55,9 +55,32 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
     }
 
     @Override
-    public boolean insert(User user) {
+    public List<User> getAll(String where, Integer... params) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
+        List<User> users = new ArrayList<>();
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(where)
+        ) {
+            int paramAmount = params.length;
+            for (int i = 0; i < paramAmount; i++) {
+                statement.setInt((i + 1), params[i]);
+            }
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                User user = find(rs.getInt("id"));
+                if (user != null) {
+                    users.add(user);
+                }
+            }
+
+        } catch (SQLException e) {
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+        }
+        return users;
+    }
+    @Override
+    public int insert(User user) {
         TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke insert method");
-        int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLQueries.INSERT_USER);
         ) {
@@ -77,16 +100,27 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
                     statement.setString(8, ((Tutor) user).getSubject());
                 }
             }
-            modifiedRows = statement.executeUpdate();
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Error! User is not inserted!");
+            }
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int userId = generatedKeys.getInt(1);
+                user.setId(userId);
+                return userId;
+            } else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
         } catch (SQLException e) {
             TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
-        return (modifiedRows > 0);
+        return -1;
     }
+
 
     @Override
     public boolean update(User entity) {
-        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke update method");
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_USER);
@@ -94,12 +128,12 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
 
             statement.setString(1, entity.getLogin());
             statement.setString(2, entity.getPassword());
-            statement.setString(3, entity.getName());
             statement.setString(4, entity.getSurname());
+            statement.setString(3, entity.getName());
             statement.setInt(7, entity.getId());
             if (entity instanceof Tutor) {
-                statement.setNull(5, Types.INTEGER);
                 statement.setString(6, ((Tutor) entity).getSubject());
+                statement.setNull(5, Types.INTEGER);
             } else {
                 if (entity instanceof Student) {
                     statement.setInt(5, ((Student) entity).getScores());
@@ -115,7 +149,6 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
 
     @Override
     public boolean delete(int id) {
-        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke delete method");
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLQueries.DELETE_USER)
@@ -130,14 +163,14 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
 
     @Override
     public List<User> getAll() {
-        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
         List<User> users = new ArrayList<>();
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLQueries.GET_ALL_USERS)
         ) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                User user = find(rs.getInt("id"));
+                int id = rs.getInt("id");
+                User user = find(id);
                 if (user != null) {
                     users.add(user);
                 }
@@ -163,7 +196,8 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
             }
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                User user = find(rs.getInt("id"));
+                int id = rs.getInt("id");
+                User user = find(id);
                 if (user != null) {
                     users.add(user);
                 }
@@ -173,31 +207,6 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
             TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
 
-        return users;
-    }
-
-    @Override
-    public List<User> getAll(String where, Integer... params) {
-        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
-        List<User> users = new ArrayList<>();
-        try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(where)
-        ) {
-            int paramAmount = params.length;
-            for (int i = 0; i < paramAmount; i++) {
-                statement.setInt((i + 1), params[i]);
-            }
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                User user = find(rs.getInt("id"));
-                if (user != null) {
-                    users.add(user);
-                }
-            }
-
-        } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
-        }
         return users;
     }
 }

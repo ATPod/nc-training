@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<meta http-equiv="Cache-Control" content="no-cache">
 <html>
 <head>
     <title>Регистрация тьютора</title>
