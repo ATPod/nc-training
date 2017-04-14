@@ -1,9 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Login</title>
+    <title>AT-WebApp</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- jQuery library -->
@@ -16,26 +17,21 @@
 </div>
 <div class="container">
     <fmt:setBundle basename="AT-WebApp-messages" var="ATWebApp"/>
-    <form action="EmployeeController" method="post">
-        <div class="row">
-            <div class="col-md-4">
-                <fmt:message key="index.user.title" bundle="${ATWebApp}"/> :
-            </div>
-            <div class="col-md-4">
-                <input type="text" name="username">
-            </div>
+    <h2>
+        <fmt:message key="employee.title" bundle="${ATWebApp}"/>
+    </h2>
+    <c:forEach var="employee" items="${employees}">
+    <div class="row">
+        <div class="col-sm-4">
+            <c:out value="${employee.id}"/>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <fmt:message key="index.user.password" bundle="${ATWebApp}"/> :
-            </div>
-            <div class="col-md-4">
-                <input type="password" name="password">
-            </div>
+        <div class="col-sm-4">
+            <c:out value="${employee.firstName}"/> <c:out value="${employee.lastName}"/>
         </div>
-        <div class="row">
-            <input type="submit" value="<fmt:message key='index.button.login' bundle='${ATWebApp}'/>"/>
+        <div class="col-sm-4">
+            <c:out value="${employee.email}"/>
         </div>
-    </form>
+    </div>
+    </c:forEach>
 </body>
 </html>
