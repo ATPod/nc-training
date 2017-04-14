@@ -16,7 +16,7 @@ public class RegisterClientCommand extends AbstractCommand implements Command {
         String name = request.getParameter("name");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        Client client = new Client(0,name,login,password);
+        Client client = new Client(name,login,password);
         clientMySQLDAO.insertClient(client);
         return JspPaths.LOGIN_PAGE_PATH;
     }

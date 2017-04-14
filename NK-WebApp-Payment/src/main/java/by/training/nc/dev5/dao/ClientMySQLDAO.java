@@ -14,6 +14,7 @@ import java.util.List;
 
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.entities.Person;
+import com.sun.org.apache.regexp.internal.RE;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,12 +27,14 @@ import by.training.nc.dev5.dao.ClientDAO;
  */
 public class ClientMySQLDAO implements ClientDAO {
 
-	private static final String SQL_SELECT = "SELECT client_id, client_status, name from client";
-	private static final String SQL_INSERT = "INSERT INTO client (client_id, client_status, name) values(?,?,?)";
-	private static final String SQL_UPDATE = "UPDATE client SET client_status = ?,name = ?, WHERE client.client_id = ?";
+	private static final String SQL_SELECT = "SELECT client_id, client_status, name, login, password from client";
+	private static final String SQL_INSERT = "INSERT INTO client (" +
+			"client_status, name,login,password) values(?,?,?,?)";
+	private static final String SQL_UPDATE = "UPDATE client SET client_status = ?,name = ?," +
+			"login = ?,password =?, WHERE client.client_id = ?";
 	private static final String SQL_DELETE = "DELETE FROM client WHERE client.client_id = ?";
 	private static final String SQL_FIND = "SELECT * FROM client WHERE client_id = ?";
-	private static final String SQL_FIND_PERSON = "SELECT * FROM client WHERE login = ?";
+	private static final String SQL_FIND_BY_LOGOPASS = "SELECT * FROM client WHERE login = ?";
 
 	// logger for the class
 	static Logger logger = LogManager.getLogger(ClientMySQLDAO.class);
@@ -50,6 +53,29 @@ public class ClientMySQLDAO implements ClientDAO {
 		return (success > 0);
 	}
 
+	public Person findPerson(String pLogin, String pPassword){
+		try (Connection connection = MySQLDAOFactory.getConnection();
+			 PreparedStatement ptmt = connection.prepareStatement(SQL_FIND_BY_LOGOPASS)) {
+			ptmt.setString(1, pLogin);
+			ResultSet rs = ptmt.executeQuery();
+			if(rs != null){
+				rs.next();
+				if(rs.getString(4).equals(pPassword)) {
+					Person person = new Person();
+					person.setName(rs.getString("name"));
+					person.setStatus(rs.getBoolean("client_status"));
+					person.setId(rs.getInt("client_id"));
+					person.setLogin(rs.getString("login"));
+					person.setPassword(rs.getString("password"));
+					return person;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public Client findClient(int pClientId) {
 		try (Connection connection = MySQLDAOFactory.getConnection();
 			 PreparedStatement ptmt = connection.prepareStatement(SQL_FIND)) {
@@ -61,30 +87,9 @@ public class ClientMySQLDAO implements ClientDAO {
 				client.setName(rs.getString("name"));
 				client.setStatus(rs.getBoolean("client_status"));
 				client.setId(rs.getInt("client_id"));
-				return client;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public Person findPerson(String login, String password) {
-		try (Connection connection = MySQLDAOFactory.getConnection();
-			 PreparedStatement ptmt = connection.prepareStatement(SQL_FIND_PERSON)) {
-			ptmt.setString(1, login);
-			ResultSet rs = ptmt.executeQuery();
-			if(rs != null){
-				rs.next();
-				Client client = new Client();
-				client.setName(rs.getString("name"));
-				client.setStatus(rs.getBoolean("client_status"));
-				client.setId(rs.getInt("client_id"));
-				client.setPassword(rs.getString("password"));
 				client.setLogin(rs.getString("login"));
-				if(client.getPassword() == password) {
-					return client;
-				}
+				client.setPassword(rs.getString("password"));
+				return client;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -96,36 +101,37 @@ public class ClientMySQLDAO implements ClientDAO {
 		int success = 0;
 		try(Connection connection = MySQLDAOFactory.getConnection();
 		PreparedStatement ptmt = connection.prepareStatement(SQL_INSERT)){
-			ptmt.setInt(1,pClient.getId());
-			ptmt.setBoolean(2,pClient.isStatus());
-			ptmt.setString(3,pClient.getName());
-			ptmt.setString(4,pClient.getLogin());
-			ptmt.setString(5,pClient.getPassword());
-			success = ptmt.executeUpdate();
+			if(pClient.getId() == 0) {
+				ptmt.setBoolean(1, pClient.isStatus());
+				ptmt.setString(2, pClient.getName());
+				ptmt.setString(3, pClient.getLogin());
+				ptmt.setString(4, pClient.getPassword());
+				success = ptmt.executeUpdate();
+			}
 		}catch (SQLException ex){
 			logger.error(ex.getMessage());
 		}
 		return success;
 	}
 
-	public Collection<Person> selectClients() {
+	public Collection<Client> selectClients() {
 		try {
-			List<Person> clients = new ArrayList<Person>();
-			Client ClientBean;
+			List<Client> clients = new ArrayList<Client>();
+			Client clientBean;
 			Connection connection = MySQLDAOFactory.getConnection();
 			PreparedStatement ptmt = connection.prepareStatement(SQL_SELECT);
 			ResultSet rs = ptmt.executeQuery();
 			while (rs.next()) {
-				ClientBean = new Client();
-				ClientBean.setId(rs.getInt(1));
-				ClientBean.setStatus(rs.getBoolean(2));
-				ClientBean.setName(rs.getString(3));
-				ClientBean.setLogin(rs.getString(4));
-				ClientBean.setPassword(rs.getString(5));
-				clients.add(ClientBean);
-				logger.debug("Employee.id:" + ClientBean.getId() +
-						" Employee.Status:" + ClientBean.isStatus() +
-						" Employee.Name:" + ClientBean.getName() );
+				clientBean = new Client();
+				clientBean.setId(rs.getInt(1));
+				clientBean.setStatus(rs.getBoolean(2));
+				clientBean.setName(rs.getString(3));
+				clientBean.setLogin(rs.getString(4));
+				clientBean.setPassword(rs.getString(5));
+				clients.add(clientBean);
+				logger.debug("Employee.id:" + clientBean.getId() +
+						" Employee.Status:" + clientBean.isStatus() +
+						" Employee.Name:" + clientBean.getName() );
 			}
 			return clients;
 		} catch (SQLException ex) {
@@ -141,6 +147,8 @@ public class ClientMySQLDAO implements ClientDAO {
 			ptmt.setBoolean(1, pClient.isStatus());
 			ptmt.setString(2, pClient.getName());
 			ptmt.setInt(3, pClient.getId());
+			ptmt.setString(4,pClient.getLogin());
+			ptmt.setString(5,pClient.getPassword());
 			success = ptmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

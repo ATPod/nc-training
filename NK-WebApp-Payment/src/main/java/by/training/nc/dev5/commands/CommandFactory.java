@@ -1,5 +1,6 @@
 package by.training.nc.dev5.commands;
 
+
 import by.training.nc.dev5.commands.user.*;
 import by.training.nc.dev5.constants.*;
 
@@ -19,7 +20,6 @@ public class CommandFactory {
         commands.put(LOGIN, new LoginUserCommand());
         commands.put(CLIENT_MENU,  new RegisterClientCommand());
         commands.put(LOGOUT_USER, new LogoutUserCommand());
-
     }
 
     public static Command defineCommand(HttpServletRequest req) {

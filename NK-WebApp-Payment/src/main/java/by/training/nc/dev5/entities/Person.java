@@ -10,6 +10,24 @@ public class Person {
     protected String password;
     protected String login;
 
+    public Person(){
+        this.name = null;
+        this.id = 0;
+        this.login = null;
+        this.password = null;
+        this.status = false;
+    }
+
+
+
+    public Person (Person person){
+        this.name = person.getName();
+        this.id = person.getId();
+        this.login = person.getLogin();
+        this.password = person.getPassword();
+        this.status = person.isStatus();
+    }
+
     public void setName(String name) {
         this.name = name;
     }

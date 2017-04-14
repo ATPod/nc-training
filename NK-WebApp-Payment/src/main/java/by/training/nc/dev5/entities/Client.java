@@ -30,6 +30,14 @@ public class Client extends Person {
         status = false;
     }
 
+    public Client(String name,String login,String password) {
+        this.id = 0;
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        status = false;
+    }
+
     public Client (Client client) {
         this.list = client.getList();
         this.name = client.getName();

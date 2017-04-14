@@ -11,4 +11,7 @@ public interface Commands {
     String CLIENT_MENU = "ClientMenu";
     String ADMIN_MENU = "AdminMenu";
     String LOGOUT_USER = "LogoutUser";
+    String MAKE_PAYMENT = "payment";
+    String SHOW_CREDIT_CARDS = "showcreditcards";
+    String REFIL_ACCOUNT = "refil";
 }

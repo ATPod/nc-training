@@ -34,6 +34,7 @@ public class CreditCardMySQLDAO implements CreditCardDAO {
             "money = ?,account_status = ?,pass = ?, WHERE creditcard.crditcard_id = ?";
 	private static final String SQL_DELETE = "DELETE FROM creditcard WHERE creditcard.crditcard_id = ?";
 	private static final String SQL_FIND = "SELECT * FROM creditcard WHERE crditcard_id = ?";
+	private static final String SQL_FIND_ALL = "SELECT * FROM creditcard WHERE client_id = ?";
 
     // logger for the class
     static Logger logger = LogManager.getLogger(ClientMySQLDAO.class);
@@ -93,6 +94,31 @@ public class CreditCardMySQLDAO implements CreditCardDAO {
         }
         return null;
 	}
+
+	public ArrayList<CreditCard> findAllCreditCardsByClientId(int pClientId){
+	    ArrayList<CreditCard> list = new ArrayList<>();
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement ptmt = connection.prepareStatement(SQL_FIND)) {
+            ptmt.setInt(1,pClientId);
+            ResultSet rs = ptmt.executeQuery();
+            if(rs != null){
+                rs.next();
+                CreditCard creditCard = new CreditCard();
+                Account account = new Account();
+                creditCard.setClientId(rs.getInt("client_id"));
+                creditCard.setPassword(convertStringToArray(rs.getString("pass")));
+                account.setMoney(rs.getDouble("money"));
+                account.setBlocked(rs.getBoolean("account_status"));
+                creditCard.setAccount(account);
+                list.add(creditCard);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NotCorrectPasswordException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 	/* (non-Javadoc)
 	 * @see by.training.nc.dev5.dao.TrainingDAO#insertTraining(by.training.nc.dev5.bean.Training)
