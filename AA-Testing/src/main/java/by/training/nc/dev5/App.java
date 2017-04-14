@@ -5,7 +5,7 @@ import by.training.nc.dev5.tools.InitializationManager;
 
 public class App {
     public static void main(String[] args) {
-      InitializationManager.fillTests("Tests");
+        InitializationManager.fillTests("Tests");
         ConsoleOperations.consoleMenu();
     }
 }
