@@ -16,13 +16,14 @@ import java.util.List;
 public class LoginUserCommand extends AbstractCommand {
     //вход пользователя в систему
     public String execute(HttpServletRequest request) {
+        //возвращает текущий сеанс
+        HttpSession session = request.getSession();
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         MySQLDAOFactory factory = new MySQLDAOFactory();
         InterfaceDAO<User> dao = factory.getUserDAO();
         List<User> users = dao.getAll(SQLQueries.FIND_BY_LOGIN_PASSWORD, login, password);
         if (users.size() != 0) {
-            HttpSession session = request.getSession();
             User registered = users.get(0);
             session.setAttribute("user", registered);
             if (registered instanceof Tutor) {
@@ -36,7 +37,7 @@ public class LoginUserCommand extends AbstractCommand {
             }
         }
         request.setAttribute("error_message", "Пользователь с данным логином и паролем отсутствует!");
-        return null;
+        return JspPaths.LOGIN_PAGE_PATH;
 
     }
 }

@@ -20,11 +20,13 @@ public class TutorService {
         return instance;
     }
 
-    public Test creatingTest(Tutor tutor, String testName, int questionAmount) {
-        List<Question> questions = new ArrayList<>();
-        for (int i = 0; i < questionAmount; i++) {
-           // questions.add(ConsoleOperations.inputQuestion());
-        }
-        return null;
+    public Test creatingTest(Tutor tutor, String testName, List<Question> questions) {
+        Test test=new Test();
+        test.setQuestions(questions);
+        test.setAuthorId(tutor.getId());
+        test.setSubject(tutor.getSubject());
+        test.setName(testName);
+        test.setId(0);
+        return test;
     }
 }

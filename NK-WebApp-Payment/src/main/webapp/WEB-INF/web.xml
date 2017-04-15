@@ -4,4 +4,12 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>Controller</servlet-name>
+    <servlet-class>by.training.nc.dev5.controller.ClientController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Controller</servlet-name>
+    <url-pattern>/controller</url-pattern>
+  </servlet-mapping>
 </web-app>

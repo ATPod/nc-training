@@ -1,5 +1,11 @@
 package by.training.nc.dev5.commands;
 
+import by.training.nc.dev5.commands.student.ShowResultCommand;
+import by.training.nc.dev5.commands.student.ShowTestCommand;
+import by.training.nc.dev5.commands.turor.AddTestCommand;
+import by.training.nc.dev5.commands.turor.CreateTestCommand;
+import by.training.nc.dev5.commands.turor.FillTestCommand;
+import by.training.nc.dev5.commands.turor.ShowStudentsCommand;
 import by.training.nc.dev5.commands.user.*;
 import by.training.nc.dev5.constants.*;
 
@@ -23,6 +29,13 @@ public class CommandFactory {
         commands.put(STUDENT_MENU, new RegisterStudentCommand());
         commands.put(TUTOR_MENU, new RegisterStudentCommand());
         commands.put(LOGOUT_USER, new LogoutUserCommand());
+        commands.put(SHOW_TESTS, new ShowTestsCommand());
+        commands.put(SHOW_TEST, new ShowTestCommand());
+        commands.put(SHOW_RESULT, new ShowResultCommand());
+        commands.put(SHOW_STUDENTS, new ShowStudentsCommand());
+        commands.put(CREATE_TEST,new CreateTestCommand());
+        commands.put(FILL_TEST,new FillTestCommand());
+        commands.put(ADD_TEST,new AddTestCommand());
 
     }
 
