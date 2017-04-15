@@ -14,7 +14,7 @@
         String INSERT_QUESTION="INSERT INTO questions(text,scores,fk_test) values(?,?,?);";
         String INSERT_TEST="INSERT INTO tests(name,subject,tutor_id) values(?,?,?);";
         String INSERT_OPTION="INSERT INTO options(text,number, rightness,question_id) values(?,?,?,?);";
-        String INSERT_USER="INSERT INTO users(id,type,login,password,name, surname,scores,subject) values(?,?,?,?,?,?,?,?);";
+        String INSERT_USER="INSERT INTO users(type,login,password,name, surname,scores,subject) values(?,?,?,?,?,?,?);";
 
         String FIND_QUESTION="SELECT * FROM questions WHERE id= ? ;";
         String FIND_TEST="SELECT * FROM tests WHERE id= ? ;";
