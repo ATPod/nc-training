@@ -1,4 +1,4 @@
-package by.training.nc.dev5.clinic.commands.doctor;
+package by.training.nc.dev5.clinic.commands.doctorandnurse.gotocommand;
 
 import by.training.nc.dev5.clinic.beans.patient.Patient;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
@@ -20,10 +20,10 @@ public class GoToChoosePatientCommand extends AbstractCommand {
         String page = null;
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
-        if(userType == UserType.DOCTOR){
+        if(userType == UserType.DOCTOR || userType == UserType.NURSE){
             List<Patient> list = PatientMySQLDAO.INSTANCE.getAll();
             session.setAttribute(Parameters.PATIENTS_LIST, list);
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_SHOW_PATIENTS_PAGE);
+            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.SHOW_PATIENTS_PAGE);
         }
         else{
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);

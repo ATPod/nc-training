@@ -8,6 +8,7 @@
 <body>
 <h3>Вы вошли в систему как медсестра</h3>
 <h4>Выберите операцию:</h4>
+<a href="controller?command=gotochoosepatient">Выбрать пациента</a> <br/>
 <a href="controller?command=logout">Выйти из системы</a> <br/>
 </body>
 </html>

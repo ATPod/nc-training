@@ -10,9 +10,9 @@
     Введите название:<br />
     <input type="text" name="drugName" value="" />
     <input type="submit" value="Сохранить" /> <br />
+    <a href="controller?command=backtoinnermenu">Вернуться обратно</a>
+    <a href="controller?command=logout">Выйти из системы</a>
     ${operationMessage}  <br />
 </form>
-<a href="controller?command=backtodoctorinnermenu">Вернуться обратно</a>
-<a href="controller?command=logout">Выйти из системы</a>
 </body>
 </html>

@@ -9,6 +9,10 @@ public class Parameters {
     public static final String ACCESS_LEVEL = "access_level";
     public static final String USERTYPE = "userType";
     public static final String PATIENTS_LIST = "patientsList";
+    public static final String DIAGNOSIS_LIST = "diagnosisesList";
+    public static final String DRUGS_LIST = "drugsList";
+    public static final String PROCEDURES_LIST = "proceduresList";
+    public static final String SURGERIES_LIST = "surgeriesList";
     public static final String PATIENT_ID = "patientId";
     public static final String PATIENT_NAME = "patientName";
     public static final String DIAGNOSIS_ID = "diagnosisId";

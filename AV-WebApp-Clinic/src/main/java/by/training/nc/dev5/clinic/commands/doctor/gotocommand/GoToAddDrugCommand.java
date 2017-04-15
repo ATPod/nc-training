@@ -1,4 +1,4 @@
-package by.training.nc.dev5.clinic.commands.doctor.goback;
+package by.training.nc.dev5.clinic.commands.doctor.gotocommand;
 
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
@@ -10,18 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by user on 11.04.2017.
+ * Created by user on 12.04.2017.
  */
-public class GoBackToChoosePatientCommand extends AbstractCommand {
+public class GoToAddDrugCommand extends AbstractCommand {
     public String execute(HttpServletRequest request) {
         String page = null;
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_SHOW_PATIENTS_PAGE);
+            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_ADD_DRUG);
         }
         else{
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);
+            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_INNER_MENU);
             session.invalidate();
         }
         return page;

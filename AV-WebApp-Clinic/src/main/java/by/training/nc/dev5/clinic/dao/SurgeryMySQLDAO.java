@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
 public enum  SurgeryMySQLDAO implements PrescribingDAO<Surgery> {
     INSTANCE;
     public List<Surgery> getByPatientId(int patientId){
-        List<Surgery> surgeries = null;
+        List<Surgery> surgeries = new ArrayList<Surgery>();
         Connection cn = null;
         PreparedStatement st = null;
         try {

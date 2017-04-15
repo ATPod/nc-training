@@ -21,11 +21,11 @@
             </tr>
         </c:forEach>
     </table>
+    <input type="submit" value="Выбрать"/>  <br/>
+    <a href="controller?command=backtomainmenu">Вернуться обратно</a><br/>
+    <a href="controller?command=logout">Выйти из системы</a><br/>
     ${errorEmptyChoice}
     ${errorEmptyList} <br/>
-    <input type="submit" value="Выбрать"/>  <br/>
-    <a href="controller?command=backtodoctormain">Вернуться в меню доктора</a><br/>
-    <a href="controller?command=logout">Выйти из системы</a><br/>
 </form>
 </body>
 </html>
