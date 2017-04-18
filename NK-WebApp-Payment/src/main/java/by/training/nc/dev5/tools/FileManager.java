@@ -40,15 +40,11 @@ public class FileManager {
             int numofcreditcards = scanner.nextInt();
             for(int i = 0;i < numofcreditcards;i++){
                 scanner.findWithinHorizon("CreditCardId : ",0);
-                int []arrid = new int [16];
-                for(int j = 0; j<16;j++){
-                    arrid[j] = scanner.nextInt(1);
-                }
+                String arrid = new String();
+                arrid = scanner.next();
                 scanner.findWithinHorizon("CreditCardPass : ",0);
-                int []arrpass = new int [4];
-                for(int j = 0; j<4;j++){
-                    arrpass[j] = scanner.nextInt(1);
-                }
+                String arrpass = new String();
+                arrpass = scanner.next();
                 scanner.findWithinHorizon("AccountMoney : ",0);
                 int money = scanner.nextInt();
                 scanner.findWithinHorizon("IsBlocked : ",0);
@@ -78,14 +74,10 @@ public class FileManager {
             printer.println("NumOfCreditCards : " + client.getList().size());
             for(CreditCard creditCard : client.getList()){
                 printer.print("CreditCardId : ");
-                for(int i = 0;i<creditCard.getId().length;i++){
-                    printer.print(creditCard.getId()[i]);
-                }
+                printer.print(creditCard.getId());
                 printer.print("\n");
                 printer.print("CreditCardPass : ");
-                for(int i = 0;i<creditCard.getPassword().length;i++){
-                    printer.print(creditCard.getPassword()[i]);
-                }
+                printer.print(creditCard.getPassword());
                 printer.print("\n");
                 printer.println("AccountMoney : " + creditCard.getAccount().getMoney());
                 printer.println("IsBlocked : " + creditCard.getAccount().isBlocked());

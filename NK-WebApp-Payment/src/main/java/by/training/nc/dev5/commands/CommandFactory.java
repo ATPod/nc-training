@@ -20,6 +20,15 @@ public class CommandFactory {
         commands.put(LOGIN, new LoginUserCommand());
         commands.put(CLIENT_MENU,  new RegisterClientCommand());
         commands.put(LOGOUT_USER, new LogoutUserCommand());
+        commands.put(SHOW_CREDIT_CARDS, new ShowYourCreditCards());
+        commands.put(GO_TO_PAYMENT, new GoToMakePaymentCommand());
+        commands.put(MAKE_PAYMENT, new MakePayment());
+        commands.put(GO_TO_RAFIL, new GoToRefilCommand());
+        commands.put(REFIL_ACCOUNT, new RefilCommand());
+        commands.put(GO_TO_INSERT_CREDIT_CARD, new GoToInsertCreditCardCommand());
+        commands.put(INSERT_CREDIT_CARD, new InsertCreditCardCommand());
+        commands.put(GO_TO_DELETE_CREDIT_CARD, new GoToDeleteCreditCardCommand());
+        commands.put(DELETE_CREDIT_CARD, new DeleteCreditCardCommand());
     }
 
     public static Command defineCommand(HttpServletRequest req) {

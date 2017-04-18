@@ -11,20 +11,14 @@ import java.util.Arrays;
  */
 public class CreditCardService {
 
-    private static boolean isPasswordRight(CreditCard creditcard,int[] password){
-        int count = 0;
-        for(int i = 0;i<creditcard.getPassword().length;i++){
-            if(creditcard.getPassword()[i] == password[i]) {
-                count++;
-            }
-        }
-        if(count == creditcard.getPassword().length){
+    private static boolean isPasswordRight(CreditCard creditcard,String password){
+        if(creditcard.getPassword().equals(password)){
             return true;
         }
         else return false;
     }
 
-    private static void deserialize(CreditCard creditcard,int[] password, String path) throws Exception{
+    private static void deserialize(CreditCard creditcard,String password, String path) throws Exception{
         if(isPasswordRight(creditcard,password)) {
             try{
                 creditcard.setAccount(Serialization.deserialization(path));
@@ -34,7 +28,7 @@ public class CreditCardService {
         }
     }
 
-    public static void moneyOperation(CreditCard creditcard,int []password, double money,int flag){
+    public static void moneyOperation(CreditCard creditcard,String password, double money,int flag){
         if(isPasswordRight(creditcard,password) && creditcard.getAccount().isBlocked() != true) {
             switch (flag) {
                 case 1:
@@ -49,7 +43,7 @@ public class CreditCardService {
         }
     }
 
-    public static void creditCardOperation(CreditCard creditcard,int []password,int flag){
+    public static void creditCardOperation(CreditCard creditcard,String password,int flag){
         if(isPasswordRight(creditcard,password) && creditcard.getAccount().isBlocked() != true) {
             switch (flag) {
                 case 1:
@@ -62,7 +56,7 @@ public class CreditCardService {
         }
     }
 
-    public static void serializeOperation(CreditCard creditcard,int[] password,String path,int flag)throws Exception{
+    public static void serializeOperation(CreditCard creditcard,String password,String path,int flag)throws Exception{
         if(isPasswordRight(creditcard,password) && creditcard.getAccount().isBlocked() != true) {
             switch (flag) {
                 case 1:
@@ -79,7 +73,7 @@ public class CreditCardService {
         System.out.println(creditcard.getAccount().getMoney());
         System.out.println(creditcard.getAccount().isBlocked());
         System.out.println(creditcard.getClientId());
-        System.out.println(Arrays.toString(creditcard.getId()));
-        System.out.println(Arrays.toString(creditcard.getPassword()));
+        System.out.println(creditcard.getId());
+        System.out.println(creditcard.getPassword());
     }
 }

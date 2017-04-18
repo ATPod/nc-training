@@ -8,12 +8,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h2>Здравствуйте, </h2>
+<h2>Здравствуйте, ${person.name}</h2>
 <h3>Вы вошли в систему</h3>
 <h4>Выберите операцию:</h4>
 <a href="controller?command=showcreditcards">Посмотреть список кредитных карт</a> <br/>
-<a href="controller?command=refil">Пополнить счёт кредитной карты</a> <br/>
-<a href="controller?command=payment">Совершить платёж</a> <br/>
+<a href="controller?command=GoToRefil">Пополнить счёт кредитной карты</a> <br/>
+<a href="controller?command=GoToPayment">Совершить платёж</a> <br/>
+<a href="controller?command=GoToInsertCreditCard">Добавить карту</a> <br/>
+<a href="controller?command=GoToDeleteCreditCard">Удалить карту</a> <br/>
 <a href="controller?command=LogoutUser">Выйти из системы</a> <br/>
 </body>
 </html>

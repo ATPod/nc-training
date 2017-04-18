@@ -43,26 +43,16 @@ public class ClientService {
         }
     }
 
-    private static boolean isIdRight(int[] id1, int[] id2){
-        int count = 0;
-        for(int i = 0;i<id1.length;i++){
-            if(id1[i]==id2[i]){
-                count++;
-            }
-        }
-        if(count == id1.length){
+    private static boolean isIdRight(String id1, String id2){
+        if(id1.equals(id2)){
             return true;
         }
         else return false;
     }
 
-    private static String generatePath(int[] id){
+    private static String generatePath(String id){
         String path = new String();
-        path += "src\\main\\resources\\";
-        for(int i = 0;i<id.length;i++){
-            path += id[i];
-        }
-        path += ".out";
+        path += "src\\main\\resources\\"+id+".out";
         return path;
     }
 
@@ -72,7 +62,7 @@ public class ClientService {
         client.setList(list);
     }
 
-    public static void creditCardOperation (Client client,int[] id,int[] password,int flag) {
+    public static void creditCardOperation (Client client,String id,String password,int flag) {
         for(int i = 0;i<client.getList().size();i++) {
             if(isIdRight(client.getList().get(i).getId(),id)) {
                 switch (flag) {
@@ -91,7 +81,7 @@ public class ClientService {
         }
     }
 
-    public static void moneyOperation (Client client,int []id, int []password,double money,int flag){
+    public static void moneyOperation (Client client,String id,String password,double money,int flag){
         for (int i = 0; i < client.getList().size(); i++) {
             if (isIdRight(client.getList().get(i).getId(), id)) {
                 CreditCardService.moneyOperation(client.getList().get(i),password, money,flag);
@@ -99,7 +89,7 @@ public class ClientService {
         }
     }
 
-    public static void serializeOperation(Client client,int[] id, int[] password,int flag)throws Exception{
+    public static void serializeOperation(Client client,String id, String password,int flag)throws Exception{
         for (int i = 0; i < client.getList().size(); i++) {
             if (isIdRight(client.getList().get(i).getId(), id)) {
                 CreditCardService.serializeOperation(client.getList().get(i),password,

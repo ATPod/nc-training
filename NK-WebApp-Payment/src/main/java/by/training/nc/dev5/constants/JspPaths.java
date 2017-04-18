@@ -9,4 +9,10 @@ public interface JspPaths {
     String ADMIN_MENU="/admin_menu.jsp";
     String CLIENT_MENU="/client_menu.jsp";
     String INDEX_PAGE_PATH = "/index.jsp";
+    String CREDIT_CARD_TABLE = "/creditCard_table.jsp";
+    String PAYMENT_PATH = "/payment.jsp";
+    String SUCCESSED_OPERATION = "/success.jsp";
+    String REFIL_PATH = "/refil.jsp";
+    String INSERT_PATH = "/insert.jsp";
+    String DELETE_PATH = "/delete.jsp";
 }

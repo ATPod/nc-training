@@ -1,6 +1,7 @@
 package by.training.nc.dev5.controller;
 import by.training.nc.dev5.commands.Command;
 import by.training.nc.dev5.commands.CommandFactory;
+import by.training.nc.dev5.dao.ClientMySQLDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import java.io.IOException;
 
 public class ClientController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ClientMySQLDAO clientMySQLDAO = new ClientMySQLDAO();
         String page = null;
         Command command = CommandFactory.defineCommand(request);
         page = command.execute(request);

@@ -11,7 +11,13 @@ public interface Commands {
     String CLIENT_MENU = "ClientMenu";
     String ADMIN_MENU = "AdminMenu";
     String LOGOUT_USER = "LogoutUser";
+    String GO_TO_PAYMENT = "GoToPayment";
     String MAKE_PAYMENT = "payment";
     String SHOW_CREDIT_CARDS = "showcreditcards";
+    String  GO_TO_RAFIL = "GoToRefil";
     String REFIL_ACCOUNT = "refil";
+    String GO_TO_INSERT_CREDIT_CARD = "GoToInsertCreditCard";
+    String INSERT_CREDIT_CARD = "InsertCreditCard";
+    String GO_TO_DELETE_CREDIT_CARD = "GoToDeleteCreditCard";
+    String DELETE_CREDIT_CARD = "DeleteCreditCard";
 }
