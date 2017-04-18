@@ -6,10 +6,7 @@ import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
 import by.training.nc.dev5.logger.TestingSystemLogger;
 import by.training.nc.dev5.sql.SQLQueries;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,35 +23,44 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
                 rs.next();
                 Option option = new Option();
                 option.setId(rs.getInt("id"));
-                option.setText(rs.getString("text"));
                 option.setNumber(rs.getInt("number"));
+                option.setText(rs.getString("text"));
                 option.setRightness(rs.getBoolean("rightness"));
                 option.setQuestionId(rs.getInt("question_id"));
                 return option;
             }
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
-
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return null;
     }
-
     @Override
-    public boolean insert(Option option) {
-        int modifiedRows = 0;
+    public int insert(Option option) {
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.INSERT_OPTION);
+             PreparedStatement statement = connection.prepareStatement
+                     (SQLQueries.INSERT_OPTION, Statement.RETURN_GENERATED_KEYS)
         ) {
-            statement.setInt(1, option.getId());
-            statement.setString(2, option.getText());
-            statement.setInt(3, option.getNumber());
-            statement.setBoolean(4, option.isRightness());
-            statement.setInt(5, option.getQuestionId());
-            modifiedRows = statement.executeUpdate();
+            statement.setString(1, option.getText());
+            statement.setInt(2, option.getNumber());
+            statement.setBoolean(3, option.isRightness());
+            statement.setInt(4, option.getQuestionId());
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Error! Option is not inserted!");
+            }
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int optionId = generatedKeys.getInt(1);
+                option.setId(optionId);
+                return optionId;
+            } else {
+                throw new SQLException("Creating option failed, no ID obtained.");
+            }
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
-        return (modifiedRows > 0);
+
+        return 0;
     }
 
     @Override
@@ -66,11 +72,11 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
             statement.setString(1, entity.getText());
             statement.setInt(2, entity.getNumber());
             statement.setBoolean(3, entity.isRightness());
-            statement.setInt(4, entity.getQuestionId());
             statement.setInt(5, entity.getId());
+            statement.setInt(4, entity.getQuestionId());
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -84,7 +90,7 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
             statement.setInt(1, id);
             modifiedRows = statement.executeUpdate();
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
         return (0 < modifiedRows);
     }
@@ -97,16 +103,14 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
         ) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
-                Option option = find(id);
+                Option option = find(rs.getInt("id"));
                 if (option != null) {
                     options.add(option);
                 }
             }
 
         } catch (SQLException e) {
-            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
-
+            TestingSystemLogger.INSTANCE.logError(getClass(),e.getMessage());
         }
 
         return options;
@@ -114,7 +118,7 @@ public class OptionMySQLDAO implements InterfaceDAO<Option> {
 
     @Override
     //params-параметры для запроса
-    public List<Option> getAll(String where, String... params) {
+    public List<Option> getAll(String where,String...params) {
         return null;
     }
 

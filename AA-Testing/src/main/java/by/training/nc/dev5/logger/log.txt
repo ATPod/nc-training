@@ -26,3 +26,7 @@
 2017-04-09 21:20:53,882 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
 2017-04-09 21:21:00,086 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
 2017-04-09 21:21:00,086 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-13 18:44:18,246 ERROR b.t.n.d.d.OptionMySQLDAO [main] Cannot add or update a child row: a foreign key constraint fails (`aa-testing`.`options`, CONSTRAINT `options_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`)) 
+2017-04-13 19:02:20,496 ERROR b.t.n.d.d.QuestionMySQLDAO [main] Parameter index out of range (3 > number of parameters, which is 2). 
+2017-04-13 19:03:45,011 ERROR b.t.n.d.d.QuestionMySQLDAO [main] Parameter index out of range (3 > number of parameters, which is 2). 
+2017-04-13 19:05:50,387 ERROR b.t.n.d.d.QuestionMySQLDAO [main] Parameter index out of range (3 > number of parameters, which is 2). 

@@ -1,6 +1,5 @@
 package by.training.nc.dev5.commands;
 
-import by.training.nc.dev5.commands.student.PassTestCommand;
 import by.training.nc.dev5.commands.student.ShowResultCommand;
 import by.training.nc.dev5.commands.student.ShowTestCommand;
 import by.training.nc.dev5.commands.turor.AddTestCommand;

@@ -20,17 +20,11 @@ public class DelDiagnosisCommand extends AbstractCommand {
     private static int id;
     public String execute(HttpServletRequest request) {
         String page = null;
-        /*HttpSession session = request.getSession();
-        id = Integer.valueOf((String) session.getAttribute(Parameters.DIAGNOSIS_ID));
-        try{
-            DiagnosisMySQLDAO.INSTANCE.delete(id);
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_INNER_MENU);
-            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
-        }catch (SQLException e) {
-            ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.ERROR_PAGE_PATH);
-            request.setAttribute(Parameters.ERROR_DATABASE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));
-        }*/
+        HttpSession session = request.getSession();
+        id = Integer.valueOf(request.getParameter(Parameters.DIAGNOSIS_ID));
+        DiagnosisMySQLDAO.INSTANCE.delete(id);
+        page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.SHOW_DIAGNOSISES_PAGE);
+        request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
         return page;
     }
 }

@@ -1,5 +1,4 @@
 package by.training.nc.dev5.commands.turor;
-
 import by.training.nc.dev5.commands.AbstractCommand;
 import by.training.nc.dev5.constants.JspPaths;
 

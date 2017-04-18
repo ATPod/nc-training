@@ -20,24 +20,25 @@
             </tr>
             <tr>
                 <td><a href="controller?command=gotoadddiagnosis">Диагноз</a></td>
-                <td><a href="controller?command=gotodeldiagnosis">Снять диагноз</a></td>
+                <td><a href="controller?command=gotochoosediagnosis">Снять диагноз</a></td>
             </tr>
             <tr>
                 <td><a href="controller?command=gotoadddrug">Лекарство</a></td>
-                <td><a href="controller?command=gotodeldrug">Ввести лекарство</a></td>
+                <td><a href="controller?command=gotochoosedrug">Ввести лекарство</a></td>
             </tr>
             <tr>
                 <td><a href="controller?command=gotoaddprocedure">Процедура</a></td>
-                <td><a href="controller?command=gotodelprocedure">Сделать процедуру</a></td>
+                <td><a href="controller?command=gotochooseprocedure">Сделать процедуру</a></td>
             </tr>
             <tr>
                 <td><a href="controller?command=gotoaddsurgery">Операция</a></td>
-                <td><a href="controller?command=gotodelsurgery">Сделать операцию</a></td>
+                <td><a href="controller?command=gotochoosesurgery">Сделать операцию</a></td>
             </tr>
         </table>
         <a href="controller?command=delpatient">Выписать пациента (удалить карточку)</a><br/>
         <a href="controller?command=backtochoosepatient">Вернуться к выбору пациента</a><br/>
         <a href="controller?command=logout">Выйти из системы</a><br/>
+        ${operationMessage}  <br />
     </form>
 </body>
 </html>

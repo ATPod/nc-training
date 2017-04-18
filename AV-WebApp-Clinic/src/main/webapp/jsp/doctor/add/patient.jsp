@@ -11,8 +11,8 @@
         <input type="text" name="patientName" value="" />
         <input type="submit" value="Сохранить" /> <br />
         ${operationMessage}  <br />
+        <a href="controller?command=backtodoctormain">Вернуться обратно</a>
+        <a href="controller?command=logout">Выйти из системы</a>
     </form>
-    <a href="controller?command=backtodoctormain">Вернуться обратно</a>
-    <a href="controller?command=logout">Выйти из системы</a>
 </body>
 </html>

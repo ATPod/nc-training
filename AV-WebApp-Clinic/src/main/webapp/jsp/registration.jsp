@@ -26,7 +26,5 @@
     <input type="submit" value="Зарегистрировать" />
     <a href="controller?command=back">Вернуться обратно</a>
 </form>
-
-
 </body>
 </html>

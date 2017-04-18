@@ -18,7 +18,7 @@ public enum UserMySQLDAO implements UserDAO {
     INSTANCE;
 
     public User getByLogin(String login) throws SQLException{
-        User user = null;
+        User user = new User();
         Connection cn = null;
         PreparedStatement st = null;
         try {
