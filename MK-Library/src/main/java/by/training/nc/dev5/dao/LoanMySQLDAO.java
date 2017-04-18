@@ -45,6 +45,14 @@ public class LoanMySQLDAO implements LoanDAO {
         } catch (SQLException e) {
             logger.error(e.getMessage());
             System.out.println("Что-то пошло не так"); // =) пофиксить
+        }finally {
+            if(connection!=null){
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return -1;

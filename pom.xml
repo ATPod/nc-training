@@ -10,13 +10,18 @@
     <modules>
         <module>DAO</module>
         <module>AA-Testing</module>
+        <module>AA-WebApp-Testing</module>
         <module>AT-Aggregator</module>
+        <module>AT-WebApp</module>
         <module>MK-Library</module>
         <module>NA-DevelopersTeam</module>
         <module>VB-Airline</module>
         <module>SO-shop</module>
         <module>AV-Clinic</module>
+<<<<<<< HEAD
     <module>SO-WebApp-shop</module>
+=======
+>>>>>>> 8db0dcb9a4670823f63d6b4664501a5be282d91a
   </modules>
     <dependencies>
         <dependency>

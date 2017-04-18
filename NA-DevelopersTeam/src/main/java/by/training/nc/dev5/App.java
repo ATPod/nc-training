@@ -1,60 +1,237 @@
 package by.training.nc.dev5;
 
-import by.training.nc.dev5.artifact.Project;
-import by.training.nc.dev5.artifact.Task;
-import by.training.nc.dev5.artifact.TaskBuilder;
-import by.training.nc.dev5.artifact.TermsOfReference;
-import by.training.nc.dev5.model.Customer;
-import by.training.nc.dev5.model.Manager;
-import by.training.nc.dev5.model.Qualification;
+import by.training.nc.dev5.cli.MenuAction;
+import by.training.nc.dev5.cli.MenuController;
+import by.training.nc.dev5.cli.MenuView;
+import by.training.nc.dev5.cli.util.ValueReaderUtil;
+import by.training.nc.dev5.cli.util.ValueWriterUtil;
+import by.training.nc.dev5.entity.Customer;
+import by.training.nc.dev5.entity.Manager;
+import by.training.nc.dev5.entity.TermsOfReference;
+import by.training.nc.dev5.service.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Sample application. Demonstrates usage of classes
  *
- * @author Nikita Atroshenko`
+ * @author Nikita Atroshenko
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        Customer customer = new Customer();
-        Manager manager = new Manager();
-        TermsOfReference termsOfReference;
-        List<Task> taskSet = createTaskSet();
+public class App implements MenuController {
 
-        taskSet.forEach(customer::addTask);
-        termsOfReference = customer.composeTermsOfReference();
-        Project project = manager.formProject(termsOfReference);
+    /** This annotation is used to get all actions of this class */
+    @Retention(RetentionPolicy.RUNTIME)
+    private @interface Action {
+        /** A string key that this action should be bound to */
+        String key();
+
+        /** A description of this action */
+        String description();
     }
 
-    private static List<Task> createTaskSet() {
-        List<Task> tasks = new ArrayList<>(3);
-        TaskBuilder builder;
+    private Map<String, MenuAction> menuActionsByKeyMap;
+    private Customer customer;
+    private TermsOfReferenceBuilder termsOfReferenceBuilder;
+    private Manager manager;
 
-        builder = new TaskBuilder();
-        builder.setSpecification("Create usable web interface");
-        builder.addDevelopers(Qualification.MEDIUM, 1);
-        builder.addDevelopers(Qualification.JUNIOR, 2);
+    public App() {
+        initializeMenuActionsByKeyMap();
+    }
 
-        tasks.add(builder.createTask());
+    public static void main(String[] args ) {
+        App app = new App();
+        MenuView menuView = new MenuView(app);
 
-        builder = new TaskBuilder();
-        builder.setSpecification("Store data in DummySQL database");
-        builder.addDevelopers(Qualification.MEDIUM, 2);
+        menuView.run();
+    }
 
-        tasks.add(builder.createTask());
+    @Action(key = "log-on-customer",
+            description = "Logs you in the system as a customer")
+    void logOnCustomer() {
+        AuthenticationService authService =
+                AuthenticationService.getInstance();
 
-        builder = new TaskBuilder();
-        builder.setSpecification("Implement scalable distributed architecture");
-        builder.addDevelopers(Qualification.SENIOR, 2);
-        builder.addDevelopers(Qualification.MEDIUM, 1);
+        String login = ValueReaderUtil.readString("Enter login");
+        String password = ValueReaderUtil.readString("Enter password");
 
-        tasks.add(builder.createTask());
+        customer = authService.logCustomerOn(login, password);
 
-        return tasks;
+        if (customer == null) {
+            System.out.println("Authentication failed");
+        } else {
+            System.out.printf("Logged in as %s%n", customer.getName());
+        }
+    }
+
+    @Action(key = "log-on-manager",
+            description = "Logs you in the system as a manager")
+    void logOnManager() {
+        AuthenticationService authService =
+                AuthenticationService.getInstance();
+
+        String login = ValueReaderUtil.readString("Enter login");
+        String password = ValueReaderUtil.readString("Enter password");
+
+        manager = authService.logManagerOn(login, password);
+
+        if (customer == null) {
+            System.out.println("Authentication failed");
+        }
+    }
+
+    @Action(key = "show-pending-tors",
+            description = "Shows all terms of reference " +
+                    "that have no bound projects")
+    void showPendingTermsOfReference() {
+        ManagerService managerService = ManagerService.getInstance();
+
+        Collection<TermsOfReference> pendingTermsOfReference =
+                managerService.getPendingTermsOfReference();
+
+        ValueWriterUtil.writeCollection(pendingTermsOfReference);
+    }
+
+    @Action(key = "add-task",
+            description = "Adds tasks to new terms of reference")
+    void addTask() {
+        HelpService helpService = HelpService.getInstance();
+
+        if (customer == null) {
+            System.out.println("Please, log on as customer");
+            return;
+        }
+
+        if (termsOfReferenceBuilder == null) {
+            termsOfReferenceBuilder = new TermsOfReferenceBuilder();
+            termsOfReferenceBuilder.setCustomer(customer);
+        }
+
+        TaskBuilder taskBuilder = new TaskBuilder();
+
+        int qualificationId = ValueReaderUtil.readInt(
+                "Enter qualification id");
+        String specification = ValueReaderUtil.readString(
+                "Enter specification");
+        int developersNumber = ValueReaderUtil.readInt(
+                "Enter developers number");
+
+        taskBuilder.setSpecification(specification);
+        taskBuilder.setDevelopersNumber(
+                helpService.getQualification(qualificationId),
+                developersNumber);
+
+        termsOfReferenceBuilder.addTask(taskBuilder.createTask());
+    }
+
+    @Action(key = "propose-tor",
+            description = "Propose your terms of reference to system")
+    void proposeTermsOfReference() {
+        CustomerService customerService = CustomerService.getInstance();
+        TermsOfReference tor;
+
+        if (customer == null) {
+            System.out.println("Please, log on as customer");
+            return;
+        }
+
+        if (termsOfReferenceBuilder == null ||
+                termsOfReferenceBuilder.getTasks().size() == 0) {
+            System.out.println("No tasks added to terms of reference");
+            return;
+        }
+
+        tor = termsOfReferenceBuilder.createTermsOfReference();
+        customerService.proposeTermsOfReference(tor);
+
+        termsOfReferenceBuilder = null;
+    }
+
+    @Action(key = "show-tasks",
+            description = "Shows added tasks")
+    void showTasks() {
+        if (customer == null) {
+            System.out.println("Please, log in as customer");
+            return;
+        }
+
+        if (termsOfReferenceBuilder == null) {
+            System.out.println("No tasks were added");
+            return;
+        }
+
+        ValueWriterUtil.writeCollection(termsOfReferenceBuilder.getTasks());
+    }
+
+    @Action(key = "show-qualifications",
+            description = "Shows registered qualifications")
+    void showQualifications() {
+        HelpService helpService = HelpService.getInstance();
+
+        ValueWriterUtil.writeCollection(helpService.getQualifications());
+    }
+
+    /**
+     * Initializes menu actions map with annotated methods of this class
+     */
+    private void initializeMenuActionsByKeyMap() {
+        Method[] actions = App.class.getDeclaredMethods();
+
+        menuActionsByKeyMap = new HashMap<String, MenuAction>();
+
+        for (final Method actionMethod : actions) {
+            if (actionMethod.isAnnotationPresent(Action.class)) {
+                final Action actionAnnotation = actionMethod
+                        .getAnnotation(Action.class);
+
+                menuActionsByKeyMap.put(actionAnnotation.key(),
+                        new MenuAction() {
+                            public void performAction() {
+                                try {
+                                    actionMethod.invoke(App.this);
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                } catch (InvocationTargetException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            public String getDescription() {
+                                return actionAnnotation.description();
+                            }
+                        });
+            }
+        }
+    }
+
+    private void introduceUser() {
+
+    }
+
+    /**
+     * Gets action that has to be performed after specified key entered.
+     *
+     * @param key a key that identifies some action to be performed
+     * @return an instance of {@link MenuAction} that can be invoked or null
+     * if key is not valid
+     * @throws NullPointerException - if the specified key is null and this
+     *                              model does not permit null keys
+     */
+    public MenuAction getAction(String key) {
+        return menuActionsByKeyMap.get(key);
+    }
+
+    /**
+     * Gets all valid keys, each of them is bound to some action
+     *
+     * @return a collection of keys.
+     */
+    public Collection<String> getKeys() {
+        return menuActionsByKeyMap.keySet();
     }
 }

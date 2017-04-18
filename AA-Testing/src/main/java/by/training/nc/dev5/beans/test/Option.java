@@ -152,12 +152,9 @@ public class Option {
        */
     @Override
     public String toString() {
-        return "Option{" +
-                "id=" + id +
-                ", questionId=" + questionId +
-                ", text='" + text + '\'' +
-                ", number=" + number +
-                ", rightness=" + rightness +
-                '}';
+        StringBuilder sb=new StringBuilder();
+        sb.append(number).append(".").append(" ").append(text);
+        sb.append("\n");
+        return sb.toString();
     }
 }
