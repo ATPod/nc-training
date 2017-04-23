@@ -1,4 +1,4 @@
-package by.training.nc.dev5.command.client;
+package by.training.nc.dev5.command.client.goTo;
 
 import by.training.nc.dev5.command.ActionCommand;
 import by.training.nc.dev5.entities.Product;
@@ -16,6 +16,6 @@ public class GoToBagCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        return ConfigurationManager.getProperty("path.page.bag");
+        return ConfigurationManager.getProperty("path.page.client_bag");
     }
 }

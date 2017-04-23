@@ -1,6 +1,8 @@
-package by.training.nc.dev5.command.user;
+package by.training.nc.dev5.command.common;
 
 import by.training.nc.dev5.command.ActionCommand;
+import by.training.nc.dev5.command.administrator.goTo.GoToClientsCommand;
+import by.training.nc.dev5.command.client.goTo.GoToMainCommand;
 import by.training.nc.dev5.constants.Parameters;
 import by.training.nc.dev5.entities.Administrator;
 import by.training.nc.dev5.entities.Client;
@@ -39,21 +41,19 @@ public class LoginCommand implements ActionCommand {
                 HttpSession session = request.getSession(true);
                 session.setAttribute(Parameters.ID_CLIENT, client.getId());
                 session.setAttribute(Parameters.EMAIL, client.getEmail());
-                session.setAttribute(Parameters.FIRST_NAME, client.getFirstName());
-                session.setAttribute(Parameters.LAST_NAME, client.getLastName());
+                session.setAttribute(Parameters.FIRST_NAME, client.getFirstname());
+                session.setAttribute(Parameters.LAST_NAME, client.getLastname());
+                session.setAttribute(Parameters.BLACK_LIST, client.getBlacklist());
+                session.setAttribute(Parameters.BAG, new ArrayList<Product>());
 
-                List<Product> productList = ProductService.getAllProducts();
-                session.setAttribute("productList", productList);
-                session.setAttribute("bag", new ArrayList<Product>());
-
-                page = ConfigurationManager.getProperty("path.page.clientmain");
+                page = new GoToMainCommand().execute(request);
             }
             catch (NotFoundException e){
-                request.setAttribute("errorMessage",  MessageManager.getProperty("message.loginerror"));
+                request.setAttribute(Parameters.ERROR,  MessageManager.getProperty("message.login_error"));
                 page = ConfigurationManager.getProperty("path.page.login");
             }
             catch (DAOException e){
-                request.setAttribute("errorMessage",  MessageManager.getProperty("message.servererror"));
+                request.setAttribute(Parameters.ERROR,  MessageManager.getProperty("message.server_error"));
                 page = ConfigurationManager.getProperty("path.page.login");
             }
         }
@@ -61,16 +61,17 @@ public class LoginCommand implements ActionCommand {
             try {
                 Administrator administrator = AdministratorService.findAdministratorByParameters(email, password);
                 HttpSession session = request.getSession(true);
+                session.setAttribute("adminId", administrator.getId());
                 session.setAttribute("name", administrator.getName());
 
-                page = ConfigurationManager.getProperty("path.page.adminmain");
+                page = new GoToClientsCommand().execute(request);
             }
             catch (NotFoundException e){
-                request.setAttribute("errorMessage",  MessageManager.getProperty("message.loginerror"));
+                request.setAttribute(Parameters.ERROR,  MessageManager.getProperty("message.login_error"));
                 page = ConfigurationManager.getProperty("path.page.login");
             }
             catch (DAOException e){
-                request.setAttribute("errorMessage",  MessageManager.getProperty("message.servererror"));
+                request.setAttribute(Parameters.ERROR,  MessageManager.getProperty("message.server_error"));
                 page = ConfigurationManager.getProperty("path.page.login");
             }
         }

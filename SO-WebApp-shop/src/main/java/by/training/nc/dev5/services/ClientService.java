@@ -12,7 +12,7 @@ public class ClientService {
 
     private static ClientDao clientDao = new ClientDao();
 
-    public List<Client> getAllClients() throws DAOException{
+    public static List<Client> getAllClients() throws DAOException{
         return clientDao.getAll();
     }
 
@@ -26,29 +26,46 @@ public class ClientService {
         }
     }
 
-    public static void removeClient(int idClient) throws DAOException, NotFoundException{
-        clientDao.findById(idClient);
-        clientDao.delete(idClient);
+    public static Client findClientById(int clientId) throws DAOException, NotFoundException{
+        return clientDao.findById(clientId);
     }
 
-    public static void updateClientLogin(int idClient, String login) throws DAOException, NotFoundException{
-        clientDao.findById(idClient);
-        clientDao.updateLogin(idClient, login);
+    public static void updateClientEmail(int clientId, String email) throws DAOException, NotFoundException{
+        clientDao.findById(clientId);
+        clientDao.updateEmail(clientId, email);
     }
 
-    public static void updateClientPassword(int idClient, String password) throws NotFoundException, DAOException{
-        clientDao.findById(idClient);
-        clientDao.updateLogin(idClient, password);
+    public static void updateClientPassword(int clientId, String password) throws NotFoundException, DAOException{
+        clientDao.findById(clientId);
+        clientDao.updatePassword(clientId, password);
     }
 
-    public static void updateClientBlackList(int idClient, boolean inBlackList) throws NotFoundException, DAOException{
-        clientDao.findById(idClient);
-        clientDao.updateBlackList(idClient, inBlackList);
+    public static void updateClientFirstName(int clientId, String firstName) throws NotFoundException, DAOException{
+        clientDao.findById(clientId);
+        clientDao.updateFirstName(clientId, firstName);
+    }
+
+    public static void updateClientLastName(int clientId, String lastName) throws NotFoundException, DAOException{
+        clientDao.findById(clientId);
+        clientDao.updateLastName(clientId, lastName);
+    }
+
+    public static void updateClientBlackList(int clientId, boolean inBlackList) throws NotFoundException, DAOException{
+        clientDao.findById(clientId);
+        if (inBlackList){
+            clientDao.updateBlackList(clientId, (byte)1);
+        } else {
+            clientDao.updateBlackList(clientId, (byte)0);
+        }
     }
 
     public static  boolean checkBlackList(int idClient) throws NotFoundException, DAOException{
         Client client = clientDao.findById(idClient);
-        return client.isInBlackList();
+        if (client.getBlacklist() == 0){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public static Client findClientByParameters(String login, String password) throws NotFoundException, DAOException{

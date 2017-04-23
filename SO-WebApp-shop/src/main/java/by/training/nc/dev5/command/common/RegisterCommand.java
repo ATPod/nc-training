@@ -1,8 +1,11 @@
-package by.training.nc.dev5.command.user;
+package by.training.nc.dev5.command.common;
 
 import by.training.nc.dev5.command.ActionCommand;
+import by.training.nc.dev5.constants.Parameters;
+import by.training.nc.dev5.entities.Client;
 import by.training.nc.dev5.exceptions.DAOException;
 import by.training.nc.dev5.exceptions.DuplicationException;
+import by.training.nc.dev5.exceptions.NotFoundException;
 import by.training.nc.dev5.resource.ConfigurationManager;
 import by.training.nc.dev5.resource.MessageManager;
 import by.training.nc.dev5.services.ClientService;
@@ -14,20 +17,15 @@ import java.util.regex.Pattern;
 
 public class RegisterCommand implements ActionCommand {
 
-    private static final String PARAM_NAME_FIRST_NAME = "firstname";
-    private static final String PARAM_NAME_LAST_NAME  = "lastname";
-    private static final String PARAM_NAME_EMAIL      = "email";
-    private static final String PARAM_NAME_PASSWORD   = "password";
-
     @Override
     public String execute(HttpServletRequest request) {
 
         String page = null;
 
-        String firstName = request.getParameter(PARAM_NAME_FIRST_NAME).trim();
-        String lastName  = request.getParameter(PARAM_NAME_LAST_NAME).trim();
-        String email     = request.getParameter(PARAM_NAME_EMAIL).trim();
-        String password  = request.getParameter(PARAM_NAME_PASSWORD).trim();
+        String firstName = request.getParameter(Parameters.FIRST_NAME).trim();
+        String lastName  = request.getParameter(Parameters.LAST_NAME).trim();
+        String email     = request.getParameter(Parameters.EMAIL).trim();
+        String password  = request.getParameter(Parameters.PASSWORD).trim();
 
         Matcher matcherFName = Pattern.compile("^[a-zA-Z]+$").matcher(firstName);
         Matcher matcherLName = Pattern.compile("^[a-zA-Z]+$").matcher(lastName);
@@ -37,22 +35,24 @@ public class RegisterCommand implements ActionCommand {
 
             try {
                 ClientService.addClient(firstName, lastName, email, password);
+                Client client = ClientService.findClientByParameters(email, password);
                 HttpSession session = request.getSession(true);
-                session.setAttribute("email", email);
-                session.setAttribute("firstname", firstName);
-                session.setAttribute("lastname", lastName);
+                session.setAttribute(Parameters.ID_CLIENT, client.getId());
+                session.setAttribute(Parameters.EMAIL, email);
+                session.setAttribute(Parameters.FIRST_NAME, firstName);
+                session.setAttribute(Parameters.LAST_NAME, lastName);
 
-                page = ConfigurationManager.getProperty("path.page.clientmain");
-            } catch (DAOException e) {
-                request.setAttribute("errorMessage", MessageManager.getProperty("message.servererror"));
+                page = ConfigurationManager.getProperty("path.page.client_main");
+            } catch (NotFoundException| DAOException e) {
+                request.setAttribute(Parameters.ERROR, MessageManager.getProperty("message.server_error"));
                 page = ConfigurationManager.getProperty("path.page.registration");
             } catch (DuplicationException e) {
-                request.setAttribute("errorMessage", MessageManager.getProperty("message.duplicerror"));
+                request.setAttribute(Parameters.ERROR, MessageManager.getProperty("message.duplic_error"));
                 page = ConfigurationManager.getProperty("path.page.registration");
             }
         }
         else{
-            request.setAttribute("errorMessage",  MessageManager.getProperty("message.syntaxerror"));
+            request.setAttribute(Parameters.ERROR,  MessageManager.getProperty("message.syntax_error"));
             page = ConfigurationManager.getProperty("path.page.registration");
         }
 

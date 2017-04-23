@@ -3,37 +3,32 @@
 
 <html>
 <head>
-    <title>My orderings</title>
+    <title>Orderings</title>
 </head>
     <body>
 
-        ${firstname} ${lastname}<br>
-        <a href="controller?command=client_go_to_bag">Bag</a> <br/>
-        <a href="controller?command=client_go_to_settings">Settings</a> <br/>
-        <a href="controller?command=client_go_to_main">Back</a> <br/>
+        ${name} <br/><br/>
+        <a href="controller?command=admin_go_to_clients">Clients</a> <br/>
+        <a href="controller?command=admin_go_to_products">Products</a> <br/>
+        <a href="controller?command=admin_go_to_settings">Settings</a> <br/>
         <a href="controller?command=logout">Log out</a> <br/><br/>
 
         <table border="1">
             <tr bgcolor="#CCCCCC">
                 <td align="center"><strong>ID</strong></td>
+                <td align="center"><strong>ID client</strong></td>
                 <td align="center"><strong>Payment</strong></td>
             </tr>
             <c:forEach var="ordering" items="${orderingList}">
                 <tr>
                     <td><c:out value="${ordering.id}" /></td>
+                    <td><c:out value="${ordering.client.id}" /></td>
                     <td><c:out value="${ordering.paid}" /></td>
                     <td>
                         <form method="POST" action="controller">
-                            <input type="hidden" name="command" value="client_go_to_products"/>
+                            <input type="hidden" name="command" value="admin_go_to_products_ordering"/>
                             <input type="hidden" name="orderingId" value="${ ordering.id }"/>
                             <input type="submit" value="Products"/>
-                        </form>
-                    </td>
-                    <td>
-                        <form method="POST" action="controller">
-                            <input type="hidden" name="command" value="client_pay_for_ordering"/>
-                            <input type="hidden" name="orderingId" value="${ ordering.id }"/>
-                            <input type="submit" value="Pay"/>
                         </form>
                     </td>
                 </tr>
@@ -42,4 +37,3 @@
         ${errorMessage}
     </body>
 </html>
-

@@ -3,277 +3,159 @@ package by.training.nc.dev5.dao;
 import by.training.nc.dev5.entities.Client;
 import by.training.nc.dev5.exceptions.DAOException;
 import by.training.nc.dev5.exceptions.NotFoundException;
-import by.training.nc.dev5.utils.ConnectionPool;
+import by.training.nc.dev5.utils.HibernateUtil;
 
-import java.sql.*;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 public class ClientDao {
 
-    private static final String SQL_QUERY_INSERT           = "INSERT INTO client (email, firstname, lastname, password, blacklist) VALUES(?,?,?,?,0)";
-    private static final String SQL_QUERY_GET_ALL          = "SELECT * FROM client";
-    private static final String SQL_QUERY_FIND_BY_ID       = "SELECT * FROM client WHERE id=?";
-    private static final String SQL_QUERY_FIND_BY_EMAIL    = "SELECT * FROM client WHERE email=?";
-    private static final String SQL_QUERY_FIND_BY_PARAM    = "SELECT * FROM client WHERE email=? AND password=?";
-    private static final String SQL_QUERY_UPDATE_LOGIN     = "UPDATE client SET login=? where id=?";
-    private static final String SQL_QUERY_UPDATE_PASSWORD  = "UPDATE client SET password=? where id=?";
-    private static final String SQL_QUERY_UPDATE_BLACKLIST = "UPDATE client SET blacklist=? where id=?";
-    private static final String SQL_QUERY_DELETE           = "DELETE FROM client WHERE id=?";
-
     public void add(String firstName, String lastName, String email, String password) throws DAOException {
-        Connection cn = null;
-        PreparedStatement st = null;
         try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SQL_QUERY_INSERT);
-            st.setString(1, email);
-            st.setString(2, firstName);
-            st.setString(3, lastName);
-            st.setString(4, password);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException(e.getMessage());
-            }
-            ConnectionPool.putback(cn);
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Client client = new Client();
+            client.setFirstname(firstName);
+            client.setLastname(lastName);
+            client.setEmail(email);
+            client.setPassword(password);
+            entityManager.getTransaction().begin();
+            entityManager.persist(client);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
         }
-    }
-
-    public List<Client> getAll() throws DAOException {
-        List<Client> clients = new ArrayList<>();
-        Connection cn = null;
-        Statement st = null;
-        try {
-            cn = ConnectionPool.retrieve();
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(SQL_QUERY_GET_ALL);
-            while (resultSet.next()) {
-                clients.add(new Client(resultSet.getInt("id"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getString("email"),
-                        resultSet.getString("password"),
-                        resultSet.getBoolean("blacklist")));
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException(e.getMessage());
-            }
-            ConnectionPool.putback(cn);
-        }
-        return clients;
-    }
-
-    public void updateLogin(int id, String newLogin) throws DAOException{
-        Connection cn = null;
-        PreparedStatement st = null;
-        try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SQL_QUERY_UPDATE_LOGIN);
-            st.setString(1, newLogin);
-            st.setInt(2, id);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException(e.getMessage());
-            }
-            ConnectionPool.putback(cn);
-        }
-    }
-
-    public void updatePassword(int id, String newPassword) throws DAOException{
-        Connection cn = null;
-        PreparedStatement st = null;
-        try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SQL_QUERY_UPDATE_PASSWORD);
-            st.setString(1, newPassword);
-            st.setInt(2, id);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException(e.getMessage());
-            }
-            ConnectionPool.putback(cn);
-        }
-    }
-
-    public void updateBlackList(int id, boolean newCond) throws DAOException{
-        Connection cn = null;
-        PreparedStatement st = null;
-        try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SQL_QUERY_UPDATE_BLACKLIST);
-            st.setBoolean(1, newCond);
-            st.setInt(2, id);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException(e.getMessage());
-            }
-            ConnectionPool.putback(cn);
+        catch (Exception ex){
+            throw new DAOException(ex.getMessage());
         }
     }
 
     public Client findById(int id) throws DAOException, NotFoundException {
-        Connection cn = null;
-        PreparedStatement st = null;
-        Client client = null;
         try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SQL_QUERY_FIND_BY_ID);
-            st.setInt(1, id);
-            ResultSet resultSet = st.executeQuery();
-            while (resultSet.next()) {
-                client = client = new Client(resultSet.getInt("id"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getString("email"),
-                        resultSet.getString("password"),
-                        resultSet.getBoolean("blacklist"));
-            }
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Client client = entityManager.find(Client.class, id);
             if (client != null){
                 return client;
             }
             else {
-                throw new NotFoundException("No client with this ID!");
+                throw new NotFoundException();
             }
+        }
+        catch (Exception ex){
+            throw new DAOException(ex.getMessage());
+        }
+    }
 
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException(e.getMessage());
-            }
-            ConnectionPool.putback(cn);
+    public List<Client> getAll() throws DAOException {
+        try {
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Query query = entityManager.createNamedQuery("Client.findAll");
+            List<Client> clientList = (List<Client>) query.getResultList();
+            return clientList;
+        }
+        catch (Exception ex){
+            throw new DAOException(ex.getMessage());
+        }
+    }
+
+    public void updateFirstName(int id, String newFirstName) throws DAOException{
+        try {
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Client client = entityManager.find(Client.class, id);
+            client.setFirstname(newFirstName);
+            entityManager.getTransaction().begin();
+            entityManager.merge(client);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        }
+        catch (Exception ex){
+            throw new DAOException(ex.getMessage());
+        }
+    }
+
+    public void updateLastName(int id, String newLastName) throws DAOException{
+        try {
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Client client = entityManager.find(Client.class, id);
+            client.setLastname(newLastName);
+            entityManager.getTransaction().begin();
+            entityManager.merge(client);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        }
+        catch (Exception ex){
+            throw new DAOException(ex.getMessage());
+        }
+    }
+
+    public void updateEmail(int id, String newEmail) throws DAOException{
+        try {
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Client client = entityManager.find(Client.class, id);
+            client.setEmail(newEmail);
+            entityManager.getTransaction().begin();
+            entityManager.merge(client);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        }
+        catch (Exception ex){
+            throw new DAOException(ex.getMessage());
+        }
+    }
+
+    public void updatePassword(int id, String newPassword) throws DAOException{
+        try {
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Client client = entityManager.find(Client.class, id);
+            client.setPassword(newPassword);
+            entityManager.getTransaction().begin();
+            entityManager.merge(client);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        }
+        catch (Exception ex){
+            throw new DAOException(ex.getMessage());
+        }
+    }
+
+    public void updateBlackList(int id, byte newState) throws DAOException{
+        try {
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Client client = entityManager.find(Client.class, id);
+            client.setBlacklist(newState);
+            entityManager.getTransaction().begin();
+            entityManager.merge(client);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        }
+        catch (Exception ex){
+            throw new DAOException(ex.getMessage());
         }
     }
 
     public Client findByEmail(String email) throws DAOException, NotFoundException {
-        Connection cn = null;
-        PreparedStatement st = null;
-        Client client = null;
         try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SQL_QUERY_FIND_BY_EMAIL);
-            st.setString(1, email);
-            ResultSet resultSet = st.executeQuery();
-            while (resultSet.next()) {
-                client = client = new Client(resultSet.getInt("id"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getString("email"),
-                        resultSet.getString("password"),
-                        resultSet.getBoolean("blacklist"));
-            }
-            if (client != null){
-                return client;
-            }
-            else {
-                throw new NotFoundException("No client with this email");
-            }
-
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException(e.getMessage());
-            }
-            ConnectionPool.putback(cn);
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Query query = entityManager.createNamedQuery("Client.findByEmail");
+            query.setParameter(1, email);
+            List<Client> clientList = (List<Client>) query.getResultList();
+            return clientList.get(0);
         }
-    }
-
-    public void delete(int id) throws DAOException {
-        Connection cn = null;
-        PreparedStatement st = null;
-        try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SQL_QUERY_DELETE);
-            st.setInt(1, id);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException(e.getMessage());
-            }
-            ConnectionPool.putback(cn);
+        catch (Exception ex){
+            throw new DAOException(ex.getMessage());
         }
     }
 
     public Client findByParameters(String email, String password) throws DAOException, NotFoundException {
-        Connection cn = null;
-        PreparedStatement st = null;
-        Client client = null;
         try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SQL_QUERY_FIND_BY_PARAM);
-            st.setString(1, email);
-            st.setString(2, password);
-            ResultSet resultSet = st.executeQuery();
-            while (resultSet.next()) {
-                client = new Client(resultSet.getInt("id"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getString("email"),
-                        resultSet.getString("password"),
-                        resultSet.getBoolean("blacklist"));
-            }
-            return client;
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException(e.getMessage());
-            }
-            ConnectionPool.putback(cn);
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Query query = entityManager.createNamedQuery("Client.findByParam");
+            query.setParameter(1, email);
+            query.setParameter(2, password);
+            List<Client> clientList = (List<Client>) query.getResultList();
+            return clientList.get(0);
+        }
+        catch (Exception ex){
+            throw new DAOException(ex.getMessage());
         }
     }
 }

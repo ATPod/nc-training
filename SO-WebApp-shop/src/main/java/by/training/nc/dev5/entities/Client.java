@@ -1,40 +1,35 @@
 package by.training.nc.dev5.entities;
 
-import java.io.Serializable;
+import javax.persistence.*;
+import java.util.Collection;
 
-public class Client extends Entity implements Serializable{
+@NamedQueries( {@NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
+                @NamedQuery(name = "Client.findByEmail", query = "SELECT c FROM Client c WHERE c.email=?1"),
+                @NamedQuery(name = "Client.findByParam", query = "SELECT c FROM Client c WHERE c.email=?1 AND c.password=?2")})
 
-    private String firstName;
-    private String lastName;
+@Entity
+public class Client {
+    private int id;
     private String email;
     private String password;
-    private boolean isInBlackList;
+    private byte blacklist;
+    private String firstname;
+    private String lastname;
+    private Collection<Ordering> orderings;
 
-    public Client(int id, String firstName, String lastName, String email, String password, boolean isInBlackList) {
-        super(id);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.isInBlackList = isInBlackList;
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    public int getId() {
+        return id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
+    @Basic
+    @Column(name = "email", nullable = false, length = 50)
     public String getEmail() {
         return email;
     }
@@ -43,6 +38,8 @@ public class Client extends Entity implements Serializable{
         this.email = email;
     }
 
+    @Basic
+    @Column(name = "password", nullable = false, length = 50)
     public String getPassword() {
         return password;
     }
@@ -51,12 +48,34 @@ public class Client extends Entity implements Serializable{
         this.password = password;
     }
 
-    public boolean isInBlackList() {
-        return isInBlackList;
+    @Basic
+    @Column(name = "blacklist", nullable = false)
+    public byte getBlacklist() {
+        return blacklist;
     }
 
-    public void setInBlackList(boolean inBlackList) {
-        isInBlackList = inBlackList;
+    public void setBlacklist(byte blacklist) {
+        this.blacklist = blacklist;
+    }
+
+    @Basic
+    @Column(name = "firstname", nullable = false, length = 50)
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    @Basic
+    @Column(name = "lastname", nullable = false, length = 50)
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     @Override
@@ -66,31 +85,33 @@ public class Client extends Entity implements Serializable{
 
         Client client = (Client) o;
 
-        if (isInBlackList() != client.isInBlackList()) return false;
-        if (!getFirstName().equals(client.getFirstName())) return false;
-        if (!getLastName().equals(client.getLastName())) return false;
-        if (!getEmail().equals(client.getEmail())) return false;
-        return getPassword().equals(client.getPassword());
+        if (id != client.id) return false;
+        if (blacklist != client.blacklist) return false;
+        if (email != null ? !email.equals(client.email) : client.email != null) return false;
+        if (password != null ? !password.equals(client.password) : client.password != null) return false;
+        if (firstname != null ? !firstname.equals(client.firstname) : client.firstname != null) return false;
+        if (lastname != null ? !lastname.equals(client.lastname) : client.lastname != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = getFirstName().hashCode();
-        result = 31 * result + getLastName().hashCode();
-        result = 31 * result + getEmail().hashCode();
-        result = 31 * result + getPassword().hashCode();
-        result = 31 * result + (isInBlackList() ? 1 : 0);
+        int result = id;
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (int) blacklist;
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "Client{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", isInBlackList=" + isInBlackList +
-                '}';
+    @OneToMany(mappedBy = "client")
+    public Collection<Ordering> getOrderings() {
+        return orderings;
+    }
+
+    public void setOrderings(Collection<Ordering> orderings) {
+        this.orderings = orderings;
     }
 }

@@ -7,39 +7,30 @@ import by.training.nc.dev5.exceptions.DAOException;
 import by.training.nc.dev5.exceptions.NotFoundException;
 import by.training.nc.dev5.resource.ConfigurationManager;
 import by.training.nc.dev5.resource.MessageManager;
-import by.training.nc.dev5.services.ClientService;
-import by.training.nc.dev5.services.OrderingService;
+import by.training.nc.dev5.services.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class MakeOrderingCommand implements ActionCommand {
+public class RemoveFromBagCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
+
         String page = null;
 
         List<Product> bag = (List <Product>)request.getSession().getAttribute(Parameters.BAG);
-        Integer idClient = (Integer) request.getSession().getAttribute(Parameters.ID_CLIENT);
+        int productId = Integer.valueOf(request.getParameter(Parameters.ID_PRODUCT));
 
-        if (bag.size() == 0){
-            request.setAttribute(Parameters.ERROR,  MessageManager.getProperty("message.empty_bag"));
-            page = ConfigurationManager.getProperty("path.page.client_bag");
-            return page;
-        }
+        Product product = null;
 
         try {
-            if (ClientService.checkBlackList(idClient)){
-                request.setAttribute(Parameters.ERROR,  MessageManager.getProperty("message.black_list"));
-                page = ConfigurationManager.getProperty("path.page.client_bag");
-                return page;
-            }
-            OrderingService.addOrdering(idClient, bag);
-            bag.clear();
+            product = ProductService.getProductByID(productId);
+            bag.remove(product);
             request.getSession().setAttribute(Parameters.BAG, bag);
             page = ConfigurationManager.getProperty("path.page.client_bag");
-        } catch (DAOException | NotFoundException e) {
+        } catch (NotFoundException | DAOException e) {
             request.setAttribute(Parameters.ERROR,  MessageManager.getProperty("message.server_error"));
             page = ConfigurationManager.getProperty("path.page.client_bag");
             return page;

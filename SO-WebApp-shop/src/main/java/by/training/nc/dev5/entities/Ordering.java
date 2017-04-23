@@ -1,44 +1,48 @@
 package by.training.nc.dev5.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
 
-public class Ordering extends Entity implements Serializable {
+@NamedQueries( {@NamedQuery(name = "Ordering.findAll", query = "SELECT o FROM Ordering o")} )
 
-    private List<Product> products;
-    private int idClient;
-    private boolean isPaid;
+@Entity
+public class Ordering {
+    private int id;
+    private byte paid;
+    private Client client;
+    private List <Product> products;
 
-    public Ordering(int id, int idClient) {
-        super(id);
-        this.idClient = idClient;
-        this.products = new ArrayList<Product>();
-        this.isPaid = false;
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Basic
+    @Column(name = "paid", nullable = false)
+    public byte getPaid() {
+        return paid;
+    }
+
+    public void setPaid(byte paid) {
+        this.paid = paid;
+    }
+
+    @ManyToMany
+    @JoinTable(name="ordering_product",
+            joinColumns=@JoinColumn(name="idOrdering", referencedColumnName="ID"),
+            inverseJoinColumns=@JoinColumn(name="idProduct", referencedColumnName="ID"))
     public List<Product> getProducts() {
         return products;
     }
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
-
-    public boolean isPaid() {
-        return isPaid;
-    }
-
-    public void setPaid(boolean paid) {
-        isPaid = paid;
-    }
-
-    public int getIdClient() {
-        return idClient;
-    }
-
-    public void setIdClient(int idClient) {
-        this.idClient = idClient;
     }
 
     @Override
@@ -48,28 +52,26 @@ public class Ordering extends Entity implements Serializable {
 
         Ordering ordering = (Ordering) o;
 
-        if (getId() != ordering.getId()) return false;
-        if (getIdClient() != ordering.getIdClient()) return false;
-        if (isPaid() != ordering.isPaid()) return false;
-        return getProducts().equals(ordering.getProducts());
+        if (id != ordering.id) return false;
+        if (paid != ordering.paid) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = getId();
-        result = 31 * result + getProducts().hashCode();
-        result = 31 * result + getIdClient();
-        result = 31 * result + (isPaid() ? 1 : 0);
+        int result = id;
+        result = 31 * result + (int) paid;
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "Ordering{" +
-                "id=" + this.getId() +
-                ", products=" + products +
-                ", idClient=" + idClient +
-                ", isPaid=" + isPaid +
-                '}';
+    @ManyToOne
+    @JoinColumn(name = "idClient", referencedColumnName = "id", nullable = false)
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }
