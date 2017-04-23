@@ -15,8 +15,7 @@ public class ConfigsConstants {
     public static final String SHOW_DRUGS_PAGE = "path.page.doctorandnurse.drugs";
     public static final String SHOW_PROCEDURES_PAGE = "path.page.doctorandnurse.procedures";
 
-    public static final String DOCTOR_PAGE_PATH = "path.page.doctor";
-    public static final String DOCTOR_INNER_MENU = "path.page.doctor.innermenu";
+    public static final String DOCTOR_MENU = "path.page.doctor.menu";
     public static final String DOCTOR_ADD_PATIENT = "path.page.doctor.add.patient";
     public static final String DOCTOR_ADD_DIAGNOSIS = "path.page.doctor.add.diagnosis";
     public static final String DOCTOR_ADD_DRUG = "path.page.doctor.add.drug";
@@ -25,7 +24,6 @@ public class ConfigsConstants {
     public static final String SHOW_DIAGNOSISES_PAGE = "path.page.doctor.delete.diagnosises";
     public static final String SHOW_SURGERIES_PAGE = "path.page.doctor.delete.surgeries";
 
-    public static final String NURSE_PAGE_PATH = "path.page.nurse";
-    public static final String NURSE_INNER_MENU = "path.page.nurse.innermenu";
+    public static final String NURSE_MENU = "path.page.nurse.menu";
 
 }

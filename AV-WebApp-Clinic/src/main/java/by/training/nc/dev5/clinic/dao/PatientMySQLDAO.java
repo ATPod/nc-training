@@ -119,4 +119,32 @@ public enum  PatientMySQLDAO implements PatientDAO{
         return isNew;
     }
 
+    public Patient getById(int patientId){
+        Connection cn = null;
+        PreparedStatement st = null;
+        Patient patient = new Patient();
+        try {
+            cn = ConnectionPool.retrieve();
+            st = cn.prepareStatement(SqlRequests.GET_PATIENT_BY_ID);
+            st.setInt(1, patientId);
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                patient.setId(resultSet.getInt(ColumnNames.PRESCRIBING_ID));
+                patient.setName(resultSet.getString(ColumnNames.PRESCRIBING_NAME));
+            }
+        } catch (SQLException e) {
+            ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException e) {
+                ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+            }
+            ConnectionPool.putback(cn);
+        }
+        return patient;
+    }
+
 }

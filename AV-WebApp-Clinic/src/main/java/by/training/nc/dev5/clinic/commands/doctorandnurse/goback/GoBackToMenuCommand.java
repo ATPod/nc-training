@@ -14,15 +14,15 @@ import javax.servlet.http.HttpSession;
 /**
  * Created by user on 11.04.2017.
  */
-public class GoBackToInnerMenuCommand extends AbstractCommand {
+public class GoBackToMenuCommand extends AbstractCommand {
     public String execute(HttpServletRequest request) {
-        String page = null;
+        String page;
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_INNER_MENU);
+            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_MENU);
         }else if(userType == UserType.NURSE){
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.NURSE_INNER_MENU);
+            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.NURSE_MENU);
             request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
         } else{
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);

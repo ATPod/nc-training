@@ -2,11 +2,10 @@ package by.training.nc.dev5.clinic.commands.factory;
 
 import by.training.nc.dev5.clinic.commands.*;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.ChoosePatientCommand;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.goback.GoBackToInnerMenuCommand;
+import by.training.nc.dev5.clinic.commands.doctorandnurse.goback.GoBackToMenuCommand;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.delete.DelDrugCommand;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.delete.DelProcedureCommand;
 import by.training.nc.dev5.clinic.commands.doctor.gotocommand.GoToChooseDiagnosisCommand;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.goback.GoBackToMainMenuCommand;
 import by.training.nc.dev5.clinic.commands.doctor.add.*;
 import by.training.nc.dev5.clinic.commands.doctor.delete.*;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.goback.GoBackToChoosePatientCommand;
@@ -21,9 +20,9 @@ import by.training.nc.dev5.clinic.commands.user.*;
  */
 public enum CommandType {
     //user commands
-    LOGIN, LOGOUT, REGISTRATION, GOTOREGISTRATION, BACK,
+    LOGIN, BACKTOLOGIN, REGISTRATION, GOTOREGISTRATION,
     //doctor & nurse commands
-    GOTOCHOOSEPATIENT, CHOOSEPATIENT, BACKTOMAINMENU, BACKTOCHOOSEPATIENT, BACKTOINNERMENU,
+    GOTOCHOOSEPATIENT, CHOOSEPATIENT, BACKTOMENU, BACKTOCHOOSEPATIENT, BACKTOINNERMENU,
     GOTOCHOOSEDRUG, GOTOCHOOSEPROCEDURE,
     // doctor commands
     GOTOADDPATIENT, ADDPATIENT, DELPATIENT,
@@ -37,8 +36,8 @@ public enum CommandType {
             case LOGIN:
                 return new LoginUserCommand();
 
-            case LOGOUT:
-                return new LogoutUserCommand();
+            case BACKTOLOGIN:
+                return new GoBackToLoginCommand();
 
             case REGISTRATION:
                 return new RegistrationCommand();
@@ -46,23 +45,17 @@ public enum CommandType {
             case GOTOREGISTRATION:
                 return new GoToRegistrationCommand();
 
-            case BACK:
-                return new GoBackCommand();
-
             case GOTOCHOOSEPATIENT:
                 return new GoToChoosePatientCommand();
 
             case CHOOSEPATIENT:
                 return new ChoosePatientCommand();
 
-            case BACKTOMAINMENU:
-                return new GoBackToMainMenuCommand();
+            case BACKTOMENU:
+                return new GoBackToMenuCommand();
 
             case BACKTOCHOOSEPATIENT:
                 return new GoBackToChoosePatientCommand();
-
-            case BACKTOINNERMENU:
-                return new GoBackToInnerMenuCommand();
 
             case GOTOADDPATIENT:
                 return new GoToAddPatientCommand();

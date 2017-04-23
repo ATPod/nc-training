@@ -7,6 +7,7 @@ import by.training.nc.dev5.clinic.constants.Parameters;
 import by.training.nc.dev5.clinic.dao.PatientMySQLDAO;
 import by.training.nc.dev5.clinic.filters.UserType;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
+import by.training.nc.dev5.clinic.services.PatientService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,11 +18,11 @@ import java.util.List;
  */
 public class GoToChoosePatientCommand extends AbstractCommand {
     public String execute(HttpServletRequest request) {
-        String page = null;
+        String page;
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR || userType == UserType.NURSE){
-            List<Patient> list = PatientMySQLDAO.INSTANCE.getAll();
+            List<Patient> list = PatientService.getAll();
             session.setAttribute(Parameters.PATIENTS_LIST, list);
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.SHOW_PATIENTS_PAGE);
         }

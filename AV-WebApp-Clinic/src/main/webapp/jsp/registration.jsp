@@ -17,14 +17,9 @@
     Специальность:<br/>
     <input type="radio" name="access_level" value="DOCTOR"/>Врач<br/>
     <input type="radio" name="access_level" value="NURSE"/>Медсестра<br/>
-
-
-    ${operationMessage}
-    ${errorEmptyChoice}
-    ${errorUserExists} <br />
-    ${errorAccessLevel} <br />
-    <input type="submit" value="Зарегистрировать" />
-    <a href="controller?command=back">Вернуться обратно</a>
+    <input type="submit" value="Зарегистрировать" /> <br />
+    <a href="controller?command=backtologin">Вернуться обратно</a>
+    ${operationMessage}<br />
 </form>
 </body>
 </html>

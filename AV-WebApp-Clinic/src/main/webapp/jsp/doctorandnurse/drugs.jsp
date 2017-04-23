@@ -22,11 +22,9 @@
         </c:forEach>
     </table>
     <input type="submit" value="Выбрать"/>  <br/>
-    <a href="controller?command=backtoinnermenu">Вернуться обратно</a><br/>
-    <a href="controller?command=logout">Выйти из системы</a><br/><br/>
+    <a href="controller?command=backtomenu">Вернуться обратно</a><br/>
+    <a href="controller?command=backtologin">Выйти из системы</a><br/><br/>
     ${operationMessage}  <br />
-    ${errorEmptyChoice}<br />
-    ${errorEmptyList} <br/>
 </form>
 </body>
 </html>

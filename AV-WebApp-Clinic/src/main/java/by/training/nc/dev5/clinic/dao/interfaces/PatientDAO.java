@@ -13,5 +13,5 @@ public interface PatientDAO {
     void delete(int patientId) throws SQLException;
     List<Patient> getAll();
     boolean isNewPatient(String name) throws SQLException;
-    //Patient getById(int patientId);
+    Patient getById(int patientId);
 }

@@ -22,10 +22,12 @@
         </c:forEach>
     </table>
     <input type="submit" value="Выбрать"/>  <br/>
-    <a href="controller?command=backtomainmenu">Вернуться обратно</a><br/>
-    <a href="controller?command=logout">Выйти из системы</a><br/>
-    ${errorEmptyChoice}
-    ${errorEmptyList} <br/>
+
+    <c:if test="${userType=='DOCTOR'}">
+        <a href="controller?command=gotoaddpatient">Добавить пациента</a> <br/>
+    </c:if>
+    <a href="controller?command=backtologin">Выйти из системы</a><br/>
+    ${operationMessage}<br />
 </form>
 </body>
 </html>

@@ -19,9 +19,9 @@
             <td><input type="password" name="password" value="" size="20" /></td>
         </tr>
     </table>
-    ${errorLoginOrPassword} <br />
     <input type="submit" value="Войти" />
     <a href="controller?command=gotoregistration">Регистрация</a>
+    ${operationMessage}<br />
 </form>
 </body>
 </html>

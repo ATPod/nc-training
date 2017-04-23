@@ -6,7 +6,7 @@
 </head>
 <body>
 Извините, но в данный момент сервис не доступен: <br/>
-<a href="controller?command=logout">Назад</a>
-${errorDatabase} <br/>
+<a href="controller?command=backtologin">Назад</a>
+${operationMessage}<br />
 </body>
 </html>

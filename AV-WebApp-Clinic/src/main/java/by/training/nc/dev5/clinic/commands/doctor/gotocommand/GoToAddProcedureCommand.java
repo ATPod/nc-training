@@ -21,7 +21,7 @@ public class GoToAddProcedureCommand extends AbstractCommand {
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_ADD_PROCEDURE);
         }
         else{
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_INNER_MENU);
+            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_MENU);
             session.invalidate();
         }
         return page;

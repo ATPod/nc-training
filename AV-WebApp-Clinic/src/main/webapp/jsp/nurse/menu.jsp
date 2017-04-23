@@ -5,7 +5,8 @@
     <title>Выбор действия</title>
 </head>
 <body>
-<form name="nurseInnerMenuForm" method="POST" action="controller">
+Карточка пациента " ${patientName} "
+<form name="nurseMenuForm" method="POST" action="controller">
     <table border="1">
         <tr bgcolor="#CCCCCC">
             <td align="center"><strong>Выполнить</strong></td>
@@ -18,7 +19,7 @@
         </tr>
     </table>
     <a href="controller?command=backtochoosepatient">Вернуться к выбору пациента</a><br/>
-    <a href="controller?command=logout">Выйти из системы</a><br/>
+    <a href="controller?command=backtologin">Выйти из системы</a><br/>
     ${operationMessage}  <br />
 </form>
 </body>
