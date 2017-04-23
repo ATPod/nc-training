@@ -29,9 +29,9 @@ public class CreditCardMySQLDAO implements CreditCardDAO {
 	private static final String SQL_SELECT = "SELECT crditcard_id, client_id, money," +
             " account_status, pass from creditcard";
 	private static final String SQL_INSERT = "INSERT INTO creditcard (crditcard_id, client_id," +
-            " money, account_status, pass values(?,?,?,?,?)";
+            " money, account_status, pass) values(?,?,?,?,?)";
 	private static final String SQL_UPDATE = "UPDATE creditcard SET client_id = ?," +
-            "money = ?,account_status = ?,pass = ?, WHERE creditcard.crditcard_id = ?";
+            "money = ?,account_status = ?,pass = ? WHERE creditcard.crditcard_id = ?";
 	private static final String SQL_DELETE = "DELETE FROM creditcard WHERE creditcard.crditcard_id = ?";
 	private static final String SQL_FIND = "SELECT * FROM creditcard WHERE crditcard_id = ?";
 	private static final String SQL_FIND_ALL = "SELECT * FROM creditcard WHERE client_id = ?";
@@ -39,28 +39,12 @@ public class CreditCardMySQLDAO implements CreditCardDAO {
     // logger for the class
     static Logger logger = LogManager.getLogger(ClientMySQLDAO.class);
 
-    private String convertArrayToString(int [] arr){
-        StringBuffer str = null;
-        for(int temp : arr){
-            str.append(temp-48);
-        }
-        return str.toString();
-    }
-
-    private int[] convertStringToArray(String str){
-        int[] arr = new int[str.length()];
-        for(int i = 0;i<str.length();i++){
-            arr[i] = str.charAt(i)-48;
-        }
-        return arr;
-    }
-
 	public boolean deleteCreditCard(CreditCard pCreditCard) {
 
         int success = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement ptmt = connection.prepareStatement(SQL_DELETE)) {
-            ptmt.setString(1, convertArrayToString(pCreditCard.getId()));
+            ptmt.setString(1,pCreditCard.getId());
             success = ptmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,17 +55,18 @@ public class CreditCardMySQLDAO implements CreditCardDAO {
 	/* (non-Javadoc)
 	 * @see by.training.nc.dev5.dao.TrainingDAO#findTraining(java.lang.String)
 	 */
-	public CreditCard findCreditCard(int[] pCreditCardId) {
+	public CreditCard findCreditCard(String pCreditCardId) {
         try (Connection connection = MySQLDAOFactory.getConnection();
              PreparedStatement ptmt = connection.prepareStatement(SQL_FIND)) {
-            ptmt.setString(1, convertArrayToString(pCreditCardId));
+            ptmt.setString(1, pCreditCardId);
             ResultSet rs = ptmt.executeQuery();
-            if(rs != null){
+            if (rs != null) {
                 rs.next();
                 CreditCard creditCard = new CreditCard();
                 Account account = new Account();
+                creditCard.setId(rs.getString("crditcard_id"));
                 creditCard.setClientId(rs.getInt("client_id"));
-                creditCard.setPassword(convertStringToArray(rs.getString("pass")));
+                creditCard.setPassword(rs.getString("pass"));
                 account.setMoney(rs.getDouble("money"));
                 account.setBlocked(rs.getBoolean("account_status"));
                 creditCard.setAccount(account);
@@ -91,30 +76,38 @@ public class CreditCardMySQLDAO implements CreditCardDAO {
             e.printStackTrace();
         } catch (NotCorrectPasswordException e){
             e.printStackTrace();
+        } catch (NotCorrectIdException e){
+            e.printStackTrace();
         }
         return null;
 	}
 
 	public ArrayList<CreditCard> findAllCreditCardsByClientId(int pClientId){
-	    ArrayList<CreditCard> list = new ArrayList<>();
+	    ArrayList<CreditCard> creditCards = new ArrayList<>();
+        CreditCard creditCardBean;
+        Account accountBean;
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement ptmt = connection.prepareStatement(SQL_FIND)) {
+             PreparedStatement ptmt = connection.prepareStatement(SQL_FIND_ALL)) {
             ptmt.setInt(1,pClientId);
             ResultSet rs = ptmt.executeQuery();
-            if(rs != null){
-                rs.next();
-                CreditCard creditCard = new CreditCard();
-                Account account = new Account();
-                creditCard.setClientId(rs.getInt("client_id"));
-                creditCard.setPassword(convertStringToArray(rs.getString("pass")));
-                account.setMoney(rs.getDouble("money"));
-                account.setBlocked(rs.getBoolean("account_status"));
-                creditCard.setAccount(account);
-                list.add(creditCard);
+            while (rs.next()) {
+                creditCardBean = new CreditCard();
+                accountBean = new Account();
+                creditCardBean.setId(rs.getString(1));
+                creditCardBean.setClientId(rs.getInt(2));
+                creditCardBean.setPassword(rs.getString(5));
+                accountBean.setMoney(rs.getDouble(3));
+                accountBean.setBlocked(rs.getBoolean(4));
+                creditCardBean.setAccount(accountBean);
+                creditCards.add(creditCardBean);
+                System.out.println("CreditCard:" + creditCardBean.toString());
             }
+            return creditCards;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NotCorrectPasswordException e){
+            e.printStackTrace();
+        } catch (NotCorrectIdException e){
             e.printStackTrace();
         }
         return null;
@@ -127,11 +120,11 @@ public class CreditCardMySQLDAO implements CreditCardDAO {
         int success = 0;
         try(Connection connection = MySQLDAOFactory.getConnection();
             PreparedStatement ptmt = connection.prepareStatement(SQL_INSERT)){
-            ptmt.setString(1,convertArrayToString(pCreditCard.getId()));
+            ptmt.setString(1,pCreditCard.getId());
             ptmt.setInt(2,pCreditCard.getClientId());
             ptmt.setDouble(3,pCreditCard.getAccount().getMoney());
             ptmt.setBoolean(4,pCreditCard.getAccount().isBlocked());
-            ptmt.setString(5,convertArrayToString(pCreditCard.getPassword()));
+            ptmt.setString(5,pCreditCard.getPassword());
             success = ptmt.executeUpdate();
         }catch (SQLException ex){
             logger.error(ex.getMessage());
@@ -153,9 +146,9 @@ public class CreditCardMySQLDAO implements CreditCardDAO {
             while (rs.next()) {
                 creditCardBean = new CreditCard();
                 accountBean = new Account();
-                creditCardBean.setId(convertStringToArray(rs.getString(1)));
+                creditCardBean.setId(rs.getString(1));
                 creditCardBean.setClientId(rs.getInt(2));
-                creditCardBean.setPassword(convertStringToArray(rs.getString(5)));
+                creditCardBean.setPassword(rs.getString(5));
                 accountBean.setMoney(rs.getDouble(3));
                 accountBean.setBlocked(rs.getBoolean(4));
                 creditCardBean.setAccount(accountBean);
@@ -185,8 +178,8 @@ public class CreditCardMySQLDAO implements CreditCardDAO {
             ptmt.setInt(1, pCreditCard.getClientId());
             ptmt.setDouble(2, pCreditCard.getAccount().getMoney());
             ptmt.setBoolean(3,pCreditCard.getAccount().isBlocked());
-            ptmt.setString(4, convertArrayToString(pCreditCard.getPassword()));
-            ptmt.setString(5, convertArrayToString(pCreditCard.getId()));
+            ptmt.setString(4, pCreditCard.getPassword());
+            ptmt.setString(5, pCreditCard.getId());
             success = ptmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
