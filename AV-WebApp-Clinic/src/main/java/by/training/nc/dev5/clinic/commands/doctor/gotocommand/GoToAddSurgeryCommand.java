@@ -14,14 +14,14 @@ import javax.servlet.http.HttpSession;
  */
 public class GoToAddSurgeryCommand extends AbstractCommand {
     public String execute(HttpServletRequest request) {
-        String page = null;
+        String page;
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_ADD_SURGERY);
         }
         else{
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_INNER_MENU);
+            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_MENU);
             session.invalidate();
         }
         return page;

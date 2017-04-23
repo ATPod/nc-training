@@ -1,4 +1,4 @@
-package by.training.nc.dev5.clinic.controller;
+package by.training.nc.dev5.clinic.servlet;
 
 import by.training.nc.dev5.clinic.commands.Command;
 import by.training.nc.dev5.clinic.commands.factory.CommandFactory;

@@ -10,9 +10,9 @@
         Введите ФИО:<br />
         <input type="text" name="patientName" value="" />
         <input type="submit" value="Сохранить" /> <br />
+        <a href="controller?command=backtochoosepatient">Вернуться обратно</a>
+        <a href="controller?command=backtologin">Выйти из системы</a>
         ${operationMessage}  <br />
-        <a href="controller?command=backtodoctormain">Вернуться обратно</a>
-        <a href="controller?command=logout">Выйти из системы</a>
     </form>
 </body>
 </html>

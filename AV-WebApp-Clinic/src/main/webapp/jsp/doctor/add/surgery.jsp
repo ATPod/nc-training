@@ -10,8 +10,8 @@
     Введите название:<br />
     <input type="text" name="surgeryName" value="" />
     <input type="submit" value="Сохранить" /> <br />
-    <a href="controller?command=backtoinnermenu">Вернуться обратно</a>
-    <a href="controller?command=logout">Выйти из системы</a>
+    <a href="controller?command=backtomenu">Вернуться обратно</a>
+    <a href="controller?command=backtologin">Выйти из системы</a>
     ${operationMessage}  <br />
 </form>
 </body>

@@ -9,7 +9,7 @@
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
     <servlet-name>Controller</servlet-name>
-    <servlet-class>by.training.nc.dev5.clinic.controller.Controller</servlet-class>
+    <servlet-class>by.training.nc.dev5.clinic.servlet.Controller</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Controller</servlet-name>

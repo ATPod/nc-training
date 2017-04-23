@@ -5,33 +5,34 @@ import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
-import by.training.nc.dev5.clinic.dao.PatientMySQLDAO;
-import by.training.nc.dev5.clinic.filters.UserType;
 import by.training.nc.dev5.clinic.logger.ClinicLogger;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
 import by.training.nc.dev5.clinic.managers.MessageManager;
+import by.training.nc.dev5.clinic.services.PatientService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.List;
 
-/**
- * Created by user on 11.04.2017.
- */
 public class AddPatientCommand extends AbstractCommand {
     private static String name;
+
     public String execute(HttpServletRequest request) {
-        String page = null;
+        String page;
+        HttpSession session = request.getSession();
         name = request.getParameter(Parameters.PATIENT_NAME);
         try{
             if(!name.isEmpty()){
-                if(isNewPatient()){
+                if(PatientService.isNewPatient(name)){
                     add();
-                    page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_ADD_PATIENT);
+                    List<Patient> list = PatientService.getAll();
+                    session.setAttribute(Parameters.PATIENTS_LIST, list);
+                    page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.SHOW_PATIENTS_PAGE);
                     request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
                 }else{
                     page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_ADD_PATIENT);
-                    request.setAttribute(Parameters.ERROR_USER_EXISTS, MessageManager.INSTANCE.getProperty(MessageConstants.USER_EXISTS));
+                    request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.PATIENT_EXISTS));
                 }
 
             } else{
@@ -42,23 +43,15 @@ public class AddPatientCommand extends AbstractCommand {
         }catch (SQLException e) {
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.ERROR_PAGE_PATH);
-            request.setAttribute(Parameters.ERROR_DATABASE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));
+            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));
         }
         return page;
     }
 
     private void add() throws SQLException{
 
-        Patient temp = new Patient();
-        temp.setName(name);
-        PatientMySQLDAO.INSTANCE.add(temp);
-    }
-
-    private boolean isNewPatient() throws SQLException {
-        boolean isNew = false;
-        if(PatientMySQLDAO.INSTANCE.isNewPatient(name)){
-            isNew = true;
-        }
-        return isNew;
+        Patient patient = new Patient();
+        patient.setName(name);
+        PatientService.add(patient);
     }
 }
