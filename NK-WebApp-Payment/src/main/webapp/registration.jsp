@@ -6,7 +6,7 @@
 <body>
 <form name="registration" method="POST" action="controller?command=RegisterClient">
     <input type="hidden" name="command" value="RegisterStudent"/>
-    <p><b>Введите данные студента: </b></p>
+    <p><b>Введите данные пользователя: </b></p>
     <table>
         <tr>
             <td>Логин:</td>
