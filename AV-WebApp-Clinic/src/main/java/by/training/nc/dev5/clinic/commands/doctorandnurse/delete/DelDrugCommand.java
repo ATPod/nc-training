@@ -18,18 +18,27 @@ import java.util.List;
  * Created by user on 12.04.2017.
  */
 public class DelDrugCommand extends AbstractCommand {
-    private static int id;
+
     public String execute(HttpServletRequest request) {
         String page;
+        String id = request.getParameter(Parameters.DRUG_ID);
         HttpSession session = request.getSession();
-        id = Integer.valueOf(request.getParameter(Parameters.DRUG_ID));
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR || userType == UserType.NURSE) {
-            DrugService.delete(id);
-            List<Drug> list = DrugService.getByPatientId(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
-            session.setAttribute(Parameters.DRUGS_LIST, list);
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.SHOW_DRUGS_PAGE);
-            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
+            if(id != null) {
+                DrugService.delete(Integer.valueOf(id));
+                List<Drug> list = DrugService.getByPatientId(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
+                session.setAttribute(Parameters.DRUGS_LIST, list);
+                request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
+            } else {
+                request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.EMPTY_CHOICE));
+            }
+            if(userType==UserType.DOCTOR)
+            {
+                page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_MENU);
+            }else{
+                page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.NURSE_MENU);
+            }
         }else{
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);
             session.invalidate();

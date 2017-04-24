@@ -19,8 +19,7 @@ public class GoBackToChoosePatientCommand extends AbstractCommand {
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR || userType == UserType.NURSE){
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.SHOW_PATIENTS_PAGE);
-        }
-        else{
+        } else{
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);
             session.invalidate();
         }

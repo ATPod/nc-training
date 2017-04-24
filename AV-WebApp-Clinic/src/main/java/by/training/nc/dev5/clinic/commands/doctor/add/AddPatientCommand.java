@@ -16,16 +16,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class AddPatientCommand extends AbstractCommand {
-    private static String name;
 
     public String execute(HttpServletRequest request) {
         String page;
         HttpSession session = request.getSession();
-        name = request.getParameter(Parameters.PATIENT_NAME);
+        String name = request.getParameter(Parameters.PATIENT_NAME);
         try{
             if(!name.isEmpty()){
                 if(PatientService.isNewPatient(name)){
-                    add();
+                    Patient patient = new Patient();
+                    patient.setName(name);
+                    PatientService.add(patient);
                     List<Patient> list = PatientService.getAll();
                     session.setAttribute(Parameters.PATIENTS_LIST, list);
                     page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.SHOW_PATIENTS_PAGE);
@@ -34,24 +35,15 @@ public class AddPatientCommand extends AbstractCommand {
                     page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_ADD_PATIENT);
                     request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.PATIENT_EXISTS));
                 }
-
             } else{
                 request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.EMPTY_FIELDS));
                 page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_ADD_PATIENT);
             }
-
         }catch (SQLException e) {
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.ERROR_PAGE_PATH);
             request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));
         }
         return page;
-    }
-
-    private void add() throws SQLException{
-
-        Patient patient = new Patient();
-        patient.setName(name);
-        PatientService.add(patient);
     }
 }

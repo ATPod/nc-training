@@ -20,7 +20,7 @@
         </tr>
     </table>
     <input type="submit" value="Войти" />
-    <a href="controller?command=gotoregistration">Регистрация</a>
+    <a href="controller?command=gotoregistration">Регистрация</a><br />
     ${operationMessage}<br />
 </form>
 </body>

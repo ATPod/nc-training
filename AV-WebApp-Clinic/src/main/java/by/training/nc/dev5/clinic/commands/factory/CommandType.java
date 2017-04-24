@@ -5,14 +5,11 @@ import by.training.nc.dev5.clinic.commands.doctorandnurse.ChoosePatientCommand;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.goback.GoBackToMenuCommand;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.delete.DelDrugCommand;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.delete.DelProcedureCommand;
-import by.training.nc.dev5.clinic.commands.doctor.gotocommand.GoToChooseDiagnosisCommand;
 import by.training.nc.dev5.clinic.commands.doctor.add.*;
 import by.training.nc.dev5.clinic.commands.doctor.delete.*;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.goback.GoBackToChoosePatientCommand;
 import by.training.nc.dev5.clinic.commands.doctor.gotocommand.*;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.gotocommand.GoToChooseDrugCommand;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.gotocommand.GoToChoosePatientCommand;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.gotocommand.GoToChooseProcedureCommand;
 import by.training.nc.dev5.clinic.commands.user.*;
 
 /**
@@ -22,14 +19,13 @@ public enum CommandType {
     //user commands
     LOGIN, BACKTOLOGIN, REGISTRATION, GOTOREGISTRATION,
     //doctor & nurse commands
-    GOTOCHOOSEPATIENT, CHOOSEPATIENT, BACKTOMENU, BACKTOCHOOSEPATIENT, BACKTOINNERMENU,
-    GOTOCHOOSEDRUG, GOTOCHOOSEPROCEDURE,
+    GOTOCHOOSEPATIENT, CHOOSEPATIENT, BACKTOMENU, BACKTOCHOOSEPATIENT,
     // doctor commands
     GOTOADDPATIENT, ADDPATIENT, DELPATIENT,
-    GOTOADDDIAGNOSIS, ADDDIAGNOSIS, GOTOCHOOSEDIAGNOSIS, DELDIAGNOSIS,
+    GOTOADDDIAGNOSIS, ADDDIAGNOSIS, DELDIAGNOSIS,
     GOTOADDDRUG, ADDDRUG, DELDRUG,
     GOTOADDPROCEDURE, ADDPROCEDURE, DELPROCEDURE,
-    GOTOADDSURGERY, ADDSURGERY, GOTOCHOOSESURGERY, DELSURGERY;
+    GOTOADDSURGERY, ADDSURGERY, DELSURGERY;
 
     public Command getCurrentCommand() throws EnumConstantNotPresentException{
         switch(this){
@@ -72,9 +68,6 @@ public enum CommandType {
             case ADDDIAGNOSIS:
                 return new AddDiagnosisCommand();
 
-            case GOTOCHOOSEDIAGNOSIS:
-                return new GoToChooseDiagnosisCommand();
-
             case DELDIAGNOSIS:
                 return new DelDiagnosisCommand();
 
@@ -83,9 +76,6 @@ public enum CommandType {
 
             case ADDDRUG:
                 return new AddDrugCommand();
-
-            case GOTOCHOOSEDRUG:
-                return new GoToChooseDrugCommand();
 
             case DELDRUG:
                 return new DelDrugCommand();
@@ -96,9 +86,6 @@ public enum CommandType {
             case ADDPROCEDURE:
                 return new AddProcedureCommand();
 
-            case GOTOCHOOSEPROCEDURE:
-                return new GoToChooseProcedureCommand();
-
             case DELPROCEDURE:
                 return new DelProcedureCommand();
 
@@ -107,9 +94,6 @@ public enum CommandType {
 
             case ADDSURGERY:
                 return new AddSurgeryCommand();
-
-            case GOTOCHOOSESURGERY:
-                return new GoToChooseSurgeryCommand();
 
             case DELSURGERY:
                 return new DelSurgeryCommand();

@@ -37,7 +37,6 @@ public class LoginUserCommand extends AbstractCommand {
                 List<Patient> list = PatientService.getAll();
                 session.setAttribute(Parameters.PATIENTS_LIST, list);
                 page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.SHOW_PATIENTS_PAGE);
-
             }
             else{
                 page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);
