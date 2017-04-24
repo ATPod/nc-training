@@ -1,32 +1,44 @@
 package by.training.nc.dev5.entities;
 
-import java.io.Serializable;
+import javax.persistence.*;
 
-public class Administrator extends Entity implements Serializable {
+@NamedQueries( {@NamedQuery(name = "Administrator.findByParam", query = "SELECT a FROM Administrator a WHERE a.name=?1 AND a.password=?2")} )
 
-    private String name;
+@Entity
+public class Administrator {
+    private int id;
     private String password;
+    private String name;
 
-    public Administrator(int id, String name, String password) {
-        super(id);
-        this.name = name;
-        this.password = password;
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    public int getId() {
+        return id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Basic
+    @Column(name = "password", nullable = false, length = 50)
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "name", nullable = false, length = 20)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -36,25 +48,18 @@ public class Administrator extends Entity implements Serializable {
 
         Administrator that = (Administrator) o;
 
-        if (this.getId() != that.getId()) return false;
-        if (!name.equals(that.getName())) return false;
-        return password.equals(that.getPassword());
+        if (id != that.id) return false;
+        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = this.getId();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + password.hashCode();
+        int result = id;
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Administrator{" +
-                "id=" + this.getId() +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }

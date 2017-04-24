@@ -5,39 +5,41 @@
 <head>
     <title>My orderings</title>
 </head>
-<body>
+    <body>
 
-Welcome, ${firstname} ${lastname}<br>
-<a href="controller?command=GoToSettings">Settings</a> <br/>
-<a href="controller?command=GoToBag">Bag</a> <br/>
-<a href="controller?command=GoToMain">Back</a> <br/>
-<a href="controller?command=LogOut">Log out</a> <br/>
+        ${firstname} ${lastname}<br>
+        <a href="controller?command=client_go_to_bag">Bag</a> <br/>
+        <a href="controller?command=client_go_to_settings">Settings</a> <br/>
+        <a href="controller?command=client_go_to_main">Back</a> <br/>
+        <a href="controller?command=logout">Log out</a> <br/><br/>
 
-<table border="1">
-    <tr bgcolor="#CCCCCC">
-        <td align="center"><strong>ID</strong></td>
-        <td align="center"><strong>Title</strong></td>
-        <td align="center"><strong>Price</strong></td>
-    </tr>
-    <c:forEach var="product" items="${bag}">
-        <tr>
-            <td><c:out value="${product.id}" /></td>
-            <td><c:out value="${product.title}" /></td>
-            <td><c:out value="${product.price}" /></td>
-            <td>
-                <form name="loginForm" method="POST" action="controller">
-                    <input type="hidden" name="command" value="removeFromToBag"/>
-                    <input type="hidden" name="idProduct" value="${ product.id }"/>
-                    <input type="submit" value="Remove"/>
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
-    <form name="loginForm" method="POST" action="controller">
-        <input type="hidden" name="command" value="makeOrdering"/>
-        <input type="submit" value="Make ordering!"/>
-    </form>
-</table>
-</body>
+        <table border="1">
+            <tr bgcolor="#CCCCCC">
+                <td align="center"><strong>ID</strong></td>
+                <td align="center"><strong>Payment</strong></td>
+            </tr>
+            <c:forEach var="ordering" items="${orderingList}">
+                <tr>
+                    <td><c:out value="${ordering.id}" /></td>
+                    <td><c:out value="${ordering.paid}" /></td>
+                    <td>
+                        <form method="POST" action="controller">
+                            <input type="hidden" name="command" value="client_go_to_products"/>
+                            <input type="hidden" name="orderingId" value="${ ordering.id }"/>
+                            <input type="submit" value="Products"/>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="POST" action="controller">
+                            <input type="hidden" name="command" value="client_pay_for_ordering"/>
+                            <input type="hidden" name="orderingId" value="${ ordering.id }"/>
+                            <input type="submit" value="Pay"/>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+        ${errorMessage}
+    </body>
 </html>
 

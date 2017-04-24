@@ -7,11 +7,11 @@
     </head>
     <body>
 
-        Welcome, ${firstname} ${lastname}
-        <a href="controller?command=GoToSettings">Settings</a> <br/>
-        <a href="controller?command=GoToMyOrderings">My orderings</a> <br/>
-        <a href="controller?command=GoToBag">Bag</a> <br/>
-        <a href="controller?command=LogOut">Log out</a> <br/>
+        ${firstname} ${lastname} <br/>
+        <a href="controller?command=client_go_to_orderings">My orderings</a> <br/>
+        <a href="controller?command=client_go_to_bag">Bag</a> <br/>
+        <a href="controller?command=client_go_to_settings">Settings</a> <br/>
+        <a href="controller?command=logout">Log out</a> <br/><br/>
 
         <table border="1">
             <tr bgcolor="#CCCCCC">
@@ -26,13 +26,14 @@
                     <td><c:out value="${product.price}" /></td>
                     <td>
                         <form name="loginForm" method="POST" action="controller">
-                            <input type="hidden" name="command" value="addToBag"/>
-                            <input type="hidden" name="idProduct" value="${ product.id }"/>
+                            <input type="hidden" name="command" value="client_add_to_bag"/>
+                            <input type="hidden" name="productId" value="${ product.id }"/>
                             <input type="submit" value="Add to bag"/>
                         </form>
                     </td>
                 </tr>
             </c:forEach>
         </table>
+        ${errorMessage}
     </body>
 </html>

@@ -20,4 +20,8 @@ public interface Commands {
     String INSERT_CREDIT_CARD = "InsertCreditCard";
     String GO_TO_DELETE_CREDIT_CARD = "GoToDeleteCreditCard";
     String DELETE_CREDIT_CARD = "DeleteCreditCard";
+    String GO_TO_BLOCK_CREDIT_CARD = "GoToBlockCreditCard";
+    String BLOCK_CRDIT_CARD = "BlockCreditCard";
+    String GO_TO_UNBLOCK = "GoToUnblock";
+    String UNBLOCK = "Unblock";
 }

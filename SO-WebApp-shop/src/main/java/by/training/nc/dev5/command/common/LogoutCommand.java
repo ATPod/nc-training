@@ -1,4 +1,4 @@
-package by.training.nc.dev5.command.user;
+package by.training.nc.dev5.command.common;
 import by.training.nc.dev5.command.ActionCommand;
 import by.training.nc.dev5.resource.ConfigurationManager;
 

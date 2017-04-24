@@ -21,7 +21,7 @@ public class ProductService {
 
     public static void removeProduct(int idProduct) throws NotFoundException, DAOException{
         productDao.findById(idProduct);
-        productDao.delete(idProduct);
+        productDao.remove(idProduct);
     }
 
     public static void updateProductTitle(int idProduct, String title) throws NotFoundException, DAOException{

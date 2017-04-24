@@ -13,7 +13,7 @@
 <body>
 <form name="loginForm" method="POST"action="controller?command=InsertCreditCard">
     <input type="hidden" name="command" value="InsertCreditCard"/>
-    <p><b>Вход в систему:</b></p>
+    <p><b>Введите данные:</b></p>
     <table>
         <tr>
             <td>ID:</td>

@@ -29,6 +29,10 @@ public class CommandFactory {
         commands.put(INSERT_CREDIT_CARD, new InsertCreditCardCommand());
         commands.put(GO_TO_DELETE_CREDIT_CARD, new GoToDeleteCreditCardCommand());
         commands.put(DELETE_CREDIT_CARD, new DeleteCreditCardCommand());
+        commands.put(GO_TO_BLOCK_CREDIT_CARD, new GoToBlockCreditCardCommand());
+        commands.put(BLOCK_CRDIT_CARD, new BlockCreditCardCommand());
+        commands.put(GO_TO_UNBLOCK, new GoToUnblockCommand());
+        commands.put(UNBLOCK, new UnblockCommand());
     }
 
     public static Command defineCommand(HttpServletRequest req) {

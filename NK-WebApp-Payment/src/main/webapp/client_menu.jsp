@@ -16,6 +16,7 @@
 <a href="controller?command=GoToPayment">Совершить платёж</a> <br/>
 <a href="controller?command=GoToInsertCreditCard">Добавить карту</a> <br/>
 <a href="controller?command=GoToDeleteCreditCard">Удалить карту</a> <br/>
+<a href="controller?command=GoToBlockCreditCard">Заблокировать карту</a> <br/>
 <a href="controller?command=LogoutUser">Выйти из системы</a> <br/>
 </body>
 </html>

@@ -13,7 +13,7 @@
             <input type="submit" value="Log in"/>
         </form>
 
-        <form name="reg" method="POST" action="controller">
+        <form name="goToRegistration" method="POST" action="controller">
             <input type="hidden" name="command" value="go_to_registration"/>
             <input type="submit" value="Sign up"/>
         </form>

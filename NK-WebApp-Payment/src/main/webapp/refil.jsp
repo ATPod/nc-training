@@ -13,7 +13,7 @@
 <body>
 <form name="loginForm" method="POST"action="controller?command=refil">
     <input type="hidden" name="command" value="refil"/>
-    <p><b>Вход в систему:</b></p>
+    <p><b>Введите данные:</b></p>
     <table>
         <tr>
             <td>ID:</td>

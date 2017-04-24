@@ -15,4 +15,6 @@ public interface JspPaths {
     String REFIL_PATH = "/refil.jsp";
     String INSERT_PATH = "/insert.jsp";
     String DELETE_PATH = "/delete.jsp";
+    String BLOCK_PATH = "/block.jsp";
+    String UNBLOCK_PATH = "/unblock.jsp";
 }
