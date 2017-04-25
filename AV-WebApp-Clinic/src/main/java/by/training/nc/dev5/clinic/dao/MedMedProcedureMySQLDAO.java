@@ -1,7 +1,8 @@
 package by.training.nc.dev5.clinic.dao;
 
 import by.training.nc.dev5.clinic.entities.Patient;
-import by.training.nc.dev5.clinic.dao.interfaces.PatientDAO;
+import by.training.nc.dev5.clinic.entities.MedProcedure;
+import by.training.nc.dev5.clinic.dao.interfaces.MedProcedureDAO;
 import by.training.nc.dev5.clinic.logger.ClinicLogger;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
 
@@ -13,25 +14,27 @@ import java.util.List;
 /**
  * Created by user on 06.04.2017.
  */
-public enum  PatientMySQLDAO implements PatientDAO{
+public enum MedMedProcedureMySQLDAO implements MedProcedureDAO {
     INSTANCE;
-    public List<Patient> getAll(){
+
+    public List<MedProcedure> getByPatient(Patient patient){
         try {
             EntityManager entityManager = HibernateUtil.getEntityManager();
-            Query query = entityManager.createNamedQuery("Patient.findAll");
-            return (List<Patient>) query.getResultList();
+            Query query = entityManager.createNamedQuery("MedProcedure.getByPatient");
+            query.setParameter(1, patient);
+            return (List<MedProcedure>) query.getResultList();
         }
         catch (Exception e){
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
-            return new ArrayList<Patient>();
+            return new ArrayList<MedProcedure>();
         }
     }
 
-    public void add(Patient patient){
+    public void add(MedProcedure medProcedure){
         try {
             EntityManager entityManager = HibernateUtil.getEntityManager();
             entityManager.getTransaction().begin();
-            entityManager.persist(patient);
+            entityManager.persist(medProcedure);
             entityManager.flush();
             entityManager.getTransaction().commit();
         }
@@ -40,12 +43,12 @@ public enum  PatientMySQLDAO implements PatientDAO{
         }
     }
 
-    public void delete(int patientId){
+    public void delete(int id){
         try {
             EntityManager entityManager = HibernateUtil.getEntityManager();
-            Patient patient = entityManager.find(Patient.class, patientId);
+            MedProcedure medProcedure = entityManager.find(MedProcedure.class, id);
             entityManager.getTransaction().begin();
-            entityManager.remove(patient);
+            entityManager.remove(medProcedure);
             entityManager.flush();
             entityManager.getTransaction().commit();
         }
@@ -53,25 +56,4 @@ public enum  PatientMySQLDAO implements PatientDAO{
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
     }
-
-    public Patient getById(int patientId){
-        EntityManager entityManager = HibernateUtil.getEntityManager();
-        return entityManager.find(Patient.class, patientId);
-    }
-
-    public Patient getByName(String name){
-        List<Patient> patientList;
-        try {
-            EntityManager entityManager = HibernateUtil.getEntityManager();
-            Query query = entityManager.createNamedQuery("Patient.getByName");
-            query.setParameter(1, name);
-            patientList = (List<Patient>) query.getResultList();
-            return patientList.get(0);
-        }
-        catch (Exception e){
-            ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
-            return null;
-        }
-    }
-
 }

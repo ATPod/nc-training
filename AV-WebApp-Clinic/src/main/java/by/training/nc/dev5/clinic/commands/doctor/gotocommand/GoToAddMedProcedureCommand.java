@@ -12,13 +12,13 @@ import javax.servlet.http.HttpSession;
 /**
  * Created by user on 12.04.2017.
  */
-public class GoToAddProcedureCommand extends AbstractCommand {
+public class GoToAddMedProcedureCommand extends AbstractCommand {
     public String execute(HttpServletRequest request) {
         String page;
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_ADD_PROCEDURE);
+            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_ADD_MEDPROCEDURE);
         }
         else{
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_MENU);

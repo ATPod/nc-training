@@ -1,8 +1,8 @@
 package by.training.nc.dev5.clinic.services;
 
-import by.training.nc.dev5.clinic.beans.patient.prescribing.Surgery;
+import by.training.nc.dev5.clinic.entities.Patient;
+import by.training.nc.dev5.clinic.entities.Surgery;
 import by.training.nc.dev5.clinic.dao.SurgeryMySQLDAO;
-
 import java.util.List;
 
 /**
@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class SurgeryService {
 
-    public static List<Surgery> getByPatientId(int patientId) {
-        return SurgeryMySQLDAO.INSTANCE.getByPatientId(patientId);
+    public static List<Surgery> getByPatient(Patient patient) {
+        return SurgeryMySQLDAO.INSTANCE.getByPatient(patient);
     }
 
     public static void add(Surgery surgery){

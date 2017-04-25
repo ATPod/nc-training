@@ -1,12 +1,11 @@
 package by.training.nc.dev5.clinic.commands.user;
 
-import by.training.nc.dev5.clinic.beans.User;
-import by.training.nc.dev5.clinic.beans.patient.Patient;
+import by.training.nc.dev5.clinic.entities.User;
+import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
-import by.training.nc.dev5.clinic.dao.UserMySQLDAO;
 import by.training.nc.dev5.clinic.filters.UserType;
 import by.training.nc.dev5.clinic.logger.ClinicLogger;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
@@ -16,7 +15,6 @@ import by.training.nc.dev5.clinic.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
 import java.util.List;
 
 
@@ -43,7 +41,7 @@ public class LoginUserCommand extends AbstractCommand {
                 request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.WRONG_LOGIN_OR_PASSWORD));
             }
         }
-        catch (SQLException e) {
+        catch (Exception e) {
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.ERROR_PAGE_PATH);
             request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));

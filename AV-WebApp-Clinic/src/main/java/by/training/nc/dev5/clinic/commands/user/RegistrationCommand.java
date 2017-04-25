@@ -1,6 +1,6 @@
 package by.training.nc.dev5.clinic.commands.user;
 
-import by.training.nc.dev5.clinic.beans.User;
+import by.training.nc.dev5.clinic.entities.User;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.AccessLevels;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;

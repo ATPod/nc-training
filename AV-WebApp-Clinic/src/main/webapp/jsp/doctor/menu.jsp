@@ -60,24 +60,24 @@
         </td>
         <td valign="top" style="text-align: center">
             <form method="POST" action="controller">
-                <input type="hidden" name="command" value="gotoaddprocedure" />
+                <input type="hidden" name="command" value="gotoaddmedprocedure" />
                 <input type="submit" value="Назначить процедуру" align="center" />
             </form>
-            <form name="procedureListForm" method="POST" action="controller">
-                <input type="hidden" name="command" value="delProcedure" />
+            <form name="medProcedureListForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="delMedProcedure" />
                 <input type="submit" value="Сделать процедуру" align="center"/>  <br/>
                 <table align="center" border="1">
                     <tr bgcolor="#CCCCCC">
                         <td align="center"><strong>Процедуры</strong></td>
                     </tr>
-                    <c:if test="${empty proceduresList}">
+                    <c:if test="${empty medProceduresList}">
                         <tr>
                             <td>Нет записей.</td>
                         </tr>
                     </c:if>
-                    <c:forEach var="procedure" items="${proceduresList}">
+                    <c:forEach var="medProcedure" items="${medProceduresList}">
                         <tr>
-                            <td><input type="radio" name="procedureId" value="${ procedure.id }"/> <c:out value="${ procedure.name }" /></td>
+                            <td><input type="radio" name="medProcedureId" value="${ medProcedure.id }"/> <c:out value="${ medProcedure.name }" /></td>
                         </tr>
                     </c:forEach>
                 </table>

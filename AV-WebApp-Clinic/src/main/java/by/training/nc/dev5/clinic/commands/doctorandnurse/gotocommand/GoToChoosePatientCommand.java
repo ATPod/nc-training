@@ -1,10 +1,9 @@
 package by.training.nc.dev5.clinic.commands.doctorandnurse.gotocommand;
 
-import by.training.nc.dev5.clinic.beans.patient.Patient;
+import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
-import by.training.nc.dev5.clinic.dao.PatientMySQLDAO;
 import by.training.nc.dev5.clinic.filters.UserType;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
 import by.training.nc.dev5.clinic.services.PatientService;

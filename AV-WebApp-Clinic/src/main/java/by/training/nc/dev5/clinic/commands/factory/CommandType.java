@@ -4,7 +4,7 @@ import by.training.nc.dev5.clinic.commands.*;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.ChoosePatientCommand;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.goback.GoBackToMenuCommand;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.delete.DelDrugCommand;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.delete.DelProcedureCommand;
+import by.training.nc.dev5.clinic.commands.doctorandnurse.delete.DelMedProcedureCommand;
 import by.training.nc.dev5.clinic.commands.doctor.add.*;
 import by.training.nc.dev5.clinic.commands.doctor.delete.*;
 import by.training.nc.dev5.clinic.commands.doctorandnurse.goback.GoBackToChoosePatientCommand;
@@ -24,7 +24,7 @@ public enum CommandType {
     GOTOADDPATIENT, ADDPATIENT, DELPATIENT,
     GOTOADDDIAGNOSIS, ADDDIAGNOSIS, DELDIAGNOSIS,
     GOTOADDDRUG, ADDDRUG, DELDRUG,
-    GOTOADDPROCEDURE, ADDPROCEDURE, DELPROCEDURE,
+    GOTOADDMEDPROCEDURE, ADDMEDPROCEDURE, DELMEDPROCEDURE,
     GOTOADDSURGERY, ADDSURGERY, DELSURGERY;
 
     public Command getCurrentCommand() throws EnumConstantNotPresentException{
@@ -80,14 +80,14 @@ public enum CommandType {
             case DELDRUG:
                 return new DelDrugCommand();
 
-            case GOTOADDPROCEDURE:
-                return new GoToAddProcedureCommand();
+            case GOTOADDMEDPROCEDURE:
+                return new GoToAddMedProcedureCommand();
 
-            case ADDPROCEDURE:
-                return new AddProcedureCommand();
+            case ADDMEDPROCEDURE:
+                return new AddMedProcedureCommand();
 
-            case DELPROCEDURE:
-                return new DelProcedureCommand();
+            case DELMEDPROCEDURE:
+                return new DelMedProcedureCommand();
 
             case GOTOADDSURGERY:
                 return new GoToAddSurgeryCommand();

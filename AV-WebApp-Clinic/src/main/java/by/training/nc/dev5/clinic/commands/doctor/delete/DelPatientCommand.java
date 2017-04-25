@@ -1,6 +1,6 @@
 package by.training.nc.dev5.clinic.commands.doctor.delete;
 
-import by.training.nc.dev5.clinic.beans.patient.Patient;
+import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
@@ -35,7 +35,7 @@ public class DelPatientCommand extends AbstractCommand {
                 page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.SHOW_PATIENTS_PAGE);
                 request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
 
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
                 page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.ERROR_PAGE_PATH);
                 request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));

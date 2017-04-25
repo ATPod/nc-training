@@ -17,7 +17,7 @@ public class ConfigsConstants {
     public static final String DOCTOR_ADD_PATIENT = "path.page.doctor.add.patient";
     public static final String DOCTOR_ADD_DIAGNOSIS = "path.page.doctor.add.diagnosis";
     public static final String DOCTOR_ADD_DRUG = "path.page.doctor.add.drug";
-    public static final String DOCTOR_ADD_PROCEDURE = "path.page.doctor.add.procedure";
+    public static final String DOCTOR_ADD_MEDPROCEDURE = "path.page.doctor.add.medprocedure";
     public static final String DOCTOR_ADD_SURGERY = "path.page.doctor.add.surgery";
 
     public static final String NURSE_MENU = "path.page.nurse.menu";

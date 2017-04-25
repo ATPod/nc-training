@@ -1,9 +1,7 @@
 package by.training.nc.dev5.clinic.services;
 
-import by.training.nc.dev5.clinic.beans.patient.Patient;
+import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.dao.PatientMySQLDAO;
-
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -14,19 +12,19 @@ public class PatientService {
         return PatientMySQLDAO.INSTANCE.getAll();
     }
 
-    public static boolean isNewPatient(String name) throws SQLException {
-        return PatientMySQLDAO.INSTANCE.isNewPatient(name);
+    public static boolean isNewPatient(String name){
+        return (PatientMySQLDAO.INSTANCE.getByName(name)==null);
     }
 
-    public static void add(Patient patient) throws SQLException{
+    public static void add(Patient patient){
         PatientMySQLDAO.INSTANCE.add(patient);
     }
 
-    public static Patient getById(int patientId){
+    public static Patient getById(int patientId) {
         return PatientMySQLDAO.INSTANCE.getById(patientId);
     }
 
-    public static void delete(int patientId) throws SQLException{
+    public static void delete(int patientId){
         PatientMySQLDAO.INSTANCE.delete(patientId);
     }
 }

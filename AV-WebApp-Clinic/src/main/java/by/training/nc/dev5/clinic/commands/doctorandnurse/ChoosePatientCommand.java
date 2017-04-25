@@ -1,9 +1,6 @@
 package by.training.nc.dev5.clinic.commands.doctorandnurse;
 
-import by.training.nc.dev5.clinic.beans.patient.prescribing.Diagnosis;
-import by.training.nc.dev5.clinic.beans.patient.prescribing.Drug;
-import by.training.nc.dev5.clinic.beans.patient.prescribing.Procedure;
-import by.training.nc.dev5.clinic.beans.patient.prescribing.Surgery;
+import by.training.nc.dev5.clinic.entities.*;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
@@ -27,13 +24,13 @@ public class ChoosePatientCommand extends AbstractCommand {
             String patientName = PatientService.getById(Integer.valueOf(patientId)).getName();
             session.setAttribute(Parameters.PATIENT_ID, patientId);
             session.setAttribute(Parameters.PATIENT_NAME, patientName);
-            List<Diagnosis> diagnosises = DiagnosisService.getByPatientId(Integer.valueOf(patientId));
-            List<Drug> drugs = DrugService.getByPatientId(Integer.valueOf(patientId));
-            List<Procedure> procedures = ProcedureService.getByPatientId(Integer.valueOf(patientId));
-            List<Surgery> surgeries = SurgeryService.getByPatientId(Integer.valueOf(patientId));
+            List<Diagnosis> diagnosises = DiagnosisService.getByPatient(PatientService.getById(Integer.valueOf(patientId)));
+            List<Drug> drugs = DrugService.getByPatient(PatientService.getById(Integer.valueOf(patientId)));
+            List<MedProcedure> medProcedures = MedProcedureService.getByPatient(PatientService.getById(Integer.valueOf(patientId)));
+            List<Surgery> surgeries = SurgeryService.getByPatient(PatientService.getById(Integer.valueOf(patientId)));
             session.setAttribute(Parameters.DIAGNOSIS_LIST, diagnosises);
             session.setAttribute(Parameters.DRUGS_LIST, drugs);
-            session.setAttribute(Parameters.PROCEDURES_LIST, procedures);
+            session.setAttribute(Parameters.MEDPROCEDURES_LIST, medProcedures);
             session.setAttribute(Parameters.SURGERIES_LIST, surgeries);
             if(userType == UserType.DOCTOR) {
                 page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_MENU);

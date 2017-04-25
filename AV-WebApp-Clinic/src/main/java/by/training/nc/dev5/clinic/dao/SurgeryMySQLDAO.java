@@ -1,97 +1,58 @@
 package by.training.nc.dev5.clinic.dao;
 
-import by.training.nc.dev5.clinic.connectionpool.ConnectionPool;
-import by.training.nc.dev5.clinic.beans.patient.prescribing.Surgery;
-import by.training.nc.dev5.clinic.constants.ColumnNames;
-import by.training.nc.dev5.clinic.constants.SqlRequests;
-import by.training.nc.dev5.clinic.dao.interfaces.PrescribingDAO;
+import by.training.nc.dev5.clinic.entities.Patient;
+import by.training.nc.dev5.clinic.entities.Surgery;
+import by.training.nc.dev5.clinic.dao.interfaces.SurgeryDAO;
 import by.training.nc.dev5.clinic.logger.ClinicLogger;
+import by.training.nc.dev5.clinic.utils.HibernateUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by user on 06.04.2017.
  */
-public enum  SurgeryMySQLDAO implements PrescribingDAO<Surgery> {
+public enum  SurgeryMySQLDAO implements SurgeryDAO {
     INSTANCE;
-    public List<Surgery> getByPatientId(int patientId){
-        List<Surgery> surgeries = new ArrayList<Surgery>();
-        Connection cn = null;
-        PreparedStatement st = null;
+    public List<Surgery> getByPatient(Patient patient){
         try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SqlRequests.GET_SURGERIES_BY_PATIENT);
-            st.setInt(1, patientId);
-            ResultSet resultSet = st.executeQuery();
-            while (resultSet.next()) {
-                Surgery temp = new Surgery();
-                temp.setId(resultSet.getInt(ColumnNames.PRESCRIBING_ID));
-                temp.setName(resultSet.getString(ColumnNames.PRESCRIBING_NAME));
-                temp.setPatientId(resultSet.getInt(ColumnNames.PRESCRIBING_PATIENT_ID));
-                surgeries.add(temp);
-            }
-        } catch (SQLException e) {
-            ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
-            }
-            ConnectionPool.putback(cn);
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Query query = entityManager.createNamedQuery("Surgery.getByPatient");
+            query.setParameter(1, patient);
+            return (List<Surgery>) query.getResultList();
         }
-        return surgeries;
+        catch (Exception e){
+            ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+            return new ArrayList<Surgery>();
+        }
     }
 
-    public void add(Surgery temp){
-        Connection cn = null;
-        PreparedStatement st = null;
+    public void add(Surgery surgery){
         try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SqlRequests.ADD_SURGERY);
-            st.setString(1, temp.getName());
-            st.setInt(2, temp.getPatientId());
-            st.executeUpdate();
-        } catch (SQLException e) {
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            entityManager.getTransaction().begin();
+            entityManager.persist(surgery);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        }
+        catch (Exception e){
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
-            }
-            ConnectionPool.putback(cn);
         }
     }
 
     public void delete(int id){
-        Connection cn = null;
-        PreparedStatement st = null;
         try {
-            cn = ConnectionPool.retrieve();
-            st = cn.prepareStatement(SqlRequests.DELETE_SURGERY);
-            st.setInt(1, id);
-            st.executeUpdate();
-        } catch (SQLException e) {
+            EntityManager entityManager = HibernateUtil.getEntityManager();
+            Surgery surgery = entityManager.find(Surgery.class, id);
+            entityManager.getTransaction().begin();
+            entityManager.remove(surgery);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        }
+        catch (Exception e){
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
-        } finally {
-            try {
-                if (st != null) {
-                    st.close();
-                }
-            } catch (SQLException e) {
-                ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
-            }
-            ConnectionPool.putback(cn);
         }
     }
 }

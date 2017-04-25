@@ -1,6 +1,7 @@
 package by.training.nc.dev5.clinic.commands.doctor.delete;
 
-import by.training.nc.dev5.clinic.beans.patient.prescribing.Surgery;
+import by.training.nc.dev5.clinic.entities.Patient;
+import by.training.nc.dev5.clinic.entities.Surgery;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
@@ -8,6 +9,7 @@ import by.training.nc.dev5.clinic.constants.Parameters;
 import by.training.nc.dev5.clinic.filters.UserType;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
 import by.training.nc.dev5.clinic.managers.MessageManager;
+import by.training.nc.dev5.clinic.services.PatientService;
 import by.training.nc.dev5.clinic.services.SurgeryService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +29,8 @@ public class DelSurgeryCommand extends AbstractCommand {
         if(userType == UserType.DOCTOR) {
             if(id != null) {
                 SurgeryService.delete(Integer.valueOf(id));
-                List<Surgery> list = SurgeryService.getByPatientId(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
+                Patient patient = PatientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
+                List<Surgery> list = SurgeryService.getByPatient(patient);
                 session.setAttribute(Parameters.SURGERIES_LIST, list);
                 request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
             }else {
