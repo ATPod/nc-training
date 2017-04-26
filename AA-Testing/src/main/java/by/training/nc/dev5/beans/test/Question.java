@@ -21,17 +21,17 @@ public class Question implements Serializable {
     /**
      * Creates new entity of the class <b>{@code Question}</b>
      */
-    public Question()
-    {
+    public Question() {
 
     }
 
     /**
      * Creates new entity of the class <b>{@code Question}</b> and initialize it
-     * @param id -id
-     * @param testId - id of test that contains this question
-     * @param text -question text
-     * @param scores- scores for right answer
+     *
+     * @param id                     -id
+     * @param testId                 - id of test that contains this question
+     * @param text                   -question text
+     * @param scores-                scores for right answer
      * @param answerOptions-possible answers
      */
     public Question(int id, int testId, String text, int scores, List<Option> answerOptions) {
@@ -43,7 +43,6 @@ public class Question implements Serializable {
     }
 
     /**
-     *
      * @return question id
      */
     public int getId() {
@@ -51,7 +50,6 @@ public class Question implements Serializable {
     }
 
     /**
-     *
      * @param id-id to set
      */
 
@@ -60,7 +58,6 @@ public class Question implements Serializable {
     }
 
     /**
-     *
      * @return id of test that contains this question
      */
 
@@ -69,7 +66,6 @@ public class Question implements Serializable {
     }
 
     /**
-     *
      * @param testId- id of test to set
      */
 
@@ -78,7 +74,6 @@ public class Question implements Serializable {
     }
 
     /**
-     *
      * @return question text
      */
 
@@ -87,7 +82,6 @@ public class Question implements Serializable {
     }
 
     /**
-     *
      * @param text-text to set
      */
 
@@ -96,7 +90,6 @@ public class Question implements Serializable {
     }
 
     /**
-     *
      * @return scores for the right answer
      */
 
@@ -105,7 +98,6 @@ public class Question implements Serializable {
     }
 
     /**
-     *
      * @param scores-scores to set
      */
 
@@ -114,7 +106,6 @@ public class Question implements Serializable {
     }
 
     /**
-     *
      * @return possible answers
      */
     public List<Option> getAnswerOptions() {
@@ -122,13 +113,13 @@ public class Question implements Serializable {
     }
 
     /**
-     *
      * @param answerOptions -options to set
      */
 
     public void setAnswerOptions(List<Option> answerOptions) {
         this.answerOptions = answerOptions;
     }
+
     /* (non-Javadoc)
      * @see java.lang.Object#equals()
      */
@@ -146,6 +137,7 @@ public class Question implements Serializable {
         return answerOptions != null ? answerOptions.equals(question.answerOptions) : question.answerOptions == null;
 
     }
+
     /* (non-Javadoc)
     * @see java.lang.Object#hashCode()
     */
@@ -158,17 +150,19 @@ public class Question implements Serializable {
         result = 31 * result + (answerOptions != null ? answerOptions.hashCode() : 0);
         return result;
     }
+
     /* (non-Javadoc)
     * @see java.lang.Object#toString()
     */
     @Override
     public String toString() {
-        return "Question{" +
-                "id=" + id +
-                ", testId=" + testId +
-                ", text='" + text + '\'' +
-                ", scores=" + scores +
-                ", answerOptions=" + answerOptions +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(text).append(" баллы за вопрос - ").append(scores);
+        sb.append("\n");
+        for (Option option : answerOptions) {
+            sb.append(option);
+        }
+        sb.append("\n");
+        return sb.toString();
     }
 }

@@ -11,11 +11,15 @@ public class ConfigsConstants {
     public static final String INDEX_PAGE_PATH = "path.page.index";
     public static final String REGISTRATION_PAGE_PATH = "path.page.registration";
     public static final String ERROR_PAGE_PATH = "path.page.error";
+    public static final String SHOW_PATIENTS_PAGE = "path.page.doctorandnurse.patients";
 
-    public static final String DOCTOR_PAGE_PATH = "path.page.doctor";
-    public static final String DOCTOR_SHOW_PATIENTS_PAGE = "path.page.doctor.patients";
-    public static final String DOCTOR_INNER_MENU = "path.page.doctor.innermenu";
+    public static final String DOCTOR_MENU = "path.page.doctor.menu";
+    public static final String DOCTOR_ADD_PATIENT = "path.page.doctor.add.patient";
+    public static final String DOCTOR_ADD_DIAGNOSIS = "path.page.doctor.add.diagnosis";
+    public static final String DOCTOR_ADD_DRUG = "path.page.doctor.add.drug";
+    public static final String DOCTOR_ADD_MEDPROCEDURE = "path.page.doctor.add.medprocedure";
+    public static final String DOCTOR_ADD_SURGERY = "path.page.doctor.add.surgery";
 
-    public static final String NURSE_PAGE_PATH = "path.page.nurse";
+    public static final String NURSE_MENU = "path.page.nurse.menu";
 
 }

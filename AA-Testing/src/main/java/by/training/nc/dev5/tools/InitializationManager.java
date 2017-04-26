@@ -1,32 +1,33 @@
 package by.training.nc.dev5.tools;
 
+import by.training.nc.dev5.beans.test.Option;
 import by.training.nc.dev5.beans.test.Question;
 import by.training.nc.dev5.beans.test.Test;
 import by.training.nc.dev5.beans.test.TestContainer;
-import by.training.nc.dev5.beans.users.Student;
-import by.training.nc.dev5.beans.users.Tutor;
-import by.training.nc.dev5.serialization.TestContainerSerializer;
-import by.training.nc.dev5.services.StudentService;
-import by.training.nc.dev5.services.TutorService;
+import by.training.nc.dev5.logger.TestingSystemLogger;
+import by.training.nc.dev5.utils.Utils;
 
-import java.io.*;
-import java.util.*;
+import static by.training.nc.dev5.constants.FileStrings.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * Initializing options
  *
  * @author Alena Artsiuschcyk
  * @version 1.0
- *
  */
-public class InitializationManager {
-    private static TestContainer tests = new TestContainer();
 
+public class InitializationManager {
     /**
-     *
      * @param fileName name of file
      * @return path of file with fileName name
      */
-    public static String getTextFilePath(String fileName) {
+    private static String getTextFilePath(String fileName) {
         StringBuilder path = new StringBuilder();
         path.append(System.getProperty("user.dir"))
                 .append(File.separator)
@@ -55,15 +56,6 @@ public class InitializationManager {
     }
 
     /**
-     *
-     * @param fileName file to read
-     */
-    public static void readFromFile(String fileName) {
-
-    }
-
-    /**
-     *
      * @param fileName file to write
      */
 
@@ -71,134 +63,69 @@ public class InitializationManager {
 
     }
 
-    /**
-     * Console menu of application
-     */
-    public static void menu() {
-        while (true) {
-            System.out.println("===========================================================");
-            System.out.println("Выберите пользователя:");
-            System.out.println("1. Tutor");
-            System.out.println("2. Student");
-            System.out.println("0. Выход");
-            System.out.println("===========================================================");
-
-
-            switch (ConsoleOperations.inputNumber()) {
-                case 1:
-                    Tutor tutor = ConsoleOperations.inputTutor();
-                    TutorService tutorService = TutorService.getInstance();
-                    out:
-                    while (true) {
-                        System.out.println("===========================================================");
-                        System.out.println("1. Показать список тестов");
-                        System.out.println("2. Добавить тест в систему");
-
-                        System.out.println("0. Назад");
-                        System.out.println("===========================================================");
-
-                        switch (ConsoleOperations.inputNumber()) {
-                            case 1:
-                                System.out.println("===========================================================");
-                                System.out.println(tests.toString());
-                                break;
-
-                            case 2:
-                                System.out.println("Введите название теста (одно слово без пробелов)");
-                                String testName = ConsoleOperations.inputString();
-                                System.out.println("Введите количество вопросов");
-                                int questionAmount = 0;
-                                while (true) {
-                                    try {
-                                        questionAmount = ConsoleOperations.inputNumber();
-                                    } catch (InputMismatchException e) {
-                                        System.out.println("Неверный ввод! Повторите...");
-                                        continue;
-                                    }
-                                    break;
-                                }
-                                tests.addTest(tutorService.creatingTest(tutor, testName, questionAmount));
-                                System.out.println(tests.toString());
-                                break;
-
-                            case 0:
-                                System.out.println("===========================================================");
-                                break out;
-
-                            default:
-                                System.out.println("===========================================================");
-                                System.out.println("Неверный выбор либо формат. Повторите...");
+    private static List<Test> readFromFile(String fileName) {
+        List<Test> tests=new ArrayList<>();
+        String filepath = getTextFilePath(fileName);
+        try (Scanner scan = new Scanner(new File(filepath))) {
+            while (scan.hasNext()) {
+                scan.findWithinHorizon(TEST_ID, 0);
+                int id = scan.nextInt();
+                scan.findWithinHorizon(TEST_NAME, 0);
+                String testName = scan.next();
+                scan.findWithinHorizon(TEST_SUBJECT, 0);
+                String testSubject = scan.next();
+                scan.findWithinHorizon(TEST_QUESTION_AMOUNT, 0);
+                int questionAmount = scan.nextInt();
+                List<Question> questions = new ArrayList<>();
+                for (int i = 0; i < questionAmount; i++) {
+                    int questionId = Utils.generateNumber(0, 100);
+                    scan.findWithinHorizon(QUESTION_TEXT, 0);
+                    String questionText = scan.nextLine();
+                    scan.findWithinHorizon(QUESTION_SCORES, 0);
+                    int scores = scan.nextInt();
+                    scan.findWithinHorizon(OPTION_AMOUNT, 0);
+                    int optionAmount = scan.nextInt();
+                    List<Option> options = new ArrayList<>();
+                    for (int j = 0; j < optionAmount; j++) {
+                        Option option = new Option();
+                        int optionNumber = scan.nextInt();
+                        String optionText = scan.next();
+                        option.setText(optionText);
+                        option.setNumber(optionNumber);
+                        option.setQuestionId(questionId);
+                        option.setId(Utils.generateNumber(0, 100));
+                        options.add(option);
+                    }
+                    scan.findWithinHorizon(QUESTION_RIGHT_ANSWERS, 0);
+                    List<Integer> rightAnswers = new ArrayList<>();
+                    while (scan.hasNextInt()) {
+                        rightAnswers.add(scan.nextInt());
+                    }
+                    for (Option option : options) {
+                        if (rightAnswers.contains(option.getNumber())) {
+                            option.setRightness(true);
                         }
                     }
-                    break;
-                case 2:
-                    Student student = ConsoleOperations.inputStudent();
-                    StudentService studentService = StudentService.getInstance();
-                    studentMenu:
-                    while (true) {
-                        System.out.println("===========================================================");
-                        System.out.println("1. Показать список тестов");
-                        System.out.println("2. Пройти тест");
-
-                        System.out.println("0. Назад");
-                        System.out.println("===========================================================");
-
-                        switch (ConsoleOperations.inputNumber()) {
-                            case 1:
-                                System.out.println("===========================================================");
-                                System.out.println(tests.toString());
-                                break;
-
-                            case 2:
-                                List<List<Integer>> questionAnswers = new ArrayList<>();
-                                System.out.println("Введите название теста (одно слово без пробела)");
-                                String testName = ConsoleOperations.inputString();
-                                Test test = tests.getTest(testName);
-                                if (test != null) {
-                                    for (Question question : test.getQuestions()) {
-                                        List<Integer> answer = new ArrayList<>();
-                                        System.out.println(question);
-                                        System.out.println("Введите Ваши вариант(ы) ответа (разделитель-пробел)");
-                                        while (true) {
-                                            try {
-                                                answer = ConsoleOperations.inputArray();
-                                            } catch (NumberFormatException e) {
-                                                System.out.println("Неверный ввод! Повторите...");
-                                                continue;
-                                            }
-                                            break;
-                                        }
-                                        questionAnswers.add(answer);
-                                    }
-                                    System.out.println("Результат: " + studentService.passingTest(student, test, questionAnswers));
-                                } else {
-                                    System.out.println("Тест с таким названием отсутствует!");
-                                }
-                                break;
-
-                            case 0:
-                                System.out.println("===========================================================");
-                                break studentMenu;
-
-                            default:
-                                System.out.println("===========================================================");
-                                System.out.println("Неверный выбор либо формат. Повторите...");
-                        }
-                    }
-                    break;
-                case 0:
-                    System.out.println("===========================================================");
-                    System.out.println("Работа завершена...");
-                    saveToFile("Tests");
-                    TestContainerSerializer serializer = new TestContainerSerializer();
-                    serializer.serialization(tests, getTextFilePath("Serialized.dat"));
-                    System.out.println("===========================================================");
-                    System.exit(0);
-
-                default:
-                    System.out.println("===========================================================");
-                    System.out.println("Неверный выбор либо формат. Повторите...");
+                    Question question = new Question(questionId, id, questionText, scores, options);
+                    questions.add(question);
+                }
+                Test test=new Test(id, 0, testSubject, testName, questions);
+                tests.add(test);
             }
+
+        } catch (FileNotFoundException e) {
+            TestingSystemLogger.INSTANCE.logError(InitializationManager.class, e.getMessage());
         }
+      return tests;
+    }
+    public static void fillTests(String fileName)
+    {
+        List<Test> tests=readFromFile(fileName);
+        TestContainer.INSTANCE.setTests(tests);
+    }
+    public static void saveTests(String fileName)
+    {
+        List<Test> tests=TestContainer.INSTANCE.getTests();
+        saveToFile(fileName);
     }
 }

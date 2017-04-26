@@ -1,2 +1,32 @@
 2017-04-09 11:42:26,085 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method
 2017-04-09 11:42:27,022 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-09 20:53:50,773 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 20:53:53,570 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-09 21:07:30,363 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:07:31,191 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-09 21:11:22,530 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:11:23,358 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-09 21:11:40,093 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:13:19,293 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:13:20,105 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-09 21:13:20,121 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:13:20,136 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-09 21:13:41,059 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:13:41,075 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:14:47,287 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:14:59,412 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:14:59,428 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-09 21:14:59,444 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:14:59,444 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-09 21:18:57,473 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:18:58,302 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-09 21:19:13,568 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:19:21,521 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:19:21,521 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-09 21:20:53,882 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:21:00,086 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke getAll method 
+2017-04-09 21:21:00,086 DEBUG b.t.n.d.d.UserMySQLDAO [main] invoke find method 
+2017-04-13 18:44:18,246 ERROR b.t.n.d.d.OptionMySQLDAO [main] Cannot add or update a child row: a foreign key constraint fails (`aa-testing`.`options`, CONSTRAINT `options_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`)) 
+2017-04-13 19:02:20,496 ERROR b.t.n.d.d.QuestionMySQLDAO [main] Parameter index out of range (3 > number of parameters, which is 2). 
+2017-04-13 19:03:45,011 ERROR b.t.n.d.d.QuestionMySQLDAO [main] Parameter index out of range (3 > number of parameters, which is 2). 
+2017-04-13 19:05:50,387 ERROR b.t.n.d.d.QuestionMySQLDAO [main] Parameter index out of range (3 > number of parameters, which is 2). 

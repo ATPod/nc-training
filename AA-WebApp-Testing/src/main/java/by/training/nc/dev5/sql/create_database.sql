@@ -28,7 +28,7 @@ CREATE TABLE `users` (
 CREATE TABLE `tests` (
   `id`       INT(50)     NOT NULL AUTO_INCREMENT
   COMMENT 'test identifier',
-  `name`     VARCHAR(50) NULL     DEFAULT NULL
+  `name`     VARCHAR(1000) NULL     DEFAULT NULL
   COMMENT 'name of test',
   `subject`  VARCHAR(50) NULL     DEFAULT NULL
   COMMENT 'name of subject',
@@ -59,7 +59,7 @@ CREATE TABLE `questions` (
   AUTO_INCREMENT = 3;
 CREATE TABLE `options` (
   `id`          INT(11)     NOT NULL AUTO_INCREMENT,
-  `text`        VARCHAR(50) NULL     DEFAULT NULL,
+  `text`        VARCHAR(1000) NULL     DEFAULT NULL,
   `number`      INT(50)     NULL     DEFAULT NULL
   COMMENT 'number of variant in question',
   `rightness`   BIT(1)      NULL     DEFAULT b'0',

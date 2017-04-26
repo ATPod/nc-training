@@ -1,20 +1,22 @@
 package by.training.nc.dev5.beans.test;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * This class describes entity <b>TestContainer</b>
+ * that contains all tests of testing system and represents operations
+ * with them
  *
  * @author Alena Artsiuschcyk
  * @version 1.0
  */
-
-public class TestContainer implements Serializable{
+//Singleton
+public enum TestContainer {
+    INSTANCE;
     private List<Test> tests = new ArrayList<>();
 
     /**
-     *
      * @return tests
      */
     public List<Test> getTests() {
@@ -22,7 +24,6 @@ public class TestContainer implements Serializable{
     }
 
     /**
-     *
      * @param tests - tests to set
      */
 
@@ -31,11 +32,12 @@ public class TestContainer implements Serializable{
     }
 
     public void addTest(Test test) {
-        tests.add(test);
+        INSTANCE.tests.add(test);
     }
 
     /**
      * Get test from TestContainer
+     *
      * @param testName - name of test
      * @return test
      */
@@ -47,34 +49,10 @@ public class TestContainer implements Serializable{
         }
         return null;
     }
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-	 */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        TestContainer that = (TestContainer) o;
-
-        return tests != null ? tests.equals(that.tests) : that.tests == null;
-
-    }
-
-    /* (non-Javadoc)
-      * @see java.lang.Object#hashCode()
-      */
-    @Override
-    public int hashCode() {
-        return tests != null ? tests.hashCode() : 0;
-    }
-
-    /* (non-Javadoc)
-        * @see java.lang.Object#toString()
-        */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Все тесты: ").append("\n");
+        StringBuilder sb = new StringBuilder("Все тесты: " + "\n\n");
         for (Test test : tests) {
             sb.append(test);
         }

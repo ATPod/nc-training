@@ -1,4 +1,4 @@
-package by.training.nc.dev5.unit2.service;
+package by.training.nc.dev5.service;
 
 /**
  * Authentication stub/mock service.

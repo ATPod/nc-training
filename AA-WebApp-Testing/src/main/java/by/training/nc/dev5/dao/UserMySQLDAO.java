@@ -6,7 +6,8 @@ import by.training.nc.dev5.beans.users.User;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.dao.interfaces.InterfaceDAO;
 import by.training.nc.dev5.logger.TestingSystemLogger;
-import by.training.nc.dev5.sql.SQLQueries;
+
+import static by.training.nc.dev5.sql.SQLQueries.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
     public User find(int id) {
         TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke find method");
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.FIND_USER);
+             PreparedStatement statement = connection.prepareStatement(FIND_USER);
         ) {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
@@ -29,9 +30,9 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
                     Student student = new Student();
                     student.setId(rs.getInt("id"));
                     student.setLogin(rs.getString("login"));
-                    student.setPassword(rs.getString("password"));
                     student.setName(rs.getString("name"));
                     student.setSurname(rs.getString("surname"));
+                    student.setPassword(rs.getString("password"));
                     student.setScores(rs.getInt("scores"));
                     return student;
                 } else {
@@ -40,9 +41,9 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
                         tutor.setId(rs.getInt("id"));
                         tutor.setLogin(rs.getString("login"));
                         tutor.setPassword(rs.getString("password"));
-                        tutor.setName(rs.getString("name"));
                         tutor.setSurname(rs.getString("surname"));
                         tutor.setSubject(rs.getString("subject"));
+                        tutor.setName(rs.getString("name"));
                         return tutor;
                     }
                 }
@@ -55,51 +56,85 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
     }
 
     @Override
-    public boolean insert(User user) {
-        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke insert method");
-        int modifiedRows = 0;
+    public List<User> getAll(String where, Integer... params) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
+        List<User> users = new ArrayList<>();
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.INSERT_USER);
+             PreparedStatement statement = connection.prepareStatement(where)
         ) {
-            statement.setInt(1, user.getId());
-            statement.setString(3, user.getLogin());
-            statement.setString(4, user.getPassword());
-            statement.setString(5, user.getName());
-            statement.setString(6, user.getSurname());
-            if (user instanceof Student) {
-                statement.setInt(2, 1);
-                statement.setInt(7, ((Student) user).getScores());
-                statement.setNull(8, Types.VARCHAR);
-            } else {
-                if (user instanceof Tutor) {
-                    statement.setInt(2, 2);
-                    statement.setNull(7, Types.INTEGER);
-                    statement.setString(8, ((Tutor) user).getSubject());
+            int paramAmount = params.length;
+            for (int i = 0; i < paramAmount; i++) {
+                statement.setInt((i + 1), params[i]);
+            }
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                User user = find(rs.getInt("id"));
+                if (user != null) {
+                    users.add(user);
                 }
             }
-            modifiedRows = statement.executeUpdate();
+
         } catch (SQLException e) {
             TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
         }
-        return (modifiedRows > 0);
+        return users;
     }
 
     @Override
+    public int insert(User user) {
+        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke insert method");
+        try (Connection connection = MySQLDAOFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(INSERT_USER, Statement.RETURN_GENERATED_KEYS);
+        ) {
+            statement.setString(2, user.getLogin());
+            statement.setString(3, user.getPassword());
+            statement.setString(4, user.getName());
+            statement.setString(5, user.getSurname());
+            if (user instanceof Student) {
+                statement.setInt(1, 1);
+                statement.setInt(6, ((Student) user).getScores());
+                statement.setNull(7, Types.VARCHAR);
+            } else {
+                if (user instanceof Tutor) {
+                    statement.setInt(1, 2);
+                    statement.setNull(6, Types.INTEGER);
+                    statement.setString(7, ((Tutor) user).getSubject());
+                }
+            }
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Error! User is not inserted!");
+            }
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int userId = generatedKeys.getInt(1);
+                user.setId(userId);
+                return userId;
+            } else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
+        } catch (SQLException e) {
+            TestingSystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+        }
+        return -1;
+    }
+
+
+    @Override
     public boolean update(User entity) {
-        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke update method");
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.UPDATE_USER);
+             PreparedStatement statement = connection.prepareStatement(UPDATE_USER);
         ) {
 
             statement.setString(1, entity.getLogin());
             statement.setString(2, entity.getPassword());
-            statement.setString(3, entity.getName());
             statement.setString(4, entity.getSurname());
+            statement.setString(3, entity.getName());
             statement.setInt(7, entity.getId());
             if (entity instanceof Tutor) {
-                statement.setNull(5, Types.INTEGER);
                 statement.setString(6, ((Tutor) entity).getSubject());
+                statement.setNull(5, Types.INTEGER);
             } else {
                 if (entity instanceof Student) {
                     statement.setInt(5, ((Student) entity).getScores());
@@ -115,10 +150,9 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
 
     @Override
     public boolean delete(int id) {
-        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke delete method");
         int modifiedRows = 0;
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.DELETE_USER)
+             PreparedStatement statement = connection.prepareStatement(DELETE_USER)
         ) {
             statement.setInt(1, id);
             modifiedRows = statement.executeUpdate();
@@ -130,14 +164,14 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
 
     @Override
     public List<User> getAll() {
-        TestingSystemLogger.INSTANCE.logDebug(getClass(), "invoke getAll method");
         List<User> users = new ArrayList<>();
         try (Connection connection = MySQLDAOFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQLQueries.GET_ALL_USERS)
+             PreparedStatement statement = connection.prepareStatement(GET_ALL_USERS)
         ) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                User user = find(rs.getInt("id"));
+                int id = rs.getInt("id");
+                User user = find(id);
                 if (user != null) {
                     users.add(user);
                 }
@@ -163,7 +197,8 @@ public class UserMySQLDAO implements InterfaceDAO<User> {
             }
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                User user = find(rs.getInt("id"));
+                int id = rs.getInt("id");
+                User user = find(id);
                 if (user != null) {
                     users.add(user);
                 }

@@ -1,6 +1,7 @@
 <!--Директива JSP page, данная директива предоставляет атрибуты для JSP страницы-->
 <%@ page contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" errorPage="/error.jsp" %>
+         pageEncoding="UTF-8" errorPage="/pages/error.jsp" %>
+<meta http-equiv="Cache-Control" content="no-cache">
 <html>
 <head>
     <title>Авторизация</title>
