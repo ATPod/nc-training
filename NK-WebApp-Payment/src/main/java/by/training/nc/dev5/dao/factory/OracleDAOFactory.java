@@ -17,7 +17,7 @@ public class OracleDAOFactory extends DAOFactory {
      * @see by.training.nc.dev5.unit2.factory.DAOFactory#getEmpoyeeDAO()
      */
     @Override
-    public ClientDAO getEmpoyeeDAO() {
+    public ClientDAO getClientDAO() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -26,7 +26,7 @@ public class OracleDAOFactory extends DAOFactory {
      * @see by.training.nc.dev5.unit2.factory.DAOFactory#getTrainingDAO()
      */
     @Override
-    public CreditCardDAO getTrainingDAO() {
+    public CreditCardDAO getCreditCardDAO() {
         // TODO Auto-generated method stub
         return null;
     }
