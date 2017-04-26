@@ -5,7 +5,7 @@ import by.training.nc.dev5.model.Book;
 import java.util.Collection;
 
 
-public interface BooksDAO {
+public interface BookDAO {
 
     int insertBook(Book pBook);
     boolean deleteBook(int id);

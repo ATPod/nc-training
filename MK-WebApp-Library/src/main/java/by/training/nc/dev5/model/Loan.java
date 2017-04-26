@@ -6,17 +6,24 @@ import java.io.Serializable;
 public class Loan implements Serializable {
 
     private int id;
-    private Reader reader;
+    private User user;
     private Book book;
-
-
 
     private String loanType;
 
+    @Override
+    public String toString() {
+        return "Loan{" +
+                "id=" + id +
+                ", user=" + user.getName() +
+                ", book=" + book.getTitle() +
+                ", loanType='" + loanType + '\'' +
+                '}';
+    }
 
-    public Loan(int id, Reader reader, Book book, String loanType) {
+    public Loan(int id, User user, Book book, String loanType) {
         this.id = id;
-        this.reader = reader;
+        this.user = user;
         this.book = book;
         this.loanType = loanType;
     }
@@ -28,14 +35,14 @@ public class Loan implements Serializable {
     public String getLoanType() {
         return loanType;
     }
-    public Reader getReader() {
-        return reader;
+    public User getUser() {
+        return user;
     }
     public Book getBook() {
         return book;
     }
     public int getReaderId() {
-        return reader.getId();
+        return user.getId();
     }
     public int getBookId() {
         return book.getId();

@@ -8,7 +8,7 @@ import java.util.List;
 public class Library implements Serializable {
 
     private List<Book> books;
-    private List<Reader> readers;
+    private List<User> users;
     private List<Loan> loans;
 
     public List<Book> getBooks() {
@@ -19,12 +19,12 @@ public class Library implements Serializable {
         this.books = books;
     }
 
-    public List<Reader> getReaders() {
-        return readers;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setReaders(List<Reader> readers) {
-        this.readers = readers;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public List<Loan> getLoans() {
@@ -38,7 +38,7 @@ public class Library implements Serializable {
 
     public Library() {
         this.books = new ArrayList();       // or TreeSet()
-        this.readers = new ArrayList<>();
+        this.users = new ArrayList<>();
         this.loans = new ArrayList<>();
 
     }

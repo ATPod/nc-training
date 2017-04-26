@@ -1,6 +1,6 @@
 package by.training.nc.dev5.dao;
 
-import by.training.nc.dev5.dao.dao.BooksDAO;
+import by.training.nc.dev5.dao.dao.BookDAO;
 import by.training.nc.dev5.dbmanager.DBManager;
 import by.training.nc.dev5.model.Book;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @SuppressWarnings("Duplicates")
 
-public class BookMySQLDAO implements BooksDAO {
+public class BookMySQLDAO implements BookDAO {
 
 
     private final static Logger logger = LogManager.getLogger(BookMySQLDAO.class); ///////!!!!!!!!//////////
@@ -29,9 +29,9 @@ public class BookMySQLDAO implements BooksDAO {
     public int insertBook(Book book) {
 
 
-        try (Connection connection = DBManager.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(insertBookQuery)) {
+        try (Connection connection = DBManager.getInstance().getConnection()) {
 
+            PreparedStatement statement = connection.prepareStatement(insertBookQuery);
             statement.setInt(1, book.getId());
             statement.setString(2, book.getTitle());
             statement.executeUpdate();
@@ -39,7 +39,6 @@ public class BookMySQLDAO implements BooksDAO {
             return book.getId();
         } catch (SQLException e) {
             logger.error(e.getMessage());
-            System.out.println("Что-то пошло не так"); // =) пофиксить
         }
         return -1;
     }
@@ -47,9 +46,9 @@ public class BookMySQLDAO implements BooksDAO {
     @Override
     public boolean deleteBook(int id) {
 
-        try (Connection connection = DBManager.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(deleteBookQuery);) {
+        try (Connection connection = DBManager.getInstance().getConnection()) {
 
+            PreparedStatement statement = connection.prepareStatement(deleteBookQuery);
             statement.setInt(1, id);
             statement.executeUpdate();
 
@@ -63,22 +62,18 @@ public class BookMySQLDAO implements BooksDAO {
     @Override
     public Book findBook(int id) {
 
-        try (Connection connection = DBManager.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(findBookQuery)) {
+        try (Connection connection = DBManager.getInstance().getConnection()) {
 
+            PreparedStatement statement = connection.prepareStatement(findBookQuery);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
             Book book = null;
 
             while (rs.next()) {
-
                 book = new Book(rs.getInt(1),
                         rs.getString(2));
-
             }
-
-
             return book;
         } catch (SQLException e) {
             logger.error(e.getMessage());
@@ -106,7 +101,6 @@ public class BookMySQLDAO implements BooksDAO {
             String title;
 
             while (rs.next()) {
-
                 id = rs.getInt(1);
                 title = rs.getString(2);
 
@@ -114,7 +108,6 @@ public class BookMySQLDAO implements BooksDAO {
             }
 
             return books;
-
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
