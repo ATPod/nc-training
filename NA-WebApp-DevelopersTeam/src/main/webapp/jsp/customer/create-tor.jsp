@@ -26,6 +26,7 @@
             <tr><td></td><td>Specification</td><td>Developers</td></tr>
             <c:forEach var="task" varStatus="i" items="${torBuilder.tasks}">
                 <tr>
+                    <td>
                     <td rowspan="2">
                         <input
                             type="checkbox"
@@ -34,8 +35,8 @@
                     </td>
                     <td rowspan="${task.taskQuotas.size() + 1}">
                         ${task.specification}
+                    </td>
                 </tr>
-                </td>
                 <tr>
                     <c:forEach var="taskQuota" items="${task.taskQuotas}">
                         <td>${taskQuota.qualification.name}</td>
