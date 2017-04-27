@@ -22,7 +22,6 @@
         <module>AV-Clinic</module>
         <module>SO-WebApp-shop</module>
         <module>AV-WebApp-Clinic</module>
-        <module>SO-WebApp-shop</module>
         <module>NK-WebApp-Payment</module>
     </modules>
     <dependencies>
