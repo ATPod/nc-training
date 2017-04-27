@@ -1,17 +1,17 @@
 package by.training.nc.dev5.web.command;
 
-import by.training.nc.dev5.accounts.UserRole;
 import by.training.nc.dev5.entity.Person;
 import by.training.nc.dev5.service.AuthenticationService;
 import by.training.nc.dev5.util.ConfigurationManager;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Nikita on 18.04.2017.
  */
 public class LoginCommand implements Command {
-    public String execute(HttpServletRequest request) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
         AuthenticationService authSvc =
                 AuthenticationService.getInstance();
         String login = request.getParameter("username");
@@ -42,6 +42,6 @@ public class LoginCommand implements Command {
             return desiredUri.toString();
         }
 
-        return new GoHomeCommand().execute(request);
+        return new GoHomeCommand().execute(request, response);
     }
 }
