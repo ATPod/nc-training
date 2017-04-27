@@ -1,15 +1,15 @@
 package by.training.nc.dev5.clinic.commands.user;
 
-import by.training.nc.dev5.clinic.beans.User;
+import by.training.nc.dev5.clinic.entities.User;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.AccessLevels;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
-import by.training.nc.dev5.clinic.dao.UserMySQLDAO;
 import by.training.nc.dev5.clinic.logger.ClinicLogger;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
 import by.training.nc.dev5.clinic.managers.MessageManager;
+import by.training.nc.dev5.clinic.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
@@ -23,25 +23,25 @@ public class RegistrationCommand extends AbstractCommand {
     private static String accessLevel;
 
     public String execute(HttpServletRequest request) {
-        String page = null;
+        String page;
         login = request.getParameter(Parameters.LOGIN);
         password = request.getParameter(Parameters.PASSWORD);
         accessLevel = request.getParameter(Parameters.ACCESS_LEVEL);
         try{
             if(areFieldsFullStocked()){
-                if(isNewUser()){
-                    if(accessLevelisCorrect(accessLevel) ) {
+                if(UserService.isNewUser(login)){
+                    if(accessLevelIsCorrect(accessLevel) ) {
                         registrate();
-                        page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.REGISTRATION_PAGE_PATH);
+                        page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);
                         request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
                     }else{
                         page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.REGISTRATION_PAGE_PATH);
-                        request.setAttribute(Parameters.ERROR_ACCESS_LEVEL, MessageManager.INSTANCE.getProperty(MessageConstants.ACCESS_LEVEL));
+                        request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.ACCESS_LEVEL));
                     }
                 }
                 else{
                     page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.REGISTRATION_PAGE_PATH);
-                    request.setAttribute(Parameters.ERROR_USER_EXISTS, MessageManager.INSTANCE.getProperty(MessageConstants.USER_EXISTS));
+                    request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.USER_EXISTS));
                 }
             }
             else{
@@ -52,7 +52,7 @@ public class RegistrationCommand extends AbstractCommand {
         catch (SQLException e) {
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.ERROR_PAGE_PATH);
-            request.setAttribute(Parameters.ERROR_DATABASE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));
+            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));
         }
         catch (NumberFormatException e) {
             ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
@@ -72,7 +72,7 @@ public class RegistrationCommand extends AbstractCommand {
         user.setLogin(login);
         user.setPassword(password);
         user.setAccessLevel(accessLevel);
-        UserMySQLDAO.INSTANCE.add(user);
+        UserService.add(user);
     }
 
     private boolean areFieldsFullStocked(){
@@ -83,15 +83,7 @@ public class RegistrationCommand extends AbstractCommand {
         return isFullStocked;
     }
 
-    private boolean isNewUser() throws SQLException{
-        boolean isNew = false;
-        if(UserMySQLDAO.INSTANCE.isNewUser(login)){
-            isNew = true;
-        }
-        return isNew;
-    }
-
-    private boolean accessLevelisCorrect(String accessLevel){
+    private boolean accessLevelIsCorrect(String accessLevel){
         boolean isCorrect = false;
         if(accessLevel.equals(AccessLevels.DOCTOR) || accessLevel.equals(AccessLevels.NURSE)){
             isCorrect = true;

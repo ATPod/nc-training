@@ -1,9 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
-<head>
-    <title>Devcolibri.com</title>
-</head>
+<head><title>Index</title></head>
 <body>
-<h1>Hello ${name}</h1>
-</body>
-</html>
+<jsp:forward page="/jsp/login.jsp"/>
+</body></html>

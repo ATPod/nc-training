@@ -11,7 +11,7 @@ public enum CommandFactory {
     INSTANCE;
 
     public Command defineCommand(HttpServletRequest request){
-        Command current = null;
+        Command current;
         String commandName = request.getParameter(Parameters.COMMAND);
         try{
             CommandType type = CommandType.valueOf(commandName.toUpperCase());

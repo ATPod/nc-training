@@ -60,12 +60,11 @@ public class Book implements Serializable, Comparable<Book> {
 
     @Override
     public String toString() {
-        return id + " " + title;
+        return title;
     }
 
     @Override
     public int compareTo(Book o) {
-
         int result = Long.compare(id, o.id);
         if (result != 0)
             return result;

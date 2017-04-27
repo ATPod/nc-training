@@ -10,10 +10,10 @@
     Введите название:<br />
     <input type="text" name="diagnosisName" value="" />
     <input type="submit" value="Сохранить" /> <br />
+    <a href="controller?command=backtomenu">Вернуться обратно</a>
+    <a href="controller?command=backtologin">Выйти из системы</a>
     ${operationMessage}  <br />
 </form>
-<a href="controller?command=backtodoctorinnermenu">Вернуться обратно</a>
-<a href="controller?command=logout">Выйти из системы</a>
 </body>
 </html>
 

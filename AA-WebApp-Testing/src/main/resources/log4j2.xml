@@ -3,7 +3,7 @@
     <!-- Секция аппендеров -->
     <Appenders>
         <!-- Файловый аппендер -->
-        <File name="file" fileName="webapps/AA-WebApp-Testing/logs/log.txt">
+        <File name="file" fileName="\AA-WebApp-Testing\src\main\java\by\training\nc\dev5\logger">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern>
             </PatternLayout>
