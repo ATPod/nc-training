@@ -1,7 +1,7 @@
 <%@ page
         contentType="text/html;charset=UTF-8"
         language="java" %>
-<%@taglib
+<%@ taglib
         prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean
@@ -17,7 +17,12 @@
     <title>Create Terms of Reference</title>
 </head>
 <body>
-    <a href="controller?command=goHome">Back to main</a><br />
+    <c:url var="home" value="controller">
+        <c:param name="command" value="go" />
+        <c:param name="location" value="home" />
+    </c:url>
+
+    <a href="${home}">Back to main</a><br />
     <form name="taskControlForm" method="post" action="controller">
         <input type="hidden" name="command" value="removeTask">
 
@@ -78,7 +83,7 @@
         <input type="submit" value="Submit">
         <input type="reset" value="Reset">
     </form>
-    <form name="createTor" action="controller">
+    <form name="createTor" method="post" action="controller">
         <input type="hidden" name="command" value="createTor">
         <input
                 type="submit"

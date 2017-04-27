@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: F1
@@ -11,8 +12,13 @@
     <title>Manager Panel</title>
 </head>
 <body>
+    <c:url var="showPendingTors" value="controller">
+        <c:param name="command" value="go" />
+        <c:param name="location" value="manager.showPendingTors" />
+    </c:url>
+
     <ul>
-        <li><a href="controller?command=showPendingTors">Show pending terms of reference</a></li>
+        <li><a href="${showPendingTors}">Show pending terms of reference</a></li>
     </ul>
 </body>
 </html>

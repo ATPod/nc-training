@@ -1,5 +1,7 @@
 package by.training.nc.dev5.web.command;
 
+import by.training.nc.dev5.accounts.UserRole;
+import by.training.nc.dev5.entity.Person;
 import by.training.nc.dev5.web.routing.Router;
 
 import javax.servlet.ServletException;
@@ -17,6 +19,26 @@ public class GoCommand implements Command {
 
         String location = request.getParameter("location");
 
+        if (location.equals("home")) {
+            Person user = (Person) request.getSession().getAttribute("user");
+
+            location = resolveHome(user);
+        } else {
+            location = "path.page." + location;
+        }
+
         Router.forward(request, response, location);
+    }
+
+    private String resolveHome(Person user) {
+        if (UserRole.CUSTOMER.equals(user.getUserRole())) {
+            return "path.page.customer.main";
+        } else if (UserRole.MANAGER.equals(user.getUserRole())) {
+            return "path.page.manager.main";
+        } else if (UserRole.DEVELOPER.equals(user.getUserRole())) {
+            return "path.page.developer.main";
+        } else {
+            return "path.page.index";
+        }
     }
 }

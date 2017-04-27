@@ -5,6 +5,18 @@
 <html>
 <body>
 
+<c:url var="login" value="controller">
+    <c:param name="command" value="go" />
+    <c:param name="location" value="login" />
+</c:url>
+<c:url var="logout" value="controller">
+    <c:param name="command" value="logout" />
+</c:url>
+<c:url var="home" value="controller">
+    <c:param name="command" value="go" />
+    <c:param name="location" value="home" />
+</c:url>
+
 <header>
     <c:if test="${not empty sessionScope.user}">
         <jsp:useBean
@@ -12,17 +24,15 @@
                 scope="session"
                 type="by.training.nc.dev5.entity.Person" />
         <span>Logged in as ${user.name}</span>
-        <span><a href="controller?command=logout">Log out</a></span>
-        <span><a href="controller?command=routeHome">Home</a></span>
+        <span><a href="${logout}">Log out</a></span>
+        <span><a href="${home}">Home</a></span>
     </c:if>
     <c:if test="${empty sessionScope.user}">
-        <span><a href="controller?command=goLogin">Log in</a></span>
+        <span><a href="${login}">Log in</a></span>
     </c:if>
 </header>
 
-<h2>Hello World!</h2>
-
-
+<h2>NA-DevelopersTeam</h2>
 
 </body>
 </html>
