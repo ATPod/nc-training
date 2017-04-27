@@ -10,6 +10,7 @@ import by.training.nc.dev5.entity.Customer;
 import by.training.nc.dev5.entity.Manager;
 import by.training.nc.dev5.entity.Person;
 import by.training.nc.dev5.entity.TermsOfReference;
+import by.training.nc.dev5.exception.ServiceException;
 import by.training.nc.dev5.service.*;
 
 import java.lang.annotation.Retention;
@@ -87,7 +88,7 @@ public class App implements MenuController {
     @Action(key = "show-pending-tors",
             description = "Shows all terms of reference " +
                     "that have no bound projects")
-    void showPendingTermsOfReference() {
+    void showPendingTermsOfReference() throws ServiceException {
         ManagerService managerService = ManagerService.getInstance();
 
         Collection<TermsOfReference> pendingTermsOfReference =
@@ -131,7 +132,7 @@ public class App implements MenuController {
     @Action(key = "propose-tor",
             description = "Propose your terms of reference to system")
     void proposeTermsOfReference() {
-        CustomerService customerService = CustomerService.getInstance();
+        CustomerService customerService = new CustomerService();
         TermsOfReference tor;
 
         if (user == null || !user.getUserRole().equals(UserRole.CUSTOMER)) {
