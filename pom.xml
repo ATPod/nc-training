@@ -11,6 +11,7 @@
         <module>DAO</module>
         <module>AA-Testing</module>
         <module>AA-WebApp-Testing</module>
+        <module>AA-WebApp-Testing-Hibernate</module>
         <module>AT-Aggregator</module>
         <module>AT-WebApp</module>
         <module>MK-Library</module>
