@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>by.training.nc.dev5</groupId>
     <artifactId>nc-training</artifactId>
@@ -19,11 +20,11 @@
         <module>VB-Airline</module>
         <module>SO-shop</module>
         <module>AV-Clinic</module>
-<<<<<<< HEAD
-    <module>SO-WebApp-shop</module>
-=======
->>>>>>> 8db0dcb9a4670823f63d6b4664501a5be282d91a
-  </modules>
+        <module>SO-WebApp-shop</module>
+        <module>AV-WebApp-Clinic</module>
+        <module>SO-WebApp-shop</module>
+        <module>NK-WebApp-Payment</module>
+    </modules>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
