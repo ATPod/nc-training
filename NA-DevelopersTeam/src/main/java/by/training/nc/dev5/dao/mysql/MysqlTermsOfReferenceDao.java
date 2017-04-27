@@ -37,17 +37,25 @@ public class MysqlTermsOfReferenceDao
                 "  LEFT JOIN project p" +
                 "  ON t.id = p.terms_of_reference_id" +
                 "  WHERE p.id IS NULL";
+    private static final String SELECT_TERMS_OF_REFERENCE_BY_CUSTOMER_ID =
+            "SELECT id, customer_id" +
+                " FROM terms_of_reference" +
+                " WHERE customer_id = ?";
 
     protected TermsOfReference fetchEntity(ResultSet rs)
-            throws SQLException, DataAccessException {
+            throws DataAccessException {
 
         TermsOfReference termsOfReference = new TermsOfReference();
         CustomerDao customerDao = new MysqlCustomerDao();
+        int customerId;
 
-        int customerId = rs.getInt("customer_id");
-
-        termsOfReference.setCustomer(customerDao.getEntityById(customerId));
-        termsOfReference.setId(rs.getInt("id"));
+        try {
+            customerId = rs.getInt("customer_id");
+            termsOfReference.setCustomer(customerDao.getEntityById(customerId));
+            termsOfReference.setId(rs.getInt("id"));
+        } catch (SQLException e) {
+            throw new DataAccessException("Database error occurred", e);
+        }
 
         return termsOfReference;
     }
@@ -93,13 +101,10 @@ public class MysqlTermsOfReferenceDao
 
             return ps.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return false;
     }
 
     /**
@@ -132,23 +137,31 @@ public class MysqlTermsOfReferenceDao
             ps.executeUpdate();
 
             ResultSet generatedKeys = ps.getGeneratedKeys();
+            int id;
 
             generatedKeys.next();
+            id = (int) generatedKeys.getLong(1);
+            entity.setId(id);
 
-            return (int) generatedKeys.getLong(1);
+            return id;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
     }
 
     public Collection<TermsOfReference> getTermsOfReferenceWithNoProject()
             throws DataAccessException {
 
         return getAll(SELECT_TERMS_OF_REFERENCE_WITH_NO_PROJECT_QUERY);
+    }
+
+    public Collection<TermsOfReference>
+    getTermsOfReferenceByCustomer(Integer customerId)
+            throws DataAccessException {
+
+        return getCollectionByIntParameter(customerId,
+                SELECT_TERMS_OF_REFERENCE_BY_CUSTOMER_ID);
     }
 }

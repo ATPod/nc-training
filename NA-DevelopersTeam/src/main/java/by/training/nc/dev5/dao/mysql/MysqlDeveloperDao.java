@@ -14,34 +14,61 @@ import java.util.Collection;
  * Created by Nikita on 29.03.2017.
  */
 public class MysqlDeveloperDao
-        extends MysqlAbstractDao<Developer>
+        extends MysqlAbstractPersonDao<Developer>
         implements DeveloperDao {
 
+    public MysqlDeveloperDao() {
+        super(Developer.class);
+    }
+
     private static final String SELECT_ALL_DEVELOPERS_QUERY =
-            "SELECT id, name, project_id, qualification_id FROM developer";
+            "SELECT" +
+            "  p.id AS id," +
+            "  p.name AS name," +
+            "  d.project_id AS project_id," +
+            "  d.qualification_id AS qualification_id " +
+            "FROM person p" +
+            "  JOIN developer d" +
+            "    ON p.id = d.person_id";
     private static final String SELECT_DEVELOPER_BY_ID_QUERY =
-            "SELECT id, name, project_id, qualification_id" +
-            " FROM developer" +
-            " WHERE id = ?";
+            "SELECT" +
+            "  p.id AS id," +
+            "  p.name AS name," +
+            "  d.project_id AS project_id," +
+            "  d.qualification_id AS qualification_id " +
+            "FROM person p" +
+            "  JOIN developer d" +
+            "    ON p.id = d.person_id " +
+            "WHERE p.id = ?";
     private static final String UPDATE_DEVELOPER_QUERY =
             "UPDATE developer" +
-            " SET name = ?," +
-                " project_id = ?," +
+            " SET project_id = ?," +
                 " qualification_id = ?" +
             " WHERE id = ?";
     private static final String DELETE_DEVELOPER_QUERY =
             "DELETE FROM developer WHERE id = ?";
     private static final String INSERT_INTO_DEVELOPER_QUERY =
-            "INSERT INTO developer(name, project_id, qualification_id)" +
+            "INSERT INTO developer(person_id, project_id, qualification_id)" +
                     " VALUES (?, ?, ?)";
     private static final String SELECT_UNASSIGNED_DEVELOPER_QUERY =
-            "SELECT id, name, project_id, qualification_id" +
-            " FROM developer" +
-            " WHERE ISNULL(project_id) AND qualification_id = ?";
+            "SELECT p.id AS id, " +
+                "p.name AS name, " +
+                "d.project_id AS project_id, " +
+                "d.qualification_id AS qualification_id" +
+            " FROM person p" +
+            " JOIN developer d" +
+            "    ON p.id = d.person_id " +
+            " WHERE ISNULL(d.project_id) AND d.qualification_id = ?";
     private static final String SELECT_DEVELOPERS_BY_PROJECT_QUERY =
-            "SELECT id, name, project_id, qualification_id" +
-            " FROM developer" +
-            " WHERE project_id = ?";
+            "SELECT" +
+            "  p.id AS id," +
+            "  p.name AS name," +
+            "  d.project_id AS project_id," +
+            "  d.qualification_id AS qualification_id " +
+            "FROM person p" +
+            "  JOIN developer d" +
+            "    ON p.id = d.person_id " +
+            "WHERE d.project_id = ?";
 
     /**
      * Gets all instances of type {@code E} that are located in data storage
@@ -65,23 +92,28 @@ public class MysqlDeveloperDao
 
     @Override
     protected Developer fetchEntity(ResultSet rs)
-            throws SQLException, DataAccessException {
+            throws DataAccessException {
         Developer d = new Developer();
         ProjectDao projectDao = new MysqlProjectDao();
         QualificationDao qualificationDao = new MysqlQualificationDao();
+        int projectId;
+        int qualificationId;
 
-        d.setId(rs.getInt("id"));
-        d.setName(rs.getString("name"));
+        try {
+            d.setId(rs.getInt("id"));
+            d.setName(rs.getString("name"));
 
-        int projectId = rs.getInt("project_id");
-        int qualificationId = rs.getInt("qualification_id");
+            qualificationId = rs.getInt("qualification_id");
+            d.setQualification(qualificationDao.getEntityById(qualificationId));
 
-        d.setQualification(qualificationDao.getEntityById(qualificationId));
-
-        if (rs.wasNull()) {
-            d.setProject(null);
-        } else {
-            d.setProject(projectDao.getEntityById(projectId));
+            projectId = rs.getInt("project_id");
+            if (rs.wasNull()) {
+                d.setProject(null);
+            } else {
+                d.setProject(projectDao.getEntityById(projectId));
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Database access error occurred", e);
         }
 
         return d;
@@ -96,32 +128,30 @@ public class MysqlDeveloperDao
      * @return true if entity exists and was updated, false otherwise
      */
     public boolean update(Developer entity) throws DataAccessException {
+        if (!super.update(entity)) {
+            return false;
+        }
+
         Connection conn = getConnection();
 
         try {
             PreparedStatement ps = conn.prepareStatement(
                     UPDATE_DEVELOPER_QUERY);
 
-            ps.setString(1, entity.getName());
             if (entity.getProject() != null) {
-                ps.setInt(2, entity.getProject().getId());
+                ps.setInt(1, entity.getProject().getId());
             } else {
-                ps.setNull(2, Types.INTEGER);
+                ps.setNull(1, Types.INTEGER);
             }
-            ps.setInt(3, entity.getQualification().getId());
-            ps.setInt(4, entity.getId());
+            ps.setInt(2, entity.getQualification().getId());
+            ps.setInt(3, entity.getId());
 
-            if (ps.executeUpdate() != 0) {
-                return true;
-            }
+            return ps.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return false;
     }
 
     /**
@@ -131,7 +161,11 @@ public class MysqlDeveloperDao
      * @return true if entry existed and was deleted, false otherwise
      */
     public boolean delete(Integer id) throws DataAccessException {
-        return delete(id, DELETE_DEVELOPER_QUERY);
+        if (delete(id, DELETE_DEVELOPER_QUERY)) {
+            return super.delete(id); // delete from person
+        }
+
+        return false;
     }
 
     /**
@@ -142,6 +176,7 @@ public class MysqlDeveloperDao
      * @return an id of created entity
      */
     public Integer create(Developer entity) throws DataAccessException {
+        int personId = super.create(entity); // create entry in person table
         Connection conn = getConnection();
 
         try {
@@ -149,61 +184,36 @@ public class MysqlDeveloperDao
                     INSERT_INTO_DEVELOPER_QUERY,
                     PreparedStatement.RETURN_GENERATED_KEYS);
 
-            ps.setString(1, entity.getName());
+            ps.setInt(1, personId);
             if (entity.getProject() != null) {
                 ps.setInt(2, entity.getProject().getId());
             } else {
                 ps.setNull(2, Types.INTEGER);
             }
+            ps.setInt(3, entity.getQualification().getId());
 
             ps.executeUpdate();
 
             ResultSet generatedKeys = ps.getGeneratedKeys();
+            int id;
 
             generatedKeys.next();
-
-            int id = (int) generatedKeys.getLong(1);
-
+            id = (int) generatedKeys.getLong(1);
             entity.setId(id);
 
             return id;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
     }
 
-    public Collection<Developer> getUnassignedDevelopers(Integer qualificationId) throws DataAccessException {
-        Connection conn = getConnection();
+    public Collection<Developer> getUnassignedDevelopers(Integer qualificationId)
+            throws DataAccessException {
 
-        try {
-            PreparedStatement ps = conn.prepareStatement(
-                    SELECT_UNASSIGNED_DEVELOPER_QUERY);
-            Collection<Developer> result = new ArrayList<Developer>();
-
-            ps.setInt(1, qualificationId);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Developer developer = fetchEntity(rs);
-
-                result.add(developer);
-            }
-
-            return result;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
-        } finally {
-            disposeConnection(conn);
-        }
-
-        return null;
+        return getCollectionByIntParameter(qualificationId,
+                SELECT_UNASSIGNED_DEVELOPER_QUERY);
     }
 
     /**

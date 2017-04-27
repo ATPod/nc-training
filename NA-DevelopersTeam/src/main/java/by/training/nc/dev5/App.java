@@ -1,5 +1,6 @@
 package by.training.nc.dev5;
 
+import by.training.nc.dev5.accounts.UserRole;
 import by.training.nc.dev5.cli.MenuAction;
 import by.training.nc.dev5.cli.MenuController;
 import by.training.nc.dev5.cli.MenuView;
@@ -7,6 +8,7 @@ import by.training.nc.dev5.cli.util.ValueReaderUtil;
 import by.training.nc.dev5.cli.util.ValueWriterUtil;
 import by.training.nc.dev5.entity.Customer;
 import by.training.nc.dev5.entity.Manager;
+import by.training.nc.dev5.entity.Person;
 import by.training.nc.dev5.entity.TermsOfReference;
 import by.training.nc.dev5.service.*;
 
@@ -36,9 +38,8 @@ public class App implements MenuController {
     }
 
     private Map<String, MenuAction> menuActionsByKeyMap;
-    private Customer customer;
     private TermsOfReferenceBuilder termsOfReferenceBuilder;
-    private Manager manager;
+    private Person user;
 
     public App() {
         initializeMenuActionsByKeyMap();
@@ -51,37 +52,35 @@ public class App implements MenuController {
         menuView.run();
     }
 
-    @Action(key = "log-on-customer",
-            description = "Logs you in the system as a customer")
-    void logOnCustomer() {
-        AuthenticationService authService =
+    @Action(key = "log-on",
+            description = "Log on to system")
+    void logOn() {
+        AuthenticationService authenticationService =
                 AuthenticationService.getInstance();
 
         String login = ValueReaderUtil.readString("Enter login");
         String password = ValueReaderUtil.readString("Enter password");
 
-        customer = authService.logCustomerOn(login, password);
+        Person person = authenticationService.logOn(login, password);
 
-        if (customer == null) {
-            System.out.println("Authentication failed");
-        } else {
-            System.out.printf("Logged in as %s%n", customer.getName());
+        if (person == null) {
+            System.out.println("Login failed");
+            return;
         }
-    }
 
-    @Action(key = "log-on-manager",
-            description = "Logs you in the system as a manager")
-    void logOnManager() {
-        AuthenticationService authService =
-                AuthenticationService.getInstance();
-
-        String login = ValueReaderUtil.readString("Enter login");
-        String password = ValueReaderUtil.readString("Enter password");
-
-        manager = authService.logManagerOn(login, password);
-
-        if (customer == null) {
-            System.out.println("Authentication failed");
+        switch (person.getUserRole()) {
+            case CUSTOMER:
+                user = person;
+                System.out.println("Logged in as customer");
+                break;
+            case DEVELOPER:
+                System.out.println(
+                        "Logging in as developer is not supported yet");
+                break;
+            case MANAGER:
+                user = person;
+                System.out.println("Logged in as manager");
+                break;
         }
     }
 
@@ -102,14 +101,14 @@ public class App implements MenuController {
     void addTask() {
         HelpService helpService = HelpService.getInstance();
 
-        if (customer == null) {
+        if (user == null || !user.getUserRole().equals(UserRole.CUSTOMER)) {
             System.out.println("Please, log on as customer");
             return;
         }
 
         if (termsOfReferenceBuilder == null) {
             termsOfReferenceBuilder = new TermsOfReferenceBuilder();
-            termsOfReferenceBuilder.setCustomer(customer);
+            termsOfReferenceBuilder.setCustomer((Customer) user);
         }
 
         TaskBuilder taskBuilder = new TaskBuilder();
@@ -135,7 +134,7 @@ public class App implements MenuController {
         CustomerService customerService = CustomerService.getInstance();
         TermsOfReference tor;
 
-        if (customer == null) {
+        if (user == null || !user.getUserRole().equals(UserRole.CUSTOMER)) {
             System.out.println("Please, log on as customer");
             return;
         }
@@ -155,7 +154,7 @@ public class App implements MenuController {
     @Action(key = "show-tasks",
             description = "Shows added tasks")
     void showTasks() {
-        if (customer == null) {
+        if (user == null || !user.getUserRole().equals(UserRole.CUSTOMER)) {
             System.out.println("Please, log in as customer");
             return;
         }
@@ -174,6 +173,17 @@ public class App implements MenuController {
         HelpService helpService = HelpService.getInstance();
 
         ValueWriterUtil.writeCollection(helpService.getQualifications());
+    }
+
+    @Action(key = "who-am-i",
+            description = "Prints information about user")
+    void whoAmI() {
+        if (user == null) {
+            System.out.println("Guest");
+        } else {
+            System.out.printf("Name\t%s%n", user.getName());
+            System.out.printf("Role\t%s%n", user.getUserRole());
+        }
     }
 
     /**
@@ -207,10 +217,6 @@ public class App implements MenuController {
                         });
             }
         }
-    }
-
-    private void introduceUser() {
-
     }
 
     /**
