@@ -4,12 +4,12 @@ import by.training.nc.dev5.clinic.entities.Diagnosis;
 import by.training.nc.dev5.clinic.entities.Patient;
 
 import java.util.List;
-
+import by.training.nc.dev5.clinic.exceptions.*;
 /**
  * Created by user on 24.04.2017.
  */
 public interface DiagnosisDAO {
-    void add(Diagnosis temp);
-    List<Diagnosis> getByPatient(Patient patient);
-    void delete(int id);
+    void add(Diagnosis temp)throws DAOException;
+    List<Diagnosis> getByPatient(Patient patient)throws DAOException;
+    void delete(int id)throws DAOException;
 }

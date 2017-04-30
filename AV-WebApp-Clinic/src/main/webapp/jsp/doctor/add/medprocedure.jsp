@@ -5,6 +5,9 @@
     <title>Добавление процедуры</title>
 </head>
 <body>
+<a href="controller?command=backtologin">Вход в систему</a>>
+<a href="controller?command=backtochoosepatient">Выбор карточки пациента</a>>
+<a href="controller?command=backtomenu">Карточка пациента</a>>Добавление процедуры<br/>
 <form name="addMedProcedureForm" method="POST" action="controller">
     <input type="hidden" name="command" value="addMedProcedure" />
     Введите название:<br />

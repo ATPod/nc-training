@@ -5,17 +5,24 @@
     <title>Выбор действия</title>
 </head>
 <body>
+<a href="controller?command=backtologin">Вход в систему</a>>
+<a href="controller?command=backtochoosepatient">Выбор карточки пациента</a>>
+Карточка пациента<br/>
 <strong>Карточка пациента " ${patientName} "</strong>
-<table align="top">
+<form method="POST" action="controller">
+    <input type="hidden" name="command" value="delPatient"/>
+    <input type="submit" value="Выписать пациента (удалить карточку)"/>
+</form>
+<table align="center">
     <tr>
         <td valign="top" style="text-align: center">
             <form method="POST" action="controller">
-                <input type="hidden" name="command" value="gotoadddiagnosis"/>
-                <input type="submit" value="Поставить диагноз"/>
+                <input type="hidden" name="command" value="gotoAddDiagnosis"/>
+                <input type="submit" value="Добавить диагноз"/>
             </form>
             <form name="diagnosisListForm" method="POST" action="controller">
                 <input type="hidden" name="command" value="delDiagnosis" />
-                <input type="submit" value="Снять диагноз"/>  <br/>
+                <input type="submit" value="Удалить диагноз"/>  <br/>
                 <table align="center" border="1">
                     <tr bgcolor="#CCCCCC">
                         <td align="center"><strong>Диагнозы</strong></td>
@@ -36,11 +43,11 @@
         <td valign="top" style="text-align: center">
             <form method="POST" action="controller">
                 <input type="hidden" name="command" value="gotoadddrug"/>
-                <input type="submit" value="Прописать лекарство" align="center"/>
+                <input type="submit" value="Добавить лекарство" align="center"/>
             </form>
             <form name="drugListForm" method="POST" action="controller">
                 <input type="hidden" name="command" value="delDrug" />
-                <input type="submit" value="Ввести лекарство" align="center"/>  <br/>
+                <input type="submit" value="Удалить лекарство" align="center"/>  <br/>
                 <table align="center" border="1">
                     <tr bgcolor="#CCCCCC">
                         <td align="center"><strong>Лекарства</strong></td>
@@ -61,11 +68,11 @@
         <td valign="top" style="text-align: center">
             <form method="POST" action="controller">
                 <input type="hidden" name="command" value="gotoaddmedprocedure" />
-                <input type="submit" value="Назначить процедуру" align="center" />
+                <input type="submit" value="Добавить процедуру" align="center" />
             </form>
             <form name="medProcedureListForm" method="POST" action="controller">
                 <input type="hidden" name="command" value="delMedProcedure" />
-                <input type="submit" value="Сделать процедуру" align="center"/>  <br/>
+                <input type="submit" value="Удалить процедуру" align="center"/>  <br/>
                 <table align="center" border="1">
                     <tr bgcolor="#CCCCCC">
                         <td align="center"><strong>Процедуры</strong></td>
@@ -86,11 +93,11 @@
         <td valign="top" style="text-align: center">
             <form method="POST" action="controller">
                 <input type="hidden" name="command" value="gotoaddsurgery" />
-                <input type="submit" value="Назначить операцию" align="center"/>
+                <input type="submit" value="Добавить операцию" align="center"/>
             </form>
             <form name="surgeryListForm" method="POST" action="controller">
                 <input type="hidden" name="command" value="delSurgery" />
-                <input type="submit" value="Сделать операцию" align="center"/>  <br/>
+                <input type="submit" value="Удалить операцию" align="center"/>  <br/>
                 <table align="center" border="1">
                     <tr bgcolor="#CCCCCC">
                         <td align="center"><strong>Операции</strong></td>
@@ -110,9 +117,6 @@
         </td>
     </tr>
 </table>
-<a href="controller?command=delpatient">Выписать пациента (удалить карточку)</a><br/>
-<a href="controller?command=backtochoosepatient">Вернуться к выбору пациента</a><br/>
-<a href="controller?command=backtologin">Выйти из системы</a><br/>
 ${operationMessage}  <br />
 </body>
 </html>

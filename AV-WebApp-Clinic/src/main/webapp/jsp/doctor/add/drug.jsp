@@ -5,6 +5,9 @@
     <title>Добавление лекарства</title>
 </head>
 <body>
+<a href="controller?command=backtologin">Вход в систему</a>>
+<a href="controller?command=backtochoosepatient">Выбор карточки пациента</a>>
+<a href="controller?command=backtomenu">Карточка пациента</a>>Добавление лекарства<br/>
 <form name="addDrugForm" method="POST" action="controller">
     <input type="hidden" name="command" value="addDrug" />
     Введите название:<br />

@@ -3,6 +3,8 @@ package by.training.nc.dev5.clinic.services;
 import by.training.nc.dev5.clinic.constants.AccessLevels;
 import by.training.nc.dev5.clinic.entities.User;
 import by.training.nc.dev5.clinic.dao.UserMySQLDAO;
+import by.training.nc.dev5.clinic.exceptions.DAOException;
+import by.training.nc.dev5.clinic.exceptions.NotFoundException;
 import by.training.nc.dev5.clinic.filters.UserType;
 
 /**
@@ -10,33 +12,46 @@ import by.training.nc.dev5.clinic.filters.UserType;
  */
 public class UserService {
 
-    public static boolean isAuthorized(String login, String password){
+    public static boolean isAuthorized(String login, String password)throws DAOException {
         try {
             return (password.equals(UserMySQLDAO.INSTANCE.getByLogin(login).getPassword()));
         }
-        catch (NullPointerException e){
+        catch (NotFoundException e){
             return false;
         }
     }
 
-    public static User getByLogin(String login) {
-        return UserMySQLDAO.INSTANCE.getByLogin(login);
-    }
-
-    public static UserType checkAccessLevel(String login){
-        if(AccessLevels.DOCTOR.equals(UserMySQLDAO.INSTANCE.getByLogin(login).getAccessLevel())){
-            return UserType.DOCTOR;
-        }else{
-            return UserType.NURSE;
+    public static User getByLogin(String login)throws DAOException {
+        try {
+            return UserMySQLDAO.INSTANCE.getByLogin(login);
+        }catch (NotFoundException e) {
+            return null;
         }
     }
 
-    public static void add(User user) {
+    public static UserType checkAccessLevel(String login) throws DAOException{
+        try{
+            if(AccessLevels.DOCTOR.equals(UserMySQLDAO.INSTANCE.getByLogin(login).getAccessLevel())){
+                return UserType.DOCTOR;
+            }else{
+                return UserType.NURSE;
+            }
+        } catch (NotFoundException e){
+            return null;
+        }
+    }
+
+    public static void add(User user)throws DAOException {
         UserMySQLDAO.INSTANCE.add(user);
     }
 
-    public static boolean isNewUser(String login) {
-        return (UserMySQLDAO.INSTANCE.getByLogin(login)==null);
-    }
+    public static boolean isNewUser(String login) throws DAOException {
+        try {
+            UserMySQLDAO.INSTANCE.getByLogin(login);
+            return false;
+        } catch (NotFoundException e){
+            return true;
+        }
 
+    }
 }

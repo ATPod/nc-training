@@ -5,6 +5,9 @@
     <title>Выбор действия</title>
 </head>
 <body>
+<a href="controller?command=backtologin">Вход в систему</a>>
+<a href="controller?command=backtochoosepatient">Выбор карточки пациента</a>>
+Карточка пациента<br/>
 <strong>Карточка пациента " ${patientName} "</strong>
 <table align="top">
     <tr>

@@ -7,6 +7,7 @@
     <title>Регистрация</title>
 </head>
 <body>
+<a href="controller?command=backtologin">Вход в систему</a>>Регистрация<br/>
 <form name="registrationForm" method="POST" action="controller">
     <input type="hidden" name="command" value="registration" />
     Введите ваши данные:<br/>
@@ -18,7 +19,6 @@
     <input type="radio" name="access_level" value="DOCTOR"/>Врач<br/>
     <input type="radio" name="access_level" value="NURSE"/>Медсестра<br/>
     <input type="submit" value="Зарегистрировать" /> <br />
-    <a href="controller?command=backtologin">Вернуться обратно</a>
     ${operationMessage}<br />
 </form>
 </body>

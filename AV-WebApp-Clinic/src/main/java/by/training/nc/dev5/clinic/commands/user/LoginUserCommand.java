@@ -6,8 +6,8 @@ import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
+import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.filters.UserType;
-import by.training.nc.dev5.clinic.logger.ClinicLogger;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
 import by.training.nc.dev5.clinic.managers.MessageManager;
 import by.training.nc.dev5.clinic.services.PatientService;
@@ -24,7 +24,6 @@ public class LoginUserCommand extends AbstractCommand {
         String login = request.getParameter(Parameters.LOGIN);
         String password = request.getParameter(Parameters.PASSWORD);
         String page;
-
         try {
             if(UserService.isAuthorized(login, password)){
                 HttpSession session = request.getSession();
@@ -41,8 +40,7 @@ public class LoginUserCommand extends AbstractCommand {
                 request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.WRONG_LOGIN_OR_PASSWORD));
             }
         }
-        catch (Exception e) {
-            ClinicLogger.INSTANCE.logError(getClass(), e.getMessage());
+        catch (DAOException e) {
             page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.ERROR_PAGE_PATH);
             request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));
         }

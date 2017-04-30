@@ -6,6 +6,8 @@
     <title>Пациенты</title>
 </head>
 <body>
+<a href="controller?command=backtologin">Вход в систему</a>>
+Выбор карточки пациента<br/>
 <form name="choosePatientForm" method="POST" action="controller">
     <input type="hidden" name="command" value="choosePatient" />
     Выберите пациента:
@@ -26,7 +28,6 @@
     <c:if test="${userType=='DOCTOR'}">
         <a href="controller?command=gotoaddpatient">Добавить пациента</a> <br/>
     </c:if>
-    <a href="controller?command=backtologin">Выйти из системы</a><br/>
     ${operationMessage}<br />
 </form>
 </body>
