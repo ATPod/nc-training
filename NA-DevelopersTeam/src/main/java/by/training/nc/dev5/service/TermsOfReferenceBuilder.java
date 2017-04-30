@@ -7,13 +7,14 @@ import by.training.nc.dev5.entity.TermsOfReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Nikita on 27.03.2017.
  */
 public class TermsOfReferenceBuilder {
     private TermsOfReference termsOfReference;
-    private Collection<Task> tasks;
+    private List<Task> tasks;
 
     public TermsOfReferenceBuilder() {
         tasks = new ArrayList<Task>();
@@ -29,8 +30,12 @@ public class TermsOfReferenceBuilder {
         return Collections.unmodifiableCollection(tasks);
     }
 
-    public void removeTask(Task task) {
-        tasks.remove(task);
+    public void removeTask(int idx) {
+        if (idx >= tasks.size() || idx < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        tasks.remove(idx);
     }
 
     public void setCustomer(Customer customer) {

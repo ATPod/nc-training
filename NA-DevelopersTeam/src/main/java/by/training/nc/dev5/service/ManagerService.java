@@ -3,6 +3,10 @@ package by.training.nc.dev5.service;
 import by.training.nc.dev5.dao.*;
 import by.training.nc.dev5.entity.*;
 import by.training.nc.dev5.exception.DataAccessException;
+import by.training.nc.dev5.exception.ServiceException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
 
@@ -10,6 +14,7 @@ import java.util.Collection;
  * Created by Nikita on 28.03.2017.
  */
 public class ManagerService {
+    static final Logger logger = LogManager.getLogger(ManagerService.class);
     private final DaoFactory daoFactory =
             DaoFactory.getDaoFactory(DaoFactory.MYSQL);
     private static ManagerService INSTANCE = new ManagerService();
@@ -18,17 +23,29 @@ public class ManagerService {
         return INSTANCE;
     }
 
-    public Collection<TermsOfReference> getPendingTermsOfReference() {
+    public Collection<TermsOfReference> getPendingTermsOfReference() throws ServiceException {
         TermsOfReferenceDao torDao = daoFactory.getTermsOfReferenceDao();
+        TaskDao taskDao = daoFactory.getTaskDao();
+        TaskQuotaDao taskQuotaDao = daoFactory.getTaskQuotaDao();
 
         try {
-            return torDao.getTermsOfReferenceWithNoProject();
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            // todo
-        }
+            Collection<TermsOfReference> result;
 
-        return null;
+            result = torDao.getTermsOfReferenceWithNoProject();
+            for (TermsOfReference tor : result) {
+                tor.setTasks(taskDao.getTasks(tor.getId()));
+
+                for (Task task : tor.getTasks()) {
+                    task.setTaskQuotas(taskQuotaDao.getTaskQuotas(task.getId()));
+                }
+            }
+
+            return result;
+        } catch (DataAccessException e) {
+            logger.error("Database access error", e);
+
+            throw new ServiceException("Database access error occurred", e);
+        }
     }
 
     public Project applyTermsOfReference(
@@ -43,10 +60,10 @@ public class ManagerService {
         project.setManager(manager);
 
         try {
-            pullTermsOfReference(termsOfReference);
             projectDao.create(project);
 
-            assignDevelopers(project);
+//            assignDevelopers(project);
+            // // TODO: 12.04.2017 manager assigns developers manually
         } catch (DataAccessException e) {
             e.printStackTrace();
             // todo
@@ -55,49 +72,32 @@ public class ManagerService {
         return project;
     }
 
-    private void pullTermsOfReference(TermsOfReference tor)
-            throws DataAccessException {
+    public Collection<Developer> getUnassignedDevelopers() {
+        DeveloperDao developerDao = daoFactory.getDeveloperDao();
 
-        if (tor.getTasks() == null) {
-            TaskDao taskDao = daoFactory.getTaskDao();
-
-            tor.setTasks(taskDao.getTasks(tor.getId()));
-        }
+        return null;
     }
 
-    private void assignDevelopers(Project project)
-            throws DataAccessException {
+    public void assignDevelopers(Project project,
+                                 Collection<Developer> developers)
+            throws ServiceException {
+        DeveloperDao developerDao = daoFactory.getDeveloperDao();
 
-        TaskDao torDao = daoFactory.getTaskDao();
-        Collection<Task> tasks;
+        if (project.getManager() == null) {
+            logger.info("Project is not assigned");
 
-        tasks = torDao.getTasks(project.getTermsOfReference().getId());
-
-        for (Task task : tasks) {
-            assignDevelopersForTask(project, task);
+            return;
         }
-    }
 
-    private void assignDevelopersForTask(Project project, Task task)
-            throws DataAccessException {
+        for (Developer developer : developers) {
+            developer.setProject(project);
 
-        DeveloperDao devDao = daoFactory.getDeveloperDao();
-        TermsOfReference tor = task.getTermsOfReference();
-        TaskQuotaDao taskQuotaDao = daoFactory.getTaskQuotaDao();
+            try {
+                developerDao.update(developer);
+            } catch (DataAccessException e) {
+                logger.error("Database error occurred", e);
 
-        for (TaskQuota tq : taskQuotaDao.getTaskQuotas(task.getId())) {
-            Collection<Developer> developers;
-
-            developers = devDao.getUnassignedDevelopers(
-                    tq.getQualification().getId());
-            if (developers.size() == 0) {
-                throw new RuntimeException(" TODO: Not enough developers");
-                // TODO: handle this situation properly
-            }
-
-            for (Developer d : developers) {
-                d.setProject(project);
-                devDao.update(d);
+                throw new ServiceException("Database error occurred");
             }
         }
     }

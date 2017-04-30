@@ -104,4 +104,9 @@ public class MysqlDaoFactory extends DaoFactory {
     public TaskQuotaDao getTaskQuotaDao() {
         return new MysqlTaskQuotaDao();
     }
+
+    @Override
+    public PersonDao getPersonDao() {
+        return new MysqlPersonDao();
+    }
 }

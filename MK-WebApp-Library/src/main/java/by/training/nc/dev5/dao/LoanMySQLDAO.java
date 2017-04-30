@@ -1,10 +1,10 @@
 package by.training.nc.dev5.dao;
 
+import by.training.nc.dev5.dao.dao.LoanDAO;
 import by.training.nc.dev5.dbmanager.DBManager;
 import by.training.nc.dev5.model.Book;
 import by.training.nc.dev5.model.Loan;
-import by.training.nc.dev5.model.LoanView;
-import by.training.nc.dev5.model.Reader;
+import by.training.nc.dev5.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,17 +25,17 @@ public class LoanMySQLDAO implements LoanDAO {
             "INNER JOIN `mk-library`.books ON id_book=`mk-library`.books.id\n" +
             "INNER JOIN `mk-library`.readers ON id_reader=`mk-library`.readers.id\n" +
             "WHERE `mk-library`.loans.id = ?";
-    private static String selectLoansQuery = "SELECT id,readers.id,name,books.id,title,loan_type FROM `mk-library`.loans  \n" +
+    private static String selectLoansQuery = "SELECT loans.id,users.id,name,books.id,title,loan_type FROM `mk-library`.loans  \n" +
             "INNER JOIN `mk-library`.books ON id_book=`mk-library`.books.id\n" +
-            "INNER JOIN `mk-library`.readers ON id_reader=`mk-library`.readers.id\n" ;
+            "INNER JOIN `mk-library`.users ON id_reader=`mk-library`.users.id" ;
+    private static String deleteLoanQuery = "DELETE FROM `loans` WHERE id = ?";
 
 
     @Override
     public int insertLoan(Loan loan) {
 
-        Connection connection;
-        connection = DBManager.getInstance().getConnection();
-        try {
+        try (Connection connection = DBManager.getInstance().getConnection()){
+
             PreparedStatement statement = connection.prepareStatement(insertLoanQuery);
             statement.setInt(1, loan.getId());
             statement.setInt(2, loan.getReaderId());
@@ -47,21 +47,23 @@ public class LoanMySQLDAO implements LoanDAO {
         } catch (SQLException e) {
             logger.error(e.getMessage());
             System.out.println("Что-то пошло не так"); // =) пофиксить
-        }finally {
-            if(connection!=null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         return -1;
     }
 
     @Override
-    public boolean deleteLoan(String pLoan) {
+    public boolean deleteLoan(int id) {
+        try (Connection connection = DBManager.getInstance().getConnection()) {
+
+            PreparedStatement statement = connection.prepareStatement(deleteLoanQuery);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
         return false;
     }
 
@@ -69,10 +71,8 @@ public class LoanMySQLDAO implements LoanDAO {
     @Override
     public Loan findLoan(int id) {
 
-        Connection connection;
-        connection = DBManager.getInstance().getConnection();
         Loan loan = null;
-        try {
+        try (Connection connection = DBManager.getInstance().getConnection()){
 
             PreparedStatement statement = connection.prepareStatement(findLoanQuery);
             statement.setInt(1, id);
@@ -81,15 +81,14 @@ public class LoanMySQLDAO implements LoanDAO {
             while (rs.next()) {
 
                 loan = new Loan(rs.getInt(1),
-                                new Reader( rs.getInt(2),rs.getString(3)),
+                                new User( rs.getInt(2),rs.getString(3)),
                                 new Book(rs.getInt(4),rs.getString(5)),
                                 rs.getString(6));
 
             }
         } catch (SQLException e) {
             logger.error(e.getMessage());
-            System.out.println("Что-то пошло не так"); // =) пофиксить
-        }
+            }
         return loan;
     }
 
@@ -100,34 +99,44 @@ public class LoanMySQLDAO implements LoanDAO {
     }
 
     @Override
-    public Collection<LoanView> selectLoans() {
-        Connection connection;
-        connection = DBManager.getInstance().getConnection();
-        List<LoanView> loans = null ;
-        try {
+    public Collection<Loan> selectLoans() {
+        List<Loan> loans = null ;
+        try (Connection connection = DBManager.getInstance().getConnection()) {
 
             Statement statement = connection.prepareStatement(selectLoansQuery);
             ResultSet rs = statement.executeQuery(selectLoansQuery);
 
             loans = new ArrayList<>();
 
+            int id;
+            int user_id;
             String userName ;
+            int book_id;
             String bookTitle;
             String loanType;
 
+            Book book;
+            User user;
+
             while (rs.next()){
+                id = rs.getInt(1);
+                user_id =rs.getInt(2);
+                userName = rs.getString(3);
+                book_id = rs.getInt(4);
+                bookTitle =rs.getString(5);
+                loanType =rs.getString(6);
 
-                userName = rs.getString(1);
-                bookTitle =rs.getString(2);
-                loanType =rs.getString(3);
+                user = new User(user_id,userName);
+                book = new Book(book_id,bookTitle);
 
-                loans.add(new LoanView(userName,bookTitle,loanType));
+                loans.add(new Loan(id,user,book,loanType));
             }
 
             return loans;
 
         } catch (SQLException e) {
             logger.error(e.getMessage());
+            System.out.println("select loans mist");
         }
         return Collections.emptyList();
     }

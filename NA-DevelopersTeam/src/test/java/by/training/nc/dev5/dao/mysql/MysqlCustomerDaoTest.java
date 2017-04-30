@@ -27,7 +27,9 @@ public class MysqlCustomerDaoTest {
         Customer actual;
 
         customer.setName("John Doe");
-        customer.setId(testedObject.create(customer));
+        customer.setLogin("johnny-donny");
+        customer.setPassword("password");
+        testedObject.create(customer);
 
         actual = testedObject.getEntityById(customer.getId());
         Assert.assertEquals(customer, actual);

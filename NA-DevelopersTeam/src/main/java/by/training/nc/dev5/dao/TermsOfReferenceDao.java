@@ -9,5 +9,9 @@ import java.util.Collection;
  * Created by Nikita on 26.03.2017.
  */
 public interface TermsOfReferenceDao extends AbstractDao<TermsOfReference, Integer> {
-    Collection<TermsOfReference> getTermsOfReferenceWithNoProject() throws DataAccessException;
+    Collection<TermsOfReference> getTermsOfReferenceWithNoProject()
+            throws DataAccessException;
+
+    Collection<TermsOfReference> getTermsOfReferenceByCustomer(Integer customerId)
+        throws DataAccessException;
 }

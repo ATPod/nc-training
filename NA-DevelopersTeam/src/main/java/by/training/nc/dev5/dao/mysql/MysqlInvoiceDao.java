@@ -37,15 +37,21 @@ public class MysqlInvoiceDao
     }
 
     @Override
-    protected Invoice fetchEntity(ResultSet rs) throws SQLException, DataAccessException {
+    protected Invoice fetchEntity(ResultSet rs) throws DataAccessException {
         Invoice invoice = new Invoice();
         ProjectDao projectDao = new MysqlProjectDao();
-        int projectId = rs.getInt("project_id");
+        int projectId;
 
-        invoice.setId(rs.getInt("id"));
-        invoice.setPrice(rs.getDouble("price"));
-        invoice.setProject(projectDao.getEntityById(projectId));
-        invoice.setPaid(rs.getBoolean("paid"));
+        try {
+            projectId = rs.getInt("project_id");
+
+            invoice.setId(rs.getInt("id"));
+            invoice.setPrice(rs.getDouble("price"));
+            invoice.setProject(projectDao.getEntityById(projectId));
+            invoice.setPaid(rs.getBoolean("paid"));
+        } catch (SQLException e) {
+            throw new DataAccessException("Database error occurred", e);
+        }
 
         return invoice;
     }
@@ -68,13 +74,10 @@ public class MysqlInvoiceDao
 
             return ps.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return false;
     }
 
     public boolean delete(Integer id) throws DataAccessException {
@@ -105,12 +108,9 @@ public class MysqlInvoiceDao
 
             return id;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
     }
 }
