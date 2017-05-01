@@ -9,17 +9,26 @@
     <a class="navbar-brand" href="/index.jsp">Home</a>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/controller?command=loans">Loans </a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right  my-2 my-lg-0" >
             <c:if test="${isLogged!=true}">
-            <li class="nav-item active">
-                <a class="nav-link" href="/controller">Login </a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/pages/register.jsp">Register</a>
-            </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/controller?command=toLogin">Login </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/controller?command=toSignup">Register</a>
+                </li>
             </c:if>
-            <li class="nav-item active">
-                <a class="nav-link" href="/loanController">Loans </a>
-            </li>
+            <c:if test="${isLogged==true}">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/controller?command=logout">Logout</a>
+                </li>
+            </c:if>
+
+
         </ul>
     </div>
 </nav>

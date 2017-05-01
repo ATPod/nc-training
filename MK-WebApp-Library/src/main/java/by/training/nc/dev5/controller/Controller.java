@@ -1,6 +1,7 @@
 package by.training.nc.dev5.controller;
 
-import by.training.nc.dev5.daoService.UserService;
+import by.training.nc.dev5.command.Command;
+import by.training.nc.dev5.command.CommandFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by ASUS on 25.04.2017.
- */
+
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
 
@@ -27,20 +26,12 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (req.getParameter("command") == null) {
-            getServletContext().getRequestDispatcher("/pages/login.jsp").forward(req, resp);
-        } else if (req.getParameter("command").equals("login")) {
+        String commandName = req.getParameter("command");
+        Command command = CommandFactory.newInstance(commandName);
+        String page = command.execute(req);
 
-            UserService us = new UserService();
+        getServletContext().getRequestDispatcher(page).forward(req, resp);
 
-            String name = req.getParameter("txtUserName").trim();
-            String pass = req.getParameter("txtPass").trim();
-
-            boolean isLogged = us.loginUser(name,pass);
-            req.getSession(true).setAttribute("isLogged",isLogged);
-
-            getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
-        }
 
     }
 }
