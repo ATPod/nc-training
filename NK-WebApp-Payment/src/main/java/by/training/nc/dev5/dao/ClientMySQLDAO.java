@@ -37,7 +37,7 @@ public class ClientMySQLDAO implements ClientDAO {
 	private static final String SQL_FIND_BY_LOGOPASS = "SELECT * FROM client WHERE login = ?";
 
 	// logger for the class
-	static Logger logger = LogManager.getLogger(ClientMySQLDAO.class);
+	private static Logger logger = LogManager.getLogger(ClientMySQLDAO.class);
 
 	public ClientMySQLDAO() {}
 
