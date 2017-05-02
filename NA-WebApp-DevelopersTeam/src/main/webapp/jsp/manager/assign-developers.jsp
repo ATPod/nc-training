@@ -21,8 +21,12 @@
             scope="request"
             class="by.training.nc.dev5.entity.Qualification" />
 
-    <label for="qualificationSelect">Qualification:</label>
-    <select id="qualificationSelect" name="qualificationId"></select>
+    <form>
+        <label for="qualificationSelect">Qualification:</label>
+        <select id="qualificationSelect" name="qualificationId">
+            
+        </select>
+    </form>
     <table>
         <tr><td></td><td>Name</td><td>Qualification</td></tr>
     <c:forEach var="developer" items="${managerService.unassignedDevelopers}">
