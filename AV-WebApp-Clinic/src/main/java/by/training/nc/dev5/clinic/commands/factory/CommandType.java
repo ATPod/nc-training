@@ -17,7 +17,7 @@ import by.training.nc.dev5.clinic.commands.user.*;
  */
 public enum CommandType {
     //user commands
-    LOGIN, BACKTOLOGIN, REGISTRATION, GOTOREGISTRATION,
+    LOGIN, BACKTOLOGIN, REGISTRATION, GOTOREGISTRATION, LOCALIZATION,
     //doctor & nurse commands
     GOTOCHOOSEPATIENT, CHOOSEPATIENT, BACKTOMENU, BACKTOCHOOSEPATIENT,
     // doctor commands

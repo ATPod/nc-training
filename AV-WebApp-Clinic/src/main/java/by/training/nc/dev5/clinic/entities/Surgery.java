@@ -8,23 +8,11 @@ import javax.persistence.*;
 @NamedQueries({@NamedQuery(name = "Surgery.getByPatient", query = "SELECT a FROM Surgery a WHERE a.patient=?1")})
 
 @Entity
-public class Surgery {
-    private int id;
+public class Surgery extends AbstractEntity{
+
     private String name;
     private Patient patient;
 
-    @Id
-    @Column(name = "Id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
     @Column(name = "Name")
     public String getName() {
         return name;
@@ -44,24 +32,5 @@ public class Surgery {
         this.patient = patient;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Surgery surgery = (Surgery) o;
-
-        if (id != surgery.id) return false;
-        if (name != null ? !name.equals(surgery.name) : surgery.name != null) return false;
-        return !(patient != null ? !patient.equals(surgery.patient) : surgery.patient != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (patient != null ? patient.hashCode() : 0);
-        return result;
-    }
 }
