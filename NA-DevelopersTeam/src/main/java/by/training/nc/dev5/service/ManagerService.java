@@ -84,7 +84,7 @@ public class ManagerService {
         DeveloperDao developerDao = daoFactory.getDeveloperDao();
 
         if (project.getManager() == null) {
-            logger.info("Project is not assigned");
+            logger.warn("Project is not assigned");
 
             return;
         }
