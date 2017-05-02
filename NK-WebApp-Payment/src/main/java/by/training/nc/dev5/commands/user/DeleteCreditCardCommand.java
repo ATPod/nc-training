@@ -10,6 +10,7 @@ import by.training.nc.dev5.entities.CreditCard;
 import by.training.nc.dev5.entities.Person;
 import by.training.nc.dev5.exceptions.NotCorrectIdException;
 import by.training.nc.dev5.exceptions.NotCorrectPasswordException;
+import by.training.nc.dev5.services.CreditCardService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,18 +22,13 @@ public class DeleteCreditCardCommand extends AbstractCommand implements Command 
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("cr_id");
         String password = request.getParameter("cr_password");
-        MySQLDAOFactory factory = new MySQLDAOFactory();
-        CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
         HttpSession session = request.getSession();
         Person person = (Person) session.getAttribute("person");
-        try {
-            CreditCard creditCard = new CreditCard(id, password, null, person.getId());
-            creditCardMySQLDAO.deleteCreditCard(creditCard);
+        String err = CreditCardService.deleteCreditCard(id,password,person);
+        if(err == null){
             return JspPaths.SUCCESSED_OPERATION;
-        } catch (NotCorrectIdException e){
-            request.setAttribute("error_message", "invalid id");
-        } catch (NotCorrectPasswordException e){
-            request.setAttribute("error_message", "invalid password");
+        }else {
+            request.setAttribute("error_message",err);
         }
         return null;
     }

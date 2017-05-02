@@ -5,8 +5,8 @@
     <title>Ошибка</title>
 </head>
 <body>
+<a href="controller?command=backtologin">Вход в систему</a>>Страница ошибки<br/>
 Извините, но в данный момент сервис не доступен: <br/>
-<a href="controller?command=backtologin">Назад</a>
 ${operationMessage}<br />
 </body>
 </html>

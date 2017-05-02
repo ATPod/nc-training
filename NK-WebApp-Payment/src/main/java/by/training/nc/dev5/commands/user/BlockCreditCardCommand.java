@@ -9,6 +9,7 @@ import by.training.nc.dev5.entities.CreditCard;
 import by.training.nc.dev5.entities.Person;
 import by.training.nc.dev5.exceptions.NotCorrectIdException;
 import by.training.nc.dev5.exceptions.NotCorrectPasswordException;
+import by.training.nc.dev5.services.CreditCardService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,17 +21,13 @@ public class BlockCreditCardCommand extends AbstractCommand implements Command {
     public String execute(HttpServletRequest request) {
         String id = request.getParameter("cr_id");
         String password = request.getParameter("cr_password");
-        MySQLDAOFactory factory = new MySQLDAOFactory();
-        CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
-        HttpSession session = request.getSession();
-        Person person = (Person) session.getAttribute("person");
-        CreditCard creditCard = creditCardMySQLDAO.findCreditCard(id);
-        if(creditCard.getPassword().equals(password)){
-            creditCard.getAccount().setBlocked(true);
-            creditCardMySQLDAO.updateCreditCard(creditCard);
+        String err = CreditCardService.blockCreditCard(id,password);
+        if(err == null){
             return JspPaths.SUCCESSED_OPERATION;
         }
-        request.setAttribute("error_message", "invalid password");
+        else {
+            request.setAttribute("error_message", err);
+        }
         return null;
     }
 }

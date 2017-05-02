@@ -21,23 +21,12 @@ public class MakePayment extends AbstractCommand implements Command {
         String id = request.getParameter("cr_id");
         String password = request.getParameter("cr_password");
         double money = Double.parseDouble(request.getParameter("money"));
-        MySQLDAOFactory factory = new MySQLDAOFactory();
-        CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
-        CreditCard creditCard = new CreditCard(creditCardMySQLDAO.findCreditCard(id));
-        if (creditCard != null) {
-            HttpSession session = request.getSession();
-            if(creditCard.getPassword().equals(password)) {
-                if(creditCard.getAccount().getMoney() >= money) {
-                    CreditCardService.moneyOperation(creditCard,password,money,2);
-                    creditCardMySQLDAO.updateCreditCard(creditCard);
-                    session.setAttribute("creditCard", creditCard);
-                    return JspPaths.SUCCESSED_OPERATION;
-                }
-                else request.setAttribute("error_message", "not enough money");
-            }
-            else request.setAttribute("error_message", "invalid password");
+        String err = CreditCardService.moneyOperation(id,password,money,2);
+        if(err == null){
+            return JspPaths.SUCCESSED_OPERATION;
+        }else {
+            request.setAttribute("error_message",err);
         }
-        else request.setAttribute("error_message", "no such credit cards");
         return null;
     }
 }

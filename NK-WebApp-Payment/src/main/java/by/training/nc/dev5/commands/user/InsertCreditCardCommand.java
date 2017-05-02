@@ -10,6 +10,7 @@ import by.training.nc.dev5.entities.CreditCard;
 import by.training.nc.dev5.entities.Person;
 import by.training.nc.dev5.exceptions.NotCorrectIdException;
 import by.training.nc.dev5.exceptions.NotCorrectPasswordException;
+import by.training.nc.dev5.services.CreditCardService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,19 +23,13 @@ public class InsertCreditCardCommand extends AbstractCommand implements Command 
         String id = request.getParameter("cr_id");
         String password = request.getParameter("cr_password");
         double money = Double.parseDouble(request.getParameter("money"));
-        MySQLDAOFactory factory = new MySQLDAOFactory();
-        CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
         HttpSession session = request.getSession();
         Person person = (Person) session.getAttribute("person");
-        Account account = new Account(money,false);
-        try {
-            CreditCard creditCard = new CreditCard(id, password, account, person.getId());
-            creditCardMySQLDAO.insertCreditCard(creditCard);
+        String err = CreditCardService.insertCreditCard(id,password,money,person);
+        if(err == null){
             return JspPaths.SUCCESSED_OPERATION;
-        } catch (NotCorrectIdException e){
-            request.setAttribute("error_message", "invalid id");
-        } catch (NotCorrectPasswordException e){
-            request.setAttribute("error_message", "invalid password");
+        }else {
+            request.setAttribute("error_message",err);
         }
         return null;
     }

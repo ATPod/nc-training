@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class Controller extends HttpServlet{
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String page = null;
+        String page;
 
         CommandFactory commandFactory = CommandFactory.INSTANCE;
         Command command = commandFactory.defineCommand(request);

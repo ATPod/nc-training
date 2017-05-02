@@ -4,6 +4,9 @@ package by.training.nc.dev5.clinic.constants;
  * Created by user on 04.04.2017.
  */
 public class ConfigsConstants {
+
+    public static final int MAX_STRING_LENGTH = 50;
+
     public static final String CONFIGS_SOURCE = "configs";
     public static final String LOGGER_CONFIG = "log4j";
     public static final String MESSAGES_SOURCE = "messages";
