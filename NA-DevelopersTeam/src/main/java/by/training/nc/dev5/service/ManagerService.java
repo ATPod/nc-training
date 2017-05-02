@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -72,10 +73,46 @@ public class ManagerService {
         return project;
     }
 
-    public Collection<Developer> getUnassignedDevelopers() {
+    public Collection<Developer> getUnassignedDevelopers()
+            throws ServiceException {
+
+        DeveloperDao developerDao = daoFactory.getDeveloperDao();
+        QualificationDao qualificationDao = daoFactory.getQualificationDao();
+
+        try {
+            Collection<Qualification> qualifications = qualificationDao.getAll();
+            Collection<Developer> developers = new ArrayList<Developer>();
+
+            for (Qualification q : qualifications) {
+                developers.addAll(
+                        developerDao.getUnassignedDevelopers(q.getId()));
+            }
+
+            return developers;
+        } catch (DataAccessException e) {
+            logger.error("Database access error occurred", e);
+
+            throw new ServiceException("Database access error occurred", e);
+        }
+    }
+
+    public Collection<Developer> getUnassignedDevelopers(int qualificationId)
+            throws ServiceException {
+
         DeveloperDao developerDao = daoFactory.getDeveloperDao();
 
-        return null;
+        try {
+            Collection<Developer> developers = new ArrayList<Developer>();
+
+            developers.addAll(
+                    developerDao.getUnassignedDevelopers(qualificationId));
+
+            return developers;
+        } catch (DataAccessException e) {
+            logger.error("Database access error occurred", e);
+
+            throw new ServiceException("Database access error occurred", e);
+        }
     }
 
     public void assignDevelopers(Project project,

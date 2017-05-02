@@ -9,6 +9,10 @@
         scope="application"
         class="by.training.nc.dev5.service.CustomerService" />
 <jsp:useBean
+        id="helpService"
+        scope="application"
+        class="by.training.nc.dev5.service.HelpService" />
+<jsp:useBean
         id="torBuilder"
         scope="session"
         class="by.training.nc.dev5.service.TermsOfReferenceBuilder" />
@@ -65,7 +69,7 @@
             <select name="qualificationId" required>
                 <c:forEach
                         var="qualification"
-                        items="${customerService.qualifications}">
+                        items="${helpService.qualifications}">
 
                     <option value="${qualification.id}">
                         ${qualification.name}
