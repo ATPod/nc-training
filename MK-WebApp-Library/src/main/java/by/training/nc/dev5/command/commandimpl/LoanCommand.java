@@ -1,6 +1,7 @@
 package by.training.nc.dev5.command.commandimpl;
 
 import by.training.nc.dev5.command.Command;
+import by.training.nc.dev5.entity.jpa.Book;
 import by.training.nc.dev5.jpaservice.LoanServiceJPA;
 import by.training.nc.dev5.util.ConstantsUtil;
 
@@ -23,6 +24,15 @@ public class LoanCommand implements Command {
         if(request.getParameter("delete").equals("true")){
             ls.deleteLoan(Integer.valueOf(request.getParameter("id")));
 
+        }
+        if(request.getParameter("toDo").equals("addLoan")){
+            String title = request.getParameter("loan-book");
+
+            Book book = new Book();
+            book.setTitle(title);
+            //bs.insertBook(book);
+            //((List<Book>)request.getSession().getAttribute("books")).add(book);
+            return ConstantsUtil.BOOKS_PAGE;
         }
 
 

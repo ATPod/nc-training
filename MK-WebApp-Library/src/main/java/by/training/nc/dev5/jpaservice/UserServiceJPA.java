@@ -3,6 +3,8 @@ package by.training.nc.dev5.jpaservice;
 import by.training.nc.dev5.entity.jpa.User;
 import by.training.nc.dev5.jpa.UserJPA;
 
+import java.util.List;
+
 /**
  * Created by ASUS on 01.05.2017.
  */
@@ -25,6 +27,16 @@ public class UserServiceJPA  {
     public User findByNameAndPassword(String name , String password){
         return userJPA.findByNameAndPassword(name, password);
     }
+
+
+    public List<User> selectUsers() {
+
+       return userJPA.selectUsers();
+    }
+
+
+
+
 
 
 }

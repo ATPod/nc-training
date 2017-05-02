@@ -1,10 +1,7 @@
 package by.training.nc.dev5.command;
 
 import by.training.nc.dev5.command.commandimpl.*;
-import by.training.nc.dev5.command.commandimpl.navigation.ToLoansCommand;
-import by.training.nc.dev5.command.commandimpl.navigation.ToLoginCommand;
-import by.training.nc.dev5.command.commandimpl.navigation.ToLogoutCommand;
-import by.training.nc.dev5.command.commandimpl.navigation.ToSignupCommand;
+import by.training.nc.dev5.command.commandimpl.navigation.*;
 
 public class CommandFactory {
 
@@ -30,7 +27,16 @@ public class CommandFactory {
                 return new LoansCommand();
             case "loan":
                 return new LoanCommand();
-
+            case "users":
+                return new UsersCommand();
+            case "books":
+                return new BooksCommand();
+            case "book":
+                return new BookCommand();
+            case "toAddBook":
+                return new ToAddBookCommand();
+            case "toAddLoan":
+                return new ToAddLoanCommand();
         }
         return null;
     }
