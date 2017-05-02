@@ -3,6 +3,7 @@ package by.training.nc.dev5.web.command;
 import by.training.nc.dev5.web.command.customer.AddTaskCommand;
 import by.training.nc.dev5.web.command.customer.CreateTorCommand;
 import by.training.nc.dev5.web.command.customer.RemoveTaskCommand;
+import by.training.nc.dev5.web.command.manager.ShowDevelopersCommand;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -24,6 +25,8 @@ public class CommandFactory {
         commands.put("addTask", new AddTaskCommand());
         commands.put("createTor", new CreateTorCommand());
         commands.put("removeTask", new RemoveTaskCommand());
+
+        commands.put("showDevelopers", new ShowDevelopersCommand());
     }
 
     public Command getCommand(HttpServletRequest request) {

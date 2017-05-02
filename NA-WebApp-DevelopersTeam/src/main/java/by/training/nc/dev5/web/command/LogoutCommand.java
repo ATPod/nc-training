@@ -1,6 +1,5 @@
 package by.training.nc.dev5.web.command;
 
-import by.training.nc.dev5.util.ConfigurationManager;
 import by.training.nc.dev5.web.routing.Router;
 
 import javax.servlet.ServletException;

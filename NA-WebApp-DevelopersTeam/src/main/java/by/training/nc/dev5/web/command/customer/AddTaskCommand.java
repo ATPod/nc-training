@@ -1,11 +1,9 @@
 package by.training.nc.dev5.web.command.customer;
 
 import by.training.nc.dev5.entity.Qualification;
-import by.training.nc.dev5.service.CustomerService;
 import by.training.nc.dev5.service.HelpService;
 import by.training.nc.dev5.service.TaskBuilder;
 import by.training.nc.dev5.service.TermsOfReferenceBuilder;
-import by.training.nc.dev5.util.ConfigurationManager;
 import by.training.nc.dev5.web.command.Command;
 import by.training.nc.dev5.web.routing.Router;
 

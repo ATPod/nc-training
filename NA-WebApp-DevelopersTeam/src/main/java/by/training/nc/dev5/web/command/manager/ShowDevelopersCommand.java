@@ -1,7 +1,6 @@
 package by.training.nc.dev5.web.command.manager;
 
 import by.training.nc.dev5.entity.Developer;
-import by.training.nc.dev5.entity.Qualification;
 import by.training.nc.dev5.exception.ServiceException;
 import by.training.nc.dev5.service.HelpService;
 import by.training.nc.dev5.service.ManagerService;
@@ -17,7 +16,7 @@ import java.util.Collection;
 /**
  * Created by Nikita on 02.05.2017.
  */
-public class ShowDevelopers implements Command {
+public class ShowDevelopersCommand implements Command {
     public void execute(HttpServletRequest request,
                         HttpServletResponse response)
             throws ServletException, IOException {

@@ -18,7 +18,6 @@ public class ConfigurationManager extends ResourceBundle {
         bundles = new ArrayList<ResourceBundle>();
 
         bundles.add(ResourceBundle.getBundle("mysql"));
-        bundles.add(ResourceBundle.getBundle("pages"));
     }
 
     /**

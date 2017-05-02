@@ -4,7 +4,6 @@ import by.training.nc.dev5.entity.Customer;
 import by.training.nc.dev5.entity.TermsOfReference;
 import by.training.nc.dev5.service.CustomerService;
 import by.training.nc.dev5.service.TermsOfReferenceBuilder;
-import by.training.nc.dev5.util.ConfigurationManager;
 import by.training.nc.dev5.web.command.Command;
 import by.training.nc.dev5.web.routing.Router;
 

@@ -2,7 +2,6 @@ package by.training.nc.dev5.web.command;
 
 import by.training.nc.dev5.entity.Person;
 import by.training.nc.dev5.service.AuthenticationService;
-import by.training.nc.dev5.util.ConfigurationManager;
 import by.training.nc.dev5.web.routing.Router;
 
 import javax.servlet.ServletException;
@@ -22,13 +21,11 @@ public class LoginCommand implements Command {
         String login = request.getParameter("username");
         String password = request.getParameter("password");
         Person user;
-        String loginPage = ConfigurationManager.getInstance()
-                .getString("path.page.login");
 
         if (login == null || password == null) {
             request.setAttribute(
                     "loginErrorMessage", "No login/password provided");
-            Router.forward(request, response, loginPage);
+            Router.forward(request, response, "login");
         }
 
         user = authSvc.logOn(login, password);
@@ -36,7 +33,7 @@ public class LoginCommand implements Command {
         if (user == null) {
             request.setAttribute("loginErrorMessage", "Authentication failed");
 
-            Router.forward(request, response, loginPage);
+            Router.forward(request, response, "login");
         }
 
         request.getSession().setAttribute("user", user);
