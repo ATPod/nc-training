@@ -8,6 +8,7 @@ import by.training.nc.dev5.commands.AbstractCommand;
 import by.training.nc.dev5.constants.JspPaths;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.entities.Person;
+import by.training.nc.dev5.services.ClientService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,9 +17,7 @@ public class LoginUserCommand extends AbstractCommand  implements Command {
     public String execute(HttpServletRequest request) {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        MySQLDAOFactory factory = new MySQLDAOFactory();
-        ClientMySQLDAO clientMySQLDAO = new ClientMySQLDAO();
-        Person person = new Person(clientMySQLDAO.findPerson(login,password));
+        Person person = ClientService.login(login,password);
         if (person != null) {
             HttpSession session = request.getSession();
             session.setAttribute("person", person);
