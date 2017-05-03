@@ -1,7 +1,7 @@
 package by.training.nc.dev5.clinic.commands.doctorandnurse.delete;
 
 import by.training.nc.dev5.clinic.entities.Patient;
-import by.training.nc.dev5.clinic.entities.MedProcedure;
+import by.training.nc.dev5.clinic.entities.prescribings.MedProcedure;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;

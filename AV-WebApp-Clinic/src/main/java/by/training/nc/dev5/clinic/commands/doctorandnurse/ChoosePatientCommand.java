@@ -1,10 +1,13 @@
 package by.training.nc.dev5.clinic.commands.doctorandnurse;
 
-import by.training.nc.dev5.clinic.entities.*;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
+import by.training.nc.dev5.clinic.entities.prescribings.Diagnosis;
+import by.training.nc.dev5.clinic.entities.prescribings.Drug;
+import by.training.nc.dev5.clinic.entities.prescribings.MedProcedure;
+import by.training.nc.dev5.clinic.entities.prescribings.Surgery;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.filters.UserType;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;

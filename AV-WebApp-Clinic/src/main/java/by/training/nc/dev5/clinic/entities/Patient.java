@@ -1,5 +1,10 @@
 package by.training.nc.dev5.clinic.entities;
 
+import by.training.nc.dev5.clinic.entities.prescribings.Diagnosis;
+import by.training.nc.dev5.clinic.entities.prescribings.Drug;
+import by.training.nc.dev5.clinic.entities.prescribings.MedProcedure;
+import by.training.nc.dev5.clinic.entities.prescribings.Surgery;
+
 import javax.persistence.*;
 import java.util.List;
 

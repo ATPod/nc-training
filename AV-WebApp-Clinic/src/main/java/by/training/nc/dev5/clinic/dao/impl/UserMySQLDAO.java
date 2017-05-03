@@ -1,6 +1,6 @@
-package by.training.nc.dev5.clinic.dao;
+package by.training.nc.dev5.clinic.dao.impl;
 import by.training.nc.dev5.clinic.entities.User;
-import by.training.nc.dev5.clinic.dao.interfaces.UserDAO;
+import by.training.nc.dev5.clinic.dao.UserDAO;
 import by.training.nc.dev5.clinic.exceptions.*;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
 import javax.persistence.*;
@@ -29,10 +29,12 @@ public enum UserMySQLDAO implements UserDAO {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(user);
+        } catch (Exception e){
+            entityManager.getTransaction().rollback();
+            throw new DAOException(e.getMessage());
+        }finally{
             entityManager.flush();
             entityManager.getTransaction().commit();
-        } catch (Exception e){
-            throw new DAOException(e.getMessage());
         }
     }
 }

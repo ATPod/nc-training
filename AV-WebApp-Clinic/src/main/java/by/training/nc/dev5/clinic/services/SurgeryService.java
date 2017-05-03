@@ -1,8 +1,8 @@
 package by.training.nc.dev5.clinic.services;
 
 import by.training.nc.dev5.clinic.entities.Patient;
-import by.training.nc.dev5.clinic.entities.Surgery;
-import by.training.nc.dev5.clinic.dao.SurgeryMySQLDAO;
+import by.training.nc.dev5.clinic.entities.prescribings.Surgery;
+import by.training.nc.dev5.clinic.dao.impl.SurgeryMySQLDAO;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 
 import java.util.List;

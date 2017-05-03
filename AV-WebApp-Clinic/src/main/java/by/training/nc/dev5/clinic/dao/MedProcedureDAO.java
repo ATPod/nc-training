@@ -1,7 +1,7 @@
-package by.training.nc.dev5.clinic.dao.interfaces;
+package by.training.nc.dev5.clinic.dao;
 
 import by.training.nc.dev5.clinic.entities.Patient;
-import by.training.nc.dev5.clinic.entities.MedProcedure;
+import by.training.nc.dev5.clinic.entities.prescribings.MedProcedure;
 
 import java.util.List;
 import by.training.nc.dev5.clinic.exceptions.*;
