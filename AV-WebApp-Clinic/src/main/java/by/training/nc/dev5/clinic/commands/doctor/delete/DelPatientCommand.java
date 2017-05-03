@@ -6,7 +6,7 @@ import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
-import by.training.nc.dev5.clinic.filters.UserType;
+import by.training.nc.dev5.clinic.enums.UserType;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
 import by.training.nc.dev5.clinic.managers.MessageManager;
 import by.training.nc.dev5.clinic.services.PatientService;
