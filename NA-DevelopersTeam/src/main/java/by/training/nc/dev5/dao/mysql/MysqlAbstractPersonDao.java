@@ -29,9 +29,7 @@ public abstract class MysqlAbstractPersonDao<T extends Person>
                     "VALUES (?, ?, ?, ?)";
     private static final String UPDATE_PERSON_QUERY =
             "UPDATE person SET" +
-                    " name = ?," +
-                    " login = ?," +
-                    " password = ?" +
+                    " name = ?" +
                     " WHERE id = ?";
     private Class<T> tClass;
 
@@ -81,9 +79,7 @@ public abstract class MysqlAbstractPersonDao<T extends Person>
             PreparedStatement ps = conn.prepareStatement(UPDATE_PERSON_QUERY);
 
             ps.setString(1, entity.getName());
-            ps.setString(2, entity.getLogin());
-            ps.setString(3, entity.getPassword());
-            ps.setInt(4, entity.getId());
+            ps.setInt(2, entity.getId());
 
             return ps.executeUpdate() != 0;
         } catch (SQLException e) {

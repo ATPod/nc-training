@@ -65,7 +65,7 @@ public class Router {
             path = resolveHome(user);
         }
         if (path.startsWith("path.page.")) {
-            path = resolvePath(pageKey);
+            path = resolvePath(path);
         }
 
         response.sendRedirect(path);
