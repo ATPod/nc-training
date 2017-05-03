@@ -16,8 +16,10 @@ public class LoginCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        AuthenticationService authSvc =
-                AuthenticationService.getInstance();
+//        AuthenticationService authenticationService = (AuthenticationService)
+//                request.getSession().getServletContext()
+//                        .getAttribute("authenticationService");
+        AuthenticationService authenticationService = AuthenticationService.getInstance();
         String login = request.getParameter("username");
         String password = request.getParameter("password");
         Person user;
@@ -28,7 +30,7 @@ public class LoginCommand implements Command {
             Router.forward(request, response, "login");
         }
 
-        user = authSvc.logOn(login, password);
+        user = authenticationService.logOn(login, password);
 
         if (user == null) {
             request.setAttribute("loginErrorMessage", "Authentication failed");
