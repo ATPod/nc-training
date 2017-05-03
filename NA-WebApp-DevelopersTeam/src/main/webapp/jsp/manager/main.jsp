@@ -16,9 +16,14 @@
         <c:param name="command" value="go" />
         <c:param name="location" value="manager.showPendingTors" />
     </c:url>
+    <c:url var="assignDevelopers" value="controller">
+        <c:param name="command" value="go" />
+        <c:param name="location" value="manager.assignDevelopers" />
+    </c:url>
 
     <ul>
         <li><a href="${showPendingTors}">Show pending terms of reference</a></li>
+        <li><a href="${assignDevelopers}">Assign developers</a></li>
     </ul>
 </body>
 </html>

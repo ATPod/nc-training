@@ -1,5 +1,8 @@
 package by.training.nc.dev5.web.routing;
 
+import by.training.nc.dev5.accounts.UserRole;
+import by.training.nc.dev5.entity.Person;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,25 +35,37 @@ public class Router {
                                String pageKey)
             throws ServletException, IOException {
 
-        String path = resolvePath(pageKey);
+        String path = pageKey;
         RequestDispatcher rq;
 
-        if (path == null) {
-            path = resolvePath("path.page.error.notFound");
+        if ("home".equals(path)) {
+            Person user = (Person) request.getSession().getAttribute("user");
+
+            path = resolveHome(user);
         }
+        if (path == null) {
+            path = "path.page.index";
+        }
+        path = resolvePath(path);
 
         rq = request.getRequestDispatcher(path);
         rq.forward(request, response);
     }
 
-    public static void redirect(HttpServletResponse response,
+    public static void redirect(HttpServletRequest request,
+                                HttpServletResponse response,
                                 String pageKey)
             throws IOException {
 
         String path = pageKey;
 
+        if ("home".equals(path)) {
+            Person user = (Person) request.getSession().getAttribute("user");
+
+            path = resolveHome(user);
+        }
         if (path.startsWith("path.page.")) {
-            path = resolvePath(pageKey);
+            path = resolvePath(path);
         }
 
         response.sendRedirect(path);
@@ -58,5 +73,21 @@ public class Router {
 
     private static String resolvePath(String pageKey) {
         return routerProps.getProperty(pageKey, null);
+    }
+
+    private static String resolveHome(Person user) {
+        if (user == null) {
+            return "path.page.index";
+        }
+
+        if (UserRole.CUSTOMER.equals(user.getUserRole())) {
+            return "path.page.customer.main";
+        } else if (UserRole.MANAGER.equals(user.getUserRole())) {
+            return "path.page.manager.main";
+        } else if (UserRole.DEVELOPER.equals(user.getUserRole())) {
+            return "path.page.developer.main";
+        } else {
+            return "path.page.index";
+        }
     }
 }

@@ -3,6 +3,8 @@ package by.training.nc.dev5.web.listener; /**
  */
 
 import by.training.nc.dev5.service.CustomerService;
+import by.training.nc.dev5.service.HelpService;
+import by.training.nc.dev5.service.ManagerService;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -14,10 +16,14 @@ import javax.servlet.http.HttpSessionBindingEvent;
 public class ApplicationListener implements ServletContextListener {
 
     private CustomerService customerService;
+    private ManagerService managerService;
+    private HelpService helpService;
 
     // Public constructor is required by servlet spec
     public ApplicationListener() {
         customerService = new CustomerService();
+        managerService = new ManagerService();
+        helpService = new HelpService();
     }
 
     // -------------------------------------------------------
@@ -30,6 +36,8 @@ public class ApplicationListener implements ServletContextListener {
       */
 
       sce.getServletContext().setAttribute("customerService", customerService);
+      sce.getServletContext().setAttribute("managerService", managerService);
+      sce.getServletContext().setAttribute("helpService", helpService);
     }
 
     public void contextDestroyed(ServletContextEvent sce) {

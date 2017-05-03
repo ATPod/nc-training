@@ -89,7 +89,7 @@ public class App implements MenuController {
             description = "Shows all terms of reference " +
                     "that have no bound projects")
     void showPendingTermsOfReference() throws ServiceException {
-        ManagerService managerService = ManagerService.getInstance();
+        ManagerService managerService = new ManagerService();
 
         Collection<TermsOfReference> pendingTermsOfReference =
                 managerService.getPendingTermsOfReference();

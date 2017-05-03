@@ -1,12 +1,6 @@
 package by.training.nc.dev5.web.filter;
 
-import by.training.nc.dev5.entity.Person;
-import by.training.nc.dev5.util.ConfigurationManager;
-
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -25,7 +19,6 @@ public class SecurityFilter implements Filter {
 //
 //        if (user == null) {
 //            RequestDispatcher rd = req.getServletContext().getRequestDispatcher(
-//                    ConfigurationManager.getInstance()
 //                            .getString("path.page.login")
 //            );
 //            httpReq.setAttribute("desiredUri", ((HttpServletRequest) req).getRequestURI());

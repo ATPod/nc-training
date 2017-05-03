@@ -44,7 +44,7 @@ public class MysqlDeveloperDao
             "UPDATE developer" +
             " SET project_id = ?," +
                 " qualification_id = ?" +
-            " WHERE id = ?";
+            " WHERE person_id = ?";
     private static final String DELETE_DEVELOPER_QUERY =
             "DELETE FROM developer WHERE id = ?";
     private static final String INSERT_INTO_DEVELOPER_QUERY =

@@ -1,10 +1,8 @@
 package by.training.nc.dev5.web.servlet;
 
-import by.training.nc.dev5.util.ConfigurationManager;
 import by.training.nc.dev5.web.command.Command;
 import by.training.nc.dev5.web.command.CommandFactory;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

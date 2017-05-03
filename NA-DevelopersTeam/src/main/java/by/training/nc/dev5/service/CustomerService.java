@@ -66,26 +66,4 @@ public class CustomerService {
             throw new RuntimeException(e);
         }
     }
-
-    public Collection<Qualification> getQualifications() {
-        QualificationDao qualificationDao = daoFactory.getQualificationDao();
-
-        try {
-            return qualificationDao.getAll();
-        } catch (DataAccessException e) {
-            logger.error("Database error", e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Qualification getQualification(int id) {
-        QualificationDao qualificationDao = daoFactory.getQualificationDao();
-
-        try {
-            return qualificationDao.getEntityById(id);
-        } catch (DataAccessException e) {
-            logger.error("Database error");
-            throw new RuntimeException(e);
-        }
-    }
 }
