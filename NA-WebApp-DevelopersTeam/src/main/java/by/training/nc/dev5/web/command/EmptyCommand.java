@@ -13,6 +13,6 @@ import java.io.IOException;
 public class EmptyCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Router.forward(request, response, "path.page.index");
+        Router.getInstance().forward(request, response, "path.page.index");
     }
 }

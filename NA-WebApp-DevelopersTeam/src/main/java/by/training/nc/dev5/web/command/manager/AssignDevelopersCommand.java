@@ -39,9 +39,9 @@ public class AssignDevelopersCommand implements Command {
 
             managerService.assignDevelopers(project, developers);
 
-            Router.redirect(request, response, "home");
+            Router.getInstance().redirect(request, response, "home");
         } catch (ServiceException e) {
-            Router.forward(request, response, "path.page.error.internal");
+            Router.getInstance().forward(request, response, "path.page.error.internal");
         }
     }
 }

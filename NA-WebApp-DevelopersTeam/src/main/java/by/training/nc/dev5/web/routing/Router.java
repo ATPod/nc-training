@@ -16,6 +16,11 @@ import java.util.Properties;
  */
 public class Router {
     private static final Properties routerProps;
+    private static final Router instance;
+
+    static {
+        instance = new Router();
+    }
 
     static {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
@@ -30,7 +35,7 @@ public class Router {
         }
     }
 
-    public static void forward(HttpServletRequest request,
+    public void forward(HttpServletRequest request,
                                HttpServletResponse response,
                                String pageKey)
             throws ServletException, IOException {
@@ -52,7 +57,7 @@ public class Router {
         rq.forward(request, response);
     }
 
-    public static void redirect(HttpServletRequest request,
+    public void redirect(HttpServletRequest request,
                                 HttpServletResponse response,
                                 String pageKey)
             throws IOException {
@@ -65,17 +70,17 @@ public class Router {
             path = resolveHome(user);
         }
         if (path.startsWith("path.page.")) {
-            path = resolvePath(path);
+            path = String.format("controller?command=go&location=%s", path);
         }
 
         response.sendRedirect(path);
     }
 
-    private static String resolvePath(String pageKey) {
+    private String resolvePath(String pageKey) {
         return routerProps.getProperty(pageKey, null);
     }
 
-    private static String resolveHome(Person user) {
+    private String resolveHome(Person user) {
         if (user == null) {
             return "path.page.index";
         }
@@ -89,5 +94,9 @@ public class Router {
         } else {
             return "path.page.index";
         }
+    }
+
+    public static Router getInstance() {
+        return instance;
     }
 }

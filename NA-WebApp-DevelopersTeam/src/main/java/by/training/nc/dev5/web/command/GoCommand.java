@@ -22,6 +22,6 @@ public class GoCommand implements Command {
         if (!"home".equals(location)) {
             location = "path.page." + location;
         }
-        Router.forward(request, response, location);
+        Router.getInstance().forward(request, response, location);
     }
 }

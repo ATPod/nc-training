@@ -34,11 +34,11 @@ public class ShowDevelopersCommand implements Command {
 
             request.setAttribute("unassignedDevelopers", unassignedDevelopers);
 
-            Router.forward(request,
+            Router.getInstance().forward(request,
                            response,
                            "path.page.manager.assignDevelopers");
         } catch (ServiceException e) {
-            Router.forward(request, response, "path.page.error.internal");
+            Router.getInstance().forward(request, response, "path.page.error.internal");
         }
     }
 }

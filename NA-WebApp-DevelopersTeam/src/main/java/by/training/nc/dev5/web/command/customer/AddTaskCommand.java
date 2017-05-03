@@ -34,7 +34,7 @@ public class AddTaskCommand implements Command {
         torBuilder.addTask(taskBuilder.createTask());
 
         // FIXME: redirects ruin all my navigation policy. Try to review something.
-        Router.redirect(request, response, "path.page.customer.createTor");
+        Router.getInstance().redirect(request, response, "path.page.customer.createTor");
     }
 
     private TermsOfReferenceBuilder fetchTorBuilder(HttpServletRequest request) {
