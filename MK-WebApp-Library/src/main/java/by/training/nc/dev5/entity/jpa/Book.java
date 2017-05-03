@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@NamedQueries( {@NamedQuery(name = "Book.selectAll", query = "SELECT b FROM books b ")})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

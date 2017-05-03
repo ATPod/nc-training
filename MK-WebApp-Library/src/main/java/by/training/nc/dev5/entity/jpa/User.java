@@ -8,8 +8,8 @@ import javax.persistence.*;
 
 
 @NamedQueries( {@NamedQuery(name = "User.findByNameAndPassword",
-                query = "SELECT u FROM users u WHERE u.name=?1 AND u.password=?2")})
-
+                    query = "SELECT u FROM users u WHERE u.name=?1 AND u.password=?2"),
+                @NamedQuery(name = "User.selectAll", query = "SELECT u FROM users u")})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

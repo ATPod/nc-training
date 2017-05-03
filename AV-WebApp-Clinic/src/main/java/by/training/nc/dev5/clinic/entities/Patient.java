@@ -9,26 +9,15 @@ import java.util.List;
  * Created by user on 25.04.2017.
  */
 @Entity
-public class Patient {
-    private int id;
+public class Patient extends AbstractEntity {
+
     private String name;
     private List<Diagnosis> diagnosises;
     private List<Drug> drugs;
     private List<MedProcedure> medProcedures;
     private List<Surgery> surgeries;
 
-    @Id
-    @Column(name = "PatientId")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
     @Column(name = "Name")
     public String getName() {
         return name;
@@ -38,7 +27,7 @@ public class Patient {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<Diagnosis> getDiagnosises() {
         return diagnosises;
     }
@@ -47,7 +36,7 @@ public class Patient {
         this.diagnosises = diagnosises;
     }
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<Drug> getDrugs() {
         return drugs;
     }
@@ -56,7 +45,7 @@ public class Patient {
         this.drugs = drugs;
     }
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<Surgery> getSurgeries() {
         return surgeries;
     }
@@ -65,7 +54,7 @@ public class Patient {
         this.surgeries = surgeries;
     }
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<MedProcedure> getMedProcedures() {
         return medProcedures;
     }
@@ -74,23 +63,4 @@ public class Patient {
         this.medProcedures = medProcedures;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Patient patient = (Patient) o;
-
-        if (id != patient.id) return false;
-        if (name != null ? !name.equals(patient.name) : patient.name != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
-    }
 }

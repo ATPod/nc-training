@@ -9,9 +9,18 @@
     <a class="navbar-brand" href="/index.jsp">Home</a>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+            <c:if test="${user.role==\"ADMIN\"}">
+            <li class="nav-item active">
+                <a class="nav-link" href="/controller?command=users">Users </a>
+            </li>
+            </c:if>
+            <li class="nav-item active">
+                <a class="nav-link" href="/controller?command=books">Books </a>
+            </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/controller?command=loans">Loans </a>
             </li>
+
         </ul>
         <ul class="nav navbar-nav navbar-right  my-2 my-lg-0" >
             <c:if test="${isLogged!=true}">

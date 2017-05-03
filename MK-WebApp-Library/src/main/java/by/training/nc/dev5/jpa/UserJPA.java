@@ -12,6 +12,17 @@ import java.util.List;
 @SuppressWarnings("Duplicates")
 public class UserJPA {
 
+    public List<User> selectUsers(){
+
+        EntityManager em = JPAUtil.getEntityManager();
+
+        Query query = em.createNamedQuery("User.selectAll");
+        List<User> users = query.getResultList();
+
+        return users;
+    }
+
+
     public User insertUser(User user){
         EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -65,8 +76,11 @@ public class UserJPA {
 /*
     public static void main(String[] args) {
         UserJPA ujpa = new UserJPA();
-        User u = ujpa.findByNameAndPassword("qwerty","12345");
-        System.out.println(u);
-    }
-*/
+        User u = ujpa.findByNameAndPassword("qwe","qwe");
+        System.out.println(u+ "------------------");
+
+        ujpa.selectUsers().forEach(System.out::println);
+
+    }*/
+
 }

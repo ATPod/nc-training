@@ -45,22 +45,10 @@ public class LoanJPA {
 
         em.remove(em.find(Loan.class,id));
 
+        em.flush();
         transaction.commit();
 
 
-
     }
-/*
-    public static void main(String[] args) {
 
-        LoanJPA l= new LoanJPA();
-        List<Loan> list = l.selectLoans();
-        list.forEach(System.out::println);
-
-        List<Loan> list2 = l.selectLoans();
-        list2.forEach(System.out::println);
-
-
-    }
-*/
 }

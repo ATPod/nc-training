@@ -14,7 +14,7 @@ public class LogoutCommand implements Command {
 
         request.getSession().setAttribute("user",null);
         /*--------*/
-        //request.getSession().invalidate();
+       // request.getSession().invalidate();
         return ConstantsUtil.INDEX_PAGE;
     }
 }
