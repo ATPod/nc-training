@@ -18,13 +18,22 @@
         <c:forEach var="tor" items="${managerService.pendingTermsOfReference}">
             <tr><th colspan="3">#${tor.id}</th></tr>
             <tr>
+                <td>
+                    <form method="post" action="controller">
+                        <input type="hidden" name="command" value="createProject">
+                        <input type="hidden" name="torId" value="${tor.id}">
+                        <button type="submit">
+                            Create project
+                        </button>
+                    </form>
+                </td>
                 <th>Specification</th>
                 <th>Qualification</th>
                 <th>Number of specialists</th>
             </tr>
             <c:forEach var="task" items="${tor.tasks}">
                 <tr>
-                    <td rowspan="${task.taskQuotas.size() + 1}">
+                    <td colspan="2" rowspan="${task.taskQuotas.size() + 1}">
                             ${task.specification}
                     </td>
                 </tr>

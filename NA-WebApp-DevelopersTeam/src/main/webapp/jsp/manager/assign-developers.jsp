@@ -41,7 +41,25 @@
             <%----%>
         <%--</select>--%>
     <%--</form>--%>
-    <form>
+
+    <%-- Now I have great willing to pass to services only entity id
+         and stop duplicating DAO methods --%>
+
+    <form method="post" action="controller">
+        <input type="hidden" name="command" value="assignDevelopers">
+        <label for="projectSelect">Project:</label>
+        <select name="projectId" id="projectSelect">
+            <c:forEach var="project" items="${managerService.getProjects(sessionScope.user)}">
+                <jsp:useBean
+                        id="project"
+                        scope="page"
+                        class="by.training.nc.dev5.entity.Project" />
+                <option value="${project.id}">#${project.id}</option>
+            </c:forEach>
+        </select>
+
+        <!-- TODO: show tasks here -->
+
         <table>
             <tr><td></td><td>Name</td><td>Qualification</td></tr>
             <c:forEach
@@ -67,6 +85,7 @@
                 </tr>
             </c:forEach>
         </table>
+        <button type="submit">Assign</button>
     </form>
 </body>
 </html>

@@ -28,7 +28,7 @@ public class CreateTorCommand implements Command {
         tor = builder.createTermsOfReference();
         customerService.proposeTermsOfReference(tor);
 
-        Router.redirect(response, "path.page.customer.main");
+        Router.redirect(request, response, "path.page.customer.main");
     }
 
     private TermsOfReferenceBuilder fetchTorBuilder(HttpServletRequest request) {

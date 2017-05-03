@@ -33,7 +33,7 @@ public class AddTaskCommand implements Command {
                                         Integer.parseInt(developersNumber));
         torBuilder.addTask(taskBuilder.createTask());
 
-        Router.redirect(response, "path.page.customer.createTor");
+        Router.redirect(request, response, "path.page.customer.createTor");
     }
 
     private TermsOfReferenceBuilder fetchTorBuilder(HttpServletRequest request) {

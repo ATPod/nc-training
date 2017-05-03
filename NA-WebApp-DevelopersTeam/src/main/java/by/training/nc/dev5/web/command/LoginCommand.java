@@ -41,9 +41,9 @@ public class LoginCommand implements Command {
         Object desiredUri = request.getAttribute("desiredUri");
 
         if (desiredUri != null) {
-            Router.redirect(response, desiredUri.toString());
+            Router.redirect(request, response, desiredUri.toString());
         }
 
-        Router.redirect(response, "controller?command=go&location=home");
+        Router.redirect(request, response, "controller?command=go&location=home");
     }
 }

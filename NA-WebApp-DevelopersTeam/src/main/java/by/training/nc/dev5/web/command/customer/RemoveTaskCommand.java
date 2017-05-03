@@ -32,6 +32,6 @@ public class RemoveTaskCommand implements Command {
             torBuilder.removeTask(taskIndexes[i]);
         }
 
-        Router.redirect(response, "path.page.customer.createTor");
+        Router.redirect(request, response, "path.page.customer.createTor");
     }
 }

@@ -19,7 +19,6 @@ public class SecurityFilter implements Filter {
 //
 //        if (user == null) {
 //            RequestDispatcher rd = req.getServletContext().getRequestDispatcher(
-//                    ConfigurationManager.getInstance()
 //                            .getString("path.page.login")
 //            );
 //            httpReq.setAttribute("desiredUri", ((HttpServletRequest) req).getRequestURI());

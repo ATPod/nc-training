@@ -18,11 +18,6 @@ public class ManagerService {
     static final Logger logger = LogManager.getLogger(ManagerService.class);
     private final DaoFactory daoFactory =
             DaoFactory.getDaoFactory(DaoFactory.MYSQL);
-    private static ManagerService INSTANCE = new ManagerService();
-
-    public static ManagerService getInstance() {
-        return INSTANCE;
-    }
 
     public Collection<TermsOfReference> getPendingTermsOfReference() throws ServiceException {
         TermsOfReferenceDao torDao = daoFactory.getTermsOfReferenceDao();
@@ -44,6 +39,18 @@ public class ManagerService {
             return result;
         } catch (DataAccessException e) {
             logger.error("Database access error", e);
+
+            throw new ServiceException("Database access error occurred", e);
+        }
+    }
+
+    public TermsOfReference getTermsOfReference(int id) throws ServiceException {
+        TermsOfReferenceDao torDao = daoFactory.getTermsOfReferenceDao();
+
+        try {
+            return torDao.getEntityById(id);
+        } catch (DataAccessException e) {
+            logger.error("Database access error occurred", e);
 
             throw new ServiceException("Database access error occurred", e);
         }
@@ -71,6 +78,20 @@ public class ManagerService {
         }
 
         return project;
+    }
+
+    public Collection<Project> getProjects(Manager manager)
+            throws ServiceException {
+
+        ProjectDao projectDao = daoFactory.getProjectDao();
+
+        try {
+            return projectDao.getProjects(manager.getId());
+        } catch (DataAccessException e) {
+            logger.error("Database access error occurred", e);
+
+            throw new ServiceException("Database access error occurred", e);
+        }
     }
 
     public Collection<Developer> getUnassignedDevelopers()
@@ -136,6 +157,30 @@ public class ManagerService {
 
                 throw new ServiceException("Database error occurred");
             }
+        }
+    }
+
+    public Project getProject(int id) throws ServiceException {
+        ProjectDao projectDao = daoFactory.getProjectDao();
+
+        try {
+            return projectDao.getEntityById(id);
+        } catch (DataAccessException e) {
+            logger.error("Database error occurred", e);
+
+            throw new ServiceException("Database error occurred");
+        }
+    }
+
+    public Developer getDeveloper(int id) throws ServiceException {
+        DeveloperDao developerDao = daoFactory.getDeveloperDao();
+
+        try {
+            return developerDao.getEntityById(id);
+        } catch (DataAccessException e) {
+            logger.error("Database access error occurred", e);
+
+            throw new ServiceException("Database access error occurred", e);
         }
     }
 }
