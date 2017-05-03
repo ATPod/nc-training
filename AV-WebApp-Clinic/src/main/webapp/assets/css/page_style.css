@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+body {
+    font: 110% Calibri;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    width: 90%;
+    margin: 0;
+}
+
+.footer {
+    margin-bottom: 10%;
+    padding: 10px 0;
+}
+
+a:link {
+    color: #0099cc;
+    text-decoration: underline;
+
+}
+
+a:visited {
+    color: #41046e;
+    text-decoration: underline;
+}
+
+
+
