@@ -31,6 +31,10 @@ public class GoCommand implements Command {
     }
 
     private String resolveHome(Person user) {
+        if (user == null) {
+            return "path.page.index";
+        }
+
         if (UserRole.CUSTOMER.equals(user.getUserRole())) {
             return "path.page.customer.main";
         } else if (UserRole.MANAGER.equals(user.getUserRole())) {

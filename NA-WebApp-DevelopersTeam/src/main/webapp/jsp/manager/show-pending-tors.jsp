@@ -13,6 +13,7 @@
 <body>
     <h2>Pending Terms of Reference</h2>
 
+
     <table>
         <c:forEach var="tor" items="${managerService.pendingTermsOfReference}">
             <tr><th colspan="3">#${tor.id}</th></tr>

@@ -18,7 +18,7 @@
     </c:url>
     <c:url var="assignDevelopers" value="controller">
         <c:param name="command" value="go" />
-        <c:param name="location" value="manager.main" />
+        <c:param name="location" value="manager.assignDevelopers" />
     </c:url>
 
     <ul>
