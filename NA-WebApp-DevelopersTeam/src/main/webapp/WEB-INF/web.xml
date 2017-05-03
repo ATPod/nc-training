@@ -55,4 +55,19 @@
         <location>/jsp/error/internal-error.html</location>
     </error-page>
 
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>/jsp/manager/*</url-pattern>
+            <include-prelude>/jsp/nav.jspf</include-prelude>
+        </jsp-property-group>
+        <jsp-property-group>
+            <url-pattern>/jsp/customer/*</url-pattern>
+            <include-prelude>/jsp/nav.jspf</include-prelude>
+        </jsp-property-group>
+        <jsp-property-group>
+            <url-pattern>/jsp/developer/*</url-pattern>
+            <include-prelude>/jsp/nav.jspf</include-prelude>
+        </jsp-property-group>
+    </jsp-config>
+
 </web-app>

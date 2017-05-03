@@ -33,6 +33,7 @@ public class AddTaskCommand implements Command {
                                         Integer.parseInt(developersNumber));
         torBuilder.addTask(taskBuilder.createTask());
 
+        // FIXME: redirects ruin all my navigation policy. Try to review something.
         Router.redirect(request, response, "path.page.customer.createTor");
     }
 
