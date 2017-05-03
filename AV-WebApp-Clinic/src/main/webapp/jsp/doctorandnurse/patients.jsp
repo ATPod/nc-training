@@ -28,7 +28,7 @@
     <c:if test="${userType=='DOCTOR'}">
         <a href="controller?command=gotoaddpatient">Добавить пациента</a> <br/>
     </c:if>
-    ${operationMessage}<br />
 </form>
+${operationMessage}<br />
 </body>
 </html>

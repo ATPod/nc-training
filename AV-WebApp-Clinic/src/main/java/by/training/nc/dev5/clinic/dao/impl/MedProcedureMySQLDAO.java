@@ -1,8 +1,8 @@
-package by.training.nc.dev5.clinic.dao;
+package by.training.nc.dev5.clinic.dao.impl;
 
 import by.training.nc.dev5.clinic.entities.Patient;
-import by.training.nc.dev5.clinic.entities.MedProcedure;
-import by.training.nc.dev5.clinic.dao.interfaces.MedProcedureDAO;
+import by.training.nc.dev5.clinic.entities.prescribings.MedProcedure;
+import by.training.nc.dev5.clinic.dao.MedProcedureDAO;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
 import by.training.nc.dev5.clinic.exceptions.*;
 import javax.persistence.EntityManager;
@@ -31,10 +31,12 @@ public enum MedProcedureMySQLDAO implements MedProcedureDAO {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(medProcedure);
+        } catch (Exception e){
+            entityManager.getTransaction().rollback();
+            throw new DAOException(e.getMessage());
+        }finally {
             entityManager.flush();
             entityManager.getTransaction().commit();
-        } catch (Exception e){
-            throw new DAOException(e.getMessage());
         }
     }
 
@@ -44,10 +46,12 @@ public enum MedProcedureMySQLDAO implements MedProcedureDAO {
             MedProcedure medProcedure = entityManager.find(MedProcedure.class, id);
             entityManager.getTransaction().begin();
             entityManager.remove(medProcedure);
+        } catch (Exception e){
+            entityManager.getTransaction().rollback();
+            throw new DAOException(e.getMessage());
+        }finally {
             entityManager.flush();
             entityManager.getTransaction().commit();
-        } catch (Exception e){
-            throw new DAOException(e.getMessage());
         }
     }
 }

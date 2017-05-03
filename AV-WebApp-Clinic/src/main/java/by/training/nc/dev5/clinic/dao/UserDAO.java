@@ -1,4 +1,4 @@
-package by.training.nc.dev5.clinic.dao.interfaces;
+package by.training.nc.dev5.clinic.dao;
 
 import by.training.nc.dev5.clinic.entities.User;
 import by.training.nc.dev5.clinic.exceptions.*;

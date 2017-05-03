@@ -1,4 +1,6 @@
-package by.training.nc.dev5.clinic.entities;
+package by.training.nc.dev5.clinic.entities.prescribings;
+
+import by.training.nc.dev5.clinic.entities.Patient;
 
 import javax.persistence.*;
 
@@ -8,19 +10,9 @@ import javax.persistence.*;
 @NamedQueries({@NamedQuery(name = "Diagnosis.getByPatient", query = "SELECT a FROM Diagnosis a WHERE a.patient=?1")})
 
 @Entity
-public class Diagnosis extends AbstractEntity{
+public class Diagnosis extends AbstractPrescribing {
 
-    private String name;
     private Patient patient;
-
-    @Column(name = "Name")
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @ManyToOne
     @JoinColumn(name = "PatientId")

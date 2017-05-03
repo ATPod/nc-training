@@ -1,6 +1,6 @@
 package by.training.nc.dev5.clinic.commands.doctor.add;
 
-import by.training.nc.dev5.clinic.entities.Drug;
+import by.training.nc.dev5.clinic.entities.prescribings.Drug;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;

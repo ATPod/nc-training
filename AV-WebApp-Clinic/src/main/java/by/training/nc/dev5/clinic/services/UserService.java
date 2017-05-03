@@ -2,7 +2,7 @@ package by.training.nc.dev5.clinic.services;
 
 import by.training.nc.dev5.clinic.constants.AccessLevels;
 import by.training.nc.dev5.clinic.entities.User;
-import by.training.nc.dev5.clinic.dao.UserMySQLDAO;
+import by.training.nc.dev5.clinic.dao.impl.UserMySQLDAO;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.exceptions.NotFoundException;
 import by.training.nc.dev5.clinic.filters.UserType;

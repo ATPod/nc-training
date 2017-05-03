@@ -3,7 +3,6 @@ package by.training.nc.dev5.clinic.entities;
 /**
  * Created by user on 02.05.2017.
  */
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -14,8 +13,7 @@ public abstract class AbstractEntity {
     protected Integer id;
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }

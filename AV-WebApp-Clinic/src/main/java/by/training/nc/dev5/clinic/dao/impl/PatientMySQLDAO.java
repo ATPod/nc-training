@@ -1,7 +1,7 @@
-package by.training.nc.dev5.clinic.dao;
+package by.training.nc.dev5.clinic.dao.impl;
 
 import by.training.nc.dev5.clinic.entities.Patient;
-import by.training.nc.dev5.clinic.dao.interfaces.PatientDAO;
+import by.training.nc.dev5.clinic.dao.PatientDAO;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
 import by.training.nc.dev5.clinic.exceptions.*;
 import javax.persistence.EntityManager;
@@ -30,10 +30,12 @@ public enum  PatientMySQLDAO implements PatientDAO{
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(patient);
+        } catch (Exception e){
+            entityManager.getTransaction().rollback();
+            throw new DAOException(e.getMessage());
+        }finally {
             entityManager.flush();
             entityManager.getTransaction().commit();
-        } catch (Exception e){
-            throw new DAOException(e.getMessage());
         }
     }
 
@@ -43,10 +45,12 @@ public enum  PatientMySQLDAO implements PatientDAO{
             Patient patient = entityManager.find(Patient.class, patientId);
             entityManager.getTransaction().begin();
             entityManager.remove(patient);
+        } catch (Exception e){
+            entityManager.getTransaction().rollback();
+            throw new DAOException(e.getMessage());
+        }finally {
             entityManager.flush();
             entityManager.getTransaction().commit();
-        } catch (Exception e){
-            throw new DAOException(e.getMessage());
         }
     }
 

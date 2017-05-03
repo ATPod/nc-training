@@ -1,6 +1,6 @@
 package by.training.nc.dev5.clinic.commands.doctor.delete;
 
-import by.training.nc.dev5.clinic.entities.Diagnosis;
+import by.training.nc.dev5.clinic.entities.prescribings.Diagnosis;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.ConfigsConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
