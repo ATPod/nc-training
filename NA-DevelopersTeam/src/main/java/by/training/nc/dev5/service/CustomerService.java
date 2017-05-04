@@ -14,7 +14,7 @@ import java.util.Collection;
 public class CustomerService {
     static final Logger logger = LogManager.getLogger(CustomerService.class);
     private final DaoFactory daoFactory =
-            DaoFactory.getDaoFactory(DaoFactory.MYSQL);
+            DaoFactory.getDaoFactory();
 
     public Collection<TermsOfReference> getTermsOfReference(Customer customer) {
         TermsOfReferenceDao torDao = daoFactory.getTermsOfReferenceDao();

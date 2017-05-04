@@ -10,7 +10,7 @@ import by.training.nc.dev5.exception.DataAccessException;
  * Created by Nikita on 28.03.2017.
  */
 public class InvoiceService {
-    private final DaoFactory daoFactory = DaoFactory.getDaoFactory(DaoFactory.MYSQL);
+    private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 
     public void issueInvoice(Project project, double price) {
         InvoiceDao invoiceDao = daoFactory.getInvoiceDao();
