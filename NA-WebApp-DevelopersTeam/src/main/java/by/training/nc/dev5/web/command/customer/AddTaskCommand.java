@@ -10,6 +10,8 @@ import by.training.nc.dev5.web.routing.Router;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Created by Nikita on 19.04.2017.
@@ -34,7 +36,10 @@ public class AddTaskCommand implements Command {
         torBuilder.addTask(taskBuilder.createTask());
 
         // FIXME: redirects ruin all my navigation policy. Try to review something.
-        Router.getInstance().redirect(request, response, "path.page.customer.createTor");
+
+        String uri = "controller?command=go&location=home&view=customer.createTor";
+
+        Router.getInstance().redirect(request, response, uri);
     }
 
     private TermsOfReferenceBuilder fetchTorBuilder(HttpServletRequest request) {

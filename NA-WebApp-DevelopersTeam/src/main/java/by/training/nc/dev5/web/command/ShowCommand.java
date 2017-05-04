@@ -10,14 +10,16 @@ import java.io.IOException;
 /**
  * Created by Nikita on 04.05.2017.
  */
-public class ViewCommand implements Command {
+public class ShowCommand extends Router implements Command {
     public void execute(HttpServletRequest request,
                         HttpServletResponse response)
             throws ServletException, IOException {
 
         String view = request.getParameter("view");
+        Router router = Router.getInstance();
 
+        request.setAttribute("view", router.resolvePath(view));
 
-        Router.getInstance().forward(request, response, "");
+        Router.getInstance().forward(request, response, "home");
     }
 }

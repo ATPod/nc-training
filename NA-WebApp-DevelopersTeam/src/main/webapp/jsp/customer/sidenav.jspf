@@ -1,0 +1,14 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:url var="createTor" value="controller">
+    <c:param name="command" value="show" />
+    <c:param name="view" value="path.page.customer.createTor" />
+</c:url>
+<c:url var="showMyTors" value="controller">
+    <c:param name="command" value="show" />
+    <c:param name="view" value="path.page.customer.showMyTors" />
+</c:url>
+
+<ul class="nav">
+    <li><a href="${showMyTors}">Show my terms of reference</a></li>
+    <li><a href="${createTor}">Create terms of reference</a></li>
+</ul>

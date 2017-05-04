@@ -7,8 +7,12 @@
 
     <tlib-version>1.0</tlib-version>
     <short-name>myshortname</short-name>
-    <uri>http://mycompany.com</uri>
+    <uri>http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags</uri>
 
+    <tag-file>
+        <name>tor</name>
+        <path>/WEB-INF/tags/tor.tag</path>
+    </tag-file>
     <!-- Invoke 'Generate' action to add tags or functions -->
 
 </taglib>

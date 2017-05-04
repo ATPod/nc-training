@@ -56,18 +56,22 @@
     </error-page>
 
     <jsp-config>
-        <jsp-property-group>
-            <url-pattern>/jsp/manager/*</url-pattern>
-            <include-prelude>/jsp/nav.jspf</include-prelude>
-        </jsp-property-group>
-        <jsp-property-group>
-            <url-pattern>/jsp/customer/*</url-pattern>
-            <include-prelude>/jsp/nav.jspf</include-prelude>
-        </jsp-property-group>
-        <jsp-property-group>
-            <url-pattern>/jsp/developer/*</url-pattern>
-            <include-prelude>/jsp/nav.jspf</include-prelude>
-        </jsp-property-group>
+        <taglib>
+            <taglib-uri>http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags</taglib-uri>
+            <taglib-location>WEB-INF/app.tld</taglib-location>
+        </taglib>
+        <!--<jsp-property-group>-->
+            <!--<url-pattern>/jsp/manager/*</url-pattern>-->
+            <!--<include-prelude>/jsp/nav.jspf</include-prelude>-->
+        <!--</jsp-property-group>-->
+        <!--<jsp-property-group>-->
+            <!--<url-pattern>/jsp/customer/*</url-pattern>-->
+            <!--<include-prelude>/jsp/nav.jspf</include-prelude>-->
+        <!--</jsp-property-group>-->
+        <!--<jsp-property-group>-->
+            <!--<url-pattern>/jsp/developer/*</url-pattern>-->
+            <!--<include-prelude>/jsp/nav.jspf</include-prelude>-->
+        <!--</jsp-property-group>-->
     </jsp-config>
 
 </web-app>

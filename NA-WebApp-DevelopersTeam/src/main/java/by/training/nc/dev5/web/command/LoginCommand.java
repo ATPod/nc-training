@@ -46,6 +46,26 @@ public class LoginCommand implements Command {
             Router.getInstance().redirect(request, response, desiredUri.toString());
         }
 
-        Router.getInstance().redirect(request, response, "controller?command=go&location=home");
+        request.getSession().setAttribute("sidenavUri",
+                resolveSidenavPath(user));
+
+        String homeUri = "controller?command=go&location=home";
+
+        Router.getInstance().redirect(request, response, homeUri);
+    }
+
+    private String resolveSidenavPath(Person user) {
+        Router router = Router.getInstance();
+
+        switch (user.getUserRole()) {
+            case CUSTOMER:
+                return router.resolvePath("path.page.customer.sidenav");
+            case DEVELOPER:
+                return router.resolvePath("path.page.manager.sidenav");
+            case MANAGER:
+                return router.resolvePath("path.page.developer.sidenav");
+        }
+
+        return null;
     }
 }

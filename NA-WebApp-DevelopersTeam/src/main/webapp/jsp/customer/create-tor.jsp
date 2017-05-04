@@ -21,23 +21,20 @@
     <title>Create Terms of Reference</title>
 </head>
 <body>
-    <c:url var="home" value="controller">
-        <c:param name="command" value="go" />
-        <c:param name="location" value="home" />
-    </c:url>
 
-    <a href="${home}">Back to main</a><br />
     <form name="taskControlForm" method="post" action="controller">
         <input type="hidden" name="command" value="removeTask">
 
-        <input type="submit" value="Delete selected">
-        <table>
+        <input type="submit" class="btn btn-danger" value="Delete selected">
+        <table class="table">
             <tr><td></td><td>Specification</td><td>Developers</td></tr>
             <c:forEach var="task" varStatus="i" items="${torBuilder.tasks}">
                 <tr>
                     <td>
-                    <td rowspan="2">
+                        <label for="deleteTaskCheckbox"></label>
                         <input
+                            id="deleteTaskCheckbox"
+                            class="check-box"
                             type="checkbox"
                             name="task"
                             value="${i.index}">
@@ -45,9 +42,11 @@
                     <td rowspan="${task.taskQuotas.size() + 1}">
                         ${task.specification}
                     </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <c:forEach var="taskQuota" items="${task.taskQuotas}">
+                        <td></td>
                         <td>${taskQuota.qualification.name}</td>
                         <td>${taskQuota.developersNumber}</td>
                     </c:forEach>
@@ -56,45 +55,59 @@
         </table>
     </form>
     <hr>
+
     <form method="post" name="addTask" action="controller">
         <input type="hidden" name="command" value="addTask">
+        <%--<div class="row">--%>
+            <div class="form-group">
+                <label>
+                    Specification:<br />
+                    <textarea class="form-control" name="specification" required></textarea>
+                </label><br />
+            </div>
+            <div class="form-group">
+                <label>
+                    Qualification:<br />
+                    <select class="form-control" name="qualificationId" required>
+                        <c:forEach
+                                var="qualification"
+                                items="${helpService.qualifications}">
 
-        <label>
-            Specification:<br />
-            <textarea name="specification" required></textarea>
-        </label><br />
+                            <option value="${qualification.id}">
+                                ${qualification.name}
+                            </option>
+                        </c:forEach>
+                    </select>
+                </label>
+                <br />
+            </div>
+            <div class="form-group">
+                <label>
+                    Developers number:<br />
+                    <input type="number" name="developersNumber" required>
+                </label><br />
+            </div>
+        <%--</div>--%>
 
-        <label>
-            Qualification:<br />
-            <select name="qualificationId" required>
-                <c:forEach
-                        var="qualification"
-                        items="${helpService.qualifications}">
-
-                    <option value="${qualification.id}">
-                        ${qualification.name}
-                    </option>
-                </c:forEach>
-            </select>
-        </label>
-        <br />
-
-        <label>
-            Developers number:<br />
-            <input type="number" name="developersNumber" required>
-        </label><br />
-
-        <input type="submit" value="Submit">
-        <input type="reset" value="Reset">
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <button class="btn btn-default" type="reset">Reset</button>
     </form>
+
     <form name="createTor" method="post" action="controller">
+        <jsp:useBean id="btnClass" class="java.lang.String" />
+        <c:choose>
+            <c:when test="${not empty torBuilder.tasks}">
+                <c:set var="btnClass" value="btn-primary" />
+            </c:when>
+            <c:otherwise>
+                <c:set var="btnClass" value="btn-disabled" />
+            </c:otherwise>
+        </c:choose>
+
         <input type="hidden" name="command" value="createTor">
-        <input
+        <button
                 type="submit"
-                <c:if test="${empty torBuilder.tasks}">
-                    disabled="disabled"
-                </c:if>
-                value="Create">
+                class="btn ${btnClass}">Create</button>
     </form>
 </body>
 </html>

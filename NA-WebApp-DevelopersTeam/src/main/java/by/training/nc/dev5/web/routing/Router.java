@@ -49,7 +49,7 @@ public class Router {
             path = resolveHome(user);
         }
         if (path == null) {
-            path = "path.page.index";
+            path = resolvePath("path.page.index");
         }
         path = resolvePath(path);
 
@@ -76,8 +76,15 @@ public class Router {
         response.sendRedirect(path);
     }
 
-    private String resolvePath(String pageKey) {
-        return routerProps.getProperty(pageKey, null);
+    public String resolvePath(String pageKey) {
+        String path = routerProps.getProperty(pageKey, null);
+
+        if (path == null) {
+            path = routerProps.getProperty("path.page." + pageKey,
+                    null);
+        }
+
+        return path;
     }
 
     private String resolveHome(Person user) {
