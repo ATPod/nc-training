@@ -4,9 +4,6 @@ package by.training.nc.dev5.dao;
  * Created by Nikita on 26.03.2017.
  */
 public abstract class DaoFactory {
-    /** MySQL Database */
-    public static final int MYSQL = 1;
-
     /**
      * Obtains an implementation of {@link CustomerDao} interface
      * @return a dao for {@link by.training.nc.dev5.entity.Customer} objects
