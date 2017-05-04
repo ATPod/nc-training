@@ -1,12 +1,21 @@
 package by.training.nc.dev5.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 /**
  * Created by Nikita on 26.03.2017.
  */
+@Entity
 public class Invoice {
+    @Id
     private int id;
     private double price;
     private boolean paid;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
     private Project project;
 
     /**

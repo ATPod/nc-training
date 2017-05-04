@@ -2,11 +2,20 @@ package by.training.nc.dev5.entity;
 
 import by.training.nc.dev5.accounts.UserRole;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 /**
  * Created by Nikita on 26.03.2017.
  */
+@Entity
 public class Developer extends Person {
+    @ManyToOne
+    @JoinColumn(name = "qualification_id")
     private Qualification qualification;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
     private Project project;
 
     public Developer() {

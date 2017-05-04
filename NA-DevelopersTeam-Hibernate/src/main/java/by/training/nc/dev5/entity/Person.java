@@ -2,13 +2,18 @@ package by.training.nc.dev5.entity;
 
 import by.training.nc.dev5.accounts.UserRole;
 
+import javax.persistence.*;
+
 /**
  * Created by F1 on 08.04.2017.
  */
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Person {
+    @Id
     private int id;
     private String name;
-    private UserRole userRole;
+    private int roleId;
     private String login;
     private String password;
 
@@ -54,7 +59,7 @@ public abstract class Person {
      * @return the value of userRole.
      */
     public UserRole getUserRole() {
-        return userRole;
+        return UserRole.parseInt(roleId);
     }
 
     /**
@@ -63,7 +68,7 @@ public abstract class Person {
      * @param userRole the new value of userRole.
      */
     public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+        this.roleId = userRole.getRoleId();
     }
 
     /**

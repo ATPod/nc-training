@@ -1,14 +1,20 @@
 package by.training.nc.dev5.entity;
 
+import javax.persistence.*;
 import java.util.Collection;
 
 /**
  * Created by Nikita on 26.03.2017.
  */
+@Entity
 public class Task {
+    @Id
     private int id;
     private String specification;
+    @ManyToOne
+    @JoinColumn(name = "terms_of_reference_id")
     private TermsOfReference termsOfReference;
+    @OneToMany
     private Collection<TaskQuota> taskQuotas;
 
     /**

@@ -1,9 +1,14 @@
 package by.training.nc.dev5.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * Created by Nikita on 26.03.2017.
  */
+@Entity
 public class Qualification {
+    @Id
     private int id;
     private String name;
 

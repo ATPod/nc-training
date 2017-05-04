@@ -1,15 +1,22 @@
 package by.training.nc.dev5.entity;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by Nikita on 26.03.2017.
  */
+@Entity
+@Table(name = "time_sheet", schema = "na_developersteam")
 public class TimeSheet {
+    @Id
     private int id;
-
     private Date date;
+    @ManyToOne
+    @JoinColumn(name = "developer_id")
     private Developer developer;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
     private Project project;
     private int time;
     /**

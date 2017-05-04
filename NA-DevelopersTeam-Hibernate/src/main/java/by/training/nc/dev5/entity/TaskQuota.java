@@ -1,12 +1,21 @@
 package by.training.nc.dev5.entity;
 
+import javax.persistence.*;
+
 /**
  * Created by Nikita on 28.03.2017.
  */
+@Entity
+@Table(name = "task_quota", schema = "na_developersteam")
 public class TaskQuota {
+    @Id
     private int id;
     private int developersNumber;
+    @ManyToOne
+    @JoinColumn(name = "qualification_id")
     private Qualification qualification;
+    @ManyToOne
+    @JoinColumn(name = "task_id")
     private Task task;
 
     /**

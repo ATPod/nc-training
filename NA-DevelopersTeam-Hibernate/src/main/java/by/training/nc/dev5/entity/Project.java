@@ -1,11 +1,19 @@
 package by.training.nc.dev5.entity;
 
+import javax.persistence.*;
+
 /**
  * Created by Nikita on 26.03.2017.
  */
+@Entity
 public class Project {
+    @Id
     private int id;
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
     private Manager manager;
+    @OneToOne
+    @JoinColumn(name = "terms_of_reference_id")
     private TermsOfReference termsOfReference;
 
     /**
