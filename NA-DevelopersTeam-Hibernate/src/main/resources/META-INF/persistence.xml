@@ -4,6 +4,10 @@
     <persistence-unit name="DevelopersTeamUnit">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+        <class>by.training.nc.dev5.entity.Customer</class>
+        <class>by.training.nc.dev5.entity.Person</class>
+
+
         <properties>
             <property name="hibernate.connection.url"
                       value="jdbc:mysql://localhost:3306/na_developersteam?useSSL=false"/>
