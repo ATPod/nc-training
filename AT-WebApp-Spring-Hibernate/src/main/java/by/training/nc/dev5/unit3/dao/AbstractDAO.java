@@ -1,7 +1,9 @@
 package by.training.nc.dev5.unit3.dao;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -24,6 +26,10 @@ public abstract class AbstractDAO<PK extends Serializable, T> {
 
     protected Session getSession(){
         return sessionFactory.getCurrentSession();
+    }
+
+    protected Query createCriteria(String query){
+        return getSession().createQuery(query);
     }
 
     public T findByKey(PK id) {

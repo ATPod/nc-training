@@ -7,17 +7,24 @@ import java.util.Set;
 /**
  * @author Andrei Tishkovski
  */
-@Entity(name = "employee")
+@Entity
+@Table(name = "employee")
 public class Employee {
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String email;
-
-    private Set<Training> trainings = new HashSet<Training>();
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
+    @Column(name = "email")
+    private String email;
+    @OneToMany
+    @JoinTable(name = "employee_training",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "training_id"))
+    private Set<Training> trainings = new HashSet<Training>();
+
     public int getId() {
         return id;
     }
@@ -26,7 +33,6 @@ public class Employee {
         id = pId;
     }
 
-    @Column(name = "first_name")
     public String getFirstName() {
         return firstName;
     }
@@ -35,7 +41,6 @@ public class Employee {
         firstName = pFirstName;
     }
 
-    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -44,21 +49,18 @@ public class Employee {
         lastName = pLastName;
     }
 
-    @Column(name = "email")
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String pEmail) {
         email = pEmail;
     }
 
-    @OneToMany
-    @JoinTable(name = "employee_training",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "training_id"))
     public Set<Training> getTrainings() {
         return trainings;
     }
+
     public void setTrainings(Set<Training> pTrainings) {
         trainings = pTrainings;
     }

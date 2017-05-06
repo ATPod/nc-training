@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.JstlView;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan({"by.training.nc.dev5.unit3"})
+@ComponentScan(basePackages = "by.training.nc.dev5.unit3")
 public class SpringMVCConfiguration extends WebMvcConfigurerAdapter{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

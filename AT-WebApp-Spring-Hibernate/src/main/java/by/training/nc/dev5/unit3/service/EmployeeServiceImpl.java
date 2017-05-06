@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Andrei Tishkovski
  */
-@Service
+@Service("employeeService")
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired

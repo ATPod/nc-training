@@ -1,6 +1,7 @@
 package by.training.nc.dev5.unit3.dao;
 
 import by.training.nc.dev5.unit3.model.Employee;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -30,7 +31,8 @@ public class EmployeeDAOImpl extends AbstractDAO<Integer, Employee> implements E
 
     @SuppressWarnings("unchecked")
     public List<Employee> findAll() {
-        List<Employee> result = getSession().createQuery(FIND_ALL_EMPLOYEE).list();
+        List<Employee> result = createCriteria(FIND_ALL_EMPLOYEE).list();
+        //List<Employee> result = getSession().createQuery(FIND_ALL_EMPLOYEE).list();
         for (Employee item:result) {
             logger.debug("item id:{}, name {}",item.getId(), item.getFirstName());
         }
