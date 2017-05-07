@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <div class="header" align="left">
             <%@include file="../../../view/elements/header.jsp" %>
         </div>
         <a href="controller?command=backtologin">Вход в систему</a>>
@@ -20,7 +20,7 @@
             <input type="submit" value="Сохранить" /> <br />
             ${operationMessage}  <br />
         </form>
-        <div class="footer">
+        <div class="footer" align="center">
             <%@include file="../../../view/elements/footer.jsp" %>
         </div>
     </div>

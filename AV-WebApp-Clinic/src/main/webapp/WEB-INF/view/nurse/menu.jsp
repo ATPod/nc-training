@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <div class="header" align="left">
             <%@include file="../../view/elements/header.jsp" %>
         </div>
         <a href="controller?command=backtologin">Вход в систему</a>>
@@ -63,7 +63,7 @@
         <a href="controller?command=backtochoosepatient">Вернуться к выбору пациента</a><br/>
         <a href="controller?command=backtologin">Выйти из системы</a><br/>
         ${operationMessage}  <br />
-        <div class="footer">
+        <div class="footer" align="center">
             <%@include file="../../view/elements/footer.jsp" %>
         </div>
     </div>

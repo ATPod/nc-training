@@ -7,7 +7,7 @@
     </head>
     <body>
         <div class="container">
-            <div class="header">
+            <div class="header" align="left">
                 <%@include file="WEB-INF/view/elements/header.jsp" %>
             </div>
             <form name="loginForm" method="POST" action="controller">
@@ -27,7 +27,7 @@
                 <a href="controller?command=gotoregistration">Регистрация</a><br />
                 ${operationMessage}<br />
             </form>
-            <div class="footer">
+            <div class="footer" align="center">
                 <%@include file="WEB-INF/view/elements/footer.jsp" %>
             </div>
         </div>

@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <div class="header" align="left">
             <%@include file="../../view/elements/header.jsp" %>
         </div>
         <a href="controller?command=backtologin">Вход в систему</a>>
@@ -33,10 +33,10 @@
                 <a href="controller?command=gotoaddpatient">Добавить пациента</a> <br/>
             </c:if>
         </form>
-        <div class="footer">
+        ${operationMessage}<br />
+        <div class="footer" align="center">
             <%@include file="../../view/elements/footer.jsp" %>
         </div>
     </div>
-${operationMessage}<br />
 </body>
 </html>
