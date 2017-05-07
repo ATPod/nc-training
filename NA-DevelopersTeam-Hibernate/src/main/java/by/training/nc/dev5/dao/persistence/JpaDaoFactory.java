@@ -2,7 +2,6 @@ package by.training.nc.dev5.dao.persistence;
 
 import by.training.nc.dev5.dao.*;
 import by.training.nc.dev5.entity.*;
-import by.training.nc.dev5.entity.metamodel.TaskJpaDao;
 import by.training.nc.dev5.util.JpaUtil;
 
 import javax.persistence.EntityManager;

@@ -7,6 +7,7 @@ import java.util.Collection;
  * Created by Nikita on 26.03.2017.
  */
 @Entity
+@Table(name = "terms_of_reference")
 public class TermsOfReference {
     @Id
     private int id;

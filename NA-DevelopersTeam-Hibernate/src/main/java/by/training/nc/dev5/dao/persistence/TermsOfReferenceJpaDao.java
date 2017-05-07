@@ -50,19 +50,24 @@ public class TermsOfReferenceJpaDao
             getTermsOfReferenceByCustomer(Integer customerId)
             throws DataAccessException {
 
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<TermsOfReference> cq =
-                cb.createQuery(TermsOfReference.class);
-        Root<TermsOfReference> fromTor = cq.from(TermsOfReference.class);
-        Path<Customer> customerPath = fromTor.get(TermsOfReference_.customer);
-        Path<Integer> customerIdPath = customerPath.get(Customer_.id);
+//        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+//        CriteriaQuery<TermsOfReference> cq =
+//                cb.createQuery(TermsOfReference.class);
+//        Root<TermsOfReference> fromTor = cq.from(TermsOfReference.class);
+//        Path<Customer> customerPath = fromTor.get(TermsOfReference_.customer);
+//        Path<Integer> customerIdPath = customerPath.get(Customer_.id);
+//
+//        cq.where(cb.equal(customerIdPath, customerId));
+//        cq.select(fromTor);
 
-        cq.where(cb.equal(customerIdPath, customerId));
-        cq.select(fromTor);
+        TypedQuery<TermsOfReference> q = getEntityManager().createQuery(
+                "select tor from TermsOfReference tor " +
+                        "where tor.customer.id = :customerId",
+                TermsOfReference.class
+        );
 
-        TypedQuery<TermsOfReference> q = getEntityManager().createQuery(cq);
-        List<TermsOfReference> result = q.getResultList();
+        q.setParameter("customerId", customerId);
 
-        return result;
+        return q.getResultList();
     }
 }

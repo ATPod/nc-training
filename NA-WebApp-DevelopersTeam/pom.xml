@@ -62,7 +62,7 @@
         </dependency>
         <dependency>
             <groupId>by.training.nc.dev5</groupId>
-            <artifactId>NA-DevelopersTeam</artifactId>
+            <artifactId>NA-DevelopersTeam-Hibernate</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

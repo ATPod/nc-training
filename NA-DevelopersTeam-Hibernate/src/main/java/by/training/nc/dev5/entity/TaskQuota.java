@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by Nikita on 28.03.2017.
  */
 @Entity
-@Table(name = "task_quota", schema = "na_developersteam")
+@Table(name = "task_quota")
 public class TaskQuota {
     @Id
     private int id;
