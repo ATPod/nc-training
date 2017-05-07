@@ -1,4 +1,4 @@
-package by.training.nc.dev5.clinic.services;
+package by.training.nc.dev5.clinic.services.impls;
 
 import by.training.nc.dev5.clinic.entities.prescribings.Drug;
 import by.training.nc.dev5.clinic.dao.impl.DrugMySQLDAO;
@@ -12,15 +12,15 @@ import java.util.List;
  */
 public class DrugService {
     public static List<Drug> getByPatient(Patient patient)throws DAOException {
-        return DrugMySQLDAO.INSTANCE.getByPatient(patient);
+        return DrugMySQLDAO.getInstance().getByPatient(patient);
     }
 
     public static void delete(int id) throws DAOException{
-        DrugMySQLDAO.INSTANCE.delete(id);
+        DrugMySQLDAO.getInstance().delete(id);
     }
 
     public static void add(Drug drug)throws DAOException{
-        DrugMySQLDAO.INSTANCE.add(drug);
+        DrugMySQLDAO.getInstance().add(drug);
     }
 
 }

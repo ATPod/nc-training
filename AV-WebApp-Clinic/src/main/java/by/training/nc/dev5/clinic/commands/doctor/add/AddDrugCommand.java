@@ -9,8 +9,8 @@ import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
 import by.training.nc.dev5.clinic.managers.MessageManager;
-import by.training.nc.dev5.clinic.services.DrugService;
-import by.training.nc.dev5.clinic.services.PatientService;
+import by.training.nc.dev5.clinic.services.impls.DrugService;
+import by.training.nc.dev5.clinic.services.impls.PatientService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

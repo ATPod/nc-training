@@ -8,8 +8,6 @@ import by.training.nc.dev5.clinic.exceptions.*;
 /**
  * Created by user on 24.04.2017.
  */
-public interface DrugDAO {
-    void add(Drug temp)throws DAOException;
+public interface IDrugDAO extends IDAO<Drug>{
     List<Drug> getByPatient(Patient patient)throws DAOException;
-    void delete(int id)throws DAOException;
 }

@@ -8,8 +8,6 @@ import by.training.nc.dev5.clinic.exceptions.*;
 /**
  * Created by user on 24.04.2017.
  */
-public interface MedProcedureDAO {
-    void add(MedProcedure temp)throws DAOException;
+public interface IMedProcedureDAO extends IDAO<MedProcedure> {
     List<MedProcedure> getByPatient(Patient patient)throws DAOException;
-    void delete(int id)throws DAOException;
 }

@@ -1,4 +1,4 @@
-package by.training.nc.dev5.clinic.services;
+package by.training.nc.dev5.clinic.services.impls;
 
 import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.dao.impl.PatientMySQLDAO;
@@ -12,12 +12,12 @@ import java.util.List;
  */
 public class PatientService {
     public static List<Patient> getAll()throws DAOException {
-        return PatientMySQLDAO.INSTANCE.getAll();
+        return PatientMySQLDAO.getInstance().getAll();
     }
 
     public static boolean isNewPatient(String name)throws DAOException{
         try {
-            PatientMySQLDAO.INSTANCE.getByName(name);
+            PatientMySQLDAO.getInstance().getByName(name);
             return false;
         } catch (NotFoundException e){
             return true;
@@ -25,14 +25,14 @@ public class PatientService {
     }
 
     public static void add(Patient patient)throws DAOException{
-        PatientMySQLDAO.INSTANCE.add(patient);
+        PatientMySQLDAO.getInstance().add(patient);
     }
 
     public static Patient getById(int patientId)throws DAOException {
-        return PatientMySQLDAO.INSTANCE.getById(patientId);
+        return PatientMySQLDAO.getInstance().getById(patientId);
     }
 
     public static void delete(int patientId)throws DAOException{
-        PatientMySQLDAO.INSTANCE.delete(patientId);
+        PatientMySQLDAO.getInstance().delete(patientId);
     }
 }

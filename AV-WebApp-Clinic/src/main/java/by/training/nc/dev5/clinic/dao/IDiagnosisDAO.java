@@ -8,8 +8,6 @@ import by.training.nc.dev5.clinic.exceptions.*;
 /**
  * Created by user on 24.04.2017.
  */
-public interface DiagnosisDAO {
-    void add(Diagnosis temp)throws DAOException;
+public interface IDiagnosisDAO extends IDAO<Diagnosis> {
     List<Diagnosis> getByPatient(Patient patient)throws DAOException;
-    void delete(int id)throws DAOException;
 }

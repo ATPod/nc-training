@@ -6,7 +6,6 @@ import by.training.nc.dev5.clinic.exceptions.*;
 /**
  * Created by user on 06.04.2017.
  */
-public interface UserDAO {
-    void add(User user)throws DAOException;
+public interface IUserDAO extends IDAO<User>{
     User getByLogin(String login)throws DAOException, NotFoundException;
 }

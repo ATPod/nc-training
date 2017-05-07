@@ -8,8 +8,6 @@ import java.util.List;
 /**
  * Created by user on 24.04.2017.
  */
-public interface SurgeryDAO {
-    void add(Surgery temp)throws DAOException;
+public interface ISurgeryDAO extends IDAO<Surgery>{
     List<Surgery> getByPatient(Patient patient)throws DAOException;
-    void delete(int id)throws DAOException;
 }

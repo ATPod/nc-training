@@ -1,8 +1,9 @@
 package by.training.nc.dev5.clinic.dao.impl;
 
+import by.training.nc.dev5.clinic.dao.AbstractDAO;
 import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.entities.prescribings.MedProcedure;
-import by.training.nc.dev5.clinic.dao.MedProcedureDAO;
+import by.training.nc.dev5.clinic.dao.IMedProcedureDAO;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
 import by.training.nc.dev5.clinic.exceptions.*;
 import javax.persistence.EntityManager;
@@ -12,8 +13,12 @@ import java.util.List;
 /**
  * Created by user on 06.04.2017.
  */
-public enum MedProcedureMySQLDAO implements MedProcedureDAO {
-    INSTANCE;
+public class MedProcedureMySQLDAO extends AbstractDAO<MedProcedure> implements IMedProcedureDAO {
+    private static MedProcedureMySQLDAO instance;
+
+    private MedProcedureMySQLDAO(){
+        super(MedProcedure.class);
+    }
 
     public List<MedProcedure> getByPatient(Patient patient)throws DAOException{
         try {
@@ -26,32 +31,10 @@ public enum MedProcedureMySQLDAO implements MedProcedureDAO {
         }
     }
 
-    public void add(MedProcedure medProcedure)throws DAOException{
-        EntityManager entityManager = HibernateUtil.getEntityManager();
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(medProcedure);
-        } catch (Exception e){
-            entityManager.getTransaction().rollback();
-            throw new DAOException(e.getMessage());
-        }finally {
-            entityManager.flush();
-            entityManager.getTransaction().commit();
+    public static synchronized MedProcedureMySQLDAO getInstance(){
+        if(instance == null){
+            instance = new MedProcedureMySQLDAO();
         }
-    }
-
-    public void delete(int id) throws DAOException{
-        EntityManager entityManager = HibernateUtil.getEntityManager();
-        try {
-            MedProcedure medProcedure = entityManager.find(MedProcedure.class, id);
-            entityManager.getTransaction().begin();
-            entityManager.remove(medProcedure);
-        } catch (Exception e){
-            entityManager.getTransaction().rollback();
-            throw new DAOException(e.getMessage());
-        }finally {
-            entityManager.flush();
-            entityManager.getTransaction().commit();
-        }
+        return instance;
     }
 }

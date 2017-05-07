@@ -4,6 +4,7 @@
 <head>
     <title>Ошибка</title>
     <link href="../../../assets/css/page_style.css" rel="stylesheet" type="text/css">
+    <link href="../../../assets/css/logo_style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="container">

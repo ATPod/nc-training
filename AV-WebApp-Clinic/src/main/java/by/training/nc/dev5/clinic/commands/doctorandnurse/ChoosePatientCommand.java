@@ -12,7 +12,8 @@ import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.enums.UserType;
 import by.training.nc.dev5.clinic.managers.ConfigurationManager;
 import by.training.nc.dev5.clinic.managers.MessageManager;
-import by.training.nc.dev5.clinic.services.*;
+import by.training.nc.dev5.clinic.services.impls.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;

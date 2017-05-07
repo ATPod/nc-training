@@ -1,4 +1,4 @@
-package by.training.nc.dev5.clinic.servlet;
+package by.training.nc.dev5.clinic.controllers;
 
 import by.training.nc.dev5.clinic.utils.RequestHandler;
 import javax.servlet.ServletException;
