@@ -74,7 +74,7 @@ public class JpaDaoFactory extends DaoFactory {
     public TermsOfReferenceDao getTermsOfReferenceDao() {
         EntityManager em = JpaUtil.getInstance().getEntityManager();
 
-        return null;
+        return new TermsOfReferenceJpaDao(em);
     }
 
     /**
