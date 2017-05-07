@@ -16,6 +16,6 @@ public class LogoutCommand implements Command {
 
         request.getSession().removeAttribute("user");
 
-        Router.forward(request, response, "path.page.index");
+        Router.getInstance().forward(request, response, "path.page.index");
     }
 }

@@ -18,7 +18,7 @@ public class AuthenticationService {
     private static final AuthenticationService instance =
             new AuthenticationService();
     private final DaoFactory daoFactory =
-            DaoFactory.getDaoFactory(DaoFactory.MYSQL);
+            DaoFactory.getDaoFactory();
 
     public Person signUp(Person person) {
         logger.trace("Signing up new person");

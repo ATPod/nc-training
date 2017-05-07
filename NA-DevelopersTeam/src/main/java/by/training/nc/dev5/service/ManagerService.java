@@ -4,7 +4,6 @@ import by.training.nc.dev5.dao.*;
 import by.training.nc.dev5.entity.*;
 import by.training.nc.dev5.exception.DataAccessException;
 import by.training.nc.dev5.exception.ServiceException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +16,7 @@ import java.util.Collection;
 public class ManagerService {
     static final Logger logger = LogManager.getLogger(ManagerService.class);
     private final DaoFactory daoFactory =
-            DaoFactory.getDaoFactory(DaoFactory.MYSQL);
+            DaoFactory.getDaoFactory();
 
     public Collection<TermsOfReference> getPendingTermsOfReference() throws ServiceException {
         TermsOfReferenceDao torDao = daoFactory.getTermsOfReferenceDao();

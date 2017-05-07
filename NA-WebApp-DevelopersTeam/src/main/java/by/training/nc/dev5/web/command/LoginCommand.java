@@ -27,7 +27,7 @@ public class LoginCommand implements Command {
         if (login == null || password == null) {
             request.setAttribute(
                     "loginErrorMessage", "No login/password provided");
-            Router.forward(request, response, "login");
+            Router.getInstance().forward(request, response, "login");
         }
 
         user = authenticationService.logOn(login, password);
@@ -35,7 +35,7 @@ public class LoginCommand implements Command {
         if (user == null) {
             request.setAttribute("loginErrorMessage", "Authentication failed");
 
-            Router.forward(request, response, "login");
+            Router.getInstance().forward(request, response, "login");
         }
 
         request.getSession().setAttribute("user", user);
@@ -43,9 +43,29 @@ public class LoginCommand implements Command {
         Object desiredUri = request.getAttribute("desiredUri");
 
         if (desiredUri != null) {
-            Router.redirect(request, response, desiredUri.toString());
+            Router.getInstance().redirect(request, response, desiredUri.toString());
         }
 
-        Router.redirect(request, response, "controller?command=go&location=home");
+        request.getSession().setAttribute("sidenavUri",
+                resolveSidenavPath(user));
+
+        String homeUri = "controller?command=go&location=home";
+
+        Router.getInstance().redirect(request, response, homeUri);
+    }
+
+    private String resolveSidenavPath(Person user) {
+        Router router = Router.getInstance();
+
+        switch (user.getUserRole()) {
+            case CUSTOMER:
+                return router.resolvePath("path.page.customer.sidenav");
+            case DEVELOPER:
+                return router.resolvePath("path.page.manager.sidenav");
+            case MANAGER:
+                return router.resolvePath("path.page.developer.sidenav");
+        }
+
+        return null;
     }
 }

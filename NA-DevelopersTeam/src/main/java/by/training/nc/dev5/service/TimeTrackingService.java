@@ -7,14 +7,12 @@ import by.training.nc.dev5.entity.TimeSheet;
 import by.training.nc.dev5.exception.DataAccessException;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Nikita on 28.03.2017.
  */
 public class TimeTrackingService {
-    private final DaoFactory daoFactory = DaoFactory.getDaoFactory(DaoFactory.MYSQL);
+    private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 
     public void track(Developer developer, Date date, int timeSpent) {
         TimeSheetDao timeSheetDao = daoFactory.getTimeSheetDao();
