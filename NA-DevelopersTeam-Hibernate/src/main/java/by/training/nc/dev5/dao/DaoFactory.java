@@ -1,5 +1,7 @@
 package by.training.nc.dev5.dao;
 
+import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
+
 /**
  * Created by Nikita on 26.03.2017.
  */
@@ -79,6 +81,6 @@ public abstract class DaoFactory {
      * @return an implementation of DaoFactory
      */
     public static DaoFactory getDaoFactory() {
-        return null;
+        return new JpaDaoFactory();
     }
 }
