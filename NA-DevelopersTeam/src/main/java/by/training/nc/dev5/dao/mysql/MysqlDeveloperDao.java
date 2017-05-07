@@ -29,7 +29,7 @@ public class MysqlDeveloperDao
             "  d.qualification_id AS qualification_id " +
             "FROM person p" +
             "  JOIN developer d" +
-            "    ON p.id = d.person_id";
+            "    ON p.id = d.id";
     private static final String SELECT_DEVELOPER_BY_ID_QUERY =
             "SELECT" +
             "  p.id AS id," +
@@ -38,17 +38,17 @@ public class MysqlDeveloperDao
             "  d.qualification_id AS qualification_id " +
             "FROM person p" +
             "  JOIN developer d" +
-            "    ON p.id = d.person_id " +
+            "    ON p.id = d.id " +
             "WHERE p.id = ?";
     private static final String UPDATE_DEVELOPER_QUERY =
             "UPDATE developer" +
             " SET project_id = ?," +
                 " qualification_id = ?" +
-            " WHERE person_id = ?";
+            " WHERE id = ?";
     private static final String DELETE_DEVELOPER_QUERY =
             "DELETE FROM developer WHERE id = ?";
     private static final String INSERT_INTO_DEVELOPER_QUERY =
-            "INSERT INTO developer(person_id, project_id, qualification_id)" +
+            "INSERT INTO developer(id, project_id, qualification_id)" +
                     " VALUES (?, ?, ?)";
     private static final String SELECT_UNASSIGNED_DEVELOPER_QUERY =
             "SELECT p.id AS id, " +
@@ -57,7 +57,7 @@ public class MysqlDeveloperDao
                 "d.qualification_id AS qualification_id" +
             " FROM person p" +
             " JOIN developer d" +
-            "    ON p.id = d.person_id " +
+            "    ON p.id = d.id " +
             " WHERE ISNULL(d.project_id) AND d.qualification_id = ?";
     private static final String SELECT_DEVELOPERS_BY_PROJECT_QUERY =
             "SELECT" +
@@ -67,7 +67,7 @@ public class MysqlDeveloperDao
             "  d.qualification_id AS qualification_id " +
             "FROM person p" +
             "  JOIN developer d" +
-            "    ON p.id = d.person_id " +
+            "    ON p.id = d.id " +
             "WHERE d.project_id = ?";
 
     /**
