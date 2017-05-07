@@ -9,7 +9,7 @@
     <body>
         <div class="container">
             <div class="header" align="left">
-                <%@include file="WEB-INF/view/elements/header.jsp" %>
+                <%@include file="WEB-INF/views/elements/header.jsp" %>
             </div>
             <div align="center">
                 <form name="loginForm" method="POST" action="controller">
@@ -30,7 +30,7 @@
                 </form>
             </div>
             <div class="footer" align="center">
-                <%@include file="WEB-INF/view/elements/footer.jsp" %>
+                <%@include file="WEB-INF/views/elements/footer.jsp" %>
             </div>
         </div>
     </body>

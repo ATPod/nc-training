@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <div class="header" align="left">
-            <%@include file="../../view/elements/header.jsp" %>
+            <%@include file="../../views/elements/header.jsp" %>
         </div>
         <a href="controller?command=backtologin">Вход в систему</a>>Страница ошибки<br/>
         <div>
@@ -16,7 +16,7 @@
             ${operationMessage}<br />
         </div>
         <div class="footer" align="center">
-            <%@include file="../../view/elements/footer.jsp" %>
+            <%@include file="../../views/elements/footer.jsp" %>
         </div>
     </div>
 </body>
