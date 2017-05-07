@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 /**
  * Created by user on 07.05.2017.
  */
-public class AbstractDAO <T extends AbstractEntity> implements IDAO<T>{
+public abstract class AbstractDAO <T extends AbstractEntity> implements IDAO<T>{
     private Class persistentClass;
 
     protected AbstractDAO(Class persistentClass){
