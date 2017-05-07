@@ -13,13 +13,15 @@
     <a href="controller?command=backtologin">Вход в систему</a>>
     <a href="controller?command=backtochoosepatient">Выбор карточки пациента</a>>
     Добавление новой карточки<br/>
-    <form name="addPatientForm" method="POST" action="controller">
-        <input type="hidden" name="command" value="addPatient" />
-        Введите ФИО:<br />
-        <input type="text" name="patientName" value="" />
-        <input type="submit" value="Сохранить" /> <br />
-        ${operationMessage}  <br />
-    </form>
+    <div align="center">
+        <form name="addPatientForm" method="POST" action="controller">
+            <input type="hidden" name="command" value="addPatient" />
+            Введите ФИО:<br />
+            <input type="text" name="patientName" value="" />
+            <input type="submit" value="Сохранить" /> <br />
+            ${operationMessage}  <br />
+        </form>
+    </div>
     <div class="footer" align="center">
         <%@include file="../../../view/elements/footer.jsp" %>
     </div>

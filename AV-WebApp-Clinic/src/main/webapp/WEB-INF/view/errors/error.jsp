@@ -11,8 +11,10 @@
             <%@include file="../../view/elements/header.jsp" %>
         </div>
         <a href="controller?command=backtologin">Вход в систему</a>>Страница ошибки<br/>
-        Извините, но в данный момент сервис не доступен: <br/>
-        ${operationMessage}<br />
+        <div>
+            Извините, но в данный момент сервис не доступен: <br/>
+            ${operationMessage}<br />
+        </div>
         <div class="footer" align="center">
             <%@include file="../../view/elements/footer.jsp" %>
         </div>

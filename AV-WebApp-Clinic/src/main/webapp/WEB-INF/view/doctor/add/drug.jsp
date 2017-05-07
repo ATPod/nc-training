@@ -13,13 +13,15 @@
         <a href="controller?command=backtologin">Вход в систему</a>>
         <a href="controller?command=backtochoosepatient">Выбор карточки пациента</a>>
         <a href="controller?command=backtomenu">Карточка пациента</a>>Добавление лекарства<br/>
-        <form name="addDrugForm" method="POST" action="controller">
-            <input type="hidden" name="command" value="addDrug" />
-            Введите название:<br />
-            <input type="text" name="drugName" value="" />
-            <input type="submit" value="Сохранить" /> <br />
-            ${operationMessage}  <br />
-        </form>
+        <div align="center">
+            <form name="addDrugForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="addDrug" />
+                Введите название:<br />
+                <input type="text" name="drugName" value="" />
+                <input type="submit" value="Сохранить" /> <br />
+                ${operationMessage}  <br />
+            </form>
+        </div>
         <div class="footer" align="center">
             <%@include file="../../../view/elements/footer.jsp" %>
         </div>

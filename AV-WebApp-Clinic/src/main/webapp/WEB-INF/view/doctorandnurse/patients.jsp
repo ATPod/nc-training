@@ -13,27 +13,35 @@
         </div>
         <a href="controller?command=backtologin">Вход в систему</a>>
         Выбор карточки пациента<br/>
-        <form name="choosePatientForm" method="POST" action="controller">
-            <input type="hidden" name="command" value="choosePatient" />
-            Выберите пациента:
-            <table border="1">
-                <tr bgcolor="#CCCCCC">
-                    <td align="center"> </td>
-                    <td align="center"><strong>ФИО</strong></td>
-                </tr>
-                <c:forEach var="patient" items="${patientsList}">
-                    <tr>
-                        <td><input type="radio" name="patientId" value="${ patient.id }"/></td>
-                        <td><c:out value="${ patient.name }" /></td>
+        <div align="center">
+            <form name="choosePatientForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="choosePatient" />
+                Выберите пациента:
+                <table border="1">
+                    <tr bgcolor="#CCCCCC">
+                        <td align="center"> </td>
+                        <td align="center"><strong>ФИО</strong></td>
                     </tr>
-                </c:forEach>
-            </table>
-            <input type="submit" value="Выбрать"/>  <br/>
-            <c:if test="${userType=='DOCTOR'}">
-                <a href="controller?command=gotoaddpatient">Добавить пациента</a> <br/>
-            </c:if>
-        </form>
-        ${operationMessage}<br />
+                    <c:if test="${empty patientsList}">
+                        <tr>
+                            <td></td>
+                            <td>Нет записей</td>
+                        </tr>
+                    </c:if>
+                    <c:forEach var="patient" items="${patientsList}">
+                        <tr>
+                            <td><input type="radio" name="patientId" value="${ patient.id }"/></td>
+                            <td><c:out value="${ patient.name }" /></td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <input type="submit" value="Выбрать"/>  <br/>
+                <c:if test="${userType=='DOCTOR'}">
+                    <a href="controller?command=gotoaddpatient">Добавить пациента</a> <br/>
+                </c:if>
+            </form>
+            ${operationMessage}<br />
+        </div>
         <div class="footer" align="center">
             <%@include file="../../view/elements/footer.jsp" %>
         </div>
