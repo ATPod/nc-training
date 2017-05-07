@@ -5,7 +5,7 @@ import by.training.nc.dev5.clinic.entities.User;
 import by.training.nc.dev5.clinic.dao.impl.UserMySQLDAO;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.exceptions.NotFoundException;
-import by.training.nc.dev5.clinic.filters.UserType;
+import by.training.nc.dev5.clinic.enums.UserType;
 
 /**
  * Created by user on 22.04.2017.

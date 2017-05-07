@@ -5,14 +5,15 @@ import javax.persistence.*;
 /**
  * @author Andrei Tsishkouski
  */
-@Entity(name = "training")
+@Entity
+@Table(name = "training")
 public class Training {
-
-    private int id;
-    private String name;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(name="name")
+    private String name;
+
     public int getId() {
         return id;
     }
@@ -21,7 +22,6 @@ public class Training {
         id = pId;
     }
 
-    @Column(name="name")
     public String getName() {
         return name;
     }

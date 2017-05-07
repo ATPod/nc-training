@@ -1,4 +1,4 @@
-package by.training.nc.dev5.clinic.filters;
+package by.training.nc.dev5.clinic.enums;
 
 /**
  * Created by user on 04.04.2017.
