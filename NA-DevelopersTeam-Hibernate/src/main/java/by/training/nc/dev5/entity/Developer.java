@@ -2,14 +2,14 @@ package by.training.nc.dev5.entity;
 
 import by.training.nc.dev5.accounts.UserRole;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by Nikita on 26.03.2017.
  */
 @Entity
+@Table(name = "developer")
+@DiscriminatorValue("" + UserRole.DEVELOPER_ROLE_ID)
 public class Developer extends Person {
     @ManyToOne
     @JoinColumn(name = "qualification_id")

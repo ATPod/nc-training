@@ -8,11 +8,18 @@ import javax.persistence.*;
  * Created by F1 on 08.04.2017.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(
+        name = "role_id",
+        discriminatorType = DiscriminatorType.INTEGER
+)
+@Table(name = "person")
 public abstract class Person {
     @Id
     private int id;
     private String name;
+    @Basic
+    @Column(name = "role_id")
     private int roleId;
     private String login;
     private String password;

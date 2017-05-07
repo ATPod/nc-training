@@ -38,9 +38,9 @@ public enum UserRole {
             return MANAGER_ROLE_ID;
         }
     };
-    private static final int CUSTOMER_ROLE_ID = 1;
-    private static final int MANAGER_ROLE_ID = 2;
-    private static final int DEVELOPER_ROLE_ID = 3;
+    public static final int CUSTOMER_ROLE_ID = 1;
+    public static final int MANAGER_ROLE_ID = 2;
+    public static final int DEVELOPER_ROLE_ID = 3;
 
     public abstract Class<? extends Person> getEntityClass();
 
