@@ -97,7 +97,7 @@ public class JpaDaoFactory extends DaoFactory {
     public TimeSheetDao getTimeSheetDao() {
         EntityManager em = JpaUtil.getInstance().getEntityManager();
 
-        return null;
+        return new TimeSheetJpaDao(em);
     }
 
     /**
@@ -109,7 +109,7 @@ public class JpaDaoFactory extends DaoFactory {
     public QualificationDao getQualificationDao() {
         EntityManager em = JpaUtil.getInstance().getEntityManager();
 
-        return null;
+        return new QualificationJpaDao(em);
     }
 
     /**
@@ -121,7 +121,7 @@ public class JpaDaoFactory extends DaoFactory {
     public TaskQuotaDao getTaskQuotaDao() {
         EntityManager em = JpaUtil.getInstance().getEntityManager();
 
-        return null;
+        return new TaskQuotaJpaDao(em);
     }
 
     /**
