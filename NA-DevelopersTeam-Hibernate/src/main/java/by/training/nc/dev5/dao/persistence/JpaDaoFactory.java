@@ -51,7 +51,7 @@ public class JpaDaoFactory extends DaoFactory {
     public InvoiceDao getInvoiceDao() {
         EntityManager em = JpaUtil.getInstance().getEntityManager();
 
-        return null;
+        return new InvoiceJpaDao(em);
     }
 
     /**
@@ -62,7 +62,7 @@ public class JpaDaoFactory extends DaoFactory {
     public ProjectDao getProjectDao() {
         EntityManager em = JpaUtil.getInstance().getEntityManager();
 
-        return null;
+        return new ProjectJpaDao(em);
     }
 
     /**
