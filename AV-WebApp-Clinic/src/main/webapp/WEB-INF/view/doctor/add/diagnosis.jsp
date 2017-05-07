@@ -7,20 +7,22 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <div class="header" align="left">
             <%@include file="../../../view/elements/header.jsp" %>
         </div>
         <a href="controller?command=backtologin">Вход в систему</a>>
         <a href="controller?command=backtochoosepatient">Выбор карточки пациента</a>>
         <a href="controller?command=backtomenu">Карточка пациента</a>>Добавление диагноза<br/>
-        <form name="addDiagnosisForm" method="POST" action="controller">
-            <input type="hidden" name="command" value="addDiagnosis" />
-            Введите название:<br />
-            <input type="text" name="diagnosisName" value="" />
-            <input type="submit" value="Сохранить" /> <br />
-            ${operationMessage}  <br />
-        </form>
-        <div class="footer">
+        <div align="center">
+            <form name="addDiagnosisForm" method="POST" action="controller">
+                <input type="hidden" name="command" value="addDiagnosis" />
+                Введите название:<br />
+                <input type="text" name="diagnosisName" value="" />
+                <input type="submit" value="Сохранить" /> <br />
+                ${operationMessage}  <br />
+            </form>
+        </div>
+        <div class="footer" align="center">
             <%@include file="../../../view/elements/footer.jsp" %>
         </div>
     </div>
