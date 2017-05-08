@@ -31,18 +31,22 @@ public class TaskJpaDao
 
     public Collection<Task> getTasks(Integer termsOfReferenceId)
             throws DataAccessException {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Task> cq = cb.createQuery(Task.class);
-        Root<Task> fromTask = cq.from(Task.class);
-        Path<TermsOfReference> torPath = fromTask.get(Task_.termsOfReference);
-        Path<Integer> torIdPath = torPath.get(TermsOfReference_.id);
+//        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+//        CriteriaQuery<Task> cq = cb.createQuery(Task.class);
+//        Root<Task> fromTask = cq.from(Task.class);
+//        Path<TermsOfReference> torPath = fromTask.get(Task_.termsOfReference);
+//        Path<Integer> torIdPath = torPath.get(TermsOfReference_.id);
+//
+//        cq.where(cb.equal(torIdPath, termsOfReferenceId));
+//        cq.select(fromTask);
 
-        cq.where(cb.equal(torIdPath, termsOfReferenceId));
-        cq.select(fromTask);
+        TypedQuery<Task> q = getEntityManager().createQuery(
+                "select t from Task t where t.termsOfReference.id = :torId",
+                Task.class
+        );
 
-        TypedQuery<Task> q = getEntityManager().createQuery(cq);
-        List<Task> result = q.getResultList();
+        q.setParameter("torId", termsOfReferenceId);
 
-        return result;
+        return q.getResultList();
     }
 }

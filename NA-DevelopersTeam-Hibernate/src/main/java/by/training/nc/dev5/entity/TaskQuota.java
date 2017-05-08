@@ -10,6 +10,8 @@ import javax.persistence.*;
 public class TaskQuota {
     @Id
     private int id;
+    @Basic
+    @Column(name = "developers_number")
     private int developersNumber;
     @ManyToOne
     @JoinColumn(name = "qualification_id")
