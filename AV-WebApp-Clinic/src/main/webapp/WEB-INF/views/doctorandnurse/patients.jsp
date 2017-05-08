@@ -4,8 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Пациенты</title>
-    <link href="../../../assets/css/page_style.css" rel="stylesheet" type="text/css">
-    <link href="../../../assets/css/logo_style.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/resources/css/page_style.css" rel="stylesheet" >
+    <link href="${pageContext.request.contextPath}/resources/css/logo_style.css" rel="stylesheet" >
 </head>
 <body>
     <div class="container">
