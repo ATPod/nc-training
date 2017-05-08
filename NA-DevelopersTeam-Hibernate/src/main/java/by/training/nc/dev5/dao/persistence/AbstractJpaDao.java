@@ -124,9 +124,9 @@ public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
         Object id = em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
 
         try {
-//            em.getTransaction().begin();
+            em.getTransaction().begin();
             em.persist(entity);
-//            em.getTransaction().commit();
+            em.getTransaction().commit();
         } catch (EntityExistsException e) {
             return null;
         }
