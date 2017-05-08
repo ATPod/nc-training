@@ -9,7 +9,6 @@ import by.training.nc.dev5.clinic.commands.impl.doctor.add.*;
 import by.training.nc.dev5.clinic.commands.impl.doctor.delete.*;
 import by.training.nc.dev5.clinic.commands.impl.doctorandnurse.goback.GoBackToChoosePatientCommand;
 import by.training.nc.dev5.clinic.commands.impl.doctor.gotocommand.*;
-import by.training.nc.dev5.clinic.commands.impl.doctorandnurse.gotocommand.GoToChoosePatientCommand;
 import by.training.nc.dev5.clinic.commands.impl.user.*;
 
 /**
@@ -19,7 +18,7 @@ public enum CommandType {
     //user commands
     LOGIN, BACKTOLOGIN, REGISTRATION, GOTOREGISTRATION,
     //doctor & nurse commands
-    GOTOCHOOSEPATIENT, CHOOSEPATIENT, BACKTOMENU, BACKTOCHOOSEPATIENT,
+    CHOOSEPATIENT, BACKTOMENU, BACKTOCHOOSEPATIENT,
     // doctor commands
     GOTOADDPATIENT, ADDPATIENT, DELPATIENT,
     GOTOADDDIAGNOSIS, ADDDIAGNOSIS, DELDIAGNOSIS,
@@ -40,9 +39,6 @@ public enum CommandType {
 
             case GOTOREGISTRATION:
                 return new GoToRegistrationCommand();
-
-            case GOTOCHOOSEPATIENT:
-                return new GoToChoosePatientCommand();
 
             case CHOOSEPATIENT:
                 return new ChoosePatientCommand();
