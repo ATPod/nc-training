@@ -6,11 +6,30 @@ import by.training.nc.dev5.accounts.UserRole;
  * Created by Nikita on 08.05.2017.
  */
 public abstract class PersonDto {
+    private int id;
     private String name;
     private UserRole userRole;
 
     public PersonDto(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    /**
+     * Gets the value of id
+     *
+     * @return the value of id.
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the value of id
+     *
+     * @param id the new value of id.
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**

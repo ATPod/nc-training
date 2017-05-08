@@ -19,9 +19,9 @@ import java.util.Collection;
  * Created by Nikita on 08.05.2017.
  */
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private static final DaoFactory DAO_FACTORY = new JpaDaoFactory();
+    private static DaoFactory daoFactory = new JpaDaoFactory();
 
-    private PersonDao personDao = DAO_FACTORY.getPersonDao();
+    private PersonDao personDao = daoFactory.getPersonDao();
 
     public PersonDto authenticate(String login, String password) {
         Person person = personDao.getPersonByLogin(login);
@@ -47,16 +47,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     private PersonDto instantiatePersonDto(Person person) {
+        PersonDto dto;
+
         switch (person.getUserRole()) {
             case CUSTOMER:
-                return new CustomerDto();
+                dto =  new CustomerDto();
+                break;
             case DEVELOPER:
-                return new DeveloperDto();
+                dto = new DeveloperDto();
+                break;
             case MANAGER:
-                return new ManagerDto();
+                dto = new ManagerDto();
+                break;
             default:
                 return null; // unsupported user role
         }
+
+        dto.setName(person.getName());
+        dto.setId(person.getId());
+
+        return dto;
     }
 
     /**
