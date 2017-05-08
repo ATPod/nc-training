@@ -1,10 +1,10 @@
 package by.training.nc.dev5.clinic.commands.impl.doctor.gotocommand;
 
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
-import by.training.nc.dev5.clinic.constants.ConfigsConstants;
+import by.training.nc.dev5.clinic.constants.ConfigConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
 import by.training.nc.dev5.clinic.enums.UserType;
-import by.training.nc.dev5.clinic.managers.ConfigurationManager;
+import by.training.nc.dev5.clinic.managers.PagePathManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,10 +18,10 @@ public class GoToAddDiagnosisCommand extends AbstractCommand {
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_ADD_DIAGNOSIS);
+            page = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_DIAGNOSIS);
         }
         else{
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_MENU);
+            page = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
             session.invalidate();
         }
         return page;

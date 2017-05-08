@@ -3,12 +3,12 @@ package by.training.nc.dev5.clinic.commands.impl.doctor.delete;
 import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.entities.prescribings.Surgery;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
-import by.training.nc.dev5.clinic.constants.ConfigsConstants;
+import by.training.nc.dev5.clinic.constants.ConfigConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.enums.UserType;
-import by.training.nc.dev5.clinic.managers.ConfigurationManager;
+import by.training.nc.dev5.clinic.managers.PagePathManager;
 import by.training.nc.dev5.clinic.managers.MessageManager;
 import by.training.nc.dev5.clinic.services.impl.PatientService;
 import by.training.nc.dev5.clinic.services.impl.SurgeryService;
@@ -34,18 +34,18 @@ public class DelSurgeryCommand extends AbstractCommand {
                     Patient patient = PatientService.getInstance().getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
                     List<Surgery> list = SurgeryService.getInstance().getByPatient(patient);
                     session.setAttribute(Parameters.SURGERIES_LIST, list);
-                    request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
+                    request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
                 } else {
-                    request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.EMPTY_CHOICE));
+                    request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.EMPTY_CHOICE));
                 }
-                page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.DOCTOR_MENU);
+                page = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
             } else {
-                page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);
+                page = PagePathManager.getInstance().getProperty(ConfigConstants.INDEX_PAGE_PATH);
                 session.invalidate();
             }
         }catch (DAOException e){
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.ERROR_PAGE_PATH);
-            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));
+            page = PagePathManager.getInstance().getProperty(ConfigConstants.ERROR_PAGE_PATH);
+            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
         }
         return page;
     }

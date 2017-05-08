@@ -3,11 +3,11 @@ package by.training.nc.dev5.clinic.commands.impl.user;
 import by.training.nc.dev5.clinic.entities.User;
 import by.training.nc.dev5.clinic.commands.AbstractCommand;
 import by.training.nc.dev5.clinic.constants.AccessLevels;
-import by.training.nc.dev5.clinic.constants.ConfigsConstants;
+import by.training.nc.dev5.clinic.constants.ConfigConstants;
 import by.training.nc.dev5.clinic.constants.MessageConstants;
 import by.training.nc.dev5.clinic.constants.Parameters;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
-import by.training.nc.dev5.clinic.managers.ConfigurationManager;
+import by.training.nc.dev5.clinic.managers.PagePathManager;
 import by.training.nc.dev5.clinic.managers.MessageManager;
 import by.training.nc.dev5.clinic.services.impl.UserService;
 
@@ -28,7 +28,7 @@ public class RegistrationCommand extends AbstractCommand {
         accessLevel = request.getParameter(Parameters.ACCESS_LEVEL);
         try{
             if(areFieldsFullStocked()){
-                if(login.length()<=ConfigsConstants.MAX_STRING_LENGTH && password.length()<=ConfigsConstants.MAX_STRING_LENGTH && accessLevel.length()<=ConfigsConstants.MAX_STRING_LENGTH) {
+                if(login.length()<= ConfigConstants.MAX_STRING_LENGTH && password.length()<= ConfigConstants.MAX_STRING_LENGTH && accessLevel.length()<= ConfigConstants.MAX_STRING_LENGTH) {
                     if (UserService.getInstance().isNewUser(login)) {
                         if (accessLevelIsCorrect(accessLevel)) {
                             User user = new User();
@@ -36,32 +36,32 @@ public class RegistrationCommand extends AbstractCommand {
                             user.setPassword(password);
                             user.setAccessLevel(accessLevel);
                             UserService.getInstance().add(user);
-                            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);
-                            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.SUCCESS_OPERATION));
+                            page = PagePathManager.getInstance().getProperty(ConfigConstants.INDEX_PAGE_PATH);
+                            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
                         } else {
-                            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.REGISTRATION_PAGE_PATH);
-                            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.ACCESS_LEVEL));
+                            page = PagePathManager.getInstance().getProperty(ConfigConstants.REGISTRATION_PAGE_PATH);
+                            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ACCESS_LEVEL));
                         }
                     } else {
-                        page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.REGISTRATION_PAGE_PATH);
-                        request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.USER_EXISTS));
+                        page = PagePathManager.getInstance().getProperty(ConfigConstants.REGISTRATION_PAGE_PATH);
+                        request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.USER_EXISTS));
                     }
                 }else{
-                    request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.TOO_LONG_STRING));
-                    page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.REGISTRATION_PAGE_PATH);
+                    request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.TOO_LONG_STRING));
+                    page = PagePathManager.getInstance().getProperty(ConfigConstants.REGISTRATION_PAGE_PATH);
                 }
             } else{
-                request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.EMPTY_FIELDS));
-                page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.REGISTRATION_PAGE_PATH);
+                request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.EMPTY_FIELDS));
+                page = PagePathManager.getInstance().getProperty(ConfigConstants.REGISTRATION_PAGE_PATH);
             }
         } catch (DAOException e) {
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.ERROR_PAGE_PATH);
-            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.ERROR_DATABASE));
+            page = PagePathManager.getInstance().getProperty(ConfigConstants.ERROR_PAGE_PATH);
+            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
         } catch (NumberFormatException e) {
-            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.INSTANCE.getProperty(MessageConstants.INVALID_NUMBER_FORMAT));
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.REGISTRATION_PAGE_PATH);
+            request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.INVALID_NUMBER_FORMAT));
+            page = PagePathManager.getInstance().getProperty(ConfigConstants.REGISTRATION_PAGE_PATH);
         } catch(NullPointerException e){
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(ConfigConstants.INDEX_PAGE_PATH);
         }
         return page;
     }

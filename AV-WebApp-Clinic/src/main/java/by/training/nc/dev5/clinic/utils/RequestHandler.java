@@ -2,8 +2,8 @@ package by.training.nc.dev5.clinic.utils;
 
 import by.training.nc.dev5.clinic.commands.ICommand;
 import by.training.nc.dev5.clinic.commands.factory.CommandFactory;
-import by.training.nc.dev5.clinic.constants.ConfigsConstants;
-import by.training.nc.dev5.clinic.managers.ConfigurationManager;
+import by.training.nc.dev5.clinic.constants.ConfigConstants;
+import by.training.nc.dev5.clinic.managers.PagePathManager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class RequestHandler {
     public static void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CommandFactory commandFactory = CommandFactory.INSTANCE;
+        CommandFactory commandFactory = CommandFactory.getInstance();
         ICommand command = commandFactory.defineCommand(request);
         String page = command.execute(request);
         if(page != null){
@@ -24,7 +24,7 @@ public class RequestHandler {
             dispatcher.forward(request, response);
         }
         else{
-            page = ConfigurationManager.INSTANCE.getProperty(ConfigsConstants.INDEX_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(ConfigConstants.INDEX_PAGE_PATH);
             response.sendRedirect(request.getContextPath() + page);
         }
     }

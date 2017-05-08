@@ -3,7 +3,7 @@ package by.training.nc.dev5.clinic.constants;
 /**
  * Created by user on 04.04.2017.
  */
-public class ConfigsConstants {
+public class ConfigConstants {
 
     public static final int MAX_STRING_LENGTH = 50;
 

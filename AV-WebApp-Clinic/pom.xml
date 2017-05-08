@@ -10,7 +10,6 @@
     <servlet.api.version>3.1.0</servlet.api.version>
     <spring.version>4.2.4.RELEASE</spring.version>
     <taglibs.version>1.1.2</taglibs.version>
-    <tiles.version>3.0.5</tiles.version>
     <inject.version>1</inject.version>
   </properties>
   <name>AV-WebApp-Clinic Maven Webapp</name>
@@ -92,33 +91,6 @@
       <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
       <version>${inject.version}</version>
-    </dependency>
-
-    <!-- Tiles -->
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-core</artifactId>
-      <version>${tiles.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-el</artifactId>
-      <version>${tiles.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-jsp</artifactId>
-      <version>${tiles.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-servlet</artifactId>
-      <version>${tiles.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tiles</groupId>
-      <artifactId>tiles-template</artifactId>
-      <version>${tiles.version}</version>
     </dependency>
 
   </dependencies>
