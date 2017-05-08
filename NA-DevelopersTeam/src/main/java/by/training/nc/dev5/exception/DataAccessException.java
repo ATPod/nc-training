@@ -5,7 +5,7 @@ import java.security.PrivilegedActionException;
 /**
  * Created by Nikita on 29.03.2017.
  */
-public class DataAccessException extends Exception {
+public class DataAccessException extends RuntimeException {
     /**
      * Constructs a new exception with {@code null} as its detail message.
      * The cause is not initialized, and may subsequently be initialized by a
