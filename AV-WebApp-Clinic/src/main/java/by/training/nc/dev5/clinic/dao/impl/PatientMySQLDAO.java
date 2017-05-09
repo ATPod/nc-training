@@ -1,5 +1,6 @@
 package by.training.nc.dev5.clinic.dao.impl;
 
+import by.training.nc.dev5.clinic.dao.AbstractDAO;
 import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.dao.PatientDAO;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
@@ -11,8 +12,12 @@ import java.util.List;
 /**
  * Created by user on 06.04.2017.
  */
-public enum  PatientMySQLDAO implements PatientDAO{
-    INSTANCE;
+public class PatientMySQLDAO extends AbstractDAO<Patient> implements PatientDAO{
+    private static PatientMySQLDAO instance;
+
+    private PatientMySQLDAO(){
+        super(Patient.class);
+    }
 
     public List<Patient> getAll()throws DAOException{
         try {
@@ -24,40 +29,10 @@ public enum  PatientMySQLDAO implements PatientDAO{
         }
     }
 
-
-    public void add(Patient patient)throws DAOException{
-        EntityManager entityManager = HibernateUtil.getEntityManager();
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(patient);
-        } catch (Exception e){
-            entityManager.getTransaction().rollback();
-            throw new DAOException(e.getMessage());
-        }finally {
-            entityManager.flush();
-            entityManager.getTransaction().commit();
-        }
-    }
-
-    public void delete(int patientId)throws DAOException{
-        EntityManager entityManager = HibernateUtil.getEntityManager();
-        try {
-            Patient patient = entityManager.find(Patient.class, patientId);
-            entityManager.getTransaction().begin();
-            entityManager.remove(patient);
-        } catch (Exception e){
-            entityManager.getTransaction().rollback();
-            throw new DAOException(e.getMessage());
-        }finally {
-            entityManager.flush();
-            entityManager.getTransaction().commit();
-        }
-    }
-
-    public Patient getById(int patientId)throws DAOException{
+    public Patient getById(int id)throws DAOException{
         try {
             EntityManager entityManager = HibernateUtil.getEntityManager();
-            return entityManager.find(Patient.class, patientId);
+            return entityManager.find(Patient.class, id);
         }catch (Exception e) {
             throw new DAOException(e.getMessage());
         }
@@ -76,5 +51,12 @@ public enum  PatientMySQLDAO implements PatientDAO{
         }catch (Exception e){
             throw new DAOException(e.getMessage());
         }
+    }
+
+    public static synchronized PatientMySQLDAO getInstance(){
+        if(instance == null){
+            instance = new PatientMySQLDAO();
+        }
+        return instance;
     }
 }

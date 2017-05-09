@@ -1,25 +1,24 @@
 package by.training.nc.dev5.clinic.commands.factory;
 
 import by.training.nc.dev5.clinic.commands.*;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.ChoosePatientCommand;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.goback.GoBackToMenuCommand;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.delete.DelDrugCommand;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.delete.DelMedProcedureCommand;
-import by.training.nc.dev5.clinic.commands.doctor.add.*;
-import by.training.nc.dev5.clinic.commands.doctor.delete.*;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.goback.GoBackToChoosePatientCommand;
-import by.training.nc.dev5.clinic.commands.doctor.gotocommand.*;
-import by.training.nc.dev5.clinic.commands.doctorandnurse.gotocommand.GoToChoosePatientCommand;
-import by.training.nc.dev5.clinic.commands.user.*;
+import by.training.nc.dev5.clinic.commands.impl.doctorandnurse.ChoosePatientCommand;
+import by.training.nc.dev5.clinic.commands.impl.doctorandnurse.goback.GoBackToMenuCommand;
+import by.training.nc.dev5.clinic.commands.impl.doctorandnurse.delete.DelDrugCommand;
+import by.training.nc.dev5.clinic.commands.impl.doctorandnurse.delete.DelMedProcedureCommand;
+import by.training.nc.dev5.clinic.commands.impl.doctor.add.*;
+import by.training.nc.dev5.clinic.commands.impl.doctor.delete.*;
+import by.training.nc.dev5.clinic.commands.impl.doctorandnurse.goback.GoBackToChoosePatientCommand;
+import by.training.nc.dev5.clinic.commands.impl.doctor.gotocommand.*;
+import by.training.nc.dev5.clinic.commands.impl.user.*;
 
 /**
  * Created by user on 04.04.2017.
  */
 public enum CommandType {
     //user commands
-    LOGIN, BACKTOLOGIN, REGISTRATION, GOTOREGISTRATION, LOCALIZATION,
+    LOGIN, BACKTOLOGIN, REGISTRATION, GOTOREGISTRATION,
     //doctor & nurse commands
-    GOTOCHOOSEPATIENT, CHOOSEPATIENT, BACKTOMENU, BACKTOCHOOSEPATIENT,
+    CHOOSEPATIENT, BACKTOMENU, BACKTOCHOOSEPATIENT,
     // doctor commands
     GOTOADDPATIENT, ADDPATIENT, DELPATIENT,
     GOTOADDDIAGNOSIS, ADDDIAGNOSIS, DELDIAGNOSIS,
@@ -27,7 +26,7 @@ public enum CommandType {
     GOTOADDMEDPROCEDURE, ADDMEDPROCEDURE, DELMEDPROCEDURE,
     GOTOADDSURGERY, ADDSURGERY, DELSURGERY;
 
-    public Command getCurrentCommand() throws EnumConstantNotPresentException{
+    public ICommand getCurrentCommand() throws EnumConstantNotPresentException{
         switch(this){
             case LOGIN:
                 return new LoginUserCommand();
@@ -40,9 +39,6 @@ public enum CommandType {
 
             case GOTOREGISTRATION:
                 return new GoToRegistrationCommand();
-
-            case GOTOCHOOSEPATIENT:
-                return new GoToChoosePatientCommand();
 
             case CHOOSEPATIENT:
                 return new ChoosePatientCommand();
