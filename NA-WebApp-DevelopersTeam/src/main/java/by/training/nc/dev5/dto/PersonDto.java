@@ -5,7 +5,7 @@ import by.training.nc.dev5.accounts.UserRole;
 /**
  * Created by Nikita on 08.05.2017.
  */
-public abstract class PersonDto {
+public class PersonDto {
     private int id;
     private String name;
     private UserRole userRole;

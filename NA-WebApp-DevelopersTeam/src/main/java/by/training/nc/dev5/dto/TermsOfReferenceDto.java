@@ -6,6 +6,7 @@ import java.util.Collection;
  * Created by Nikita on 08.05.2017.
  */
 public class TermsOfReferenceDto {
+    private int id;
     private Collection<TaskDto> tasks;
     private CustomerDto customer;
 
@@ -43,5 +44,23 @@ public class TermsOfReferenceDto {
      */
     public void setCustomer(CustomerDto customer) {
         this.customer = customer;
+    }
+
+    /**
+     * Gets the value of id
+     *
+     * @return the value of id.
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the value of id
+     *
+     * @param id the new value of id.
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 }

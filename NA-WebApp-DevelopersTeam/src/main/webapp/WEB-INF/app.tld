@@ -6,12 +6,28 @@
         version="2.1">
 
     <tlib-version>1.0</tlib-version>
-    <short-name>myshortname</short-name>
+    <short-name>app</short-name>
     <uri>http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags</uri>
 
     <tag-file>
-        <name>tor</name>
-        <path>/WEB-INF/tags/tor.tag</path>
+        <name>termsHolder</name>
+        <path>/WEB-INF/tags/termsHolder.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>termsItem</name>
+        <path>/WEB-INF/tags/termsItem.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>sideNav</name>
+        <path>/WEB-INF/tags/sideNav.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>customerSideNav</name>
+        <path>/WEB-INF/tags/customerSideNav.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>topNav</name>
+        <path>/WEB-INF/tags/topNav.tag</path>
     </tag-file>
     <!-- Invoke 'Generate' action to add tags or functions -->
 
