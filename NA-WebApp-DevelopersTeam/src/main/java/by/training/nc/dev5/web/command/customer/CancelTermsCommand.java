@@ -1,5 +1,6 @@
-package by.training.nc.dev5.web.command;
+package by.training.nc.dev5.web.command.customer;
 
+import by.training.nc.dev5.web.command.Command;
 import by.training.nc.dev5.web.routing.Router;
 
 import javax.servlet.ServletException;
@@ -8,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Nikita on 04.05.2017.
+ * Created by Nikita on 09.05.2017.
  */
-public class ShowCommand extends Router implements Command {
+public class CancelTermsCommand implements Command {
 
-    private Router router;
+    private final Router router;
 
     {
         router = Router.getInstance();
@@ -22,10 +23,8 @@ public class ShowCommand extends Router implements Command {
                         HttpServletResponse response)
             throws ServletException, IOException {
 
-        String view = request.getParameter("view");
+        request.getSession().removeAttribute("createdTerms");
 
-        request.setAttribute("view", router.resolvePath(view));
-
-        router.forward(request, response, "home");
+        router.redirect(request, response, "home");
     }
 }

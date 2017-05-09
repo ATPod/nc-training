@@ -15,13 +15,13 @@
 
 
     <table>
-        <c:forEach var="tor" items="${managerService.pendingTermsOfReference}">
-            <tr><th colspan="3">#${tor.id}</th></tr>
+        <c:forEach var="terms" items="${managerService.pendingTermsOfReference}">
+            <tr><th colspan="3">#${terms.id}</th></tr>
             <tr>
                 <td>
                     <form method="post" action="controller">
                         <input type="hidden" name="command" value="createProject">
-                        <input type="hidden" name="torId" value="${tor.id}">
+                        <input type="hidden" name="torId" value="${terms.id}">
                         <button type="submit">
                             Create project
                         </button>
@@ -31,7 +31,7 @@
                 <th>Qualification</th>
                 <th>Number of specialists</th>
             </tr>
-            <c:forEach var="task" items="${tor.tasks}">
+            <c:forEach var="task" items="${terms.tasks}">
                 <tr>
                     <td colspan="2" rowspan="${task.taskQuotas.size() + 1}">
                             ${task.specification}
