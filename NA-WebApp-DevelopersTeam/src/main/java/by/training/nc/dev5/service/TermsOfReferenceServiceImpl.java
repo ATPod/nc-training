@@ -1,6 +1,8 @@
 package by.training.nc.dev5.service;
 
 import by.training.nc.dev5.dao.DaoFactory;
+import by.training.nc.dev5.dao.TaskDao;
+import by.training.nc.dev5.dao.TaskQuotaDao;
 import by.training.nc.dev5.dao.TermsOfReferenceDao;
 import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
 import by.training.nc.dev5.dto.CustomerDto;
@@ -18,8 +20,21 @@ import java.util.Map;
  * Created by Nikita on 08.05.2017.
  */
 public class TermsOfReferenceServiceImpl implements TermsOfReferenceService {
-    private static DaoFactory daoFactory = new JpaDaoFactory();
-    private TermsOfReferenceDao termsDao = daoFactory.getTermsOfReferenceDao();
+    private static DaoFactory daoFactory;
+
+    static {
+        daoFactory = new JpaDaoFactory();
+    }
+
+    private TermsOfReferenceDao termsDao;
+    private TaskDao taskDao;
+    private TaskQuotaDao taskQuotaDao;
+
+    {
+        termsDao = daoFactory.getTermsOfReferenceDao();
+        taskDao = daoFactory.getTaskDao();
+        taskQuotaDao = daoFactory.getTaskQuotaDao();
+    }
 
     public void applyTermsOfReference(TermsOfReferenceDto termsOfReferenceDto) {
         TermsOfReferenceBuilder termsBuilder = new TermsOfReferenceBuilder();
@@ -68,12 +83,19 @@ public class TermsOfReferenceServiceImpl implements TermsOfReferenceService {
         customerDto.setId(customer.getId());
         customerDto.setName(customer.getName());
 
+        termsDto.setId(terms.getId());
         termsDto.setCustomer(customerDto);
+
+        terms.setTasks(taskDao.getTasks(terms.getId()));
+        termsDto.setTasks(new ArrayList<TaskDto>(terms.getTasks().size()));
+
         for (Task task : terms.getTasks()) {
             TaskDto taskDto = new TaskDto();
 
             taskDto.setSpecification(task.getSpecification());
             taskDto.setQuotas(new HashMap<QualificationDto, Integer>());
+
+            task.setTaskQuotas(taskQuotaDao.getTaskQuotas(task.getId()));
 
             for (TaskQuota taskQuota : task.getTaskQuotas()) {
                 QualificationDto qDto = new QualificationDto();
@@ -83,6 +105,8 @@ public class TermsOfReferenceServiceImpl implements TermsOfReferenceService {
 
                 taskDto.getQuotas().put(qDto, taskQuota.getDevelopersNumber());
             }
+
+            termsDto.getTasks().add(taskDto);
         }
 
         return termsDto;

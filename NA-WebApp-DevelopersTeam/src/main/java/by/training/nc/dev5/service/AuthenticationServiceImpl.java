@@ -1,5 +1,6 @@
 package by.training.nc.dev5.service;
 
+import by.training.nc.dev5.accounts.UserRole;
 import by.training.nc.dev5.dao.DaoFactory;
 import by.training.nc.dev5.dao.PersonDao;
 import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
@@ -120,5 +121,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         person.setPassword(password);
 
         personDao.create(person);
+    }
+
+    public UserRole[] getSupportedRoles() {
+        return new UserRole[] {
+                UserRole.CUSTOMER, UserRole.DEVELOPER, UserRole.MANAGER
+        };
     }
 }
