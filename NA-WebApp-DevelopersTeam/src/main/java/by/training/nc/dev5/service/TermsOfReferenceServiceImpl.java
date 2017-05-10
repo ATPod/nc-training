@@ -36,30 +36,44 @@ public class TermsOfReferenceServiceImpl implements TermsOfReferenceService {
         taskQuotaDao = daoFactory.getTaskQuotaDao();
     }
 
-    public void applyTermsOfReference(TermsOfReferenceDto termsOfReferenceDto) {
-        TermsOfReferenceBuilder termsBuilder = new TermsOfReferenceBuilder();
+    public void applyTermsOfReference(TermsOfReferenceDto termsDto) {
+        TermsOfReference terms = new TermsOfReference();
         Customer customer = new Customer();
 
-        for (TaskDto taskDto : termsOfReferenceDto.getTasks()) {
-            TaskBuilder taskBuilder = new TaskBuilder();
+        customer.setId(termsDto.getCustomer().getId());
+        terms.setCustomer(customer);
 
-            taskBuilder.setSpecification(taskDto.getSpecification());
+        termsDao.create(terms);
+
+        terms.setTasks(new ArrayList<Task>(termsDto.getTasks().size()));
+
+        for (TaskDto taskDto : termsDto.getTasks()) {
+            Task task = new Task();
+
+            task.setSpecification(taskDto.getSpecification());
+            task.setTermsOfReference(terms);
+
+            taskDao.create(task);
+            task.setTaskQuotas(
+                    new ArrayList<TaskQuota>(taskDto.getQuotas().size()));
+
             for (Map.Entry<QualificationDto, Integer> entry
                     : taskDto.getQuotas().entrySet()) {
                 Qualification qualification = new Qualification();
+                TaskQuota taskQuota = new TaskQuota();
 
                 qualification.setId(entry.getKey().getId());
-                taskBuilder.setDevelopersNumber(
-                        qualification, entry.getValue());
+                taskQuota.setQualification(qualification);
+                taskQuota.setDevelopersNumber(entry.getValue());
+                taskQuota.setTask(task);
+
+                taskQuotaDao.create(taskQuota);
+
+                task.getTaskQuotas().add(taskQuota);
             }
 
-            termsBuilder.addTask(taskBuilder.createTask());
+            terms.getTasks().add(task);
         }
-
-        customer.setId(termsOfReferenceDto.getCustomer().getId());
-        termsBuilder.setCustomer(customer);
-
-        termsDao.create(termsBuilder.createTermsOfReference());
     }
 
     public Collection<TermsOfReferenceDto> getTermsByCustomer(CustomerDto customerDto) {
