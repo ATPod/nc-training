@@ -1,50 +1,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="app" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-<jsp:useBean
-        id="managerService"
-        scope="application"
-        class="by.training.nc.dev5.service.ManagerService" />
 
 <html>
 <head>
     <title>Pending Terms of Reference</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <h2>Pending Terms of Reference</h2>
 
+<app:topNav/>
 
-    <table>
-        <c:forEach var="terms" items="${managerService.pendingTermsOfReference}">
-            <tr><th colspan="3">#${terms.id}</th></tr>
-            <tr>
-                <td>
-                    <form method="post" action="controller">
-                        <input type="hidden" name="command" value="createProject">
-                        <input type="hidden" name="torId" value="${terms.id}">
-                        <button type="submit">
-                            Create project
-                        </button>
-                    </form>
-                </td>
-                <th>Specification</th>
-                <th>Qualification</th>
-                <th>Number of specialists</th>
-            </tr>
-            <c:forEach var="task" items="${terms.tasks}">
-                <tr>
-                    <td colspan="2" rowspan="${task.taskQuotas.size() + 1}">
-                            ${task.specification}
-                    </td>
-                </tr>
-                <c:forEach var="taskQuota" items="${task.taskQuotas}">
-                    <tr>
-                        <td>${taskQuota.qualification.name}</td>
-                        <td>${taskQuota.developersNumber}</td>
-                    </tr>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <app:managerSideNav/>
+        </div>
+        <div class="col-lg-9">
+            <h2>Pending Terms of Reference</h2>
+
+            <app:termsHolder>
+                <c:forEach var="terms" items="${requestScope.pendingTerms}">
+                    <app:termsItem terms="${terms}" />
                 </c:forEach>
-            </c:forEach>
-        </c:forEach>
-    </table>
+            </app:termsHolder>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
