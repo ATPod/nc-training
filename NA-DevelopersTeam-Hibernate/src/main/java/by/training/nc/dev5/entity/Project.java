@@ -8,12 +8,18 @@ import javax.persistence.*;
 @Entity
 public class Project {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private Manager manager;
     @OneToOne
-    @JoinColumn(name = "terms_of_reference_id")
+    @JoinColumn(
+            name = "terms_of_reference_id",
+            referencedColumnName = "id",
+            nullable = true,
+            unique = true
+    )
     private TermsOfReference termsOfReference;
 
     /**

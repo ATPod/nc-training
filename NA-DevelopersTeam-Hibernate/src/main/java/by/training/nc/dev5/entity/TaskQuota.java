@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Table(name = "task_quota")
 public class TaskQuota {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Basic
     @Column(name = "developers_number")
