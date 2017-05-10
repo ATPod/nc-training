@@ -18,7 +18,7 @@ public class CreateTermsCommand implements Command {
     private TermsOfReferenceService termsOfReferenceService;
     private Router router;
 
-    {
+    private void initializeServices() {
         termsOfReferenceService = new TermsOfReferenceServiceImpl();
         router = Router.getInstance();
     }
@@ -31,10 +31,15 @@ public class CreateTermsCommand implements Command {
         CustomerDto user = (CustomerDto) request.getSession()
                 .getAttribute("user");
 
+        // TODO: find better solution than initialize services each request
+        initializeServices();
+
         terms.setCustomer(user);
         termsOfReferenceService.applyTermsOfReference(terms);
 
         String uri = "/controller?command=goCreateTerms";
+
+        request.getSession().removeAttribute("createdTerms");
 
         router.redirect(request, response, uri);
     }

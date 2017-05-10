@@ -1,9 +1,7 @@
 package by.training.nc.dev5.web.command;
 
 import by.training.nc.dev5.web.command.customer.*;
-import by.training.nc.dev5.web.command.manager.AssignDevelopersCommand;
-import by.training.nc.dev5.web.command.manager.CreateProjectCommand;
-import by.training.nc.dev5.web.command.manager.ShowDevelopersCommand;
+import by.training.nc.dev5.web.command.manager.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -29,8 +27,10 @@ public class CommandFactory {
         commands.put("removeTask", new RemoveTaskCommand());
         commands.put("cancelTerms", new CancelTermsCommand());
 
+        commands.put("goShowProjects", new GoShowProjectsCommand());
+        commands.put("goShowPendingTerms", new GoShowPendingTerms());
         commands.put("createProject", new CreateProjectCommand());
-        commands.put("showDevelopers", new ShowDevelopersCommand());
+        commands.put("goShowAssignDevelopers", new GoShowAssignDevelopersCommand());
         commands.put("assignDevelopers", new AssignDevelopersCommand());
     }
 
