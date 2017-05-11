@@ -78,10 +78,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private void setDeveloperDto(DeveloperDto dto, Developer entity) {
         Project project = projectDao.getProjectByDeveloper(entity.getId());
-        ProjectDto projectDto = new ProjectDto();
+        ProjectDto projectDto = null;
         QualificationDto qualificationDto = new QualificationDto();
 
-        projectDto.setId(project.getId());
+        if (project != null) {
+            projectDto = new ProjectDto();
+            projectDto.setId(project.getId());
+        }
         dto.setProject(projectDto);
         qualificationDto.setId(entity.getQualification().getId());
         dto.setQualification(qualificationDto);

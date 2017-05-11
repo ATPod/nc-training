@@ -27,12 +27,11 @@
                 </div>
                 <button class="btn btn-primary" type="submit">Submit</button>
                 <button class="btn btn-default" type="reset">Reset</button>
+                <p class="text-danger">
+                    ${requestScope.loginErrorMessage}
+                </p>
             </form>
         </div>
-    </div>
-
-    <div style="color: red">
-        ${requestScope.loginErrorMessage}
     </div>
 </body>
 </html>
