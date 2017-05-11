@@ -9,11 +9,10 @@
     <body>
         <div class="container">
             <div class="header" align="left">
-                <%@include file="WEB-INF/views/elements/header.jsp" %>
+                <%@include file="elements/header.jsp" %>
             </div>
             <div align="center">
-                <form name="loginForm" method="POST" action="controller">
-                    <input type="hidden" name="command" value="login" />
+                <form name="loginForm" method="POST" action="/login">
                     <table>
                         <tr>
                             <td>Логин:</td>
@@ -25,12 +24,12 @@
                         </tr>
                     </table>
                     <input type="submit" value="Войти" />
-                    <a href="controller?command=gotoregistration">Регистрация</a><br />
+                    <a href="/registration">Регистрация</a><br />
                     ${operationMessage}<br />
                 </form>
             </div>
             <div class="footer" align="center">
-                <%@include file="WEB-INF/views/elements/footer.jsp" %>
+                <%@include file="elements/footer.jsp" %>
             </div>
         </div>
     </body>

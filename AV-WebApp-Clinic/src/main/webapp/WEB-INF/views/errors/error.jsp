@@ -11,7 +11,7 @@
         <div class="header" align="left">
             <%@include file="../../views/elements/header.jsp" %>
         </div>
-        <a href="controller?command=backtologin">Вход в систему</a>>Страница ошибки<br/>
+        <a href="/login">Вход в систему</a>>Страница ошибки<br/>
         <div>
             Извините, но в данный момент сервис не доступен: <br/>
             ${operationMessage}<br />

@@ -11,20 +11,16 @@
         <div class="header" align="left">
             <%@include file="../../views/elements/header.jsp" %>
         </div>
-        <a href="controller?command=backtologin">Вход в систему</a>>
-        <a href="controller?command=backtochoosepatient">Выбор карточки пациента</a>>
+        <a href="/login">Вход в систему</a>>
+        <a href="/choosepatient">Выбор карточки пациента</a>>
         Карточка пациента<br/>
         <div align="center">
             <strong>Карточка пациента "${patientName}"</strong>
             <table align="center">
                 <tr>
                     <td valign="top" style="text-align: center">
-                        <form method="POST" action="controller">
-                            <input type="hidden" name="command" value="gotoAddDiagnosis"/>
-                            <input type="submit" value="Добавить диагноз"/>
-                        </form>
-                        <form name="diagnosisListForm" method="POST" action="controller">
-                            <input type="hidden" name="command" value="delDiagnosis" />
+                        <a href="/adddiagnosis">Добавить диагноз</a> <br/>
+                        <form name="diagnosisListForm" method="POST" action="/deldiagnosis">
                             <input type="submit" value="Удалить диагноз"/>  <br/>
                             <table align="center" border="1">
                                 <tr bgcolor="#CCCCCC">
@@ -44,12 +40,8 @@
                         </form>
                     </td>
                     <td valign="top" style="text-align: center">
-                        <form method="POST" action="controller">
-                            <input type="hidden" name="command" value="gotoadddrug"/>
-                            <input type="submit" value="Добавить лекарство" align="center"/>
-                        </form>
-                        <form name="drugListForm" method="POST" action="controller">
-                            <input type="hidden" name="command" value="delDrug" />
+                        <a href="/adddrug">Добавить лекарство</a> <br/>
+                        <form name="drugListForm" method="POST" action="/deldrug">
                             <input type="submit" value="Удалить лекарство" align="center"/>  <br/>
                             <table align="center" border="1">
                                 <tr bgcolor="#CCCCCC">
@@ -69,12 +61,8 @@
                         </form>
                     </td>
                     <td valign="top" style="text-align: center">
-                        <form method="POST" action="controller">
-                            <input type="hidden" name="command" value="gotoaddmedprocedure" />
-                            <input type="submit" value="Добавить процедуру" align="center" />
-                        </form>
-                        <form name="medProcedureListForm" method="POST" action="controller">
-                            <input type="hidden" name="command" value="delMedProcedure" />
+                        <a href="/addmedprocedure">Добавить процедуру</a> <br/>
+                        <form name="medProcedureListForm" method="POST" action="/delmedprocedure">
                             <input type="submit" value="Удалить процедуру" align="center"/>  <br/>
                             <table align="center" border="1">
                                 <tr bgcolor="#CCCCCC">
@@ -94,12 +82,8 @@
                         </form>
                     </td>
                     <td valign="top" style="text-align: center">
-                        <form method="POST" action="controller">
-                            <input type="hidden" name="command" value="gotoaddsurgery" />
-                            <input type="submit" value="Добавить операцию" align="center"/>
-                        </form>
-                        <form name="surgeryListForm" method="POST" action="controller">
-                            <input type="hidden" name="command" value="delSurgery" />
+                        <a href="/addsurgery">Добавить операцию</a> <br/>
+                        <form name="surgeryListForm" method="POST" action="/delsurgery">
                             <input type="submit" value="Удалить операцию" align="center"/>  <br/>
                             <table align="center" border="1">
                                 <tr bgcolor="#CCCCCC">
@@ -121,8 +105,7 @@
                 </tr>
             </table>
             <div align="center">
-                <form method="POST" action="controller" >
-                    <input type="hidden" name="command" value="delPatient"/>
+                <form method="POST" action="/delpatient" >
                     <input type="submit" value="Удалить карточку пациента"/>
                 </form>
             </div>
