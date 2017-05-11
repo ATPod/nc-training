@@ -1,6 +1,7 @@
 <%@ taglib
         prefix="app"
         uri="http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -43,7 +44,9 @@
             </form>
             <hr />
             <app:timeSheetHolder>
-                <app:timeSheetItem timeSheet="${requestScope.timeSheets}" />
+                <c:forEach var="timeSheet" items="${requestScope.timeSheets}">
+                    <app:timeSheetItem timeSheet="${timeSheet}" />
+                </c:forEach>
             </app:timeSheetHolder>
         </div>
     </div>
