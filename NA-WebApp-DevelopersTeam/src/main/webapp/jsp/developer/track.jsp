@@ -1,6 +1,7 @@
 <%@ taglib
         prefix="app"
         uri="http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: F1
@@ -37,6 +38,10 @@
                     <button class="btn btn-primary" type="submit">Track</button>
                 </div>
             </form>
+            <hr />
+            <app:timeSheetHolder>
+                <app:timeSheetItem timeSheet="${requestScope.timeSheets}" />
+            </app:timeSheetHolder>
         </div>
     </div>
 </div>

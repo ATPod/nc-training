@@ -3,8 +3,7 @@
         pageEncoding="utf-8" %>
 
 <c:url var="track" value="controller">
-    <c:param name="command" value="go" />
-    <c:param name="location" value="path.page.developer.track" />
+    <c:param name="command" value="goTrack" />
 </c:url>
 
 <div class="panel panel-default">
