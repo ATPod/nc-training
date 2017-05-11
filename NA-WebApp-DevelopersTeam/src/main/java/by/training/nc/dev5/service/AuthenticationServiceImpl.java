@@ -2,16 +2,12 @@ package by.training.nc.dev5.service;
 
 import by.training.nc.dev5.accounts.UserRole;
 import by.training.nc.dev5.dao.DaoFactory;
+import by.training.nc.dev5.dao.DeveloperDao;
 import by.training.nc.dev5.dao.PersonDao;
+import by.training.nc.dev5.dao.ProjectDao;
 import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
-import by.training.nc.dev5.dto.CustomerDto;
-import by.training.nc.dev5.dto.DeveloperDto;
-import by.training.nc.dev5.dto.ManagerDto;
-import by.training.nc.dev5.dto.PersonDto;
-import by.training.nc.dev5.entity.Customer;
-import by.training.nc.dev5.entity.Developer;
-import by.training.nc.dev5.entity.Manager;
-import by.training.nc.dev5.entity.Person;
+import by.training.nc.dev5.dto.*;
+import by.training.nc.dev5.entity.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,9 +16,18 @@ import java.util.Collection;
  * Created by Nikita on 08.05.2017.
  */
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private static DaoFactory daoFactory = new JpaDaoFactory();
+    private static DaoFactory daoFactory;
+    private PersonDao personDao;
+    private ProjectDao projectDao;
 
-    private PersonDao personDao = daoFactory.getPersonDao();
+    static {
+        daoFactory = new JpaDaoFactory();
+    }
+
+    {
+        personDao = daoFactory.getPersonDao();
+        projectDao = daoFactory.getProjectDao();
+    }
 
     public PersonDto authenticate(String login, String password) {
         Person person = personDao.getPersonByLogin(login);
@@ -56,6 +61,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 break;
             case DEVELOPER:
                 dto = new DeveloperDto();
+                setDeveloperDto((DeveloperDto) dto, (Developer) person);
                 break;
             case MANAGER:
                 dto = new ManagerDto();
@@ -68,6 +74,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         dto.setId(person.getId());
 
         return dto;
+    }
+
+    private void setDeveloperDto(DeveloperDto dto, Developer entity) {
+        Project project = projectDao.getProjectByDeveloper(entity.getId());
+        ProjectDto projectDto = new ProjectDto();
+        QualificationDto qualificationDto = new QualificationDto();
+
+        projectDto.setId(project.getId());
+        dto.setProject(projectDto);
+        qualificationDto.setId(entity.getQualification().getId());
+        dto.setQualification(qualificationDto);
     }
 
     /**
