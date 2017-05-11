@@ -36,7 +36,8 @@ public class TrackTimeCommand implements Command {
             request.setAttribute("trackTimeErrorMessage",
                     "You are not assigned to any project");
 
-            router.redirect(request, response, uri);
+            new GoTrackCommand().execute(request, response);
+            return;
         }
 
         timeTrackingService.trackTime(user, time);

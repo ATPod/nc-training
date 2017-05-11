@@ -38,10 +38,10 @@
                     </label>
                     <button class="btn btn-primary" type="submit">Track</button>
                 </div>
-                <p class="text-danger">
-                    ${requestScope.trackTimeErrorMessage}
-                </p>
             </form>
+            <p class="text-danger">
+                ${requestScope.trackTimeErrorMessage}
+            </p>
             <hr />
             <app:timeSheetHolder>
                 <c:forEach var="timeSheet" items="${requestScope.timeSheets}">
