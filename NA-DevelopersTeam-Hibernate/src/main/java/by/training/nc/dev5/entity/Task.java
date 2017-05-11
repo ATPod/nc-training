@@ -9,12 +9,13 @@ import java.util.Collection;
 @Entity
 public class Task {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String specification;
     @ManyToOne
     @JoinColumn(name = "terms_of_reference_id")
     private TermsOfReference termsOfReference;
-    @OneToMany
+    @OneToMany(mappedBy = "task")
     private Collection<TaskQuota> taskQuotas;
 
     /**

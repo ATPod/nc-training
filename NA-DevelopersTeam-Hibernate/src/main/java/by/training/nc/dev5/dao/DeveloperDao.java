@@ -1,9 +1,6 @@
 package by.training.nc.dev5.dao;
 
 import by.training.nc.dev5.entity.Developer;
-import by.training.nc.dev5.entity.Project;
-import by.training.nc.dev5.entity.Qualification;
-import by.training.nc.dev5.entity.TimeSheet;
 import by.training.nc.dev5.exception.DataAccessException;
 
 import java.util.Collection;
@@ -27,4 +24,11 @@ public interface DeveloperDao extends AbstractDao<Developer, Integer> {
      * identified by {@code projectId}
      */
     Collection<Developer> getDevelopers(Integer projectId) throws DataAccessException;
+
+    /**
+     * Gets unassigned developers of all qualifications
+     * @return a collection of all developers that are not assigned to any
+     * project
+     */
+    Collection<Developer> getUnassignedDevelopers() throws DataAccessException;
 }

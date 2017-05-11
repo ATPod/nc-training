@@ -7,21 +7,15 @@
     <display-name>Archetype Created Web Application</display-name>
 
     <filter>
-        <filter-name>SecurityFilter</filter-name>
-        <filter-class>by.training.nc.dev5.web.filter.SecurityFilter</filter-class>
+        <filter-name>EntityManagerFilter</filter-name>
+        <filter-class>by.training.nc.dev5.web.filter.EntityManagerFilter</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>SecurityFilter</filter-name>
-        <url-pattern>/customer/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>SecurityFilter</filter-name>
-        <url-pattern>/developer/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>SecurityFilter</filter-name>
-        <url-pattern>/manager/*</url-pattern>
+        <filter-name>EntityManagerFilter</filter-name>
+        <servlet-name>controller</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
 
     <servlet>

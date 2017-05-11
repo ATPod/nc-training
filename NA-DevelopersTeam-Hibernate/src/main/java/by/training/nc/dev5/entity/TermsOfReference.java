@@ -7,8 +7,10 @@ import java.util.Collection;
  * Created by Nikita on 26.03.2017.
  */
 @Entity
+@Table(name = "terms_of_reference")
 public class TermsOfReference {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
     private Customer customer;

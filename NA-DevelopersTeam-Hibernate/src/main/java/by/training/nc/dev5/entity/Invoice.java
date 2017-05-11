@@ -1,9 +1,6 @@
 package by.training.nc.dev5.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by Nikita on 26.03.2017.
@@ -11,6 +8,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Invoice {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private double price;
     private boolean paid;

@@ -1,7 +1,7 @@
 package by.training.nc.dev5.web.routing;
 
 import by.training.nc.dev5.accounts.UserRole;
-import by.training.nc.dev5.entity.Person;
+import by.training.nc.dev5.dto.PersonDto;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,7 +44,7 @@ public class Router {
         RequestDispatcher rq;
 
         if ("home".equals(path)) {
-            Person user = (Person) request.getSession().getAttribute("user");
+            PersonDto user = (PersonDto) request.getSession().getAttribute("user");
 
             path = resolveHome(user);
         }
@@ -65,7 +65,7 @@ public class Router {
         String path = pageKey;
 
         if ("home".equals(path)) {
-            Person user = (Person) request.getSession().getAttribute("user");
+            PersonDto user = (PersonDto) request.getSession().getAttribute("user");
 
             path = resolveHome(user);
         }
@@ -87,7 +87,7 @@ public class Router {
         return path;
     }
 
-    private String resolveHome(Person user) {
+    private String resolveHome(PersonDto user) {
         if (user == null) {
             return "path.page.index";
         }

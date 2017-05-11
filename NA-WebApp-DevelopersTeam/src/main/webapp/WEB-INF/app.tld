@@ -6,12 +6,51 @@
         version="2.1">
 
     <tlib-version>1.0</tlib-version>
-    <short-name>myshortname</short-name>
+    <short-name>app</short-name>
     <uri>http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags</uri>
 
+    <tag>
+        <name>qualificationSelect</name>
+        <tag-class>by.training.nc.dev5.web.tag.QualificationSelectTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>controlName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>formId</name>
+            <required>false</required>
+        </attribute>
+    </tag>
     <tag-file>
-        <name>tor</name>
-        <path>/WEB-INF/tags/tor.tag</path>
+        <name>termsHolder</name>
+        <path>/WEB-INF/tags/termsHolder.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>termsItem</name>
+        <path>/WEB-INF/tags/termsItem.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>customerSideNav</name>
+        <path>/WEB-INF/tags/customerSideNav.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>managerSideNav</name>
+        <path>/WEB-INF/tags/managerSideNav.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>topNav</name>
+        <path>/WEB-INF/tags/topNav.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>projectHolder</name>
+        <path>/WEB-INF/tags/projectHolder.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>projectItem</name>
+        <path>/WEB-INF/tags/projectItem.tag</path>
     </tag-file>
     <!-- Invoke 'Generate' action to add tags or functions -->
 

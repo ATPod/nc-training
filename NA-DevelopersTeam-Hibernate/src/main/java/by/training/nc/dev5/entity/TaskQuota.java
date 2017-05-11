@@ -6,10 +6,13 @@ import javax.persistence.*;
  * Created by Nikita on 28.03.2017.
  */
 @Entity
-@Table(name = "task_quota", schema = "na_developersteam")
+@Table(name = "task_quota")
 public class TaskQuota {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Basic
+    @Column(name = "developers_number")
     private int developersNumber;
     @ManyToOne
     @JoinColumn(name = "qualification_id")

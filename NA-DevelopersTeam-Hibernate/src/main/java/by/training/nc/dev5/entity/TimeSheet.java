@@ -10,6 +10,7 @@ import java.util.Date;
 @Table(name = "time_sheet", schema = "na_developersteam")
 public class TimeSheet {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Date date;
     @ManyToOne

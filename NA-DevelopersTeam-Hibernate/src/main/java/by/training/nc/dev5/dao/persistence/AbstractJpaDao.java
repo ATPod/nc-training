@@ -121,12 +121,13 @@ public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
      */
     public K create(E entity) throws DataAccessException {
         EntityManager em = getEntityManager();
-        Object id = em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
+        Object id;
 
         try {
 //            em.getTransaction().begin();
             em.persist(entity);
 //            em.getTransaction().commit();
+            id = em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
         } catch (EntityExistsException e) {
             return null;
         }

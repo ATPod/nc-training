@@ -1,10 +1,8 @@
 package by.training.nc.dev5.dao.persistence;
 
 import by.training.nc.dev5.dao.ProjectDao;
-import by.training.nc.dev5.entity.Manager;
 import by.training.nc.dev5.entity.Project;
 import by.training.nc.dev5.entity.TermsOfReference;
-import by.training.nc.dev5.entity.metamodel.Manager_;
 import by.training.nc.dev5.entity.metamodel.Project_;
 import by.training.nc.dev5.entity.metamodel.TermsOfReference_;
 import by.training.nc.dev5.exception.DataAccessException;
@@ -17,7 +15,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Nikita on 07.05.2017.
@@ -53,20 +50,14 @@ public class ProjectJpaDao
         }
     }
 
-    public Collection<Project> getProjects(int managerId) throws DataAccessException {
+    public Collection<Project> getProjects(int managerId)
+            throws DataAccessException {
 
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Project> cq = cb.createQuery(Project.class);
-        Root<Project> fromProject = cq.from(Project.class);
-        Path<Manager> managerPath = fromProject.get(Project_.manager);
-        Path<Integer> managerIdPath = managerPath.get(Manager_.id);
+        TypedQuery<Project> q = getEntityManager().createQuery(
+                "select p from Project p where p.manager.id = :managerId",
+                Project.class
+        );
 
-        cq.where(cb.equal(managerIdPath, managerId));
-        cq.select(fromProject);
-
-        TypedQuery<Project> q = getEntityManager().createQuery(cq);
-        List<Project> result = q.getResultList();
-
-        return result;
+        return q.setParameter("managerId", managerId).getResultList();
     }
 }

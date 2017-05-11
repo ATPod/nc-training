@@ -25,8 +25,8 @@
                         <input type="password" class="form-control" name="password"><br />
                     </label>
                 </div>
-                <input type="submit" value="Submit">
-                <input type="reset" value="Reset">
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-default" type="reset">Reset</button>
             </form>
         </div>
     </div>

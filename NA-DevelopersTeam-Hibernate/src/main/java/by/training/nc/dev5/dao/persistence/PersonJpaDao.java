@@ -22,17 +22,22 @@ public class PersonJpaDao
     }
 
     public Person getPersonByLogin(String login) throws DataAccessException {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Person> cq = cb.createQuery(Person.class);
-        Root<Person> fromPerson = cq.from(Person.class);
-        Path<String> loginPath = fromPerson.get(Person_.login);
+//        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+//        CriteriaQuery<Person> cq = cb.createQuery(Person.class);
+//        Root<Person> fromPerson = cq.from(Person.class);
+//        Path<String> loginPath = fromPerson.get(Person_.login);
+//
+//        cq.where(cb.equal(loginPath, login));
+//        cq.select(fromPerson);
 
-        cq.where(cb.equal(loginPath, login));
-        cq.select(fromPerson);
-
-        TypedQuery<Person> q = getEntityManager().createQuery(cq);
+        TypedQuery<Person> q = getEntityManager().createQuery(
+                "select p from Person p where p.login = :login",
+                Person.class
+        );
 
         try {
+            q.setParameter("login", login);
+
             return q.getSingleResult();
         } catch (NoResultException e) {
             return null;

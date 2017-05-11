@@ -2,7 +2,6 @@ package by.training.nc.dev5.dao.persistence;
 
 import by.training.nc.dev5.dao.*;
 import by.training.nc.dev5.entity.*;
-import by.training.nc.dev5.entity.metamodel.TaskJpaDao;
 import by.training.nc.dev5.util.JpaUtil;
 
 import javax.persistence.EntityManager;
@@ -17,9 +16,17 @@ public class JpaDaoFactory extends DaoFactory {
      * @return a dao for {@link Customer} objects
      */
     public CustomerDao getCustomerDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new CustomerJpaDao(em);
+        return new CustomerJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 
     /**
@@ -28,9 +35,17 @@ public class JpaDaoFactory extends DaoFactory {
      * @return a dao for {@link Developer} objects
      */
     public DeveloperDao getDeveloperDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new DeveloperJpaDao(em);
+        return new DeveloperJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 
     /**
@@ -39,9 +54,17 @@ public class JpaDaoFactory extends DaoFactory {
      * @return a dao for {@link Manager} objects
      */
     public ManagerDao getManagerDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new ManagerJpaDao(em);
+        return new ManagerJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 
     /**
@@ -50,9 +73,17 @@ public class JpaDaoFactory extends DaoFactory {
      * @return a dao for {@link Invoice} objects
      */
     public InvoiceDao getInvoiceDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new InvoiceJpaDao(em);
+        return new InvoiceJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 
     /**
@@ -61,9 +92,17 @@ public class JpaDaoFactory extends DaoFactory {
      * @return a dao for {@link Project} objects
      */
     public ProjectDao getProjectDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new ProjectJpaDao(em);
+        return new ProjectJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 
     /**
@@ -73,9 +112,17 @@ public class JpaDaoFactory extends DaoFactory {
      * objects
      */
     public TermsOfReferenceDao getTermsOfReferenceDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new TermsOfReferenceJpaDao(em);
+        return new TermsOfReferenceJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 
     /**
@@ -84,9 +131,17 @@ public class JpaDaoFactory extends DaoFactory {
      * @return a dao for {@link Task} objects
      */
     public TaskDao getTaskDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new TaskJpaDao(em);
+        return new TaskJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 
     /**
@@ -95,9 +150,17 @@ public class JpaDaoFactory extends DaoFactory {
      * @return a dao for {@link TimeSheet} objects
      */
     public TimeSheetDao getTimeSheetDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new TimeSheetJpaDao(em);
+        return new TimeSheetJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 
     /**
@@ -107,9 +170,17 @@ public class JpaDaoFactory extends DaoFactory {
      * objects
      */
     public QualificationDao getQualificationDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new QualificationJpaDao(em);
+        return new QualificationJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 
     /**
@@ -119,9 +190,17 @@ public class JpaDaoFactory extends DaoFactory {
      * objects
      */
     public TaskQuotaDao getTaskQuotaDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new TaskQuotaJpaDao(em);
+        return new TaskQuotaJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 
     /**
@@ -131,8 +210,16 @@ public class JpaDaoFactory extends DaoFactory {
      * objects
      */
     public PersonDao getPersonDao() {
-        EntityManager em = JpaUtil.getInstance().getEntityManager();
-
-        return new PersonJpaDao(em);
+        return new PersonJpaDao(null) {
+            /**
+             * Gets the value of entityManager
+             *
+             * @return the value of entityManager.
+             */
+            @Override
+            protected EntityManager getEntityManager() {
+                return JpaUtil.getInstance().getEntityManager();
+            }
+        };
     }
 }

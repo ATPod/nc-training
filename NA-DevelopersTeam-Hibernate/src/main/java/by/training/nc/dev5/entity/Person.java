@@ -16,6 +16,7 @@ import javax.persistence.*;
 @Table(name = "person")
 public abstract class Person {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     @Basic

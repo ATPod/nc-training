@@ -1,9 +1,11 @@
-package by.training.nc.dev5.entity.metamodel;
+package by.training.nc.dev5.dao.persistence;
 
 import by.training.nc.dev5.dao.TaskDao;
 import by.training.nc.dev5.dao.persistence.AbstractJpaDao;
 import by.training.nc.dev5.entity.Task;
 import by.training.nc.dev5.entity.TermsOfReference;
+import by.training.nc.dev5.entity.metamodel.Task_;
+import by.training.nc.dev5.entity.metamodel.TermsOfReference_;
 import by.training.nc.dev5.exception.DataAccessException;
 
 import javax.persistence.EntityManager;
@@ -29,18 +31,22 @@ public class TaskJpaDao
 
     public Collection<Task> getTasks(Integer termsOfReferenceId)
             throws DataAccessException {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Task> cq = cb.createQuery(Task.class);
-        Root<Task> fromTask = cq.from(Task.class);
-        Path<TermsOfReference> torPath = fromTask.get(Task_.termsOfReference);
-        Path<Integer> torIdPath = torPath.get(TermsOfReference_.id);
+//        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+//        CriteriaQuery<Task> cq = cb.createQuery(Task.class);
+//        Root<Task> fromTask = cq.from(Task.class);
+//        Path<TermsOfReference> torPath = fromTask.get(Task_.termsOfReference);
+//        Path<Integer> torIdPath = torPath.get(TermsOfReference_.id);
+//
+//        cq.where(cb.equal(torIdPath, termsOfReferenceId));
+//        cq.select(fromTask);
 
-        cq.where(cb.equal(torIdPath, termsOfReferenceId));
-        cq.select(fromTask);
+        TypedQuery<Task> q = getEntityManager().createQuery(
+                "select t from Task t where t.termsOfReference.id = :torId",
+                Task.class
+        );
 
-        TypedQuery<Task> q = getEntityManager().createQuery(cq);
-        List<Task> result = q.getResultList();
+        q.setParameter("torId", termsOfReferenceId);
 
-        return result;
+        return q.getResultList();
     }
 }

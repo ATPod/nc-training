@@ -2,16 +2,11 @@ package by.training.nc.dev5.dao.persistence;
 
 import by.training.nc.dev5.dao.DeveloperDao;
 import by.training.nc.dev5.entity.Developer;
-import by.training.nc.dev5.entity.Project;
-import by.training.nc.dev5.entity.metamodel.Developer_;
-import by.training.nc.dev5.entity.metamodel.Project_;
 import by.training.nc.dev5.exception.DataAccessException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Nikita on 04.05.2017.
@@ -33,18 +28,14 @@ public class DeveloperJpaDao
     public Collection<Developer> getUnassignedDevelopers(
             Integer qualificationId) throws DataAccessException {
 
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Developer> cq = cb.createQuery(Developer.class);
-        Root<Developer> fromDeveloper = cq.from(Developer.class);
-        Path<Project> projectPath = fromDeveloper.get(Developer_.project);
+        TypedQuery<Developer> q = getEntityManager().createQuery(
+                "select d from Developer d" +
+                        " where d.project is null" +
+                        " and d.qualification.id = :qualificationId",
+                Developer.class
+        );
 
-        cq.where(cb.isNull(projectPath));
-        cq.select(fromDeveloper);
-
-        TypedQuery<Developer> q = getEntityManager().createQuery(cq);
-        List<Developer> result = q.getResultList();
-
-        return result;
+        return q.setParameter("qualificationId", qualificationId).getResultList();
     }
 
     /**
@@ -57,18 +48,20 @@ public class DeveloperJpaDao
     public Collection<Developer> getDevelopers(Integer projectId)
             throws DataAccessException {
 
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Developer> cq = cb.createQuery(Developer.class);
-        Root<Developer> fromDeveloper = cq.from(Developer.class);
-        Path<Project> projectPath = fromDeveloper.get(Developer_.project);
-        Path<Integer> projectIdPath = projectPath.get(Project_.id);
+        TypedQuery<Developer> q = getEntityManager().createQuery(
+                "select d from Developer d where d.project.id = :projectId",
+                Developer.class
+        );
 
-        cq.where(cb.equal(projectIdPath, projectId));
-        cq.select(fromDeveloper);
+        return q.setParameter("projectId", projectId).getResultList();
+    }
 
-        TypedQuery<Developer> q = getEntityManager().createQuery(cq);
-        List<Developer> result = q.getResultList();
+    public Collection<Developer> getUnassignedDevelopers() {
+        TypedQuery<Developer> q = getEntityManager().createQuery(
+                "select d from Developer d where d.project is null",
+                Developer.class
+        );
 
-        return result;
+        return q.getResultList();
     }
 }
