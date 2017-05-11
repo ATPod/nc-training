@@ -60,7 +60,7 @@ public class ProjectJpaDao
         );
 
         try {
-            return q.getSingleResult();
+            return q.setParameter("developerId", developerId).getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
