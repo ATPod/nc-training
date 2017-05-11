@@ -28,7 +28,7 @@
             <app:developerSideNav />
         </div>
         <div class="col-lg-9">
-            <form class="form-inline" name="trackTimeForm" action="controller">
+            <form class="form-inline" method="post" name="trackTimeForm" action="controller">
                 <input type="hidden" name="command" value="trackTime">
                 <div class="form-group">
                     <label>
@@ -37,6 +37,9 @@
                     </label>
                     <button class="btn btn-primary" type="submit">Track</button>
                 </div>
+                <p class="text-danger">
+                    ${requestScope.trackTimeErrorMessage}
+                </p>
             </form>
             <hr />
             <app:timeSheetHolder>

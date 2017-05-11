@@ -58,19 +58,5 @@ public class LoginCommand implements Command {
 
     private void setSessionAttributes(HttpSession session, PersonDto user) {
         session.setAttribute("user", user);
-        session.setAttribute("sidenavUri", resolveSidenavPath(user));
-    }
-
-    private String resolveSidenavPath(PersonDto user) {
-        switch (user.getUserRole()) {
-            case CUSTOMER:
-                return router.resolvePath("path.page.customer.sidenav");
-            case DEVELOPER:
-                return router.resolvePath("path.page.manager.sidenav");
-            case MANAGER:
-                return router.resolvePath("path.page.developer.sidenav");
-        }
-
-        return null;
     }
 }

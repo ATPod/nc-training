@@ -2,6 +2,7 @@ package by.training.nc.dev5.web.command;
 
 import by.training.nc.dev5.web.command.customer.*;
 import by.training.nc.dev5.web.command.developer.GoTrackCommand;
+import by.training.nc.dev5.web.command.developer.TrackTimeCommand;
 import by.training.nc.dev5.web.command.manager.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,7 @@ public class CommandFactory {
         commands.put("assignDevelopers", new AssignDevelopersCommand());
 
         commands.put("goTrack", new GoTrackCommand());
+        commands.put("trackTime", new TrackTimeCommand());
     }
 
     public Command getCommand(HttpServletRequest request) {
