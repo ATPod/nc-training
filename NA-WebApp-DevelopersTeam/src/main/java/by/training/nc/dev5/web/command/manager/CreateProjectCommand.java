@@ -34,10 +34,10 @@ public class CreateProjectCommand implements Command {
 
             request.getSession().setAttribute("project", project);
 
-            Router.redirect(request, response,
+            Router.getInstance().redirect(request, response,
                     "path.page.manager.assignDevelopers");
         } catch (ServiceException e) {
-            Router.forward(request, response, "path.page.error.internal");
+            Router.getInstance().forward(request, response, "path.page.error.internal");
         }
     }
 }

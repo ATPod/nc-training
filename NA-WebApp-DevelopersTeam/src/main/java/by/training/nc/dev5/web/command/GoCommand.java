@@ -19,9 +19,16 @@ public class GoCommand implements Command {
 
         String location = request.getParameter("location");
 
-        if (!"home".equals(location)) {
-            location = "path.page." + location;
+        if (location == null) {
+            location = "home";
         }
-        Router.forward(request, response, location);
+
+        if (!"home".equals(location)) {
+            if (!location.startsWith("path.page.")) {
+                location = "path.page." + location;
+            }
+        }
+
+        Router.getInstance().forward(request, response, location);
     }
 }

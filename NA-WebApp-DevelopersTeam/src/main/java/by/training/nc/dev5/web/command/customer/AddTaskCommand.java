@@ -1,51 +1,73 @@
 package by.training.nc.dev5.web.command.customer;
 
+import by.training.nc.dev5.dto.QualificationDto;
+import by.training.nc.dev5.dto.TaskDto;
+import by.training.nc.dev5.dto.TermsOfReferenceDto;
 import by.training.nc.dev5.entity.Qualification;
-import by.training.nc.dev5.service.HelpService;
-import by.training.nc.dev5.service.TaskBuilder;
-import by.training.nc.dev5.service.TermsOfReferenceBuilder;
+import by.training.nc.dev5.service.*;
 import by.training.nc.dev5.web.command.Command;
 import by.training.nc.dev5.web.routing.Router;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Nikita on 19.04.2017.
  */
 public class AddTaskCommand implements Command {
-    private HelpService helpService;
+    private Router router;
+    private QualificationService qualificationService;
+
+    {
+        qualificationService = new QualificationServiceImpl();
+        router = Router.getInstance();
+    }
 
     public void execute(HttpServletRequest request,
                         HttpServletResponse response) throws IOException {
-        helpService = (HelpService) request.getSession()
-                .getServletContext().getAttribute("helpService");
+        TermsOfReferenceDto termsDto = fetchTermsDto(request);
 
-        TaskBuilder taskBuilder = new TaskBuilder();
+        termsDto.getTasks().add(fetchTaskDto(request));
+
+        String uri = "controller?command=goCreateTerms";
+
+        router.redirect(request, response, uri);
+    }
+
+    private TermsOfReferenceDto fetchTermsDto(HttpServletRequest request) {
+        TermsOfReferenceDto dto = (TermsOfReferenceDto) request.getSession()
+                .getAttribute("createdTerms");
+
+        if (dto == null) {
+            dto = new TermsOfReferenceDto();
+            dto.setTasks(new ArrayList<TaskDto>());
+            request.getSession().setAttribute("createdTerms", dto);
+        }
+
+        return dto;
+    }
+
+    private TaskDto fetchTaskDto(HttpServletRequest request) {
         String specification = request.getParameter("specification");
-        String developersNumber = request.getParameter("developersNumber");
-        TermsOfReferenceBuilder torBuilder = fetchTorBuilder(request);
-        Qualification qualification = fetchQualification(request);
+        int developersNumber = Integer.parseInt(
+                request.getParameter("developersNumber"));
+        int qualificationId = Integer.parseInt(
+                request.getParameter("qualificationId"));
+        TaskDto taskDto = new TaskDto();
+        QualificationDto q;
 
-        taskBuilder.setSpecification(specification);
-        taskBuilder.setDevelopersNumber(qualification,
-                                        Integer.parseInt(developersNumber));
-        torBuilder.addTask(taskBuilder.createTask());
+        taskDto.setQuotas(new HashMap<QualificationDto, Integer>());
 
-        // FIXME: redirects ruin all my navigation policy. Try to review something.
-        Router.redirect(request, response, "path.page.customer.createTor");
-    }
+        q = qualificationService.getQualification(qualificationId);
 
-    private TermsOfReferenceBuilder fetchTorBuilder(HttpServletRequest request) {
-        return (TermsOfReferenceBuilder) request.getSession()
-                .getAttribute("torBuilder");
-    }
+        taskDto.getQuotas().put(q, developersNumber);
+        taskDto.setSpecification(specification);
 
-    private Qualification fetchQualification(HttpServletRequest request) {
-        String qualificationId = request.getParameter("qualificationId");
-
-        return helpService.getQualification(
-                Integer.parseInt(qualificationId));
+        return taskDto;
     }
 }

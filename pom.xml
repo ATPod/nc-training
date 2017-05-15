@@ -23,6 +23,7 @@
         <module>AV-WebApp-Clinic</module>
         <module>NK-WebApp-Payment</module>
     <module>NA-WebApp-DevelopersTeam</module>
+    <module>NA-DevelopersTeam-Hibernate</module>
   </modules>
     <dependencies>
         <dependency>

@@ -1,7 +1,8 @@
 package by.training.nc.dev5.clinic.dao.impl;
 
+import by.training.nc.dev5.clinic.dao.AbstractDAO;
 import by.training.nc.dev5.clinic.entities.prescribings.Drug;
-import by.training.nc.dev5.clinic.dao.DrugDAO;
+import by.training.nc.dev5.clinic.dao.IDrugDAO;
 import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
 import by.training.nc.dev5.clinic.exceptions.*;
@@ -12,8 +13,12 @@ import java.util.List;
 /**
  * Created by user on 06.04.2017.
  */
-public enum  DrugMySQLDAO implements DrugDAO {
-    INSTANCE;
+public class  DrugMySQLDAO extends AbstractDAO<Drug> implements IDrugDAO {
+    private static DrugMySQLDAO instance;
+
+    private DrugMySQLDAO(){
+        super(Drug.class);
+    }
 
     public List<Drug> getByPatient(Patient patient)throws DAOException{
         try {
@@ -26,33 +31,10 @@ public enum  DrugMySQLDAO implements DrugDAO {
         }
     }
 
-    public void add(Drug drug)throws DAOException{
-        EntityManager entityManager = HibernateUtil.getEntityManager();
-        try {
-
-            entityManager.getTransaction().begin();
-            entityManager.persist(drug);
-        } catch (Exception e){
-            entityManager.getTransaction().rollback();
-            throw new DAOException(e.getMessage());
-        }finally {
-            entityManager.flush();
-            entityManager.getTransaction().commit();
+    public static synchronized DrugMySQLDAO getInstance(){
+        if(instance == null){
+            instance = new DrugMySQLDAO();
         }
-    }
-
-    public void delete(int id) throws DAOException{
-        EntityManager entityManager = HibernateUtil.getEntityManager();
-        try {
-            Drug drug = entityManager.find(Drug.class, id);
-            entityManager.getTransaction().begin();
-            entityManager.remove(drug);
-        } catch (Exception e){
-            entityManager.getTransaction().rollback();
-            throw new DAOException(e.getMessage());
-        }finally {
-            entityManager.flush();
-            entityManager.getTransaction().commit();
-        }
+        return instance;
     }
 }

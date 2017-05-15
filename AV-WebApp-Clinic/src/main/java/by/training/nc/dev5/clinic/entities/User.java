@@ -1,5 +1,7 @@
 package by.training.nc.dev5.clinic.entities;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 
 
@@ -8,6 +10,7 @@ import javax.persistence.*;
  * Created by user on 25.04.2017.
  */
 @Entity
+@Component
 public class User extends AbstractEntity{
 
     private String login;

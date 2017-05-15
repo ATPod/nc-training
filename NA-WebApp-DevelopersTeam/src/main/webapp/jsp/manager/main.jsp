@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="app" tagdir="/WEB-INF/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: F1
@@ -10,20 +11,24 @@
 <html>
 <head>
     <title>Manager Panel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <c:url var="showPendingTors" value="controller">
-        <c:param name="command" value="go" />
-        <c:param name="location" value="manager.showPendingTors" />
-    </c:url>
-    <c:url var="assignDevelopers" value="controller">
-        <c:param name="command" value="go" />
-        <c:param name="location" value="manager.assignDevelopers" />
-    </c:url>
+    <app:topNav/>
 
-    <ul>
-        <li><a href="${showPendingTors}">Show pending terms of reference</a></li>
-        <li><a href="${assignDevelopers}">Assign developers</a></li>
-    </ul>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <app:managerSideNav />
+            </div>
+            <div class="col-lg-9">
+                <h3>Hi, ${sessionScope.user.name}</h3>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

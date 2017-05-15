@@ -1,7 +1,7 @@
 package by.training.nc.dev5.web.routing;
 
 import by.training.nc.dev5.accounts.UserRole;
-import by.training.nc.dev5.entity.Person;
+import by.training.nc.dev5.dto.PersonDto;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +16,11 @@ import java.util.Properties;
  */
 public class Router {
     private static final Properties routerProps;
+    private static final Router instance;
+
+    static {
+        instance = new Router();
+    }
 
     static {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
@@ -30,7 +35,7 @@ public class Router {
         }
     }
 
-    public static void forward(HttpServletRequest request,
+    public void forward(HttpServletRequest request,
                                HttpServletResponse response,
                                String pageKey)
             throws ServletException, IOException {
@@ -39,12 +44,12 @@ public class Router {
         RequestDispatcher rq;
 
         if ("home".equals(path)) {
-            Person user = (Person) request.getSession().getAttribute("user");
+            PersonDto user = (PersonDto) request.getSession().getAttribute("user");
 
             path = resolveHome(user);
         }
         if (path == null) {
-            path = "path.page.index";
+            path = resolvePath("path.page.index");
         }
         path = resolvePath(path);
 
@@ -52,7 +57,7 @@ public class Router {
         rq.forward(request, response);
     }
 
-    public static void redirect(HttpServletRequest request,
+    public void redirect(HttpServletRequest request,
                                 HttpServletResponse response,
                                 String pageKey)
             throws IOException {
@@ -60,22 +65,29 @@ public class Router {
         String path = pageKey;
 
         if ("home".equals(path)) {
-            Person user = (Person) request.getSession().getAttribute("user");
+            PersonDto user = (PersonDto) request.getSession().getAttribute("user");
 
             path = resolveHome(user);
         }
         if (path.startsWith("path.page.")) {
-            path = resolvePath(path);
+            path = String.format("controller?command=go&location=%s", path);
         }
 
         response.sendRedirect(path);
     }
 
-    private static String resolvePath(String pageKey) {
-        return routerProps.getProperty(pageKey, null);
+    public String resolvePath(String pageKey) {
+        String path = routerProps.getProperty(pageKey, null);
+
+        if (path == null) {
+            path = routerProps.getProperty("path.page." + pageKey,
+                    null);
+        }
+
+        return path;
     }
 
-    private static String resolveHome(Person user) {
+    private String resolveHome(PersonDto user) {
         if (user == null) {
             return "path.page.index";
         }
@@ -89,5 +101,9 @@ public class Router {
         } else {
             return "path.page.index";
         }
+    }
+
+    public static Router getInstance() {
+        return instance;
     }
 }
