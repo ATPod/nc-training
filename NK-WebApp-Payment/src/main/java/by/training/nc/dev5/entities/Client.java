@@ -1,37 +1,29 @@
 package by.training.nc.dev5.entities;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by AsusPC on 15.03.17.
  */
 public class Client extends Person {
-    protected ArrayList<CreditCard> list;
+    protected List<CreditCard> list;
 
     public Client(){
         list = new ArrayList<CreditCard>();
         name = "";
         status = false;
-        id = 0;
     }
 
-    public Client(ArrayList<CreditCard> list,String name,int id) {
-        this.id = id;
+    public Client(ArrayList<CreditCard> list,String name) {
         this.list = list;
         this.name = name;
         status = false;
     }
 
-    public Client(int id,String name,String login,String password) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.password = password;
-        status = false;
-    }
 
     public Client(String name,String login,String password) {
-        this.id = 0;
         this.name = name;
         this.login = login;
         this.password = password;
@@ -45,7 +37,7 @@ public class Client extends Person {
     }
 
     public ArrayList<CreditCard> getList() {
-        return list;
+        return (ArrayList)list;
     }
 
     public void setList(ArrayList<CreditCard> list) {
@@ -72,6 +64,6 @@ public class Client extends Person {
 
     @Override
     public String toString() {
-        return "Client{ name = " + name + ",id = "+id+"status = "+status+'}';
+        return "Client{ name = " + name +"status = "+status+'}';
     }
 }
