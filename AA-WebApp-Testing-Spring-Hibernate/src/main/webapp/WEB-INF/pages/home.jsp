@@ -8,7 +8,7 @@
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-    <title>Авторизация</title>
+    <title><spring:message code="page.home.header"/></title>
 </head>
 <body>
 <div class="page-header col-md-offset-1">
@@ -52,7 +52,7 @@
         </ul>
     </div>
     <div class="col-md-6">
-        <img src="../../assets/images/image.jpg" class="img-responsive">
+        <img src="${pageContext.request.contextPath}/assets/images/image.jpg" class="img-responsive">
     </div>
 </div>
 </body>
