@@ -16,16 +16,16 @@
         <fieldset>
             <legend><spring:message code="page.registration.tutor.title"/></legend>
             <div class="form-group">
-                <label class="col-md-4 control-label" for="login" ><spring:message code="page.registration.input.login"/></label>
+                <label class="col-md-4 control-label" for="login" ><spring:message code="page.login"/></label>
                 <div class="col-md-4">
-                    <spring:message code="page.registration.input.login.placeholder" var="login_placeholder"/>
+                    <spring:message code="page.input.login.placeholder" var="login_placeholder"/>
                     <sf:input id="login" name="login" type="text" value="" placeholder="${login_placeholder}"
                            class="form-control input-md" required="" path="login"/>
                     <span class="help-block"><sf:errors path="login" cssClass="text-danger"/></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label" for="Password"><spring:message code="page.registration.input.password"/></label>
+                <label class="col-md-4 control-label" for="Password"><spring:message code="page.password"/></label>
                 <div class="col-md-4">
                     <sf:input id="Password" name="password" type="password" value="12345" placeholder=""
                            class="form-control input-md" required="" path="password"/>
@@ -33,17 +33,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label" for="name"><spring:message code="page.registration.input.name"/></label>
+                <label class="col-md-4 control-label" for="name"><spring:message code="page.name"/></label>
                 <div class="col-md-4">
-                    <spring:message code="page.registration.input.name.placeholder" var="name_placeholder"/>
+                    <spring:message code="page.input.name.placeholder" var="name_placeholder"/>
                     <sf:input id="name" name="name" type="text" value="" placeholder="${name_placeholder}"
                            class="form-control input-md" required="" path="firstName"/>
                     <span class="help-block"><sf:errors path="firstName" cssClass="text-danger"/></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label" for="surname"><spring:message code="page.registration.input.surname"/></label>
-                <spring:message code="page.registration.input.name.placeholder" var="surname_placeholder"/>
+                <label class="col-md-4 control-label" for="surname"><spring:message code="page.surname"/></label>
+                <spring:message code="page.input.name.placeholder" var="surname_placeholder"/>
                 <div class="col-md-4">
                     <sf:input id="surname" name="surname" type="text" value="" placeholder="${surname_placeholder}"
                            class="form-control input-md" required="" path="lastName"/>

@@ -12,15 +12,15 @@
 <div class="page-header" align="center"><h1><spring:message code="page.profile.student.title"/></h1></div>
 <div class="col-md-3" align="left">
     <ul class="nav nav-list">
-        <li><a href="${pageContext.request.contextPath}/home"><spring:message code="page.profile.student.menu.home"/></a></li>
-        <li><a href="${pageContext.request.contextPath}/allTests"><spring:message code="page.profile.student.menu.tests"/></a></li>
+        <li><a href="${pageContext.request.contextPath}/home"><spring:message code="page.student.menu.home"/></a></li>
+        <li><a href="${pageContext.request.contextPath}/allTests"><spring:message code="page.student.menu.tests"/></a></li>
         <li><a href="${pageContext.request.contextPath}/logout"><spring:message code="page.student.menu.logout"/></a></li>
     </ul>
 </div>
 <div align="left" class="col-md-8">
     <h5>
-        <p><b><spring:message code="page.profile.student.name"/>: </b>${sessionUser.name}</p>
-        <p><b><spring:message code="page.profile.student.surname"/>: </b>${sessionUser.surname}</p>
+        <p><b><spring:message code="page.name"/>: </b>${sessionUser.name}</p>
+        <p><b><spring:message code="page.surname"/>: </b>${sessionUser.surname}</p>
         <p><b><spring:message code="page.profile.student.scores"/>: </b>${sessionUser.scores}</p>
     </h5>
 </div>

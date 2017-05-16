@@ -9,7 +9,7 @@
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-    <title>Авторизация</title>
+    <title><spring:message code="page.login.title"/></title>
 </head>
 <body>
 <!--Путь к фильтру аутентификации-->
@@ -17,16 +17,16 @@
 <div align="center">
     <form class="form-horizontal" name="loginForm" method="POST" action="${loginUrl}">
         <fieldset>
-            <legend>Вход в систему</legend>
+            <legend><spring:message code="page.login.form.title"/></legend>
             <div class="form-group">
-                <label class="col-md-4 control-label" for="login">Логин</label>
+                <label class="col-md-4 control-label" for="login"><spring:message code="page.login"/></label>
                 <div class="col-md-4">
                     <input id="login" name="j_username" type="text" value="" placeholder="Введите логин..."
                               class="form-control input-md" required="">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label" for="Password">Пароль</label>
+                <label class="col-md-4 control-label" for="Password"><spring:message code="page.password"/></label>
                 <div class="col-md-4">
                     <input id="Password" name="j_password" type="password" value="12345" placeholder=""
                               class="form-control input-md" required="">
@@ -37,7 +37,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="singlebutton"></label>
                 <div class="col-md-4">
-                    <button id="singlebutton" name="singlebutton" class="btn btn-success">Войти</button>
+                    <button id="singlebutton" name="singlebutton" class="btn btn-success"><spring:message code="page.login.button"/></button>
                 </div>
             </div>
         </fieldset>
