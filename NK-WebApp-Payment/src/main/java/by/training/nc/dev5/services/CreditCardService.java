@@ -88,34 +88,28 @@ public class CreditCardService {
         }
     }
 
-    public static String blockCreditCard(String id,String password){
-        MySQLDAOFactory factory = new MySQLDAOFactory();
+    public static String blockCreditCard(String id){
         CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
         CreditCard creditCard = creditCardMySQLDAO.findCreditCard(id);
         if(creditCard != null) {
-            if (creditCard.getPassword().equals(password)) {
-                creditCard.getAccount().setBlocked(true);
-                creditCardMySQLDAO.updateCreditCard(creditCard);
-                return null;
-            }
-            else return "invalid password";
+            creditCard.getAccount().setBlocked(true);
+            creditCardMySQLDAO.updateCreditCard(creditCard);
+            return null;
         }
         else return "no such cards";
     }
 
     public static void unblockCreditCard(String id){
-        MySQLDAOFactory factory = new MySQLDAOFactory();
         CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
         CreditCard creditCard = creditCardMySQLDAO.findCreditCard(id);
         creditCard.getAccount().setBlocked(false);
         creditCardMySQLDAO.updateCreditCard(creditCard);
     }
 
-    public static String deleteCreditCard(String id, String password, Person person){
-        MySQLDAOFactory factory = new MySQLDAOFactory();
+    public static String deleteCreditCard(String id, Person person){
         CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
         try {
-            CreditCard creditCard = new CreditCard(id, password, null, person.getId());
+            CreditCard creditCard = new CreditCard(id, "1111", null, person.getLogin());
             creditCardMySQLDAO.deleteCreditCard(creditCard);
             return null;
         } catch (NotCorrectIdException e){
@@ -126,11 +120,10 @@ public class CreditCardService {
     }
 
     public static String insertCreditCard(String id, String password,double money, Person person){
-        MySQLDAOFactory factory = new MySQLDAOFactory();
         CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
         Account account = new Account(money,false);
         try {
-            CreditCard creditCard = new CreditCard(id, password, account, person.getId());
+            CreditCard creditCard = new CreditCard(id, password, account, person.getLogin());
             creditCardMySQLDAO.insertCreditCard(creditCard);
             return null;
         } catch (NotCorrectIdException e){
@@ -144,14 +137,14 @@ public class CreditCardService {
         MySQLDAOFactory factory = new MySQLDAOFactory();
         CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
         ArrayList<CreditCard> list = new ArrayList<>();
-        list = creditCardMySQLDAO.findAllCreditCardsByClientId(person.getId());
+        list = creditCardMySQLDAO.findAllCreditCardsByClientId(person.getLogin());
         return list;
     }
 
     public static void viewCreditCard(CreditCard creditcard){
         System.out.println(creditcard.getAccount().getMoney());
         System.out.println(creditcard.getAccount().isBlocked());
-        System.out.println(creditcard.getClientId());
+        System.out.println(creditcard.getClientLogin());
         System.out.println(creditcard.getId());
         System.out.println(creditcard.getPassword());
     }

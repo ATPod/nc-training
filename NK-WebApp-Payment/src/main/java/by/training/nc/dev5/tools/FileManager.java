@@ -33,7 +33,7 @@ public class FileManager {
             scanner.findWithinHorizon("Name : ",0);
             String clientname = scanner.next();
             scanner.findWithinHorizon("Id : ",0);
-            int clientid = scanner.nextInt();
+            String clientid = scanner.next();
             scanner.findWithinHorizon("Status : ",0);
             boolean clientstatus = scanner.nextBoolean();
             scanner.findWithinHorizon("NumOfCreditCards : ",0);
@@ -59,7 +59,7 @@ public class FileManager {
                     e.printStackTrace();
                 }
             }
-            client = new Client(list,clientname,clientid);
+            client = new Client(list,clientname);
         }
         return client;
     }
@@ -69,7 +69,6 @@ public class FileManager {
         try{
             PrintWriter printer = new PrintWriter(new BufferedWriter(new FileWriter(new File(filename))));
             printer.println("Name : " + client.getName());
-            printer.println("Id : " + client.getId());
             printer.println("Status : " + client.isStatus());
             printer.println("NumOfCreditCards : " + client.getList().size());
             for(CreditCard creditCard : client.getList()){

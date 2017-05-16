@@ -5,9 +5,9 @@ import java.util.Collection;
 import by.training.nc.dev5.entities.CreditCard;
 
 public interface CreditCardDAO {
-	  int insertCreditCard(CreditCard pCreditCard);
-	  boolean deleteCreditCard(CreditCard pCreditCard);
+	  void insertCreditCard(CreditCard pCreditCard);
+	  void deleteCreditCard(CreditCard pCreditCard);
 	  CreditCard findCreditCard(String  pCreditCardId);
-	  boolean updateCreditCard(CreditCard pCreditCard);
+	  void updateCreditCard(CreditCard pCreditCard);
 	  Collection<CreditCard> selectCreditCards();
 }

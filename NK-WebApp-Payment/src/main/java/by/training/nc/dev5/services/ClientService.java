@@ -86,8 +86,8 @@ public class ClientService {
 
     public static void insertClient(String name,String login,String password){
         ClientMySQLDAO clientMySQLDAO = new ClientMySQLDAO();
-        Client client = new Client(name,login,password);
-        clientMySQLDAO.insertClient(client);
+        Person pPerson = new Person(name,login,password);
+        clientMySQLDAO.insertClient(pPerson);
     }
 
     public static void serializeOperation(Client client,String id, String password,int flag)throws Exception{
@@ -102,6 +102,8 @@ public class ClientService {
     public static Person login(String login, String password){
         MySQLDAOFactory factory = new MySQLDAOFactory();
         ClientMySQLDAO clientMySQLDAO = new ClientMySQLDAO();
-        return new Person(clientMySQLDAO.findPerson(login,password));
+        Person pPerson = new Person(clientMySQLDAO.findPerson(login));
+        if(pPerson.getPassword().equals(password)) return pPerson;
+        return null;
     }
 }
