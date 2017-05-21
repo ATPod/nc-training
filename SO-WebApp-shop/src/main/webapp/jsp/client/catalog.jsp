@@ -3,7 +3,7 @@
 
 <html>
     <head>
-        <title>Bag</title>
+        <title>SO-shop</title>
         <link href=<c:url value="../../static/css/bootstrap.min.css"/> rel="stylesheet">
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="js/bootstrap.min.js"></script>
@@ -19,10 +19,9 @@
     <br>
     <br>
 
-    <h3>Make ordering</h3>
-
+    <h3>Catalog</h3>
     <table class="table table-hover table-condensed table-striped">
-        <caption>List of products in bag.</caption>
+        <caption>Choose products you want to buy.</caption>
         <thead>
         <tr>
             <th class="text-center"><strong>ID</strong></th>
@@ -32,25 +31,21 @@
         </tr>
         </thead>
 
-        <c:forEach var="product" items="${bag}">
+        <c:forEach var="product" items="${productList}">
             <tr>
                 <td class="text-center"><c:out value="${product.id}" /></td>
                 <td class="text-center"><c:out value="${product.title}" /></td>
                 <td class="text-center"><c:out value="${product.price}" /></td>
                 <td class="text-center">
-                        <form method="POST" action="/client_remove_from_bag">
-                            <input type="hidden" name="productId" value="${ product.id }"/>
-                            <input type="submit" value="Remove" class="btn btn-danger"/>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
+                    <form method="POST" action="/client_add_to_bag">
+                        <input type="hidden" name="productId" value="${ product.id }"/>
+                        <input type="submit" value="Add to bag" class="btn btn-success"/>
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
 
-    <form method="POST" action="/client_make_ordering">
-        <input type="submit" value="Make ordering!" class="btn btn-success"/>
-    </form>
-
-        ${errorMessage}
-        </body>
+    ${errorMessage}
+    </body>
 </html>

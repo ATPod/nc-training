@@ -4,20 +4,23 @@
 <html>
 <head>
     <title>Settings</title>
+    <link href=<c:url value="../../static/css/bootstrap.min.css"/> rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
 
-${name} <br/><br/>
-<a href="controller?command=admin_go_to_clients">Clients</a> <br/>
-<a href="controller?command=admin_go_to_products">Products</a> <br/>
-<a href="controller?command=admin_go_to_orderings">Orderings</a> <br/>
-<a href="controller?command=logout">Log out</a> <br/><br/>
+<jsp:include page="navbar.jsp"/>
 
-<form name="passwordForm" method="POST" action="controller">
+<br>
+<br>
+<br>
+<br>
+<h3>Update password</h3>
+<form method="POST" action="/admin_update_password" role="form">
     <input type="hidden" name="command" value="admin_update_password"/>
-    Password:<br/>
-    <input type="text" name="password" value=""/><br/>
-    <input type="submit" value="Update"/>
+    <input type="password" name="password" value="" class="form-control" placeholder="New password..."/><br/>
+    <input type="submit" value="Update" class="btn btn-success"/>
 </form>
 
 ${errorMessage}

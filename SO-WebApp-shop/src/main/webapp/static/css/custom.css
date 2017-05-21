@@ -1,0 +1,30 @@
+body {
+    background: url("../img/start-background.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.start-form{
+    background-color: white;
+    padding: 25px;
+    width: 250px;
+    margin: auto;
+    margin-top: 8%;
+    border-radius: 10px;
+    border: solid #adadad 1px;
+    text-align: center;
+}
+
+.start-btn{
+    width: 200px;
+    margin: auto;
+}
+
+.start-alert{
+    width: 250px;
+    margin: auto;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 10px;
+
+}

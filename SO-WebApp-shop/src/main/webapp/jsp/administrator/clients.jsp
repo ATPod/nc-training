@@ -3,40 +3,53 @@
 <html>
     <head>
         <title>Clients</title>
+        <link href=<c:url value="../../static/css/bootstrap.min.css"/> rel="stylesheet">
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </head>
+
     <body>
 
-        ${name} <br/><br/>
-        <a href="controller?command=admin_go_to_orderings">Orderings</a> <br/>
-        <a href="controller?command=admin_go_to_products">Products</a> <br/>
-        <a href="controller?command=admin_go_to_settings">Settings</a> <br/>
-        <a href="controller?command=logout">Log out</a> <br/><br/>
+    <jsp:include page="navbar.jsp"/>
 
-        <table border="1">
-            <tr bgcolor="#CCCCCC">
-                <td align="center"><strong>ID</strong></td>
-                <td align="center"><strong>E-mail</strong></td>
-                <td align="center"><strong>First name</strong></td>
-                <td align="center"><strong>Last name</strong></td>
-                <td align="center"><strong>Black list</strong></td>
+
+    <h3>List of all clients</h3>
+    <div class="row">
+        <table class="table table-hover table-condensed table-striped col-md-offset-2 col-md-6" style="width: auto;">
+            <caption>You can change state of each client.</caption>
+            <thead>
+            <tr>
+                <th class="text-center col-md-1"><strong>ID</strong></th>
+                <th class="text-center col-md-2"><strong>E-mail</strong></th>
+                <th class="text-center col-md-2"><strong>First name</strong></th>
+                <th class="text-center col-md-1"><strong>Last name</strong></th>
+                <th class="text-center col-md-1"><strong>State</strong></th>
+                <th class="col-md-1"></th>
             </tr>
+            </thead>
             <c:forEach var="client" items="${clientList}">
                 <tr>
-                    <td><c:out value="${client.id}" /></td>
-                    <td><c:out value="${client.email}" /></td>
-                    <td><c:out value="${client.firstname}" /></td>
-                    <td><c:out value="${client.lastname}" /></td>
-                    <td><c:out value="${client.blacklist}" /></td>
-                    <td>
-                        <form method="POST" action="controller">
-                            <input type="hidden" name="command" value="admin_change_black_list"/>
+                    <td class="text-center"><c:out value="${client.id}" /></td>
+                    <td class="text-center"><c:out value="${client.email}" /></td>
+                    <td class="text-center"><c:out value="${client.firstname}" /></td>
+                    <td class="text-center"><c:out value="${client.lastname}" /></td>
+                    <td class="text-center">
+                        <c:choose>
+                            <c:when test="${client.blacklist == '1'}">Blocked</c:when>
+                            <c:when test="${client.blacklist == '0'}">Normal</c:when>
+                        </c:choose>
+                    </td>
+                    <td class="text-center">
+                        <form method="POST" action="/admin_change_black_list">
                             <input type="hidden" name="clientId" value="${ client.id }"/>
-                            <input type="submit" value="Change state"/>
+                            <input type="submit" value="Change state" class="btn btn-warning"/>
                         </form>
                     </td>
                 </tr>
             </c:forEach>
         </table>
+    </div>
+
         ${errorMessage}
     </body>
 </html>
