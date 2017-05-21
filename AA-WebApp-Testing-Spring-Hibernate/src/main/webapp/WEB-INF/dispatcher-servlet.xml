@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <mvc:annotation-driven/>
+    <!--Где искать контроллеры-->
+    <context:component-scan base-package="by.training.nc.dev5.testing"/>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!--Обработчик  статического  содержимого.
+    Путь должен начинаться с /assets и может включать дополнительные элементы пути.
+    Атрибут location определяет  местоположение  обслуживаемых  файлов.-->
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
+    <!--i18n-->
+    <!--ReloadableResourceBundleMessageSource извлекает сообщения из файлов свойств-->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          p:basenames="classpath:i18n/messages,classpath:i18n/validation"
+          p:defaultEncoding="UTF-8"
+    />
+    <!--Локаль будет храниться в  Cookie.
+    Cookie отправляются серверу при каждом запросе страницы-->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
+          p:defaultLocale="en"
+          p:cookieName="LocaleCookie"
+          p:cookieMaxAge="3600"
+    />
+    <!--Перехватчик запросов. В методе  preHandle настраивается локаль (если в запросе
+    есть параметр locale!=null).
+    Метод preHandle вызывается перед тем как DispatcherServlet
+    передает управление контроллеру.-->
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+              p:paramName="locale"
+        />
+
+    </mvc:interceptors>
+
+</beans>

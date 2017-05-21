@@ -23,7 +23,7 @@ public final class DBManager {
     private static final String PASSWORD = "password";
 
     private static DBManager instance;
-    private Connection con;
+    private  Connection con;
 
     private DBManager() {
         con = getMySQLConnection();
@@ -37,7 +37,10 @@ public final class DBManager {
         return instance;
     }
 
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
+        if (con.isClosed()){
+            con = getMySQLConnection();
+        }
         return con;
     }
 

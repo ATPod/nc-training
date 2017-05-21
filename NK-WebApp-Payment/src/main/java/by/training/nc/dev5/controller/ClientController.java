@@ -12,10 +12,8 @@ import java.io.IOException;
 
 public class ClientController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ClientMySQLDAO clientMySQLDAO = new ClientMySQLDAO();
-        String page = null;
         Command command = CommandFactory.defineCommand(request);
-        page = command.execute(request);
+        String page = command.execute(request);
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);

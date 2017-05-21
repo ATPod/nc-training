@@ -19,7 +19,7 @@ public class MysqlTaskQuotaDao
         extends MysqlAbstractDao<TaskQuota>
         implements TaskQuotaDao {
     private static final String SELECT_TASK_QUOTAS_BY_TASK_ID_QUERY =
-            "SELECT qualification_id, task_id, developers_number" +
+            "SELECT id, qualification_id, task_id, developers_number" +
             " FROM task_quota WHERE task_id = ?";
     private static final String UPDATE_TASK_QUOTA_QUERY =
             "UPDATE task_quota" +
@@ -34,10 +34,10 @@ public class MysqlTaskQuotaDao
                     "developers_number)" +
             " VALUES (?, ?, ?)";
     private static final String SELECT_ALL_TASK_QUOTAS_QUERY =
-            "SELECT qualification_id, task_id, developers_number" +
+            "SELECT id, qualification_id, task_id, developers_number" +
             " FROM task_quota";
     private static final String SELECT_TASK_QUOTA_BY_ID_QUERY =
-            "SELECT qualification_id, task_id, developers_number" +
+            "SELECT id, qualification_id, task_id, developers_number" +
             " FROM task_quota WHERE id = ?";
     private static final String DELETE_FROM_TASK_QUOTA_QUERY =
             "DELETE FROM task_quota WHERE id = ?";
@@ -70,13 +70,10 @@ public class MysqlTaskQuotaDao
 
             return ps.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return false;
     }
 
     public boolean delete(Integer id) throws DataAccessException {
@@ -106,27 +103,28 @@ public class MysqlTaskQuotaDao
 
             return id;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
     }
 
     protected TaskQuota fetchEntity(ResultSet rs)
-            throws SQLException, DataAccessException {
+            throws DataAccessException {
 
         TaskQuota taskQuota = new TaskQuota();
         TaskDao taskDao = new MysqlTaskDao();
         QualificationDao qualificationDao = new MysqlQualificationDao();
 
-        taskQuota.setId(rs.getInt("id"));
-        taskQuota.setDevelopersNumber(rs.getInt("developers_number"));
-        taskQuota.setTask(taskDao.getEntityById(rs.getInt("task_id")));
-        taskQuota.setQualification(qualificationDao.getEntityById(
-                rs.getInt("qualification_id")));
+        try {
+            taskQuota.setId(rs.getInt("id"));
+            taskQuota.setDevelopersNumber(rs.getInt("developers_number"));
+            taskQuota.setTask(taskDao.getEntityById(rs.getInt("task_id")));
+            taskQuota.setQualification(qualificationDao.getEntityById(
+                    rs.getInt("qualification_id")));
+        } catch (SQLException e) {
+            throw new DataAccessException("Database error occurred", e);
+        }
 
         return taskQuota;
     }

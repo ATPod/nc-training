@@ -1,7 +1,10 @@
 package by.training.nc.dev5.services;
 
+import by.training.nc.dev5.dao.ClientMySQLDAO;
+import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.entities.Client;
 import by.training.nc.dev5.entities.CreditCard;
+import by.training.nc.dev5.entities.Person;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -81,12 +84,10 @@ public class ClientService {
         }
     }
 
-    public static void moneyOperation (Client client,String id,String password,double money,int flag){
-        for (int i = 0; i < client.getList().size(); i++) {
-            if (isIdRight(client.getList().get(i).getId(), id)) {
-                CreditCardService.moneyOperation(client.getList().get(i),password, money,flag);
-            }
-        }
+    public static void insertClient(String name,String login,String password){
+        ClientMySQLDAO clientMySQLDAO = new ClientMySQLDAO();
+        Person pPerson = new Person(name,login,password);
+        clientMySQLDAO.insertClient(pPerson);
     }
 
     public static void serializeOperation(Client client,String id, String password,int flag)throws Exception{
@@ -96,5 +97,13 @@ public class ClientService {
                         ClientService.generatePath(client.getList().get(i).getId()),flag);
             }
         }
+    }
+
+    public static Person login(String login, String password){
+        MySQLDAOFactory factory = new MySQLDAOFactory();
+        ClientMySQLDAO clientMySQLDAO = new ClientMySQLDAO();
+        Person pPerson = new Person(clientMySQLDAO.findPerson(login));
+        if(pPerson.getPassword().equals(password)) return pPerson;
+        return null;
     }
 }

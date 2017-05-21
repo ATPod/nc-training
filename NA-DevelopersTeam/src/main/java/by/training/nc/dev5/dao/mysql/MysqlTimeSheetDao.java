@@ -100,13 +100,10 @@ public class MysqlTimeSheetDao
 
             return ps.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return false;
     }
 
     /**
@@ -148,27 +145,28 @@ public class MysqlTimeSheetDao
 
             return id;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
     }
 
-    protected TimeSheet fetchEntity(ResultSet rs) throws SQLException, DataAccessException {
+    protected TimeSheet fetchEntity(ResultSet rs) throws DataAccessException {
         TimeSheet timeSheet = new TimeSheet();
         ProjectDao projectDao = new MysqlProjectDao();
         DeveloperDao developerDao = new MysqlDeveloperDao();
 
-        timeSheet.setId(rs.getInt("id"));
-        timeSheet.setProject(projectDao.getEntityById(
-                rs.getInt("project_id")));
-        timeSheet.setDeveloper(developerDao.getEntityById(
-                rs.getInt("developer_id")));
-        timeSheet.setTime(rs.getInt("time"));
-        timeSheet.setDate(rs.getDate("work_date"));
+        try {
+            timeSheet.setId(rs.getInt("id"));
+            timeSheet.setProject(projectDao.getEntityById(
+                    rs.getInt("project_id")));
+            timeSheet.setDeveloper(developerDao.getEntityById(
+                    rs.getInt("developer_id")));
+            timeSheet.setTime(rs.getInt("time"));
+            timeSheet.setDate(rs.getDate("work_date"));
+        } catch (SQLException e) {
+            throw new DataAccessException("Database error occurred", e);
+        }
 
         return timeSheet;
     }

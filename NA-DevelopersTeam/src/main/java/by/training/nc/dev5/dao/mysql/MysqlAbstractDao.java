@@ -27,7 +27,7 @@ public abstract class MysqlAbstractDao<E> implements AbstractDao<E, Integer> {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            // todo
+            // todo (logger will be enough)
         }
     }
 
@@ -41,18 +41,19 @@ public abstract class MysqlAbstractDao<E> implements AbstractDao<E, Integer> {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                result.add(fetchEntity(rs));
+                E e = fetchEntity(rs);
+
+                if (e != null) {
+                    result.add(e);
+                }
             }
 
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
     }
 
     protected E getSingleResultByIntParameter(Integer id, String sql)
@@ -68,17 +69,16 @@ public abstract class MysqlAbstractDao<E> implements AbstractDao<E, Integer> {
 
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return fetchEntity(rs);
+            if (!rs.next()) {
+                return null;
             }
+
+            return fetchEntity(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
     }
 
     protected Collection<E> getCollectionByIntParameter(int id, String sql) throws DataAccessException {
@@ -93,24 +93,27 @@ public abstract class MysqlAbstractDao<E> implements AbstractDao<E, Integer> {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                result.add(fetchEntity(rs));
+                E e = fetchEntity(rs);
+
+                if (e != null) {
+                    result.add(e);
+                }
             }
 
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
-
     }
 
-    protected abstract E fetchEntity(ResultSet rs) throws SQLException, DataAccessException;
+    protected abstract E fetchEntity(ResultSet rs)
+            throws DataAccessException;
 
-    protected boolean delete (Integer id, String sql) throws DataAccessException {
+    protected boolean delete (Integer id, String sql)
+            throws DataAccessException {
+
         Connection connection;
 
         connection = getConnection();
@@ -120,16 +123,11 @@ public abstract class MysqlAbstractDao<E> implements AbstractDao<E, Integer> {
 
             ps.setInt(1, id);
 
-            if (ps.executeUpdate() != 0) {
-                return true;
-            }
+            return ps.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database access error occurred", e);
         } finally {
             disposeConnection(connection);
         }
-
-        return false;
     }
 }

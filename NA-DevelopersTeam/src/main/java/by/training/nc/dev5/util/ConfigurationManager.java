@@ -1,25 +1,23 @@
 package by.training.nc.dev5.util;
 
-import java.util.Enumeration;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Created by Nikita on 27.03.2017.
  */
 public class ConfigurationManager extends ResourceBundle {
-    private static final ConfigurationManager INSTANCE;
-    private final ResourceBundle bundle;
+    private static final ConfigurationManager instance;
+    private final List<ResourceBundle> bundles;
+    private Enumeration<String> keys;
 
     static {
-        INSTANCE = new ConfigurationManager();
-    }
-
-    public static ConfigurationManager getInstance() {
-        return INSTANCE;
+        instance = new ConfigurationManager();
     }
 
     public ConfigurationManager() {
-        bundle = ResourceBundle.getBundle("mysql");
+        bundles = new ArrayList<ResourceBundle>();
+
+        bundles.add(ResourceBundle.getBundle("mysql"));
     }
 
     /**
@@ -30,9 +28,50 @@ public class ConfigurationManager extends ResourceBundle {
      * @param key the key for the desired object
      * @return the object for the given key, or null
      * @throws NullPointerException if <code>key</code> is <code>null</code>
+     * @throws MissingResourceException if no object is specified for the
+     * <code>key</code>
      */
     protected Object handleGetObject(String key) {
-        return bundle.getString(key);
+        MissingResourceException last = null;
+
+        for (ResourceBundle bundle : bundles) {
+            try {
+                return bundle.getString(key);
+            } catch (MissingResourceException e) {
+                last = e;
+            }
+        }
+
+        assert last != null;
+        throw last;
+    }
+
+    private void initKeys() {
+        final List<String> keysList = new ArrayList<String>();
+
+        for (ResourceBundle bundle : bundles) {
+            Enumeration<String> bundleKeys = bundle.getKeys();
+
+            while (bundleKeys.hasMoreElements()) {
+                keysList.add(bundleKeys.nextElement());
+            }
+        }
+
+        keys = new Enumeration<String>() {
+            private int pos = 0;
+
+            public boolean hasMoreElements() {
+                return pos < keysList.size();
+            }
+
+            public String nextElement() {
+                String next = keysList.get(pos);
+
+                pos++;
+
+                return next;
+            }
+        };
     }
 
     /**
@@ -42,6 +81,14 @@ public class ConfigurationManager extends ResourceBundle {
      * this <code>ResourceBundle</code> and its parent bundles.
      */
     public Enumeration<String> getKeys() {
-        return bundle.getKeys();
+        if (keys == null) {
+            initKeys();
+        }
+
+        return keys;
+    }
+
+    public static ConfigurationManager getInstance() {
+        return instance;
     }
 }

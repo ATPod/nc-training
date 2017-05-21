@@ -67,13 +67,10 @@ public class MysqlQualificationDao
 
             return ps.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return false;
     }
 
     /**
@@ -114,20 +111,21 @@ public class MysqlQualificationDao
 
             return id;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
     }
 
-    protected Qualification fetchEntity(ResultSet rs) throws SQLException {
+    protected Qualification fetchEntity(ResultSet rs) throws DataAccessException {
         Qualification qualification = new Qualification();
 
-        qualification.setId(rs.getInt("id"));
-        qualification.setName(rs.getString("name"));
+        try {
+            qualification.setId(rs.getInt("id"));
+            qualification.setName(rs.getString("name"));
+        } catch (SQLException e) {
+            throw new DataAccessException("Database error occurred", e);
+        }
 
         return qualification;
     }

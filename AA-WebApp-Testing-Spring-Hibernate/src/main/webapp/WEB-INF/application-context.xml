@@ -1,0 +1,67 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <context:component-scan base-package="by.training.nc.dev5.testing"/>
+    <!--Data source component for Spring-->
+    <beans:bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          p:url="jdbc:mysql://localhost:3306/testing?verifyServerCertificate=false"
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:username="root"
+          p:password="12345"
+          p:initialSize="5"
+          p:maxTotal="10"
+    />
+    <!--Session factory-->
+    <beans:bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <!--Cсылка  на компонент DataSource-->
+        <beans:property name="dataSource" ref="dataSource"/>
+        <!--Классы объектов предметной области,аннотированные
+        для  сохранения  с  помощью  Hibernate. -->
+        <beans:property name="packagesToScan" value="by.training.nc.dev5.testing.entities"/>
+        <!--Мелкие детали поведения Hibernate-->
+        <beans:property name="hibernateProperties">
+            <beans:props>
+                <beans:prop key="hibernate.show_sql">true</beans:prop>
+                <beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</beans:prop>
+            </beans:props>
+        </beans:property>
+    </beans:bean>
+    <!--Transaction manager for Hibernate-->
+    <beans:bean id="serviceTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <beans:property name="sessionFactory" ref="sessionFactory"/>
+    </beans:bean>
+    <!--обеспечить объявление транзакций-->
+    <tx:annotation-driven transaction-manager="serviceTransactionManager"/>
+    <beans:bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <beans:property name="transactionManager" ref="serviceTransactionManager"/>
+    </beans:bean>
+    <!--Spring-security-->
+    <http auto-config="true">
+        <intercept-url pattern="/" access="permitAll"/>
+        <intercept-url pattern="/home" access="permitAll"/>
+        <intercept-url pattern="/studentProfile" access="hasRole('ROLE_STUDENT')"/>
+        <intercept-url pattern="/tutorProfile" access="hasRole('ROLE_TUTOR')"/>
+        <form-login login-page="/login"
+                    username-parameter="j_username"
+                    password-parameter="j_password"
+                    login-processing-url="/j_spring_security_check"
+                    authentication-success-handler-ref="authenticationSuccessHandler"
+                    authentication-failure-url="/logout"/>
+        <logout logout-url="/logout"
+                invalidate-session="true"/>
+        <csrf/>
+    </http>
+    <!-- <authentication-manager>  определяет механизм аутентификации. -->
+    <authentication-manager>
+        <!-- Делегация  функции  аутентификации
+        пользователей провайдерам аутентификации.-->
+        <authentication-provider user-service-ref="authenticationService"/>
+    </authentication-manager>
+
+</beans:beans>

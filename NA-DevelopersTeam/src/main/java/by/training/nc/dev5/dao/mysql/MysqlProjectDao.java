@@ -38,17 +38,27 @@ public class MysqlProjectDao
             "SELECT id, terms_of_reference_id, manager_id" +
             " FROM project" +
             " WHERE terms_of_reference_id = ?";
+    private static final String SELECT_PROJECTS_BY_MANAGER_QUERY =
+            "SELECT id, terms_of_reference_id, manager_id" +
+            " FROM project" +
+            " WHERE manager_id = ?";
 
-    protected Project fetchEntity(ResultSet rs) throws SQLException, DataAccessException {
+    protected Project fetchEntity(ResultSet rs) throws DataAccessException {
         Project project = new Project();
         TermsOfReferenceDao torDao = new MysqlTermsOfReferenceDao();
         ManagerDao managerDao = new MysqlManagerDao();
-        int termsOfReferenceId = rs.getInt("terms_of_reference_id");
-        int managerId = rs.getInt("manager_id");
+        int termsOfReferenceId;
+        int managerId;
 
-        project.setId(rs.getInt("id"));
-        project.setTermsOfReference(torDao.getEntityById(termsOfReferenceId));
-        project.setManager(managerDao.getEntityById(managerId));
+        try {
+            termsOfReferenceId = rs.getInt("terms_of_reference_id");
+            managerId = rs.getInt("manager_id");
+            project.setId(rs.getInt("id"));
+            project.setTermsOfReference(torDao.getEntityById(termsOfReferenceId));
+            project.setManager(managerDao.getEntityById(managerId));
+        } catch (SQLException e) {
+            throw new DataAccessException("Database error occurred", e);
+        }
 
         return project;
     }
@@ -74,13 +84,10 @@ public class MysqlProjectDao
 
             return ps.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return false;
     }
 
     public boolean delete(Integer id) throws DataAccessException {
@@ -110,17 +117,19 @@ public class MysqlProjectDao
 
             return id;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
     }
 
     public Project getProject(Integer termsOfReferenceId) throws DataAccessException {
         return getSingleResultByIntParameter(termsOfReferenceId,
                 SELECT_PROJECT_BY_TERMS_OF_REFERENCE_QUERY);
+    }
+
+    public Collection<Project> getProjects(int managerId) throws DataAccessException {
+        return getCollectionByIntParameter(managerId,
+                SELECT_PROJECTS_BY_MANAGER_QUERY);
     }
 }

@@ -1,0 +1,71 @@
+<web-app
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+        id="NA-WebApp-DevelopersTeam"
+        version="3.0">
+    <display-name>Archetype Created Web Application</display-name>
+
+    <filter>
+        <filter-name>EntityManagerFilter</filter-name>
+        <filter-class>by.training.nc.dev5.web.filter.EntityManagerFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>EntityManagerFilter</filter-name>
+        <servlet-name>controller</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>controller</servlet-name>
+        <servlet-class>by.training.nc.dev5.web.servlet.Controller</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/controller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/customer/controller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/manager/controller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/developer/controller</url-pattern>
+    </servlet-mapping>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/jsp/error/not-found-error.html</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/jsp/error/internal-error.html</location>
+    </error-page>
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags</taglib-uri>
+            <taglib-location>WEB-INF/app.tld</taglib-location>
+        </taglib>
+        <!--<jsp-property-group>-->
+            <!--<url-pattern>/jsp/manager/*</url-pattern>-->
+            <!--<include-prelude>/jsp/nav.jspf</include-prelude>-->
+        <!--</jsp-property-group>-->
+        <!--<jsp-property-group>-->
+            <!--<url-pattern>/jsp/customer/*</url-pattern>-->
+            <!--<include-prelude>/jsp/nav.jspf</include-prelude>-->
+        <!--</jsp-property-group>-->
+        <!--<jsp-property-group>-->
+            <!--<url-pattern>/jsp/developer/*</url-pattern>-->
+            <!--<include-prelude>/jsp/nav.jspf</include-prelude>-->
+        <!--</jsp-property-group>-->
+    </jsp-config>
+
+</web-app>

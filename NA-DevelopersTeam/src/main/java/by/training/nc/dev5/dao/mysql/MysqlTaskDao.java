@@ -76,13 +76,10 @@ public class MysqlTaskDao
 
             return ps.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return false;
     }
 
     /**
@@ -123,23 +120,24 @@ public class MysqlTaskDao
 
             return id;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // todo
+            throw new DataAccessException("Database error occurred", e);
         } finally {
             disposeConnection(conn);
         }
-
-        return null;
     }
 
-    protected Task fetchEntity(ResultSet rs) throws SQLException, DataAccessException {
+    protected Task fetchEntity(ResultSet rs) throws DataAccessException {
         Task task = new Task();
         TermsOfReferenceDao torDao = new MysqlTermsOfReferenceDao();
 
-        task.setId(rs.getInt("id"));
-        task.setSpecification("specification");
-        task.setTermsOfReference(
-                torDao.getEntityById(rs.getInt("terms_of_reference_id")));
+        try {
+            task.setId(rs.getInt("id"));
+            task.setSpecification(rs.getString("specification"));
+            task.setTermsOfReference(
+                    torDao.getEntityById(rs.getInt("terms_of_reference_id")));
+        } catch (SQLException e) {
+            throw new DataAccessException("Database error occurred", e);
+        }
 
         return task;
     }
