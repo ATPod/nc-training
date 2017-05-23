@@ -11,11 +11,16 @@
 <c:url var="showMyProjects" value="controller">
     <c:param name="command" value="goShowProjects" />
 </c:url>
+<c:url var="issueInvoice" value="controller">
+    <c:param name="command" value="go" />
+    <c:param name="location" value="path.page.manager.issueInvoice" />
+</c:url>
 
 <div class="panel panel-default">
     <ul class="nav">
         <li><a href="${showPendingTerms}">Show pending terms of reference</a></li>
         <li><a href="${assignDevelopers}">Assign developers</a></li>
         <li><a href="${showMyProjects}">Show My Projects</a></li>
+        <li><a href="${issueInvoice}">Issue Invoice</a></li>
     </ul>
 </div>
