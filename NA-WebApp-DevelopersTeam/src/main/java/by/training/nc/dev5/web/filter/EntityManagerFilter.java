@@ -21,12 +21,15 @@ public class EntityManagerFilter implements Filter {
 
         EntityManager em = JpaUtil.getInstance().getEntityManager();
 
+        // TODO: BAAAAAAAAAAAAAAAAAD
         // TODO: how to filter forwarded requests?
         if (!em.getTransaction().isActive()) {
             em.getTransaction().begin();
         }
         filterChain.doFilter(servletRequest, servletResponse);
-        em.getTransaction().commit();
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().commit(); // TODO: try-catch here
+        }
 
         JpaUtil.getInstance().releaseEntityManager(em);
     }
