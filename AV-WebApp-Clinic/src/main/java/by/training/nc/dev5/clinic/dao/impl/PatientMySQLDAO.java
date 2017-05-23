@@ -1,10 +1,12 @@
 package by.training.nc.dev5.clinic.dao.impl;
 
 import by.training.nc.dev5.clinic.dao.AbstractDAO;
+import by.training.nc.dev5.clinic.dao.IPatientDAO;
 import by.training.nc.dev5.clinic.entities.Patient;
-import by.training.nc.dev5.clinic.dao.PatientDAO;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
 import by.training.nc.dev5.clinic.exceptions.*;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.List;
 /**
  * Created by user on 06.04.2017.
  */
-public class PatientMySQLDAO extends AbstractDAO<Patient> implements PatientDAO{
+@Repository
+public class PatientMySQLDAO extends AbstractDAO<Patient> implements IPatientDAO {
     private static PatientMySQLDAO instance;
 
     private PatientMySQLDAO(){

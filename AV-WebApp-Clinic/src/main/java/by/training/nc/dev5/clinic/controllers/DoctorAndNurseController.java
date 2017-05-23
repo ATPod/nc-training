@@ -12,7 +12,9 @@ import by.training.nc.dev5.clinic.enums.UserType;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.managers.MessageManager;
 import by.training.nc.dev5.clinic.managers.PagePathManager;
+import by.training.nc.dev5.clinic.services.*;
 import by.training.nc.dev5.clinic.services.impl.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,17 @@ import java.util.List;
  */
 @Controller
 public class DoctorAndNurseController {
+
+    @Autowired
+    private IDiagnosisService diagnosisService;
+    @Autowired
+    private IDrugService drugService;
+    @Autowired
+    private IMedProcedureService medProcedureService;
+    @Autowired
+    private IPatientService patientService;
+    @Autowired
+    private ISurgeryService surgeryService;
 
     @RequestMapping(value = "/choosepatient", method = RequestMethod.GET)
     public String showChoosePatientForm(HttpServletRequest request){
@@ -53,13 +66,13 @@ public class DoctorAndNurseController {
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         try{
             if (patientId != null) {
-                String patientName = PatientService.getInstance().getById(Integer.valueOf(patientId)).getName();
+                String patientName = patientService.getById(Integer.valueOf(patientId)).getName();
                 session.setAttribute(Parameters.PATIENT_ID, patientId);
                 session.setAttribute(Parameters.PATIENT_NAME, patientName);
-                List<Diagnosis> diagnosises = DiagnosisService.getInstance().getByPatient(PatientService.getInstance().getById(Integer.valueOf(patientId)));
-                List<Drug> drugs = DrugService.getInstance().getByPatient(PatientService.getInstance().getById(Integer.valueOf(patientId)));
-                List<MedProcedure> medProcedures = MedProcedureService.getInstance().getByPatient(PatientService.getInstance().getById(Integer.valueOf(patientId)));
-                List<Surgery> surgeries = SurgeryService.getInstance().getByPatient(PatientService.getInstance().getById(Integer.valueOf(patientId)));
+                List<Diagnosis> diagnosises = diagnosisService.getByPatient(patientService.getById(Integer.valueOf(patientId)));
+                List<Drug> drugs = drugService.getByPatient(patientService.getById(Integer.valueOf(patientId)));
+                List<MedProcedure> medProcedures = medProcedureService.getByPatient(patientService.getById(Integer.valueOf(patientId)));
+                List<Surgery> surgeries = surgeryService.getByPatient(patientService.getById(Integer.valueOf(patientId)));
                 session.setAttribute(Parameters.DIAGNOSIS_LIST, diagnosises);
                 session.setAttribute(Parameters.DRUGS_LIST, drugs);
                 session.setAttribute(Parameters.MEDPROCEDURES_LIST, medProcedures);
@@ -93,9 +106,9 @@ public class DoctorAndNurseController {
         try {
             if (userType == UserType.DOCTOR || userType == UserType.NURSE) {
                 if (id != null) {
-                    DrugService.getInstance().delete(Integer.valueOf(id));
-                    Patient patient = PatientService.getInstance().getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
-                    List<Drug> list = DrugService.getInstance().getByPatient(patient);
+                    drugService.delete(Integer.valueOf(id));
+                    Patient patient = patientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
+                    List<Drug> list = drugService.getByPatient(patient);
                     session.setAttribute(Parameters.DRUGS_LIST, list);
                     model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
                 } else {
@@ -127,9 +140,9 @@ public class DoctorAndNurseController {
         try {
             if (userType == UserType.DOCTOR || userType == UserType.NURSE) {
                 if (id != null) {
-                    MedProcedureService.getInstance().delete(Integer.valueOf(id));
-                    Patient patient = PatientService.getInstance().getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
-                    List<MedProcedure> list = MedProcedureService.getInstance().getByPatient(patient);
+                    medProcedureService.delete(Integer.valueOf(id));
+                    Patient patient = patientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
+                    List<MedProcedure> list = medProcedureService.getByPatient(patient);
                     session.setAttribute(Parameters.MEDPROCEDURES_LIST, list);
                     model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
                 } else {

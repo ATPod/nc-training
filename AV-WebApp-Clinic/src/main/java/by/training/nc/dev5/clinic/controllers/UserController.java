@@ -9,9 +9,12 @@ import by.training.nc.dev5.clinic.enums.UserType;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.managers.MessageManager;
 import by.training.nc.dev5.clinic.managers.PagePathManager;
+import by.training.nc.dev5.clinic.services.IPatientService;
+import by.training.nc.dev5.clinic.services.IUserService;
 import by.training.nc.dev5.clinic.services.impl.PatientService;
 import by.training.nc.dev5.clinic.services.impl.UserService;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +30,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class UserController {
 
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private IPatientService patientService;
+
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String showIndexPage(HttpServletRequest request){
         request.getSession().invalidate();
@@ -40,10 +48,10 @@ public class UserController {
                         ModelMap model, HttpServletRequest request) {
         String pagePath;
         try {
-            if(UserService.getInstance().isAuthorized(login, password)){
-                UserType userType = UserService.getInstance().checkAccessLevel(login);
+            if(userService.isAuthorized(login, password)){
+                UserType userType = userService.checkAccessLevel(login);
                 request.getSession().setAttribute(Parameters.USERTYPE, userType);
-                request.getSession().setAttribute(Parameters.PATIENTS_LIST, PatientService.getInstance().getAll());
+                request.getSession().setAttribute(Parameters.PATIENTS_LIST, patientService.getAll());
                 pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.SHOW_PATIENTS_PAGE);
             } else{
                 pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.INDEX_PAGE_PATH);
@@ -71,9 +79,9 @@ public class UserController {
         try{
             if(!login.isEmpty() & !password.isEmpty() & !(accessLevel==null)){
                 if(login.length()<= ConfigConstants.MAX_STRING_LENGTH && password.length()<= ConfigConstants.MAX_STRING_LENGTH && accessLevel.length()<= ConfigConstants.MAX_STRING_LENGTH){
-                    if (UserService.getInstance().isNewUser(login)){
+                    if (userService.isNewUser(login)){
                         if (accessLevel.equals(AccessLevels.DOCTOR) || accessLevel.equals(AccessLevels.NURSE)) {
-                            UserService.getInstance().add(user);
+                            userService.add(user);
                             pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.INDEX_PAGE_PATH);
                             model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
                         }else{

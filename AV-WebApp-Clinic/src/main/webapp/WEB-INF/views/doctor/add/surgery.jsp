@@ -11,7 +11,7 @@
         <div class="header" align="left">
             <%@include file="../../../views/elements/header.jsp" %>
         </div>
-        <a href="/login">Вход в систему</a>>
+        <a href="/index">Вход в систему</a>>
         <a href="/choosepatient">Выбор карточки пациента</a>>
         <a href="/doctormenu">Карточка пациента</a>>Добавление операции<br/>
         <div align="center">

@@ -12,7 +12,9 @@ import by.training.nc.dev5.clinic.enums.UserType;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.managers.MessageManager;
 import by.training.nc.dev5.clinic.managers.PagePathManager;
+import by.training.nc.dev5.clinic.services.*;
 import by.training.nc.dev5.clinic.services.impl.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,17 @@ import java.util.List;
  */
 @Controller
 public class DoctorController {
+
+    @Autowired
+    private IDiagnosisService diagnosisService;
+    @Autowired
+    private IDrugService drugService;
+    @Autowired
+    private IMedProcedureService medProcedureService;
+    @Autowired
+    private IPatientService patientService;
+    @Autowired
+    private ISurgeryService surgeryService;
 
     @RequestMapping(value = "/doctormenu", method = RequestMethod.GET)
     public String showDoctorMenuForm(HttpServletRequest request){
@@ -68,11 +81,11 @@ public class DoctorController {
         try{
             if(!name.isEmpty()){
                 if(name.length()<= ConfigConstants.MAX_STRING_LENGTH) {
-                    if (PatientService.getInstance().isNewPatient(name)) {
+                    if (patientService.isNewPatient(name)) {
                         Patient patient = new Patient();
                         patient.setName(name);
-                        PatientService.getInstance().add(patient);
-                        List<Patient> list = PatientService.getInstance().getAll();
+                        patientService.add(patient);
+                        List<Patient> list = patientService.getAll();
                         session.setAttribute(Parameters.PATIENTS_LIST, list);
                         pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.SHOW_PATIENTS_PAGE);
                         model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
@@ -120,11 +133,11 @@ public class DoctorController {
             if (!name.isEmpty()) {
                 if(name.length()<= ConfigConstants.MAX_STRING_LENGTH) {
                     Diagnosis diagnosis = new Diagnosis();
-                    Patient patient = PatientService.getInstance().getById(patientId);
+                    Patient patient = patientService.getById(patientId);
                     diagnosis.setName(name);
                     diagnosis.setPatient(patient);
-                    DiagnosisService.getInstance().add(diagnosis);
-                    List<Diagnosis> list = DiagnosisService.getInstance().getByPatient(patient);
+                    diagnosisService.add(diagnosis);
+                    List<Diagnosis> list = diagnosisService.getByPatient(patient);
                     session.setAttribute(Parameters.DIAGNOSIS_LIST, list);
                     pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
                     model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
@@ -168,11 +181,11 @@ public class DoctorController {
             if (!name.isEmpty()) {
                 if(name.length()<= ConfigConstants.MAX_STRING_LENGTH) {
                     Drug drug = new Drug();
-                    Patient patient = PatientService.getInstance().getById(patientId);
+                    Patient patient = patientService.getById(patientId);
                     drug.setName(name);
                     drug.setPatient(patient);
-                    DrugService.getInstance().add(drug);
-                    List<Drug> list = DrugService.getInstance().getByPatient(patient);
+                    drugService.add(drug);
+                    List<Drug> list = drugService.getByPatient(patient);
                     session.setAttribute(Parameters.DRUGS_LIST, list);
                     pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
                     model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
@@ -215,11 +228,11 @@ public class DoctorController {
             if (!name.isEmpty()) {
                 if(name.length()<= ConfigConstants.MAX_STRING_LENGTH) {
                     MedProcedure medProcedure = new MedProcedure();
-                    Patient patient = PatientService.getInstance().getById(patientId);
+                    Patient patient = patientService.getById(patientId);
                     medProcedure.setName(name);
                     medProcedure.setPatient(patient);
-                    MedProcedureService.getInstance().add(medProcedure);
-                    List<MedProcedure> list = MedProcedureService.getInstance().getByPatient(patient);
+                    medProcedureService.add(medProcedure);
+                    List<MedProcedure> list = medProcedureService.getByPatient(patient);
                     session.setAttribute(Parameters.MEDPROCEDURES_LIST, list);
                     pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
                     model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
@@ -263,11 +276,11 @@ public class DoctorController {
             if (!name.isEmpty()) {
                 if(name.length()<= ConfigConstants.MAX_STRING_LENGTH) {
                     Surgery surgery = new Surgery();
-                    Patient patient = PatientService.getInstance().getById(patientId);
+                    Patient patient = patientService.getById(patientId);
                     surgery.setName(name);
                     surgery.setPatient(patient);
-                    SurgeryService.getInstance().add(surgery);
-                    List<Surgery> list = SurgeryService.getInstance().getByPatient(patient);
+                    surgeryService.add(surgery);
+                    List<Surgery> list = surgeryService.getByPatient(patient);
                     session.setAttribute(Parameters.SURGERIES_LIST, list);
                     pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
                     model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
@@ -296,9 +309,9 @@ public class DoctorController {
         try {
             if (userType == UserType.DOCTOR) {
                 if (id != null) {
-                    DiagnosisService.getInstance().delete(Integer.valueOf(id));
-                    Patient patient = PatientService.getInstance().getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
-                    List<Diagnosis> list = DiagnosisService.getInstance().getByPatient(patient);
+                    diagnosisService.delete(Integer.valueOf(id));
+                    Patient patient = patientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
+                    List<Diagnosis> list = diagnosisService.getByPatient(patient);
                     session.setAttribute(Parameters.DIAGNOSIS_LIST, list);
                     model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
                 } else {
@@ -326,9 +339,9 @@ public class DoctorController {
         try {
             if (userType == UserType.DOCTOR) {
                 if (id != null) {
-                    SurgeryService.getInstance().delete(Integer.valueOf(id));
-                    Patient patient = PatientService.getInstance().getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
-                    List<Surgery> list = SurgeryService.getInstance().getByPatient(patient);
+                    surgeryService.delete(Integer.valueOf(id));
+                    Patient patient = patientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
+                    List<Surgery> list = surgeryService.getByPatient(patient);
                     session.setAttribute(Parameters.SURGERIES_LIST, list);
                     model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
                 } else {
@@ -354,8 +367,8 @@ public class DoctorController {
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if (userType == UserType.DOCTOR) {
             try {
-                PatientService.getInstance().delete(patientId);
-                List<Patient> list = PatientService.getInstance().getAll();
+                patientService.delete(patientId);
+                List<Patient> list = patientService.getAll();
                 session.setAttribute(Parameters.PATIENTS_LIST, list);
                 pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.SHOW_PATIENTS_PAGE);
                 model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
