@@ -27,6 +27,9 @@
     <c:param name="command" value="go" />
     <c:param name="location" value="path.page.manager.issueInvoice" />
 </c:url>
+<c:url var="showTimeSheets" value="controller">
+    <c:param name="command" value="showTimeSheets" />
+</c:url>
 
 
 <div class="panel panel-default">
@@ -44,6 +47,7 @@
                 <li><a href="${assignDevelopers}">Assign developers</a></li>
                 <li><a href="${showMyProjects}">Show My Projects</a></li>
                 <li><a href="${issueInvoice}">Issue Invoice</a></li>
+                <li><a href="${showTimeSheets}">Show Time Sheets</a> </li>
             </c:when>
         </c:choose>
     </ul>

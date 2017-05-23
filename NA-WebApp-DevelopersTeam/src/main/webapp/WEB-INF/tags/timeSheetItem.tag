@@ -9,6 +9,7 @@
 
 <tr>
     <td><fmt:formatDate type="date" value="${timeSheet.date}" /></td>
+    <td>${timeSheet.developer.name}</td>
     <td>${timeSheet.project.id}</td>
     <td>${timeSheet.time}</td>
 </tr>
