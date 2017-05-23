@@ -1,10 +1,11 @@
-package by.training.nc.dev5.service;
+package by.training.nc.dev5.service.impl;
 
 import by.training.nc.dev5.dao.DaoFactory;
 import by.training.nc.dev5.dao.QualificationDao;
 import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
 import by.training.nc.dev5.dto.QualificationDto;
 import by.training.nc.dev5.entity.Qualification;
+import by.training.nc.dev5.service.QualificationService;
 
 import java.util.ArrayList;
 import java.util.Collection;

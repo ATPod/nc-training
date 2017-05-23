@@ -1,4 +1,4 @@
-package by.training.nc.dev5.service;
+package by.training.nc.dev5.service.impl;
 
 import by.training.nc.dev5.accounts.UserRole;
 import by.training.nc.dev5.dao.DaoFactory;
@@ -8,6 +8,7 @@ import by.training.nc.dev5.dao.ProjectDao;
 import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
 import by.training.nc.dev5.dto.*;
 import by.training.nc.dev5.entity.*;
+import by.training.nc.dev5.service.AuthenticationService;
 
 import java.util.ArrayList;
 import java.util.Collection;

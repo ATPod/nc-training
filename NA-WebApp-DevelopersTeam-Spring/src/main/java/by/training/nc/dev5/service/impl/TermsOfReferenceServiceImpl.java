@@ -1,4 +1,4 @@
-package by.training.nc.dev5.service;
+package by.training.nc.dev5.service.impl;
 
 import by.training.nc.dev5.dao.DaoFactory;
 import by.training.nc.dev5.dao.TaskDao;
@@ -10,6 +10,7 @@ import by.training.nc.dev5.dto.QualificationDto;
 import by.training.nc.dev5.dto.TaskDto;
 import by.training.nc.dev5.dto.TermsOfReferenceDto;
 import by.training.nc.dev5.entity.*;
+import by.training.nc.dev5.service.TermsOfReferenceService;
 
 import java.util.ArrayList;
 import java.util.Collection;
