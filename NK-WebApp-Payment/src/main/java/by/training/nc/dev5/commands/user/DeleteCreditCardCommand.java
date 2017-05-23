@@ -20,11 +20,10 @@ import javax.servlet.http.HttpSession;
  */
 public class DeleteCreditCardCommand extends AbstractCommand implements Command {
     public String execute(HttpServletRequest request) {
-        String id = request.getParameter("cr_id");
-        String password = request.getParameter("cr_password");
+        String id = request.getParameter("dzen");
         HttpSession session = request.getSession();
         Person person = (Person) session.getAttribute("person");
-        String err = CreditCardService.deleteCreditCard(id,password,person);
+        String err = CreditCardService.deleteCreditCard(id,person);
         if(err == null){
             return JspPaths.SUCCESSED_OPERATION;
         }else {

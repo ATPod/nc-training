@@ -4,31 +4,41 @@
 <html>
 <head>
     <title>Orderings</title>
+    <link href=<c:url value="../../static/css/bootstrap.min.css"/> rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
     <body>
 
-        ${name} <br/><br/>
-        <a href="controller?command=admin_go_to_clients">Clients</a> <br/>
-        <a href="controller?command=admin_go_to_products">Products</a> <br/>
-        <a href="controller?command=admin_go_to_settings">Settings</a> <br/>
-        <a href="controller?command=logout">Log out</a> <br/><br/>
+    <jsp:include page="navbar.jsp"/>
 
-        <table border="1">
-            <tr bgcolor="#CCCCCC">
-                <td align="center"><strong>ID</strong></td>
-                <td align="center"><strong>ID client</strong></td>
-                <td align="center"><strong>Payment</strong></td>
-            </tr>
+    <h3>List of all orderings</h3>
+        <table class="table table-hover table-condensed table-striped">
+            <caption>You can load a list of products for each ordering.</caption>
+            <thead>
+                <tr>
+                    <th class="text-center"><strong>ID ordering</strong></th>
+                    <th class="text-center"><strong>ID client</strong></th>
+                    <th class="text-center"><strong>E-mail client</strong></th>
+                    <th class="text-center"><strong>Paid</strong></th>
+                    <th></th>
+                </tr>
+            </thead>
             <c:forEach var="ordering" items="${orderingList}">
                 <tr>
-                    <td><c:out value="${ordering.id}" /></td>
-                    <td><c:out value="${ordering.client.id}" /></td>
-                    <td><c:out value="${ordering.paid}" /></td>
-                    <td>
-                        <form method="POST" action="controller">
-                            <input type="hidden" name="command" value="admin_go_to_products_ordering"/>
+                    <td class="text-center"><c:out value="${ordering.id}" /></td>
+                    <td class="text-center"><c:out value="${ordering.client.id}" /></td>
+                    <td class="text-center"><c:out value="${ordering.client.email}" /></td>
+                    <td class="text-center">
+                        <c:choose>
+                            <c:when test="${ordering.paid == '1'}">Yes</c:when>
+                            <c:when test="${ordering.paid == '0'}">No</c:when>
+                        </c:choose>
+                    </td>
+                    <td class="text-center">
+                        <form method="GET" action="/admin_go_to_products_ordering">
                             <input type="hidden" name="orderingId" value="${ ordering.id }"/>
-                            <input type="submit" value="Products"/>
+                            <input type="submit" value="Products" class="btn btn-info"/>
                         </form>
                     </td>
                 </tr>
