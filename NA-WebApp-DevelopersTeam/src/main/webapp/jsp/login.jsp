@@ -1,3 +1,5 @@
+<%@ taglib prefix="app" tagdir="/WEB-INF/tags" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,6 +11,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+    <app:topNav/>
+
     <div class="container">
         <div class="text-center">
             <form method="post" name="loginForm" action="controller">

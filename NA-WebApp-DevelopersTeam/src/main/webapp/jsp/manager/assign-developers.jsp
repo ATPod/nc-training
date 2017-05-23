@@ -49,7 +49,7 @@
                     <!-- TODO: show tasks here -->
 
                     <table class="table">
-                        <tr><td></td><td>Name</td><td>Qualification</td></tr>
+                        <tr><th>Select</th><th>Name</th><th>Qualification</th></tr>
                         <c:forEach
                                 var="developer"
                                 varStatus="status"

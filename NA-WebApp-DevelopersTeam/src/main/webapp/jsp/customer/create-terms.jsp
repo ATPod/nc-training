@@ -55,7 +55,7 @@
                     <div class="form-group">
                         <label>
                             Developers number:<br />
-                            <input type="number" name="developersNumber" required>
+                            <input type="number" name="developersNumber" min="1" required>
                         </label><br />
                     </div>
                     <%--</div>--%>

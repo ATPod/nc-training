@@ -22,7 +22,9 @@
 
                 <app:termsHolder>
                     <c:forEach var="terms" varStatus="status" items="${requestScope.terms}">
-                        <app:termsItem terms="${terms}" />
+                        <c:if test="${not empty terms.tasks}">
+                            <app:termsItem terms="${terms}" />
+                        </c:if>
                     </c:forEach>
                 </app:termsHolder>
             </div>
