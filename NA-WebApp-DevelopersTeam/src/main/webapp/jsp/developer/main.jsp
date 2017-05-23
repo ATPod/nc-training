@@ -17,7 +17,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-3">
-            <app:developerSideNav />
+            <app:sideNav />
         </div>
         <div class="col-lg-9">
             <h3>Hi, ${sessionScope.user.name}</h3>

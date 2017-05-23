@@ -26,7 +26,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-3">
-            <app:developerSideNav />
+            <app:sideNav />
         </div>
         <div class="col-lg-9">
             <form class="form-inline" method="post" name="trackTimeForm" action="controller">

@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <app:customerSideNav/>
+                <app:sideNav/>
             </div>
             <div class="col-lg-9">
                 <h2>My terms of reference</h2>

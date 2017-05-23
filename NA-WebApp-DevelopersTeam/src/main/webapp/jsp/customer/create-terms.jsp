@@ -17,7 +17,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <app:customerSideNav />
+                <app:sideNav />
             </div>
             <div class="col-lg-9">
                 <c:if test="${not empty sessionScope.createdTerms}">

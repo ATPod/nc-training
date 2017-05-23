@@ -23,7 +23,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <app:managerSideNav/>
+                <app:sideNav/>
             </div>
 
             <div class="col-lg-9">
