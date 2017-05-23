@@ -28,7 +28,7 @@ public class EntityManagerFilter implements Filter {
         }
         filterChain.doFilter(servletRequest, servletResponse);
         if (em.getTransaction().isActive()) {
-            em.getTransaction().commit(); // TODO: try-catch here
+            em.getTransaction().commit();
         }
 
         JpaUtil.getInstance().releaseEntityManager(em);
