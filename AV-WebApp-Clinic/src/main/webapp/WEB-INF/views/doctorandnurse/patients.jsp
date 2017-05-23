@@ -12,11 +12,10 @@
         <div class="header" align="left">
             <%@include file="../../views/elements/header.jsp" %>
         </div>
-        <a href="controller?command=backtologin">Вход в систему</a>>
+        <a href="/index">Вход в систему</a>>
         Выбор карточки пациента<br/>
         <div align="center">
-            <form name="choosePatientForm" method="POST" action="controller">
-                <input type="hidden" name="command" value="choosePatient" />
+            <form name="choosePatientForm" method="POST" action="/choosepatient">
                 Выберите пациента:
                 <table border="1">
                     <tr bgcolor="#CCCCCC">
@@ -38,7 +37,7 @@
                 </table>
                 <input type="submit" value="Выбрать"/>  <br/>
                 <c:if test="${userType=='DOCTOR'}">
-                    <a href="controller?command=gotoaddpatient">Добавить пациента</a> <br/>
+                    <a href="/addpatient">Добавить пациента</a> <br/>
                 </c:if>
             </form>
             ${operationMessage}<br />

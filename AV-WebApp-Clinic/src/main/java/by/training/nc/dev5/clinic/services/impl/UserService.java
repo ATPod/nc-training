@@ -1,29 +1,34 @@
 package by.training.nc.dev5.clinic.services.impl;
 
 import by.training.nc.dev5.clinic.constants.AccessLevels;
+import by.training.nc.dev5.clinic.dao.IUserDAO;
 import by.training.nc.dev5.clinic.entities.User;
 import by.training.nc.dev5.clinic.dao.impl.UserMySQLDAO;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.exceptions.NotFoundException;
 import by.training.nc.dev5.clinic.enums.UserType;
+import by.training.nc.dev5.clinic.services.AbstractService;
 import by.training.nc.dev5.clinic.services.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by user on 22.04.2017.
  */
-public class UserService implements IUserService{
-    private static UserService instance;
+@Service
+public class UserService extends AbstractService<User>  implements IUserService{
 
-    public static synchronized UserService getInstance(){
-        if(instance == null){
-            instance = new UserService();
-        }
-        return instance;
+    IUserDAO userDAO;
+
+    @Autowired
+    public UserService(IUserDAO userDAO){
+        super(userDAO);
+        this.userDAO=userDAO;
     }
 
     public boolean isAuthorized(String login, String password)throws DAOException {
         try {
-            return (password.equals(UserMySQLDAO.getInstance().getByLogin(login).getPassword()));
+            return (password.equals(userDAO.getByLogin(login).getPassword()));
         }
         catch (NotFoundException e){
             return false;
@@ -32,7 +37,7 @@ public class UserService implements IUserService{
 
     public User getByLogin(String login)throws DAOException {
         try {
-            return UserMySQLDAO.getInstance().getByLogin(login);
+            return userDAO.getByLogin(login);
         }catch (NotFoundException e) {
             return null;
         }
@@ -40,7 +45,7 @@ public class UserService implements IUserService{
 
     public UserType checkAccessLevel(String login) throws DAOException{
         try{
-            if(AccessLevels.DOCTOR.equals(UserMySQLDAO.getInstance().getByLogin(login).getAccessLevel())){
+            if(AccessLevels.DOCTOR.equals(userDAO.getByLogin(login).getAccessLevel())){
                 return UserType.DOCTOR;
             }else{
                 return UserType.NURSE;
@@ -51,12 +56,12 @@ public class UserService implements IUserService{
     }
 
     public void add(User user)throws DAOException {
-        UserMySQLDAO.getInstance().add(user);
+        userDAO.add(user);
     }
 
     public boolean isNewUser(String login) throws DAOException {
         try {
-            UserMySQLDAO.getInstance().getByLogin(login);
+            userDAO.getByLogin(login);
             return false;
         } catch (NotFoundException e){
             return true;
@@ -65,6 +70,6 @@ public class UserService implements IUserService{
     }
 
     public void delete(int id)throws DAOException{
-        UserMySQLDAO.getInstance().delete(id);
+        userDAO.delete(id);
     }
 }

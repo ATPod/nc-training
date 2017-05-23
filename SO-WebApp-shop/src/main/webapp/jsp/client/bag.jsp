@@ -3,41 +3,54 @@
 
 <html>
     <head>
-        <title>SO-shop</title>
+        <title>Bag</title>
+        <link href=<c:url value="../../static/css/bootstrap.min.css"/> rel="stylesheet">
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </head>
     <body>
 
-        ${firstname} ${lastname}<br>
-        <a href="controller?command=client_go_to_settings">Settings</a> <br/>
-        <a href="controller?command=client_go_to_orderings">My orderings</a> <br/>
-        <a href="controller?command=client_go_to_main">Back</a> <br/>
-        <a href="controller?command=logout">Log out</a> <br/><br/>
+    <jsp:include page="navbar.jsp"/>
 
-        <table border="1">
-            <tr bgcolor="#CCCCCC">
-                <td align="center"><strong>ID</strong></td>
-                <td align="center"><strong>Title</strong></td>
-                <td align="center"><strong>Price</strong></td>
-            </tr>
-            <c:forEach var="product" items="${bag}">
-                <tr>
-                    <td><c:out value="${product.id}" /></td>
-                    <td><c:out value="${product.title}" /></td>
-                    <td><c:out value="${product.price}" /></td>
-                    <td>
-                        <form name="loginForm" method="POST" action="controller">
-                            <input type="hidden" name="command" value="client_remove_from_bag"/>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <h3>Make ordering</h3>
+
+    <table class="table table-hover table-condensed table-striped">
+        <caption>List of products in bag.</caption>
+        <thead>
+        <tr>
+            <th class="text-center"><strong>ID</strong></th>
+            <th class="text-center"><strong>Title</strong></th>
+            <th class="text-center"><strong>Price</strong></th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <c:forEach var="product" items="${bag}">
+            <tr>
+                <td class="text-center"><c:out value="${product.id}" /></td>
+                <td class="text-center"><c:out value="${product.title}" /></td>
+                <td class="text-center"><c:out value="${product.price}" /></td>
+                <td class="text-center">
+                        <form method="POST" action="/client_remove_from_bag">
                             <input type="hidden" name="productId" value="${ product.id }"/>
-                            <input type="submit" value="Remove"/>
+                            <input type="submit" value="Remove" class="btn btn-danger"/>
                         </form>
                     </td>
                 </tr>
             </c:forEach>
-            <form name="loginForm" method="POST" action="controller">
-                <input type="hidden" name="command" value="client_make_ordering"/>
-                <input type="submit" value="Make ordering!"/>
-            </form>
         </table>
+
+    <form method="POST" action="/client_make_ordering">
+        <input type="submit" value="Make ordering!" class="btn btn-success"/>
+    </form>
+
         ${errorMessage}
         </body>
 </html>

@@ -4,36 +4,45 @@ package by.training.nc.dev5.entities;
 import by.training.nc.dev5.exceptions.NotCorrectIdException;
 import by.training.nc.dev5.exceptions.NotCorrectPasswordException;
 
+import javax.persistence.*;
+
 
 /**
  * Created by AsusPC on 15.03.17.
  */
+@Entity
+@Table(name = "creditcard")
 public class CreditCard {
-    private Account account;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "crditcard_id")
     private String id;
+    @Column(name = "pass")
     private String password;
-    int clientId;
+    @Column(name = "client_login")
+    private String clientLogin;
+    @Transient
+    private Account account;
 
     public CreditCard(){
         this.id = new String();
         this.password = new String();
         account = new Account();
-        clientId = 0;
     }
 
     public CreditCard(CreditCard creditCard){
         this.id = creditCard.getId();
         this.password = creditCard.getPassword();
         this.account = creditCard.getAccount();
-        this.clientId = creditCard.getClientId();
+        this.clientLogin = creditCard.getClientLogin();
     }
 
-    public CreditCard(String id,String password,Account account, int clientId)
+    public CreditCard(String id,String password,Account account, String clientLogin)
             throws NotCorrectPasswordException, NotCorrectIdException {
         this.id = new String();
         this.password = new String();
         this.account = account;
-        this.clientId = clientId;
+        this.clientLogin = clientLogin;
         if(id.length() == 16 && password.length() == 4) {
             this.id = id;
             this.password = password;
@@ -54,12 +63,12 @@ public class CreditCard {
         return id;
     }
 
-    public int getClientId() {
-        return clientId;
+    public String getClientLogin() {
+        return clientLogin;
     }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setClientLogin(String clientLogin) {
+        this.clientLogin = clientLogin;
     }
 
     public void setPassword(String password) throws NotCorrectPasswordException {
@@ -86,7 +95,7 @@ public class CreditCard {
         if(!super.equals(obj)) return false;
         CreditCard creditcard = (CreditCard) obj;
         return (this.id == creditcard.getId() && this.password == creditcard.getPassword() &&
-                this.account == creditcard.getAccount() && this.clientId == creditcard.getClientId());
+                this.account == creditcard.getAccount() && this.clientLogin == creditcard.getClientLogin());
     }
 
     @Override

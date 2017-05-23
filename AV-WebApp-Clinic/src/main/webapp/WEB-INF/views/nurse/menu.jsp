@@ -11,16 +11,15 @@
         <div class="header" align="left">
             <%@include file="../../views/elements/header.jsp" %>
         </div>
-        <a href="controller?command=backtologin">Вход в систему</a>>
-        <a href="controller?command=backtochoosepatient">Выбор карточки пациента</a>>
+        <a href="/index">Вход в систему</a>>
+        <a href="/choosepatient">Выбор карточки пациента</a>>
         Карточка пациента<br/>
         <div align="center">
             <strong>Карточка пациента "${patientName}"</strong>
             <table align="top">
                 <tr>
                     <td valign="top" style="text-align: center">
-                        <form name="drugListForm" method="POST" action="controller">
-                            <input type="hidden" name="command" value="delDrug" />
+                        <form name="drugListForm" method="POST" action="/deldrug">
                             <input type="submit" value="Ввести лекарство" align="center"/>  <br/>
                             <table align="center" border="1">
                                 <tr bgcolor="#CCCCCC">
@@ -40,8 +39,7 @@
                         </form>
                     </td>
                     <td valign="top" style="text-align: center">
-                        <form name="medProcedureListForm" method="POST" action="controller">
-                            <input type="hidden" name="command" value="delMedProcedure" />
+                        <form name="medProcedureListForm" method="POST" action="/delmedprocedure">
                             <input type="submit" value="Сделать процедуру" align="center"/>  <br/>
                             <table align="center" border="1">
                                 <tr bgcolor="#CCCCCC">

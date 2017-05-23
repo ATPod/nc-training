@@ -1,20 +1,34 @@
 package by.training.nc.dev5.entities;
 
+import javax.persistence.*;
+
 /**
  * Created by AsusPC on 25.03.17.
  */
+@Entity
+@Table(name = "client")
 public class Person {
+    @Column(name = "name")
     protected String name;
-    protected int id;
+    @Column(name = "client_status")
     protected boolean status;
+    @Column(name = "password")
     protected String password;
+    @Id
+    @Column(name = "login")
     protected String login;
 
     public Person(){
         this.name = null;
-        this.id = 0;
         this.login = null;
         this.password = null;
+        this.status = false;
+    }
+
+    public Person(String name,String login,String password){
+        this.name = name;
+        this.login = login;
+        this.password = password;
         this.status = false;
     }
 
@@ -22,7 +36,6 @@ public class Person {
 
     public Person (Person person){
         this.name = person.getName();
-        this.id = person.getId();
         this.login = person.getLogin();
         this.password = person.getPassword();
         this.status = person.isStatus();
@@ -34,14 +47,6 @@ public class Person {
 
     public String getName() {
         return name;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public boolean isStatus() {

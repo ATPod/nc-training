@@ -11,12 +11,11 @@
     <div class="header" align="left">
         <%@include file="../../../views/elements/header.jsp" %>
     </div>
-    <a href="controller?command=backtologin">Вход в систему</a>>
-    <a href="controller?command=backtochoosepatient">Выбор карточки пациента</a>>
+    <a href="/index">Вход в систему</a>>
+    <a href="/choosepatient">Выбор карточки пациента</a>>
     Добавление новой карточки<br/>
     <div align="center">
-        <form name="addPatientForm" method="POST" action="controller">
-            <input type="hidden" name="command" value="addPatient" />
+        <form name="addPatientForm" method="POST" action="/addpatient">
             Введите ФИО:<br />
             <input type="text" name="patientName" value="" />
             <input type="submit" value="Сохранить" /> <br />

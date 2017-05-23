@@ -19,9 +19,8 @@ import javax.servlet.http.HttpSession;
  */
 public class BlockCreditCardCommand extends AbstractCommand implements Command {
     public String execute(HttpServletRequest request) {
-        String id = request.getParameter("cr_id");
-        String password = request.getParameter("cr_password");
-        String err = CreditCardService.blockCreditCard(id,password);
+        String id = request.getParameter("dzen");
+        String err = CreditCardService.blockCreditCard(id);
         if(err == null){
             return JspPaths.SUCCESSED_OPERATION;
         }
