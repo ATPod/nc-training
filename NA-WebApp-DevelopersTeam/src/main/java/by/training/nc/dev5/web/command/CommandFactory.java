@@ -34,6 +34,7 @@ public class CommandFactory {
         commands.put("createProject", new CreateProjectCommand());
         commands.put("goShowAssignDevelopers", new GoShowAssignDevelopersCommand());
         commands.put("assignDevelopers", new AssignDevelopersCommand());
+        commands.put("issueInvoice", new IssueInvoiceCommand());
 
         commands.put("goTrack", new GoTrackCommand());
         commands.put("trackTime", new TrackTimeCommand());
