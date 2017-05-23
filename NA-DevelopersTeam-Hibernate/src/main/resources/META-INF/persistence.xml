@@ -6,7 +6,15 @@
 
         <class>by.training.nc.dev5.entity.Person</class>
         <class>by.training.nc.dev5.entity.Customer</class>
-
+        <class>by.training.nc.dev5.entity.Developer</class>
+        <class>by.training.nc.dev5.entity.Manager</class>
+        <class>by.training.nc.dev5.entity.Invoice</class>
+        <class>by.training.nc.dev5.entity.Project</class>
+        <class>by.training.nc.dev5.entity.Qualification</class>
+        <class>by.training.nc.dev5.entity.Task</class>
+        <class>by.training.nc.dev5.entity.TaskQuota</class>
+        <class>by.training.nc.dev5.entity.TermsOfReference</class>
+        <class>by.training.nc.dev5.entity.TimeSheet</class>
 
         <properties>
             <property name="hibernate.connection.url"
