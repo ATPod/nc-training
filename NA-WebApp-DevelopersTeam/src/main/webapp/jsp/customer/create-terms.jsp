@@ -13,40 +13,7 @@
 </head>
 <body>
     <app:topNav/>
-<%--
-    <form name="taskControlForm" method="post" action="controller">
-        <input type="hidden" name="command" value="removeTask">
 
-        <input type="submit" class="btn btn-danger" value="Delete selected">
-        <table class="table">
-            <tr><td></td><td>Specification</td><td>Developers</td></tr>
-            <c:forEach var="task" varStatus="i" items="${torBuilder.tasks}">
-                <tr>
-                    <td>
-                        <label for="deleteTaskCheckbox"></label>
-                        <input
-                            id="deleteTaskCheckbox"
-                            class="check-box"
-                            type="checkbox"
-                            name="task"
-                            value="${i.index}">
-                    </td>
-                    <td rowspan="${task.taskQuotas.size() + 1}">
-                        ${task.specification}
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <c:forEach var="taskQuota" items="${task.taskQuotas}">
-                        <td></td>
-                        <td>${taskQuota.qualification.name}</td>
-                        <td>${taskQuota.developersNumber}</td>
-                    </c:forEach>
-                </tr>
-            </c:forEach>
-        </table>
-    </form>
-    --%>
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
@@ -97,29 +64,18 @@
                     <button class="btn btn-default" type="reset">Reset</button>
                 </form>
 
-                <c:choose>
-                    <c:when test="${not empty sessionScope.createdTerms}">
-                        <c:set var="btnCreateClass" value="btn-primary" />
-                        <c:set var="btnCancelClass" value="btn-danger" />
-                    </c:when>
-                    <c:otherwise>
-                        <c:set var="btnCreateClass" value="btn-disabled" />
-                        <c:set var="btnCancelClass" value="btn-disabled" />
-                    </c:otherwise>
-                </c:choose>
-
-                <form name="createTerms" method="post" action="controller">
-                    <input type="hidden" name="command" value="createTerms">
-                    <button type="submit"
-                            class="btn ${btnCreateClass}">Create</button>
-                </form>
-                <form name="deleteTerms" method="post" action="controller">
-                    <input type="hidden" name="command" value="cancelTerms">
-                    <div class="form-group">
-                        <button type="submit"
-                                class="btn ${btnCancelClass}">Cancel</button>
-                    </div>
-                </form>
+                <c:if test="${not empty sessionScope.createdTerms}">
+                    <form name="createTerms" method="post" action="controller">
+                        <input type="hidden" name="command" value="createTerms">
+                        <button type="submit" class="btn btn-default">Create</button>
+                    </form>
+                    <form name="deleteTerms" method="post" action="controller">
+                        <input type="hidden" name="command" value="cancelTerms">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default">Cancel</button>
+                        </div>
+                    </form>
+                </c:if>
             </div>
         </div>
     </div>
