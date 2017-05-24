@@ -9,7 +9,12 @@ import by.training.nc.dev5.dto.InvoiceDto;
 import by.training.nc.dev5.dto.ProjectDto;
 import by.training.nc.dev5.entity.Invoice;
 import by.training.nc.dev5.entity.Project;
+import by.training.nc.dev5.exception.DataAccessException;
 import by.training.nc.dev5.service.InvoiceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,19 +22,13 @@ import java.util.Collection;
 /**
  * Created by Nikita on 13.05.2017.
  */
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DataAccessException.class)
 public class InvoiceServiceImpl implements InvoiceService {
-    private static DaoFactory daoFactory;
+    @Autowired
     private InvoiceDao invoiceDao;
+    @Autowired
     private ProjectDao projectDao;
-
-    static {
-        daoFactory = new JpaDaoFactory();
-    }
-
-    {
-        invoiceDao = daoFactory.getInvoiceDao();
-        projectDao = daoFactory.getProjectDao();
-    }
 
     public void issueInvoice(ProjectDto projectDto, double price) {
         Invoice invoice = new Invoice();
@@ -42,6 +41,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceDao.create(invoice);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Collection<InvoiceDto> getInvoices(CustomerDto customer) {
         Collection<Invoice> invoicesByCustomer =
                 invoiceDao.getInvoicesByCustomer(customer.getId());

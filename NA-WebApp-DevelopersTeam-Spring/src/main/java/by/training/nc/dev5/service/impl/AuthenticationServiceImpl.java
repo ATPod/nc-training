@@ -8,7 +8,12 @@ import by.training.nc.dev5.dao.ProjectDao;
 import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
 import by.training.nc.dev5.dto.*;
 import by.training.nc.dev5.entity.*;
+import by.training.nc.dev5.exception.DataAccessException;
 import by.training.nc.dev5.service.AuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,20 +21,15 @@ import java.util.Collection;
 /**
  * Created by Nikita on 08.05.2017.
  */
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DataAccessException.class)
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private static DaoFactory daoFactory;
+    @Autowired
     private PersonDao personDao;
+    @Autowired
     private ProjectDao projectDao;
 
-    static {
-        daoFactory = new JpaDaoFactory();
-    }
-
-    {
-        personDao = daoFactory.getPersonDao();
-        projectDao = daoFactory.getProjectDao();
-    }
-
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public PersonDto authenticate(String login, String password) {
         Person person = personDao.getPersonByLogin(login);
         PersonDto personDto;
@@ -102,6 +102,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return person.getPassword().equals(password);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Collection<PersonDto> getAllPeople() {
         Collection<Person> all = personDao.getAll();
         Collection<PersonDto> result = new ArrayList<PersonDto>(all.size());
@@ -117,6 +118,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return result;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public boolean isLoginExist(String login) {
         return personDao.getPersonByLogin(login) != null;
     }

@@ -6,7 +6,12 @@ import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
 import by.training.nc.dev5.dto.DeveloperDto;
 import by.training.nc.dev5.dto.QualificationDto;
 import by.training.nc.dev5.entity.Developer;
+import by.training.nc.dev5.exception.DataAccessException;
 import by.training.nc.dev5.service.DeveloperService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,18 +19,13 @@ import java.util.Collection;
 /**
  * Created by Nikita on 10.05.2017.
  */
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DataAccessException.class)
 public class DeveloperServiceImpl implements DeveloperService {
-    private static DaoFactory daoFactory;
+    @Autowired
     private DeveloperDao developerDao;
 
-    static {
-        daoFactory = new JpaDaoFactory();
-    }
-
-    {
-        developerDao = daoFactory.getDeveloperDao();
-    }
-
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Collection<DeveloperDto> getUnassignedDevelopers() {
         Collection<Developer> unassignedDevelopers =
                 developerDao.getUnassignedDevelopers();
@@ -39,6 +39,7 @@ public class DeveloperServiceImpl implements DeveloperService {
         return result;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Collection<DeveloperDto> getUnassignedDevelopers(
             QualificationDto qualification) {
 

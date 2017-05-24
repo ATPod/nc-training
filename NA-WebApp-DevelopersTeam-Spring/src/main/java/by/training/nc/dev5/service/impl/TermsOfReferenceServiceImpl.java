@@ -10,7 +10,12 @@ import by.training.nc.dev5.dto.QualificationDto;
 import by.training.nc.dev5.dto.TaskDto;
 import by.training.nc.dev5.dto.TermsOfReferenceDto;
 import by.training.nc.dev5.entity.*;
+import by.training.nc.dev5.exception.DataAccessException;
 import by.training.nc.dev5.service.TermsOfReferenceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,22 +25,15 @@ import java.util.Map;
 /**
  * Created by Nikita on 08.05.2017.
  */
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DataAccessException.class)
 public class TermsOfReferenceServiceImpl implements TermsOfReferenceService {
-    private static DaoFactory daoFactory;
-
-    static {
-        daoFactory = new JpaDaoFactory();
-    }
-
+    @Autowired
     private TermsOfReferenceDao termsDao;
+    @Autowired
     private TaskDao taskDao;
+    @Autowired
     private TaskQuotaDao taskQuotaDao;
-
-    {
-        termsDao = daoFactory.getTermsOfReferenceDao();
-        taskDao = daoFactory.getTaskDao();
-        taskQuotaDao = daoFactory.getTaskQuotaDao();
-    }
 
     public void applyTermsOfReference(TermsOfReferenceDto termsDto) {
         TermsOfReference terms = new TermsOfReference();
@@ -77,6 +75,7 @@ public class TermsOfReferenceServiceImpl implements TermsOfReferenceService {
         }
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Collection<TermsOfReferenceDto> getTermsByCustomer(CustomerDto customerDto) {
         Collection<TermsOfReference> termsByCustomer = termsDao
                 .getTermsOfReferenceByCustomer(customerDto.getId());
@@ -127,6 +126,7 @@ public class TermsOfReferenceServiceImpl implements TermsOfReferenceService {
         return termsDto;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Collection<TermsOfReferenceDto> getPendingTerms() {
         Collection<TermsOfReference> termsWithNoProject =
                 termsDao.getTermsOfReferenceWithNoProject();
