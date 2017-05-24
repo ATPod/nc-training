@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * Created by Nikita on 10.05.2017.
  */
-public interface TimeTrackingService {
+public interface TimeSheetService {
     void trackTime(DeveloperDto user, int timeSpent);
 
     Collection<TimeSheetDto> getTimeSheets(DeveloperDto developer);

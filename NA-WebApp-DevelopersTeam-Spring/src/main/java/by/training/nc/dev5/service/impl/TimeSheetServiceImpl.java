@@ -1,17 +1,15 @@
 package by.training.nc.dev5.service.impl;
 
-import by.training.nc.dev5.dao.DaoFactory;
 import by.training.nc.dev5.dao.DeveloperDao;
 import by.training.nc.dev5.dao.ProjectDao;
 import by.training.nc.dev5.dao.TimeSheetDao;
-import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
 import by.training.nc.dev5.dto.DeveloperDto;
 import by.training.nc.dev5.dto.ProjectDto;
 import by.training.nc.dev5.dto.TimeSheetDto;
 import by.training.nc.dev5.entity.Developer;
 import by.training.nc.dev5.entity.TimeSheet;
 import by.training.nc.dev5.exception.DataAccessException;
-import by.training.nc.dev5.service.TimeTrackingService;
+import by.training.nc.dev5.service.TimeSheetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,7 +24,7 @@ import java.util.Date;
  */
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DataAccessException.class)
-public class TimeTrackingServiceImpl implements TimeTrackingService {
+public class TimeSheetServiceImpl implements TimeSheetService {
     @Autowired
     private TimeSheetDao timeSheetDao;
     @Autowired

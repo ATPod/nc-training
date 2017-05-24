@@ -1,11 +1,12 @@
 package by.training.nc.dev5.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Nikita on 10.05.2017.
  */
-public class TimeSheetDto {
+public class TimeSheetDto implements Serializable {
     private int id;
     private int time;
     private Date date;

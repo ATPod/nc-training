@@ -10,6 +10,8 @@ public class PersonDto {
     private String name;
     private UserRole userRole;
 
+    public PersonDto() {}
+
     public PersonDto(UserRole userRole) {
         this.userRole = userRole;
     }

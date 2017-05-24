@@ -2,7 +2,7 @@ package by.training.nc.dev5.web.tag;
 
 import by.training.nc.dev5.dto.QualificationDto;
 import by.training.nc.dev5.service.QualificationService;
-import by.training.nc.dev5.service.QualificationServiceImpl;
+import by.training.nc.dev5.service.impl.QualificationServiceImpl;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
