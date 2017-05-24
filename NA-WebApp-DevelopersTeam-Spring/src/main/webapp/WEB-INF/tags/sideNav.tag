@@ -3,12 +3,8 @@
         pageEncoding="utf-8" %>
 
 <%-- Customer's links --%>
-<c:url var="goCreateTor" value="controller">
-    <c:param name="command" value="goCreateTerms" />
-</c:url>
-<c:url var="goShowTerms" value="controller">
-    <c:param name="command" value="goShowTerms" />
-</c:url>
+<c:url var="goCreateTor" value="/customer/createTerms" />
+<c:url var="goShowTerms" value="/customer/terms" />
 <%-- Developer's links--%>
 <c:url var="track" value="controller">
     <c:param name="command" value="goTrack" />
@@ -35,14 +31,14 @@
 <div class="panel panel-default">
     <ul class="nav">
         <c:choose>
-            <c:when test="${sessionScope.user.userRole eq 'CUSTOMER'}">
+            <c:when test="${user.userRole eq 'CUSTOMER'}">
                 <li><a href="${goShowTerms}">Show my terms of reference</a></li>
                 <li><a href="${goCreateTor}">Create terms of reference</a></li>
             </c:when>
-            <c:when test="${sessionScope.user.userRole eq 'DEVELOPER'}">
+            <c:when test="${user.userRole eq 'DEVELOPER'}">
                 <li><a href="${track}">Track My Activity</a></li>
             </c:when>
-            <c:when test="${sessionScope.user.userRole eq 'MANAGER'}">
+            <c:when test="${user.userRole eq 'MANAGER'}">
                 <li><a href="${showPendingTerms}">Show pending terms of reference</a></li>
                 <li><a href="${assignDevelopers}">Assign developers</a></li>
                 <li><a href="${showMyProjects}">Show My Projects</a></li>
