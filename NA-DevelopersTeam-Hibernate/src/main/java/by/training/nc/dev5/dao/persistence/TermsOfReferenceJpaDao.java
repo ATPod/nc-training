@@ -24,8 +24,8 @@ public class TermsOfReferenceJpaDao
             throws DataAccessException {
 
         TypedQuery<TermsOfReference> q = getEntityManager().createQuery(
-                "select tor from TermsOfReference tor" +
-                        " where tor.project is null",
+                "select tor from TermsOfReference tor " +
+                        "left join tor.project p where p is null",
                 TermsOfReference.class
         );
         List<TermsOfReference> result = q.getResultList();

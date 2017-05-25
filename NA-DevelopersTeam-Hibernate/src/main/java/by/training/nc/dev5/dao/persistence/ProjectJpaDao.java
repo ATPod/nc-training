@@ -1,6 +1,7 @@
 package by.training.nc.dev5.dao.persistence;
 
 import by.training.nc.dev5.dao.ProjectDao;
+import by.training.nc.dev5.entity.Developer;
 import by.training.nc.dev5.entity.Project;
 import by.training.nc.dev5.entity.TermsOfReference;
 import by.training.nc.dev5.entity.metamodel.Project_;
@@ -26,7 +27,7 @@ public class ProjectJpaDao
         super(em, Project.class);
     }
 
-    public Project getProject(Integer termsOfReferenceId)
+    public Project getProjectByTerms(Integer termsOfReferenceId)
             throws DataAccessException {
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -47,6 +48,23 @@ public class ProjectJpaDao
             return null;
         } catch (Exception e) {
             throw new DataAccessException("Persistence exception occurred", e);
+        }
+    }
+
+    public Project getProjectByDeveloper(int developerId) throws DataAccessException {
+        TypedQuery<Project> q = getEntityManager().createQuery(
+                "select p from Developer d " +
+                        "left join d.project p " +
+                        "where d.id = :developerId",
+                Project.class
+        );
+
+        try {
+            return q.setParameter("developerId", developerId).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            throw new DataAccessException(e);
         }
     }
 

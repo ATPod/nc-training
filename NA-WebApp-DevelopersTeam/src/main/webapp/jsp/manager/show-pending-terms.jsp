@@ -18,14 +18,16 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-3">
-            <app:managerSideNav/>
+            <app:sideNav/>
         </div>
         <div class="col-lg-9">
             <h2>Pending Terms of Reference</h2>
 
             <app:termsHolder>
                 <c:forEach var="terms" items="${requestScope.pendingTerms}">
-                    <app:termsItem terms="${terms}" />
+                    <c:if test="${not empty terms.tasks}">
+                        <app:termsItem terms="${terms}" />
+                    </c:if>
                 </c:forEach>
             </app:termsHolder>
         </div>

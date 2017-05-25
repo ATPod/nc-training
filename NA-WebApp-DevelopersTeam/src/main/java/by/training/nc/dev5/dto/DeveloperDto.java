@@ -7,6 +7,7 @@ import by.training.nc.dev5.accounts.UserRole;
  */
 public class DeveloperDto extends PersonDto {
     private QualificationDto qualification;
+    private ProjectDto project;
 
     public DeveloperDto() {
         super(UserRole.DEVELOPER);
@@ -28,5 +29,23 @@ public class DeveloperDto extends PersonDto {
      */
     public void setQualification(QualificationDto qualification) {
         this.qualification = qualification;
+    }
+
+    /**
+     * Gets the value of project
+     *
+     * @return the value of project.
+     */
+    public ProjectDto getProject() {
+        return project;
+    }
+
+    /**
+     * Sets the value of project
+     *
+     * @param project the new value of project.
+     */
+    public void setProject(ProjectDto project) {
+        this.project = project;
     }
 }
