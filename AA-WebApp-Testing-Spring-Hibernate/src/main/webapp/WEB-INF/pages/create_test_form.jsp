@@ -9,6 +9,7 @@
     <title>Заполнение параметров теста</title>
 </head>
 <body>
+<jsp:include page="tutor_nav.jsp"/>
 <div align="center">
     <sf:form class="form-horizontal" name="testCreation" method="POST" modelAttribute="testParameters">
         <fieldset>

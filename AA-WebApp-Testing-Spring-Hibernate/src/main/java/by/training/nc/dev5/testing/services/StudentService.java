@@ -26,6 +26,7 @@ public class StudentService extends AbstractService<Student> implements IStudent
         this.studentDAO = studentDAO;
     }
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<StudentDTO> getStudents() throws ServiceException
     {
         try {

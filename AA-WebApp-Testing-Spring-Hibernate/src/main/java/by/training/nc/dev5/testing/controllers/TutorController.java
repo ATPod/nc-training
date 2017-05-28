@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-
 @Controller
 public class TutorController {
     @Autowired
@@ -31,11 +30,6 @@ public class TutorController {
         model.addAttribute("newTutor", new TutorDTO());
         return "tutor_form";
     }
-    @RequestMapping(value = "/tutorProfile", method = RequestMethod.GET)
-    public String showTutorProfile(ModelMap model) {
-        return "tutor_profile";
-    }
-
     @RequestMapping(value = "/registerTutor", method = RequestMethod.POST)
 
     public String registerTutor(@ModelAttribute("newTutor") @Valid TutorDTO tutorDTO, BindingResult bindingResult,

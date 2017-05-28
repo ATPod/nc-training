@@ -10,13 +10,13 @@
 </head>
 <body>
 <div align="center">
-    <sf:form class="form-horizontal" name="tutorRegistration" method="POST" modelAttribute="test"
+    <form class="form-horizontal" name="tutorRegistration" method="POST"
              action="${pageContext.request.contextPath}/addTest">
         <fieldset>
             <legend>Заполнение данных для теста</legend>
-            <label class="col-md-9">${test.name}</label>
+            <label class="col-md-9">${testName}</label>
             <div class="form-group">
-                <c:forEach begin="1" end="${test.questions.size()}" varStatus="counter1">
+                <c:forEach begin="1" end="${questionAmount}" varStatus="counter1">
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="question">Текст вопроса ${counter1.current}</label>
                         <div class="col-md-5">
@@ -25,7 +25,7 @@
                                    class="form-control input-md" required="">
                         </div>
                     </div>
-                    <c:forEach begin="1" end="${test.questions.get(0).answerOptions.size()}" varStatus="counter2">
+                    <c:forEach begin="1" end="${optionAmount}" varStatus="counter2">
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="option">Текст варианта</label>
                             <div class="col-md-4">
@@ -49,6 +49,7 @@
                     </div>
                 </c:forEach>
             </div>
+            <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}"/>
             <div class="form-group">
                 <label class="col-md-4 control-label" for="singlebutton"></label>
                 <div class="col-md-4">
@@ -56,7 +57,7 @@
                 </div>
             </div>
         </fieldset>
-    </sf:form>
+    </form>
 </div>
 </body>
 </html>

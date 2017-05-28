@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- безопасность на уровне представлений-->
+<%@ taglib prefix="security"
+           uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <link href="${pageContext.request.contextPath}  /assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -8,8 +11,11 @@
     <title>Доступные тесты</title>
 </head>
 <body>
+${testName}
 <div class="page-header" align="center"><h1>Доступные тесты</h1></div>
-<c:if test="${sessionUser.userType.equals('student')}">
+<!-- отображение формы ввода сооб-
+щения, только если пользователь обладает определенной привилегией-->
+<security:authorize access="hasRole('ROLE_STUDENT')">
     <div class="row">
         <div class="col-md-3" align="left">
             <jsp:include page="student_navbar.jsp"/>
@@ -34,8 +40,8 @@
             </form>
         </div>
     </div>
-</c:if>
-<c:if test="${sessionUser.userType.equals('tutor')}">
+</security:authorize>
+<security:authorize access="hasRole('ROLE_TUTOR')">
     <div class="row">
         <div class="col-md-3" align="left">
             <jsp:include page="tutor_navbar.jsp"/>
@@ -53,6 +59,6 @@
             </c:forEach>
         </div>
     </div>
-</c:if>
+</security:authorize>
 </body>
 </html>

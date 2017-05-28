@@ -1,5 +1,8 @@
 package by.training.nc.dev5.testing.services.security;
 
+import by.training.nc.dev5.testing.logger.TestingSystemLogger;
+import by.training.nc.dev5.testing.services.exceptions.ServiceException;
+import by.training.nc.dev5.testing.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
@@ -20,9 +23,16 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    IUserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        try {
+            httpServletRequest.getSession().setAttribute("sessionUser", userService.getAuthorizedUser(authentication.getName()));
+        } catch (ServiceException e) {
+            TestingSystemLogger.INSTANCE.logError(getClass(),"Service error!");
+        }
         process(httpServletRequest, httpServletResponse, authentication);
     }
 
@@ -30,7 +40,6 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     protected void process(HttpServletRequest request,
                            HttpServletResponse response, Authentication authentication) throws IOException {
         String targetUrl = defineTargetUrl(authentication);
-
         if (response.isCommitted()) {
             return;
         }

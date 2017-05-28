@@ -8,6 +8,7 @@ import by.training.nc.dev5.testing.entities.users.Student;
 import by.training.nc.dev5.testing.entities.users.User;
 import by.training.nc.dev5.testing.services.exceptions.ServiceException;
 import by.training.nc.dev5.testing.services.interfaces.IStudentService;
+import by.training.nc.dev5.testing.services.interfaces.ITutorService;
 import by.training.nc.dev5.testing.utils.EntityBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,10 +27,9 @@ import java.util.List;
 public class StudentController {
     @Autowired
     IStudentService studentService;
-    @RequestMapping(value = "/studentProfile", method = RequestMethod.GET)
-    public String showStudentProfile(ModelMap model) {
-        return "student_profile";
-    }
+    @Autowired
+    ITutorService tutorService;
+
 
     @RequestMapping(value = "/registerStudent", method = RequestMethod.GET)
     public String showStudentRegistrationForm(ModelMap model) {
