@@ -7,7 +7,7 @@
     <link href="${pageContext.request.contextPath}/assets/css/navbar-fixed-side.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-    <title>Профиль тьютора</title>
+    <title><spring:message code="page.profile.student.title"/></title>
 </head>
 <body>
 <jsp:include page="student_nav.jsp"/>

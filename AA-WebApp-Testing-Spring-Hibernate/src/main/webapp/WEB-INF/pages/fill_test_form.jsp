@@ -1,24 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-    <title>Заполнение данных для теста</title>
+    <title><spring:message code="page.form.test.fill.title"/></title>
 </head>
 <body>
 <div align="center">
     <form class="form-horizontal" name="tutorRegistration" method="POST"
              action="${pageContext.request.contextPath}/addTest">
         <fieldset>
-            <legend>Заполнение данных для теста</legend>
+            <legend><spring:message code="page.form.test.fill.title"/></legend>
             <label class="col-md-9">${testName}</label>
             <div class="form-group">
                 <c:forEach begin="1" end="${questionAmount}" varStatus="counter1">
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="question">Текст вопроса ${counter1.current}</label>
+                        <label class="col-md-4 control-label" for="question"><spring:message code="page.form.test.fill.question"/> ${counter1.current}</label>
                         <div class="col-md-5">
                             <input id="question" name="questionText${counter1.current}" type="text" value=""
                                    placeholder="Текст вопроса..."
@@ -27,7 +28,7 @@
                     </div>
                     <c:forEach begin="1" end="${optionAmount}" varStatus="counter2">
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="option">Текст варианта</label>
+                            <label class="col-md-4 control-label" for="option"><spring:message code="page.form.test.fill.option"/></label>
                             <div class="col-md-4">
                                 <input id="option" name="optionText${counter1.current}${counter2.current}" type="text"
                                        value="" placeholder="Текст варианта..."
@@ -40,7 +41,7 @@
 
                     </c:forEach>
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="scores">Баллы за вопрос</label>
+                        <label class="col-md-4 control-label" for="scores"><spring:message code="page.form.test.fill.scores"/></label>
                         <div class="col-md-2">
                             <input id="scores" name="questionBalls${counter1.current}" type="text" value=""
                                    placeholder="Баллы..."
@@ -53,7 +54,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="singlebutton"></label>
                 <div class="col-md-4">
-                    <button id="singlebutton" name="singlebutton" class="btn btn-success">Подтвердить</button>
+                    <button id="singlebutton" name="singlebutton" class="btn btn-success"><spring:message code="page.form.test.fill.button"/></button>
                 </div>
             </div>
         </fieldset>

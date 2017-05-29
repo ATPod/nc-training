@@ -1,14 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-    <title>Прохождение теста</title>
+    <title><spring:message code="page.tests.test.button"/></title>
 </head>
 <body>
-<div >
+<div>
     <form class="form-horizontal" name="testsTable" method="POST" action="${pageContext.request.contextPath}/showTest">
         <input type="hidden" name="testId" value="${test.id}"/>
         <input type="hidden" name="command" value="ShowResult"/>

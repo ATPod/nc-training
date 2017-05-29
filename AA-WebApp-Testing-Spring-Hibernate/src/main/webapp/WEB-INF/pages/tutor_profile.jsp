@@ -7,20 +7,20 @@
     <link href="${pageContext.request.contextPath}/assets/css/navbar-fixed-side.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-    <title>Профиль тьютора</title>
+    <title><spring:message code="page.profile.tutor.title"/></title>
 </head>
 <body>
 <jsp:include page="tutor_nav.jsp"/>
 <div class="row">
-<div class="page-header" align="center"><h1><spring:message code="page.profile.student.title"/></h1></div>
+<div class="page-header" align="center"><h1><spring:message code="page.profile.tutor.title"/></h1></div>
 <div class="col-md-3 col-md-offset-1">
     <img src="${pageContext.request.contextPath}/assets/images/default_avatar.png" class="img-responsive">
 </div>
 <div align="left" class="col-md-8">
     <h5>
-        ${sessionUser}
         <p><b><spring:message code="page.name"/>: </b>${sessionUser.name}</p>
         <p><b><spring:message code="page.surname"/>: </b>${sessionUser.surname}</p>
+        <p><b><spring:message code="page.surname"/>: </b>${sessionUser.subject}</p>
     </h5>
 </div>
     </div>

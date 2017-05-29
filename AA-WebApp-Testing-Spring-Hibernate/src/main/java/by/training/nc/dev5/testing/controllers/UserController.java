@@ -29,12 +29,12 @@ public class UserController {
         return "home";
     }
     @RequestMapping(value = "/studentProfile", method = RequestMethod.GET)
-    public String showStudentProfile(ModelMap model) {
+    public String showStudentProfile(ModelMap model,HttpSession session) {
+        model.addAttribute("sessionUser",session.getAttribute("sessionUser"));
         return "student_profile";}
     @RequestMapping(value = "/tutorProfile", method = RequestMethod.GET)
     public String showTutorProfile(ModelMap model, HttpSession session) {
         model.addAttribute("sessionUser",session.getAttribute("sessionUser"));
-        System.out.println("Session="+session.getAttribute("sessionUser"));
         return "tutor_profile";
     }
 
