@@ -11,7 +11,6 @@ import java.util.List;
 
 @Repository
 public class UserMySQLDAO extends AbstractDAO<User> implements IUserDAO {
-    private static UserMySQLDAO instance;
 
     private UserMySQLDAO(){
         super(User.class);
@@ -32,10 +31,4 @@ public class UserMySQLDAO extends AbstractDAO<User> implements IUserDAO {
         }
     }
 
-    public static synchronized UserMySQLDAO getInstance(){
-        if(instance == null){
-            instance = new UserMySQLDAO();
-        }
-        return instance;
-    }
 }

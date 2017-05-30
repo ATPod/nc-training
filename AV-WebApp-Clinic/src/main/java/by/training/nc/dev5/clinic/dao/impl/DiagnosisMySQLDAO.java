@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class  DiagnosisMySQLDAO extends AbstractDAO<Diagnosis> implements IDiagnosisDAO {
-    private static DiagnosisMySQLDAO instance;
 
     private DiagnosisMySQLDAO(){
         super(Diagnosis.class);
@@ -32,13 +31,5 @@ public class  DiagnosisMySQLDAO extends AbstractDAO<Diagnosis> implements IDiagn
             throw new DAOException(e.getMessage());
         }
     }
-
-    public static synchronized DiagnosisMySQLDAO getInstance(){
-        if(instance == null){
-            instance = new DiagnosisMySQLDAO();
-        }
-        return instance;
-    }
-
 }
 
