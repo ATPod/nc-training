@@ -1,4 +1,6 @@
 <%@ taglib prefix="app" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -15,7 +17,12 @@
 
     <div class="container">
         <div class="text-center">
-            <form method="post" name="loginForm" action="/j_spring_security_check">
+            <spring:url value="/j_spring_security_check" var="loginUrl"/>
+
+            <form method="post" name="loginForm" action="${loginUrl}">
+                <input type="hidden"
+                       name="${_csrf.parameterName}"
+                       value="${_csrf.token}" />
                 <div class="form-group">
                     <label>
                         User name:<br />

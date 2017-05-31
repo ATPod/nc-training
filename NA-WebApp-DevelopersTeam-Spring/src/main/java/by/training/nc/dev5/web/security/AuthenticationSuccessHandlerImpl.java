@@ -1,6 +1,7 @@
 package by.training.nc.dev5.web.security;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,13 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
             HttpServletResponse httpServletResponse,
             Authentication authentication) throws IOException, ServletException {
 
+        if (httpServletResponse.isCommitted()) {
+            return;
+        }
 
+        new DefaultRedirectStrategy().sendRedirect(
+                httpServletRequest,
+                httpServletResponse,
+                "/home");
     }
 }
