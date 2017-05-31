@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,15 +23,40 @@ import java.util.LinkedList;
  */
 @Controller
 @RequestMapping("/customer")
+@SessionAttributes({"user", "createdTerms"})
+@Scope("session")
 public class CustomerController extends MultiActionController {
     private final TermsOfReferenceService termsOfReferenceService;
     private final QualificationService qualificationService;
+    private TermsOfReferenceDto createdTerms;
 
     @Autowired
     public CustomerController(TermsOfReferenceService termsOfReferenceService,
                               QualificationService qualificationService) {
         this.termsOfReferenceService = termsOfReferenceService;
         this.qualificationService = qualificationService;
+
+        createdTerms = new TermsOfReferenceDto();
+        createdTerms.setTasks(new LinkedList<TaskDto>());
+    }
+
+    /**
+     * Gets the value of createdTerms
+     *
+     * @return the value of createdTerms.
+     */
+    @ModelAttribute("createdTerms")
+    public TermsOfReferenceDto getCreatedTerms() {
+        return createdTerms;
+    }
+
+    /**
+     * Sets the value of createdTerms
+     *
+     * @param createdTerms the new value of createdTerms.
+     */
+    public void setCreatedTerms(TermsOfReferenceDto createdTerms) {
+        this.createdTerms = createdTerms;
     }
 
     @RequestMapping(value = "/terms", method = RequestMethod.GET)
@@ -67,6 +92,10 @@ public class CustomerController extends MultiActionController {
         taskDto.getQuotas().put(qualificationDto, developersNumber);
         taskDto.setSpecification(specification);
 
+        if (createdTerms == null) {
+            createdTerms = new TermsOfReferenceDto();
+        }
+
         if (createdTerms.getTasks() == null) {
             createdTerms.setTasks(new LinkedList<TaskDto>());
         }
@@ -77,14 +106,20 @@ public class CustomerController extends MultiActionController {
     }
 
     @RequestMapping(value = "/createTerms", method = RequestMethod.GET)
-    public String createTermsGet() {
+    public String createTermsGet(ModelMap modelMap) {
+        if (!modelMap.containsAttribute("createdTerms")) {
+            TermsOfReferenceDto createdTerms = new TermsOfReferenceDto();
+
+            createdTerms.setTasks(new LinkedList<TaskDto>());
+            modelMap.addAttribute("createdTerms", createdTerms);
+        }
+
         return "customer/create-terms";
     }
 
     @RequestMapping(value = "/createTerms", method = RequestMethod.POST)
     public String createTermsPost(
             @ModelAttribute("createdTerms") TermsOfReferenceDto createdTerms) {
-
         termsOfReferenceService.applyTermsOfReference(createdTerms);
 
         return "redirect:/customer/terms";
@@ -92,7 +127,12 @@ public class CustomerController extends MultiActionController {
 
     @RequestMapping(value = "/cancelTerms", method = RequestMethod.POST)
     public String cancelTermsPost(ModelMap modelMap) {
-        modelMap.remove("createdTerms");
+        // A little hack to reset value of createdTerms because
+        // ModelMap#remove() does not work properly.
+        TermsOfReferenceDto createdTerms = new TermsOfReferenceDto();
+
+        createdTerms.setTasks(new LinkedList<TaskDto>());
+        modelMap.addAttribute("createdTerms", createdTerms);
 
         return "redirect:/customer/createTerms";
     }

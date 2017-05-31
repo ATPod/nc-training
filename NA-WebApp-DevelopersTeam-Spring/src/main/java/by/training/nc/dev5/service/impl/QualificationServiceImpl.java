@@ -21,8 +21,12 @@ import java.util.Collection;
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DataAccessException.class)
 public class QualificationServiceImpl implements QualificationService {
+    private final QualificationDao qualificationDao;
+
     @Autowired
-    private QualificationDao qualificationDao;
+    public QualificationServiceImpl(QualificationDao qualificationDao) {
+        this.qualificationDao = qualificationDao;
+    }
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Collection<QualificationDto> getQualifications() {

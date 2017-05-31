@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="app" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="app"
+           uri="http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags" %>
 
 <html>
 <head>
@@ -38,16 +39,7 @@
                     <div class="form-group">
                         <label>
                             Qualification:<br />
-                            <select class="form-control" name="qualificationId" required>
-                                <c:forEach
-                                        var="qualification"
-                                        items="${requestScope.qualifications}">
-
-                                    <option value="${qualification.id}">
-                                        ${qualification.name}
-                                    </option>
-                                </c:forEach>
-                            </select>
+                            <app:qualificationSelect controlName="qualificationId" />
                         </label>
                         <br />
                     </div>
@@ -64,7 +56,7 @@
 
                 <c:url value="/customer/createTerms" var="createTermsUrl" />
                 <c:url value="/customer/cancelTerms" var="cancelTermsUrl" />
-                <c:if test="${not empty sessionScope.createdTerms}">
+                <c:if test="${not empty sessionScope.createdTerms.tasks}">
                     <form name="createTerms" method="post" action="${createTermsUrl}">
                         <button type="submit" class="btn btn-default">Create</button>
                     </form>

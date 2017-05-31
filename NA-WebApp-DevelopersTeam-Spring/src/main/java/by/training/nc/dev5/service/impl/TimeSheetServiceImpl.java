@@ -25,12 +25,16 @@ import java.util.Date;
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DataAccessException.class)
 public class TimeSheetServiceImpl implements TimeSheetService {
+    private final TimeSheetDao timeSheetDao;
+    private final DeveloperDao developerDao;
+    private final ProjectDao projectDao;
+
     @Autowired
-    private TimeSheetDao timeSheetDao;
-    @Autowired
-    private DeveloperDao developerDao;
-    @Autowired
-    private ProjectDao projectDao;
+    public TimeSheetServiceImpl(TimeSheetDao timeSheetDao, DeveloperDao developerDao, ProjectDao projectDao) {
+        this.timeSheetDao = timeSheetDao;
+        this.developerDao = developerDao;
+        this.projectDao = projectDao;
+    }
 
     public void trackTime(DeveloperDto user, int timeSpent) {
         Developer developer = developerDao.getEntityById(user.getId());

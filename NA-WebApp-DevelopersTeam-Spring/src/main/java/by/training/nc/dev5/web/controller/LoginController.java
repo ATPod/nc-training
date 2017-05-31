@@ -7,17 +7,18 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 /**
  * Created by Nikita on 24.05.2017.
  */
 @Controller
 @SessionAttributes("user")
-public class HomeController {
+public class LoginController {
     private final AuthenticationService authenticationService;
 
     @Autowired
-    public HomeController(AuthenticationService authenticationService) {
+    public LoginController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
@@ -50,6 +51,13 @@ public class HomeController {
         }
 
         modelMap.addAttribute("user", user);
+
+        return "redirect:/home";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(SessionStatus sessionStatus) {
+        sessionStatus.setComplete();
 
         return "redirect:/home";
     }

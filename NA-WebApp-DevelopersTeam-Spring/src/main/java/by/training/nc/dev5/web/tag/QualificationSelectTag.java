@@ -1,5 +1,7 @@
 package by.training.nc.dev5.web.tag;
 
+import by.training.nc.dev5.dao.DaoFactory;
+import by.training.nc.dev5.dao.QualificationDao;
 import by.training.nc.dev5.dto.QualificationDto;
 import by.training.nc.dev5.service.QualificationService;
 import by.training.nc.dev5.service.impl.QualificationServiceImpl;
@@ -18,8 +20,15 @@ public class QualificationSelectTag extends SimpleTagSupport {
     private String controlName;
     private String formId;
 
+    private static DaoFactory daoFactory;
+
+    static {
+        daoFactory = DaoFactory.getDaoFactory();
+    }
+
     {
-        qualificationService = new QualificationServiceImpl();
+        QualificationDao qualificationDao = daoFactory.getQualificationDao();
+        qualificationService = new QualificationServiceImpl(qualificationDao);
     }
 
     @Override
