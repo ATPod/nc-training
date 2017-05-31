@@ -15,7 +15,7 @@
 
     <div class="container">
         <div class="text-center">
-            <form method="post" name="loginForm" action="/login">
+            <form method="post" name="loginForm" action="/j_spring_security_check">
                 <div class="form-group">
                     <label>
                         User name:<br />
