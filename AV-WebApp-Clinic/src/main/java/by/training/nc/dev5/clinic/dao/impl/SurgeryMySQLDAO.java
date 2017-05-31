@@ -17,7 +17,6 @@ import java.util.List;
  */
 @Repository
 public class SurgeryMySQLDAO extends AbstractDAO<Surgery> implements ISurgeryDAO {
-    private static SurgeryMySQLDAO instance;
 
     private SurgeryMySQLDAO(){
         super(Surgery.class);
@@ -34,10 +33,4 @@ public class SurgeryMySQLDAO extends AbstractDAO<Surgery> implements ISurgeryDAO
         }
     }
 
-    public static synchronized SurgeryMySQLDAO getInstance(){
-        if(instance == null){
-            instance = new SurgeryMySQLDAO();
-        }
-        return instance;
-    }
 }

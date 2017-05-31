@@ -10,20 +10,21 @@ import by.training.nc.dev5.clinic.entities.prescribings.MedProcedure;
 import by.training.nc.dev5.clinic.entities.prescribings.Surgery;
 import by.training.nc.dev5.clinic.enums.UserType;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
-import by.training.nc.dev5.clinic.managers.MessageManager;
 import by.training.nc.dev5.clinic.managers.PagePathManager;
 import by.training.nc.dev5.clinic.services.*;
-import by.training.nc.dev5.clinic.services.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by user on 09.05.2017.
@@ -41,20 +42,21 @@ public class DoctorController {
     private IPatientService patientService;
     @Autowired
     private ISurgeryService surgeryService;
+    @Autowired
+    private PagePathManager pagePathManager;
+    @Autowired
+    private MessageSource messageSource;
 
     @RequestMapping(value = "/doctormenu", method = RequestMethod.GET)
     public String showDoctorMenuForm(HttpServletRequest request){
-        String pagePath;
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
-        }
-        else{
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.INDEX_PAGE_PATH);
+            return pagePathManager.getProperty(ConfigConstants.DOCTOR_MENU);
+        } else{
             session.invalidate();
+            return "redirect:/login";
         }
-        return pagePath;
     }
 
     @RequestMapping(value = "/addpatient", method = RequestMethod.GET)
@@ -63,19 +65,18 @@ public class DoctorController {
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_PATIENT);
+            pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_PATIENT);
         }
         else{
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.INDEX_PAGE_PATH);
             session.invalidate();
+            return "redirect:/login";
         }
         return pagePath;
     }
 
     @RequestMapping(value = "/addpatient", method = RequestMethod.POST)
     public String addPatient(@RequestParam(value = Parameters.PATIENT_NAME, required = false) String name,
-                             ModelMap model,
-                             HttpServletRequest request){
+                             ModelMap model, HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         String pagePath;
         HttpSession session = request.getSession();
         try{
@@ -87,23 +88,22 @@ public class DoctorController {
                         patientService.add(patient);
                         List<Patient> list = patientService.getAll();
                         session.setAttribute(Parameters.PATIENTS_LIST, list);
-                        pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.SHOW_PATIENTS_PAGE);
-                        model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
+                        redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
+                        return "redirect:/choosepatient";
                     } else {
-                        pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_PATIENT);
-                        model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.PATIENT_EXISTS));
+                        pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_PATIENT);
+                        model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.PATIENT_EXISTS, null, locale));
                     }
                 }else {
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.TOO_LONG_STRING));
-                    pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_PATIENT);
+                    model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.TOO_LONG_STRING, null, locale));
+                    pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_PATIENT);
                 }
             } else{
-                model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.EMPTY_FIELDS));
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_PATIENT);
+                model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_FIELDS, null, locale));
+                pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_PATIENT);
             }
         }catch (DAOException e) {
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.ERROR_PAGE_PATH);
-            model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
+            return "redirect:/error";
         }
         return pagePath;
     }
@@ -114,18 +114,17 @@ public class DoctorController {
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_DIAGNOSIS);
+            pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_DIAGNOSIS);
         } else{
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
             session.invalidate();
+            return "redirect:/login";
         }
         return pagePath;
     }
 
     @RequestMapping(value = "/adddiagnosis", method = RequestMethod.POST)
     public String addDiagnosis(@RequestParam(value = Parameters.DIAGNOSIS_NAME, required = false) String name,
-                               ModelMap model,
-                               HttpServletRequest request){
+                               ModelMap model, HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         String pagePath;
         HttpSession session = request.getSession();
         int patientId = Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID));
@@ -139,19 +138,18 @@ public class DoctorController {
                     diagnosisService.add(diagnosis);
                     List<Diagnosis> list = diagnosisService.getByPatient(patient);
                     session.setAttribute(Parameters.DIAGNOSIS_LIST, list);
-                    pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
+                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
+                    return "redirect:/doctormenu";
                 }else {
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.TOO_LONG_STRING));
-                    pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_DIAGNOSIS);
+                    model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.TOO_LONG_STRING, null, locale));
+                    pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_DIAGNOSIS);
                 }
             } else {
-                model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.EMPTY_FIELDS));
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_DIAGNOSIS);
+                model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_FIELDS, null, locale));
+                pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_DIAGNOSIS);
             }
         }catch (DAOException e){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.ERROR_PAGE_PATH);
-            model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
+            return "redirect:/error";
         }
         return pagePath;
     }
@@ -162,18 +160,17 @@ public class DoctorController {
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_DRUG);
+            pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_DRUG);
         } else{
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
             session.invalidate();
+            return "redirect:/login";
         }
         return pagePath;
     }
 
     @RequestMapping(value = "/adddrug", method = RequestMethod.POST)
     public String addDrug(@RequestParam(value = Parameters.DRUG_NAME, required = false) String name,
-                          ModelMap model,
-                          HttpServletRequest request){
+                          ModelMap model, HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         String pagePath;
         HttpSession session = request.getSession();
         int patientId = Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID));
@@ -187,19 +184,18 @@ public class DoctorController {
                     drugService.add(drug);
                     List<Drug> list = drugService.getByPatient(patient);
                     session.setAttribute(Parameters.DRUGS_LIST, list);
-                    pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
+                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
+                    return "redirect:/doctormenu";
                 }else {
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.TOO_LONG_STRING));
-                    pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_DRUG);
+                    model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.TOO_LONG_STRING, null, locale));
+                    pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_DRUG);
                 }
             } else {
-                model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.EMPTY_FIELDS));
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_DRUG);
+                model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_FIELDS, null, locale));
+                pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_DRUG);
             }
         }catch (DAOException e){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.ERROR_PAGE_PATH);
-            model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
+            return "redirect:/error";
         }
         return pagePath;
     }
@@ -210,17 +206,17 @@ public class DoctorController {
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_MEDPROCEDURE);
+            pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_MEDPROCEDURE);
         } else{
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
             session.invalidate();
+            return "redirect:/login";
         }
         return pagePath;
     }
 
     @RequestMapping(value = "/addmedprocedure", method = RequestMethod.POST)
     public String addMedProcedure(@RequestParam(value = Parameters.MEDPROCEDURE_NAME, required = false) String name,
-                                  ModelMap model, HttpServletRequest request){
+                                  ModelMap model, HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         String pagePath;
         HttpSession session = request.getSession();
         int patientId = Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID));
@@ -234,19 +230,18 @@ public class DoctorController {
                     medProcedureService.add(medProcedure);
                     List<MedProcedure> list = medProcedureService.getByPatient(patient);
                     session.setAttribute(Parameters.MEDPROCEDURES_LIST, list);
-                    pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
+                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
+                    return "redirect:/doctormenu";
                 }else {
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.TOO_LONG_STRING));
-                    pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_MEDPROCEDURE);
+                    model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.TOO_LONG_STRING, null, locale));
+                    pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_MEDPROCEDURE);
                 }
             } else {
-                model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.EMPTY_FIELDS));
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_MEDPROCEDURE);
+                model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_FIELDS, null, locale));
+                pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_MEDPROCEDURE);
             }
         }catch (DAOException e){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.ERROR_PAGE_PATH);
-            model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
+            return "redirect:/error";
         }
         return pagePath;
     }
@@ -257,18 +252,17 @@ public class DoctorController {
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         if(userType == UserType.DOCTOR){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_SURGERY);
+            pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_SURGERY);
         } else{
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
             session.invalidate();
+            return "redirect:/login";
         }
         return pagePath;
     }
 
     @RequestMapping(value = "/addsurgery", method = RequestMethod.POST)
     public String addSurgery(@RequestParam(value = Parameters.SURGERY_NAME, required = false) String name,
-                             ModelMap model,
-                             HttpServletRequest request){
+                             ModelMap model, HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         String pagePath;
         HttpSession session = request.getSession();
         int patientId = Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID));
@@ -282,28 +276,25 @@ public class DoctorController {
                     surgeryService.add(surgery);
                     List<Surgery> list = surgeryService.getByPatient(patient);
                     session.setAttribute(Parameters.SURGERIES_LIST, list);
-                    pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
+                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
+                    return "redirect:/doctormenu";
                 }else {
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.TOO_LONG_STRING));
-                    pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_SURGERY);
+                    model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.TOO_LONG_STRING, null, locale));
+                    pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_SURGERY);
                 }
             } else {
-                model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.EMPTY_FIELDS));
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_ADD_SURGERY);
+                model.put(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_FIELDS, null, locale));
+                pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_SURGERY);
             }
         }catch (DAOException e){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.ERROR_PAGE_PATH);
-            model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
+            return "redirect:/error";
         }
         return pagePath;
     }
 
     @RequestMapping(value = "/deldiagnosis", method = RequestMethod.POST)
     public String delDiagnosis(@RequestParam(value = Parameters.DIAGNOSIS_ID, required = false) String id,
-                               HttpServletRequest request,
-                               ModelMap model){
-        String pagePath;
+                               HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         try {
@@ -313,27 +304,23 @@ public class DoctorController {
                     Patient patient = patientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
                     List<Diagnosis> list = diagnosisService.getByPatient(patient);
                     session.setAttribute(Parameters.DIAGNOSIS_LIST, list);
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
+                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
                 } else {
-                    request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.EMPTY_CHOICE));
+                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_CHOICE, null, locale));
                 }
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
+                return "redirect:/doctormenu";
             } else {
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.INDEX_PAGE_PATH);
                 session.invalidate();
+                return "redirect:/login";
             }
         }catch (DAOException e){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.ERROR_PAGE_PATH);
-            model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
+            return "redirect:/error";
         }
-        return pagePath;
     }
 
     @RequestMapping(value = "/delsurgery", method = RequestMethod.POST)
     public String delSurgery(@RequestParam(value = Parameters.SURGERY_ID, required = false) String id,
-                             HttpServletRequest request,
-                             ModelMap model){
-        String pagePath;
+                             HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         HttpSession session = request.getSession();
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         try {
@@ -343,41 +330,38 @@ public class DoctorController {
                     Patient patient = patientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
                     List<Surgery> list = surgeryService.getByPatient(patient);
                     session.setAttribute(Parameters.SURGERIES_LIST, list);
-                    model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
+                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
                 } else {
-                    request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.EMPTY_CHOICE));
+                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_CHOICE, null, locale));
                 }
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.DOCTOR_MENU);
+                return "redirect:/doctormenu";
             } else {
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.INDEX_PAGE_PATH);
                 session.invalidate();
+                return "redirect:/login";
             }
         }catch (DAOException e){
-            pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.ERROR_PAGE_PATH);
-            model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
+            return "redirect:/error";
         }
-        return pagePath;
     }
 
     @RequestMapping(value = "/delpatient", method = RequestMethod.POST)
-    public String delPatient(HttpServletRequest request, ModelMap model){
-        String pagePath=null;
+    public String delPatient(HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         HttpSession session = request.getSession();
         int patientId = Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID));
         UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
-        if (userType == UserType.DOCTOR) {
-            try {
+        try {
+            if (userType == UserType.DOCTOR) {
                 patientService.delete(patientId);
                 List<Patient> list = patientService.getAll();
                 session.setAttribute(Parameters.PATIENTS_LIST, list);
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.SHOW_PATIENTS_PAGE);
-                model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
-
-            } catch (DAOException e) {
-                pagePath = PagePathManager.getInstance().getProperty(ConfigConstants.ERROR_PAGE_PATH);
-                model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
+                redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
+                return "redirect:/choosepatient";
+            } else {
+                session.invalidate();
+                return "redirect:/login";
             }
+        } catch (DAOException e) {
+            return "redirect:/error";
         }
-        return pagePath;
     }
 }

@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
-    <title>Выбор действия</title>
+    <title><s:message code="menu.title"/></title>
     <link href="${pageContext.request.contextPath}/resources/css/page_style.css" rel="stylesheet" >
     <link href="${pageContext.request.contextPath}/resources/css/logo_style.css" rel="stylesheet" >
 </head>
@@ -11,23 +12,24 @@
         <div class="header" align="left">
             <%@include file="../../views/elements/header.jsp" %>
         </div>
-        <a href="/index">Вход в систему</a>>
-        <a href="/choosepatient">Выбор карточки пациента</a>>
-        Карточка пациента<br/>
+        <a href="/index"><s:message code="index.title"/></a>>
+        <a href="/choosepatient"><s:message code="patients.title"/></a>>
+        <s:message code="menu.title"/><br/>
         <div align="center">
-            <strong>Карточка пациента "${patientName}"</strong>
+            <strong>"${patientName}"</strong>
             <table align="top">
                 <tr>
                     <td valign="top" style="text-align: center">
                         <form name="drugListForm" method="POST" action="/deldrug">
-                            <input type="submit" value="Ввести лекарство" align="center"/>  <br/>
+                            <s:message var="button" code="menu.deldrug"/>
+                            <input type="submit" value="${button}" align="center"/>  <br/>
                             <table align="center" border="1">
                                 <tr bgcolor="#CCCCCC">
-                                    <td align="center"><strong>Лекарства</strong></td>
+                                    <td align="center"><strong><s:message code="menu.drugs"/></strong></td>
                                 </tr>
                                 <c:if test="${empty drugsList}">
                                     <tr>
-                                        <td>Нет записей</td>
+                                        <td><s:message code="common.emptylist"/></td>
                                     </tr>
                                 </c:if>
                                 <c:forEach var="drug" items="${drugsList}">
@@ -40,14 +42,15 @@
                     </td>
                     <td valign="top" style="text-align: center">
                         <form name="medProcedureListForm" method="POST" action="/delmedprocedure">
-                            <input type="submit" value="Сделать процедуру" align="center"/>  <br/>
+                            <s:message var="button" code="menu.delmedprocedure"/>
+                            <input type="submit" value="${button}" align="center"/>  <br/>
                             <table align="center" border="1">
                                 <tr bgcolor="#CCCCCC">
-                                    <td align="center"><strong>Процедуры</strong></td>
+                                    <td align="center"><strong><s:message code="menu.medprocedures"/></strong></td>
                                 </tr>
                                 <c:if test="${empty medProceduresList}">
                                     <tr>
-                                        <td>Нет записей</td>
+                                        <td><s:message code="common.emptylist"/></td>
                                     </tr>
                                 </c:if>
                                 <c:forEach var="medProcedure" items="${medProceduresList}">

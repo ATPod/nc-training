@@ -16,7 +16,6 @@ import java.util.List;
  */
 @Repository
 public class PatientMySQLDAO extends AbstractDAO<Patient> implements IPatientDAO {
-    private static PatientMySQLDAO instance;
 
     private PatientMySQLDAO(){
         super(Patient.class);
@@ -56,10 +55,4 @@ public class PatientMySQLDAO extends AbstractDAO<Patient> implements IPatientDAO
         }
     }
 
-    public static synchronized PatientMySQLDAO getInstance(){
-        if(instance == null){
-            instance = new PatientMySQLDAO();
-        }
-        return instance;
-    }
 }

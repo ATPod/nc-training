@@ -17,7 +17,6 @@ import java.util.List;
  */
 @Repository
 public class MedProcedureMySQLDAO extends AbstractDAO<MedProcedure> implements IMedProcedureDAO {
-    private static MedProcedureMySQLDAO instance;
 
     private MedProcedureMySQLDAO(){
         super(MedProcedure.class);
@@ -34,10 +33,4 @@ public class MedProcedureMySQLDAO extends AbstractDAO<MedProcedure> implements I
         }
     }
 
-    public static synchronized MedProcedureMySQLDAO getInstance(){
-        if(instance == null){
-            instance = new MedProcedureMySQLDAO();
-        }
-        return instance;
-    }
 }

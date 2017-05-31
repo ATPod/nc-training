@@ -1,8 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <html>
     <head>
-        <title>Авторизация</title>
+        <title><s:message code="index.title"/></title>
         <link href="${pageContext.request.contextPath}/resources/css/page_style.css" rel="stylesheet" >
         <link href="${pageContext.request.contextPath}/resources/css/logo_style.css" rel="stylesheet" >
     </head>
@@ -15,16 +16,17 @@
                 <form name="loginForm" method="POST" action="/login">
                     <table>
                         <tr>
-                            <td>Логин:</td>
+                            <td><s:message code="common.login"/></td>
                             <td><input type="text" name="login" value="" size="20"/></td>
                         </tr>
                         <tr>
-                            <td>Пароль:</td>
+                            <td><s:message code="common.password"/></td>
                             <td><input type="password" name="password" value="" size="20" /></td>
                         </tr>
                     </table>
-                    <input type="submit" value="Войти" />
-                    <a href="/registration">Регистрация</a><br />
+                    <s:message var="button" code="common.submit"/>
+                    <input type="submit" value="${button}" />
+                    <a href="/registration"><s:message code="registration.title"/></a><br />
                     ${operationMessage}<br />
                 </form>
             </div>

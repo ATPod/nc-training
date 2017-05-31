@@ -17,7 +17,6 @@ import java.util.List;
  */
 @Repository
 public class  DrugMySQLDAO extends AbstractDAO<Drug> implements IDrugDAO {
-    private static DrugMySQLDAO instance;
 
     private DrugMySQLDAO(){
         super(Drug.class);
@@ -34,10 +33,4 @@ public class  DrugMySQLDAO extends AbstractDAO<Drug> implements IDrugDAO {
         }
     }
 
-    public static synchronized DrugMySQLDAO getInstance(){
-        if(instance == null){
-            instance = new DrugMySQLDAO();
-        }
-        return instance;
-    }
 }
