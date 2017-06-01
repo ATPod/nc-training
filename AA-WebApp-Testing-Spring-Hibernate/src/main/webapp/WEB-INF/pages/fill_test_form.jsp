@@ -7,12 +7,13 @@
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/validator.min.js"></script>
     <title><spring:message code="page.form.test.fill.title"/></title>
 </head>
 <body>
 <div align="center">
     <form class="form-horizontal" name="tutorRegistration" method="POST"
-             action="${pageContext.request.contextPath}/addTest">
+             action="${pageContext.request.contextPath}/addTest" role="form" data-toggle="validator">
         <fieldset>
             <legend><spring:message code="page.form.test.fill.title"/></legend>
             <label class="col-md-9">${testName}</label>
@@ -23,7 +24,11 @@
                         <div class="col-md-5">
                             <input id="question" name="questionText${counter1.current}" type="text" value=""
                                    placeholder="Текст вопроса..."
-                                   class="form-control input-md" required="">
+                                   class="form-control input-md" required="required"
+                                   data-minlength="1"
+                                   data-error="Текст вопроса должен иметь длину более одного символа и состоять из букв"
+                            >
+                            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <c:forEach begin="1" end="${optionAmount}" varStatus="counter2">
@@ -32,7 +37,9 @@
                             <div class="col-md-4">
                                 <input id="option" name="optionText${counter1.current}${counter2.current}" type="text"
                                        value="" placeholder="Текст варианта..."
-                                       class="form-control input-md" required="">
+                                       class="form-control input-md" required="required" data-minlength="1"
+                                data-error="Текст варианта ответа должен иметь длину более одного символа и состоять из букв">
+                                <div class="help-block with-errors"></div>
                             </div>
                             <div class="col-md-1" align="center"><input type="checkbox"
                                                                         name="rightness${counter1.current}${counter2.current}"
@@ -45,7 +52,11 @@
                         <div class="col-md-2">
                             <input id="scores" name="questionBalls${counter1.current}" type="text" value=""
                                    placeholder="Баллы..."
-                                   class="form-control input-md" required="">
+                                   class="form-control input-md" required="required"
+                            pattern="[0-9]+"
+                            data-minlength="1"
+                            data-error="Неверный формат ввода для числа баллов">
+                            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                 </c:forEach>
