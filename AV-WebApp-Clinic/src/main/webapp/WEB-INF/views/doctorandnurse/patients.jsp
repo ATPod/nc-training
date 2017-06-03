@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -11,9 +12,8 @@
 <body>
     <div class="container">
         <div class="header" align="left">
-            <%@include file="../../views/elements/header.jsp" %>
+            <%@include file="../../views/elements/header_with_logout.jsp" %>
         </div>
-        <a href="/index"><s:message code="index.title"/></a>>
         <s:message code="patients.title"/><br/>
         <div align="center">
             <form name="choosePatientForm" method="POST" action="/choosepatient">
@@ -36,11 +36,12 @@
                         </tr>
                     </c:forEach>
                 </table>
+                <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
                 <s:message var="button" code="common.submit"/>
                 <input type="submit" value="${button}"/>  <br/>
-                <c:if test="${userType=='DOCTOR'}">
+                <sec:authorize access="hasRole('ROLE_DOCTOR')">
                     <a href="/addpatient"><s:message code="add.patient.title"/></a> <br/>
-                </c:if>
+                </sec:authorize>
             </form>
             ${operationMessage}<br />
         </div>

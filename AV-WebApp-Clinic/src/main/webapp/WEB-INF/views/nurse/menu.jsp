@@ -10,9 +10,8 @@
 <body>
     <div class="container">
         <div class="header" align="left">
-            <%@include file="../../views/elements/header.jsp" %>
+            <%@include file="../../views/elements/header_with_logout.jsp" %>
         </div>
-        <a href="/index"><s:message code="index.title"/></a>>
         <a href="/choosepatient"><s:message code="patients.title"/></a>>
         <s:message code="menu.title"/><br/>
         <div align="center">
@@ -21,6 +20,7 @@
                 <tr>
                     <td valign="top" style="text-align: center">
                         <form name="drugListForm" method="POST" action="/deldrug">
+                            <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
                             <s:message var="button" code="menu.deldrug"/>
                             <input type="submit" value="${button}" align="center"/>  <br/>
                             <table align="center" border="1">
@@ -42,6 +42,7 @@
                     </td>
                     <td valign="top" style="text-align: center">
                         <form name="medProcedureListForm" method="POST" action="/delmedprocedure">
+                            <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
                             <s:message var="button" code="menu.delmedprocedure"/>
                             <input type="submit" value="${button}" align="center"/>  <br/>
                             <table align="center" border="1">
