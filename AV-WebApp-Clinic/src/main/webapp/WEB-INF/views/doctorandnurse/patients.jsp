@@ -8,6 +8,7 @@
     <title><s:message code="patients.title"/></title>
     <link href="${pageContext.request.contextPath}/resources/css/page_style.css" rel="stylesheet" >
     <link href="${pageContext.request.contextPath}/resources/css/logo_style.css" rel="stylesheet" >
+    <link href="${pageContext.request.contextPath}/resources/css/table_style.css" rel="stylesheet" >
 </head>
 <body>
     <div class="container">
@@ -18,21 +19,23 @@
         <div align="center">
             <form name="choosePatientForm" method="POST" action="/choosepatient">
                 <s:message code="patients.choosepatientcard"/>
-                <table border="1">
-                    <tr bgcolor="#CCCCCC">
-                        <td align="center"> </td>
-                        <td align="center"><strong><s:message code="patients.fullname"/></strong></td>
+                <table class="table">
+                    <tr class="tr">
+                        <th class="th"><strong><s:message code="patients.fullname"/></strong></th>
                     </tr>
                     <c:if test="${empty patientsList}">
-                        <tr>
-                            <td></td>
-                            <td><s:message code="common.emptylist"/></td>
+                        <tr class="tr">
+                            <td class="td"><s:message code="common.emptylist"/></td>
                         </tr>
                     </c:if>
                     <c:forEach var="patient" items="${patientsList}">
-                        <tr>
-                            <td><input type="radio" name="patientId" value="${ patient.id }"/></td>
-                            <td><c:out value="${ patient.name }" /></td>
+                        <tr class="tr">
+                            <td class="td">
+                                <label>
+                                    <input type="radio" name="patientId" value="${ patient.id }"/>
+                                    <c:out value="${ patient.name }" />
+                                </label>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>

@@ -6,6 +6,7 @@
     <title><s:message code="menu.title"/></title>
     <link href="${pageContext.request.contextPath}/resources/css/page_style.css" rel="stylesheet" >
     <link href="${pageContext.request.contextPath}/resources/css/logo_style.css" rel="stylesheet" >
+    <link href="${pageContext.request.contextPath}/resources/css/table_style.css" rel="stylesheet" >
 </head>
 <body>
     <div class="container">
@@ -24,18 +25,23 @@
                             <s:message var="button" code="menu.deldiagnosis"/>
                             <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
                             <input type="submit" value="${button}"/>  <br/>
-                            <table align="center" border="1">
-                                <tr bgcolor="#CCCCCC">
-                                    <td align="center"><strong><s:message code="menu.diagonisises"/></strong></td>
+                            <table class="table">
+                                <tr class="tr">
+                                    <th class="th"><strong><s:message code="menu.diagonisises"/></strong></th>
                                 </tr>
                                 <c:if test="${empty diagnosisesList}">
-                                    <tr>
-                                        <td><s:message code="common.emptylist"/></td>
+                                    <tr class="tr">
+                                        <td class="td"><s:message code="common.emptylist"/></td>
                                     </tr>
                                 </c:if>
                                 <c:forEach var="diagnosis" items="${diagnosisesList}">
-                                    <tr>
-                                        <td><input type="radio" name="diagnosisId" value="${ diagnosis.id }"/> <c:out value="${ diagnosis.name }" /></td>
+                                    <tr class="tr">
+                                        <td class="td">
+                                            <label>
+                                                <input type="radio" name="diagnosisId" value="${ diagnosis.id }"/>
+                                                <c:out value="${ diagnosis.name }" />
+                                            </label>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -47,18 +53,23 @@
                             <s:message var="button" code="menu.deldrug"/>
                             <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
                             <input type="submit" value="${button}" align="center"/>  <br/>
-                            <table align="center" border="1">
-                                <tr bgcolor="#CCCCCC">
-                                    <td align="center"><strong><s:message code="menu.drugs"/></strong></td>
+                            <table class="table">
+                                <tr class="tr">
+                                    <th class="th"><strong><s:message code="menu.drugs"/></strong></th>
                                 </tr>
                                 <c:if test="${empty drugsList}">
-                                    <tr>
-                                        <td><s:message code="common.emptylist"/></td>
+                                    <tr class="tr">
+                                        <td class="td"><s:message code="common.emptylist"/></td>
                                     </tr>
                                 </c:if>
                                 <c:forEach var="drug" items="${drugsList}">
-                                    <tr>
-                                        <td><input type="radio" name="drugId" value="${ drug.id }"/> <c:out value="${ drug.name }" /></td>
+                                    <tr class="tr">
+                                        <td class="td">
+                                            <label>
+                                                <input type="radio" name="drugId" value="${ drug.id }"/>
+                                                <c:out value="${ drug.name }" />
+                                            </label>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -70,18 +81,23 @@
                             <s:message var="button" code="menu.delmedprocedure"/>
                             <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
                             <input type="submit" value="${button}" align="center"/>  <br/>
-                            <table align="center" border="1">
-                                <tr bgcolor="#CCCCCC">
-                                    <td align="center"><strong><s:message code="menu.medprocedures"/></strong></td>
+                            <table class="table">
+                                <tr class="tr">
+                                    <th class="th"><strong><s:message code="menu.medprocedures"/></strong></th>
                                 </tr>
                                 <c:if test="${empty medProceduresList}">
-                                    <tr>
-                                        <td><s:message code="common.emptylist"/></td>
+                                    <tr class="tr">
+                                        <td class="td"><s:message code="common.emptylist"/></td>
                                     </tr>
                                 </c:if>
                                 <c:forEach var="medProcedure" items="${medProceduresList}">
-                                    <tr>
-                                        <td><input type="radio" name="medProcedureId" value="${ medProcedure.id }"/> <c:out value="${ medProcedure.name }" /></td>
+                                    <tr class="tr">
+                                        <td class="td">
+                                            <label>
+                                                <input type="radio" name="medProcedureId" value="${ medProcedure.id }"/>
+                                                <c:out value="${ medProcedure.name }" />
+                                            </label>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -93,18 +109,23 @@
                             <s:message var="button" code="menu.delsurgery"/>
                             <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
                             <input type="submit" value="${button}" align="center"/>  <br/>
-                            <table align="center" border="1">
-                                <tr bgcolor="#CCCCCC">
-                                    <td align="center"><strong><s:message code="menu.surgeries"/></strong></td>
+                            <table class="table">
+                                <tr class="tr">
+                                    <th class="th"><strong><s:message code="menu.surgeries"/></strong></th>
                                 </tr>
                                 <c:if test="${empty surgeriesList}">
-                                    <tr>
-                                        <td><s:message code="common.emptylist"/></td>
+                                    <tr class="tr">
+                                        <td class="td"><s:message code="common.emptylist"/></td>
                                     </tr>
                                 </c:if>
                                 <c:forEach var="surgery" items="${surgeriesList}">
-                                    <tr>
-                                        <td><input type="radio" name="surgeryId" value="${ surgery.id }"/> <c:out value="${ surgery.name }" /></td>
+                                    <tr class="tr">
+                                        <td class="td">
+                                            <label>
+                                                <input type="radio" name="surgeryId" value="${ surgery.id }"/>
+                                                <c:out value="${ surgery.name }" />
+                                            </label>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </table>

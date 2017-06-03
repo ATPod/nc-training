@@ -1,17 +1,15 @@
-@charset "utf-8";
-
 body {
-    font: 110% Calibri;
+    font: 120% Calibri;
     margin: 0;
     padding: 0;
 }
 .container {
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
 }
 
 a:link {
-    color: #0099cc;
+    color: #008ed5;
     text-decoration: underline;
 
 }

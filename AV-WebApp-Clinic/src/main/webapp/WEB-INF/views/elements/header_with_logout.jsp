@@ -5,7 +5,7 @@
     <table>
         <tr>
             <td style="padding: 5px;">
-                <form name="logoutForm" method="POST" action="/logout">
+                <form name="logoutForm" method="POST" action="/logout" style=" margin-bottom: 0px;">
                     <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
                     <s:message code="common.username"/> ${pageContext.request.userPrincipal.name}
                     <s:message var="button" code="common.logout"/>
