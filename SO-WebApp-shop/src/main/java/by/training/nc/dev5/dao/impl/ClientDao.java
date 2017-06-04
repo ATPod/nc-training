@@ -17,6 +17,7 @@ import java.util.List;
 @Transactional
 public class ClientDao extends AbstractDao<Client> implements IClientDao {
 
+    @Transactional(readOnly = true)
     public List<Client> getAll() throws DaoException {
         try {
             Query query = getSession().createNamedQuery("Client.findAll");
@@ -31,6 +32,7 @@ public class ClientDao extends AbstractDao<Client> implements IClientDao {
 
     public void remove(Client client) throws DaoException {}
 
+    @Transactional(readOnly = true)
     public Client getById(int id) throws DaoException, NotFoundException {
         try {
             Client client = getSession().find(Client.class, id);
@@ -47,6 +49,7 @@ public class ClientDao extends AbstractDao<Client> implements IClientDao {
         }
     }
 
+    @Transactional(readOnly = true)
     public Client getByEmail(String email) throws DaoException, NotFoundException {
         try {
             Query query = getSession().createNamedQuery("Client.findByEmail");
@@ -63,6 +66,7 @@ public class ClientDao extends AbstractDao<Client> implements IClientDao {
         }
     }
 
+    @Transactional(readOnly = true)
     public Client getByParameters(String email, String password) throws DaoException, NotFoundException {
         try {
             Query query = getSession().createNamedQuery("Client.findByParam");

@@ -84,4 +84,8 @@ public class ClientService implements IClientService {
     public Client findClientByParameters(String login, String password) throws NotFoundException, DaoException {
         return clientDao.getByParameters(login, password);
     }
+
+    public Client findClientByEmail(String email) throws NotFoundException, DaoException {
+        return clientDao.getByEmail(email);
+    }
 }

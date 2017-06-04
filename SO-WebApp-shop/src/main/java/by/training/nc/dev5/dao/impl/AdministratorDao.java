@@ -23,6 +23,7 @@ public class AdministratorDao extends AbstractDao<Administrator> implements IAdm
 
     public List<Administrator> getAll() throws DaoException {return null;}
 
+    @Transactional(readOnly = true)
     public Administrator getById(int id) throws DaoException, NotFoundException {
         try {
             Administrator administrator = (Administrator) getSession().find(Administrator.class, id);
@@ -39,11 +40,29 @@ public class AdministratorDao extends AbstractDao<Administrator> implements IAdm
         }
     }
 
+    @Transactional(readOnly = true)
     public Administrator getByParameters(String name, String password) throws DaoException, NotFoundException {
         try {
             Query query = getSession().createNamedQuery("Administrator.findByParam");
             query.setParameter(1, name);
             query.setParameter(2, password);
+            Administrator administrator = (Administrator) query.getSingleResult();
+            return administrator;
+        }
+        catch (NoResultException e){
+            throw new NotFoundException();
+        }
+        catch (Exception e){
+            SystemLogger.INSTANCE.logError(getClass(), e.getMessage());
+            throw new DaoException(e.getMessage());
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Administrator getByName(String name) throws DaoException, NotFoundException {
+        try {
+            Query query = getSession().createNamedQuery("Administrator.findByName");
+            query.setParameter(1, name);
             Administrator administrator = (Administrator) query.getSingleResult();
             return administrator;
         }

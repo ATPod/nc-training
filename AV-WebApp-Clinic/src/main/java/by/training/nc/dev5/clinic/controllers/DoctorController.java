@@ -48,30 +48,13 @@ public class DoctorController {
     private MessageSource messageSource;
 
     @RequestMapping(value = "/doctormenu", method = RequestMethod.GET)
-    public String showDoctorMenuForm(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
-        if(userType == UserType.DOCTOR){
-            return pagePathManager.getProperty(ConfigConstants.DOCTOR_MENU);
-        } else{
-            session.invalidate();
-            return "redirect:/login";
-        }
+    public String showDoctorMenuForm(){
+        return pagePathManager.getProperty(ConfigConstants.DOCTOR_MENU);
     }
 
     @RequestMapping(value = "/addpatient", method = RequestMethod.GET)
-    public String showAddPatientForm(HttpServletRequest request){
-        String pagePath;
-        HttpSession session = request.getSession();
-        UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
-        if(userType == UserType.DOCTOR){
-            pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_PATIENT);
-        }
-        else{
-            session.invalidate();
-            return "redirect:/login";
-        }
-        return pagePath;
+    public String showAddPatientForm(){
+        return  pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_PATIENT);
     }
 
     @RequestMapping(value = "/addpatient", method = RequestMethod.POST)
@@ -109,17 +92,8 @@ public class DoctorController {
     }
 
     @RequestMapping(value = "/adddiagnosis", method = RequestMethod.GET)
-    public String showAddDiagnosisForm(HttpServletRequest request){
-        String pagePath;
-        HttpSession session = request.getSession();
-        UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
-        if(userType == UserType.DOCTOR){
-            pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_DIAGNOSIS);
-        } else{
-            session.invalidate();
-            return "redirect:/login";
-        }
-        return pagePath;
+    public String showAddDiagnosisForm(){
+        return pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_DIAGNOSIS);
     }
 
     @RequestMapping(value = "/adddiagnosis", method = RequestMethod.POST)
@@ -155,17 +129,8 @@ public class DoctorController {
     }
 
     @RequestMapping(value = "/adddrug", method = RequestMethod.GET)
-    public String showAddDrugForm(HttpServletRequest request){
-        String pagePath;
-        HttpSession session = request.getSession();
-        UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
-        if(userType == UserType.DOCTOR){
-            pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_DRUG);
-        } else{
-            session.invalidate();
-            return "redirect:/login";
-        }
-        return pagePath;
+    public String showAddDrugForm(){
+        return pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_DRUG);
     }
 
     @RequestMapping(value = "/adddrug", method = RequestMethod.POST)
@@ -201,17 +166,8 @@ public class DoctorController {
     }
 
     @RequestMapping(value = "/addmedprocedure", method = RequestMethod.GET)
-    public String showAddMedProcedureForm(HttpServletRequest request){
-        String pagePath;
-        HttpSession session = request.getSession();
-        UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
-        if(userType == UserType.DOCTOR){
-            pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_MEDPROCEDURE);
-        } else{
-            session.invalidate();
-            return "redirect:/login";
-        }
-        return pagePath;
+    public String showAddMedProcedureForm(){
+        return pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_MEDPROCEDURE);
     }
 
     @RequestMapping(value = "/addmedprocedure", method = RequestMethod.POST)
@@ -247,17 +203,8 @@ public class DoctorController {
     }
 
     @RequestMapping(value = "/addsurgery", method = RequestMethod.GET)
-    public String showAddSurgeryForm(HttpServletRequest request){
-        String pagePath;
-        HttpSession session = request.getSession();
-        UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
-        if(userType == UserType.DOCTOR){
-            pagePath = pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_SURGERY);
-        } else{
-            session.invalidate();
-            return "redirect:/login";
-        }
-        return pagePath;
+    public String showAddSurgeryForm(){
+        return pagePathManager.getProperty(ConfigConstants.DOCTOR_ADD_SURGERY);
     }
 
     @RequestMapping(value = "/addsurgery", method = RequestMethod.POST)
@@ -296,23 +243,17 @@ public class DoctorController {
     public String delDiagnosis(@RequestParam(value = Parameters.DIAGNOSIS_ID, required = false) String id,
                                HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         HttpSession session = request.getSession();
-        UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         try {
-            if (userType == UserType.DOCTOR) {
-                if (id != null) {
-                    diagnosisService.delete(Integer.valueOf(id));
-                    Patient patient = patientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
-                    List<Diagnosis> list = diagnosisService.getByPatient(patient);
-                    session.setAttribute(Parameters.DIAGNOSIS_LIST, list);
-                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
-                } else {
-                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_CHOICE, null, locale));
-                }
-                return "redirect:/doctormenu";
+            if (id != null) {
+                diagnosisService.delete(Integer.valueOf(id));
+                Patient patient = patientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
+                List<Diagnosis> list = diagnosisService.getByPatient(patient);
+                session.setAttribute(Parameters.DIAGNOSIS_LIST, list);
+                redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
             } else {
-                session.invalidate();
-                return "redirect:/login";
+                redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_CHOICE, null, locale));
             }
+            return "redirect:/doctormenu";
         }catch (DAOException e){
             return "redirect:/error";
         }
@@ -322,23 +263,17 @@ public class DoctorController {
     public String delSurgery(@RequestParam(value = Parameters.SURGERY_ID, required = false) String id,
                              HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         HttpSession session = request.getSession();
-        UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         try {
-            if (userType == UserType.DOCTOR) {
-                if (id != null) {
-                    surgeryService.delete(Integer.valueOf(id));
-                    Patient patient = patientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
-                    List<Surgery> list = surgeryService.getByPatient(patient);
-                    session.setAttribute(Parameters.SURGERIES_LIST, list);
-                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
-                } else {
-                    redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_CHOICE, null, locale));
-                }
-                return "redirect:/doctormenu";
+            if (id != null) {
+                surgeryService.delete(Integer.valueOf(id));
+                Patient patient = patientService.getById(Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID)));
+                List<Surgery> list = surgeryService.getByPatient(patient);
+                session.setAttribute(Parameters.SURGERIES_LIST, list);
+                redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
             } else {
-                session.invalidate();
-                return "redirect:/login";
+                redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.EMPTY_CHOICE, null, locale));
             }
+            return "redirect:/doctormenu";
         }catch (DAOException e){
             return "redirect:/error";
         }
@@ -348,18 +283,12 @@ public class DoctorController {
     public String delPatient(HttpServletRequest request, Locale locale, RedirectAttributes redirectAttributes){
         HttpSession session = request.getSession();
         int patientId = Integer.valueOf((String) session.getAttribute(Parameters.PATIENT_ID));
-        UserType userType = (UserType)session.getAttribute(Parameters.USERTYPE);
         try {
-            if (userType == UserType.DOCTOR) {
-                patientService.delete(patientId);
-                List<Patient> list = patientService.getAll();
-                session.setAttribute(Parameters.PATIENTS_LIST, list);
-                redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
-                return "redirect:/choosepatient";
-            } else {
-                session.invalidate();
-                return "redirect:/login";
-            }
+            patientService.delete(patientId);
+            List<Patient> list = patientService.getAll();
+            session.setAttribute(Parameters.PATIENTS_LIST, list);
+            redirectAttributes.addFlashAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage(MessageConstants.SUCCESS_OPERATION, null, locale));
+            return "redirect:/choosepatient";
         } catch (DAOException e) {
             return "redirect:/error";
         }

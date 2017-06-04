@@ -8,4 +8,5 @@ public interface IAdministratorDao extends IDao<Administrator> {
 
     Administrator getByParameters(String name, String password) throws DaoException, NotFoundException;
 
+    Administrator getByName(String name) throws DaoException, NotFoundException;
 }

@@ -6,8 +6,9 @@ import by.training.nc.dev5.entities.Person;
 
 
 public interface ClientDAO {
-	  void insertClient(Person pPerson);
-	  void deleteClient(Client pClient);
-	  void updateClient(Client pClient);
-	  Collection<Person> selectClients();
+	  int insertClient(Person pPerson);
+	  boolean deleteClient(Person pPerson);
+	  Person findClient(int pClientId);
+	  boolean updateClient(Person pPerson);
+	  Collection<Client> selectClients();
 }
