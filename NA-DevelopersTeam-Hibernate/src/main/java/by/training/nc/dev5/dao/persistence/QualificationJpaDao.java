@@ -11,11 +11,11 @@ import javax.persistence.EntityManagerFactory;
 /**
  * Created by Nikita on 07.05.2017.
  */
-@Repository
+//@Repository
 public class QualificationJpaDao
         extends AbstractJpaDao<Qualification, Integer>
         implements QualificationDao {
-    @Autowired
+//    @Autowired
     public QualificationJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, Qualification.class);
     }

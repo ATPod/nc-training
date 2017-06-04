@@ -13,12 +13,12 @@ import javax.persistence.criteria.*;
 /**
  * Created by Nikita on 04.05.2017.
  */
-@Repository
+//@Repository
 public class PersonJpaDao
         extends AbstractJpaDao<Person, Integer>
         implements PersonDao {
 
-    @Autowired
+//    @Autowired
     public PersonJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, Person.class);
     }

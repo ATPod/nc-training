@@ -21,12 +21,12 @@ import java.util.Collection;
 /**
  * Created by Nikita on 07.05.2017.
  */
-@Repository
+//@Repository
 public class TimeSheetJpaDao
         extends AbstractJpaDao<TimeSheet, Integer>
         implements TimeSheetDao {
 
-    @Autowired
+//    @Autowired
     public TimeSheetJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, TimeSheet.class);
     }

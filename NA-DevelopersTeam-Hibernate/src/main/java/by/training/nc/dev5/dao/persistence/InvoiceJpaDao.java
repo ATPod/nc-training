@@ -15,12 +15,12 @@ import java.util.Collection;
 /**
  * Created by Nikita on 07.05.2017.
  */
-@Repository
+//@Repository
 public class InvoiceJpaDao
         extends AbstractJpaDao<Invoice, Integer>
         implements InvoiceDao {
 
-    @Autowired
+//    @Autowired
     public InvoiceJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, Invoice.class);
     }

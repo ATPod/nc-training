@@ -11,12 +11,12 @@ import javax.persistence.EntityManagerFactory;
 /**
  * Created by Nikita on 04.05.2017.
  */
-@Repository
+//@Repository
 public class CustomerJpaDao
         extends AbstractJpaDao<Customer, Integer>
         implements CustomerDao {
 
-    @Autowired
+//    @Autowired
     public CustomerJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, Customer.class);
     }

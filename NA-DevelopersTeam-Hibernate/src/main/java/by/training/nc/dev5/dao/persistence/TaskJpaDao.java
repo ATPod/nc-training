@@ -25,12 +25,12 @@ import java.util.List;
 /**
  * Created by Nikita on 07.05.2017.
  */
-@Repository
+//@Repository
 public class TaskJpaDao
         extends AbstractJpaDao<Task, Integer>
         implements TaskDao {
 
-    @Autowired
+//    @Autowired
     public TaskJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, Task.class);
     }

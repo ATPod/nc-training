@@ -11,11 +11,11 @@ import javax.persistence.EntityManagerFactory;
 /**
  * Created by Nikita on 04.05.2017.
  */
-@Repository
+//@Repository
 public class ManagerJpaDao
         extends AbstractJpaDao<Manager, Integer>
         implements ManagerDao {
-    @Autowired
+//    @Autowired
     public ManagerJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, Manager.class);
     }

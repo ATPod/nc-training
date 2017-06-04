@@ -20,12 +20,12 @@ import java.util.Collection;
 /**
  * Created by Nikita on 07.05.2017.
  */
-@Repository
+//@Repository
 public class ProjectJpaDao
         extends AbstractJpaDao<Project, Integer>
         implements ProjectDao {
 
-    @Autowired
+//    @Autowired
     public ProjectJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, Project.class);
     }

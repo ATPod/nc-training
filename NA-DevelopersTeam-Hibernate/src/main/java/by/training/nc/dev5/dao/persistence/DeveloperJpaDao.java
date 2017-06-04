@@ -15,12 +15,12 @@ import java.util.Collection;
 /**
  * Created by Nikita on 04.05.2017.
  */
-@Repository
+//@Repository
 public class DeveloperJpaDao
         extends AbstractJpaDao<Developer, Integer>
         implements DeveloperDao{
 
-    @Autowired
+//    @Autowired
     public DeveloperJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, Developer.class);
     }

@@ -16,14 +16,17 @@ import java.util.List;
 /**
  * Created by Nikita on 07.05.2017.
  */
-@Repository
+//@Repository
 public class TermsOfReferenceJpaDao
         extends AbstractJpaDao<TermsOfReference, Integer>
         implements TermsOfReferenceDao {
 
-    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+
+    //    @Autowired
     public TermsOfReferenceJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, TermsOfReference.class);
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     public Collection<TermsOfReference> getTermsOfReferenceWithNoProject()

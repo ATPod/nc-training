@@ -14,7 +14,13 @@
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
     <bean id="entityManagerFactory"
-          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+          class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="DevelopersTeamUnit" />
     </bean>
+
+    <bean id="jpaUtil"
+          class="by.training.nc.dev5.util.JpaUtil"/>
+
+    <bean id="jpaDaoFactory"
+          class="by.training.nc.dev5.dao.persistence.JpaDaoFactory" />
 </beans>

@@ -15,11 +15,11 @@ import java.util.Collection;
 /**
  * Created by Nikita on 07.05.2017.
  */
-@Repository
+//@Repository
 public class TaskQuotaJpaDao
         extends AbstractJpaDao<TaskQuota, Integer>
         implements TaskQuotaDao {
-    @Autowired
+//    @Autowired
     public TaskQuotaJpaDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, TaskQuota.class);
     }
