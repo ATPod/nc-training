@@ -28,12 +28,16 @@ import java.util.Map;
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DataAccessException.class)
 public class TermsOfReferenceServiceImpl implements TermsOfReferenceService {
+    private final TermsOfReferenceDao termsDao;
+    private final TaskDao taskDao;
+    private final TaskQuotaDao taskQuotaDao;
+
     @Autowired
-    private TermsOfReferenceDao termsDao;
-    @Autowired
-    private TaskDao taskDao;
-    @Autowired
-    private TaskQuotaDao taskQuotaDao;
+    public TermsOfReferenceServiceImpl(TermsOfReferenceDao termsDao, TaskDao taskDao, TaskQuotaDao taskQuotaDao) {
+        this.termsDao = termsDao;
+        this.taskDao = taskDao;
+        this.taskQuotaDao = taskQuotaDao;
+    }
 
     public void applyTermsOfReference(TermsOfReferenceDto termsDto) {
         TermsOfReference terms = new TermsOfReference();
