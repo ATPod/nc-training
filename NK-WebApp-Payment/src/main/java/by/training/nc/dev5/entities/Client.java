@@ -1,14 +1,12 @@
 package by.training.nc.dev5.entities;
 
-import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by AsusPC on 15.03.17.
  */
 public class Client extends Person {
-    protected List<CreditCard> list;
+    private ArrayList<CreditCard> list;
 
     public Client(){
         list = new ArrayList<CreditCard>();
@@ -22,6 +20,12 @@ public class Client extends Person {
         status = false;
     }
 
+    public Client(int id,String name,String login,String password) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        status = false;
+    }
 
     public Client(String name,String login,String password) {
         this.name = name;
@@ -37,7 +41,7 @@ public class Client extends Person {
     }
 
     public ArrayList<CreditCard> getList() {
-        return (ArrayList)list;
+        return list;
     }
 
     public void setList(ArrayList<CreditCard> list) {

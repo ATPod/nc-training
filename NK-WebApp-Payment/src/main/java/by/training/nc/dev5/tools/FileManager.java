@@ -49,8 +49,8 @@ public class FileManager {
                 int money = scanner.nextInt();
                 scanner.findWithinHorizon("IsBlocked : ",0);
                 boolean accountstatus = scanner.nextBoolean();
-                Account account = new Account(money,accountstatus);
                 try {
+                    Account account = new Account(money,accountstatus);
                     CreditCard creditcard = new CreditCard(arrid, arrpass, account,clientid);
                     list.add(creditcard);
                 }catch (NotCorrectPasswordException e){

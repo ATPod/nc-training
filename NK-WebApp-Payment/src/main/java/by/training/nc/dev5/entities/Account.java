@@ -1,9 +1,5 @@
 package by.training.nc.dev5.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -12,13 +8,8 @@ import java.io.Serializable;
  * @author NK
  * @version 1.0
  */
-@Entity
-@Table(name = "creditcard")
 public class Account implements Serializable {
-    @Id
-    @Column(name = "money")
     private double money;
-    @Column(name = "account_status")
     private boolean blocked;
 
     /**

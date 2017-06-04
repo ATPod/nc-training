@@ -78,11 +78,11 @@ public class MySQLDAOFactory extends DAOFactory {
 	}*/
 
 
-    public ClientDAO getClientDAO() {
+    public ClientDAO getEmpoyeeDAO() {
         return new ClientMySQLDAO();
     }
 
-    public CreditCardDAO getCreditCardDAO() {
+    public CreditCardDAO getTrainingDAO() {
         return new CreditCardMySQLDAO();
     }
 

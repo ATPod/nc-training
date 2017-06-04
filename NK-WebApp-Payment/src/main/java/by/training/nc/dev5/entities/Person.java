@@ -1,21 +1,12 @@
 package by.training.nc.dev5.entities;
 
-import javax.persistence.*;
-
 /**
  * Created by AsusPC on 25.03.17.
  */
-@Entity
-@Table(name = "client")
 public class Person {
-    @Column(name = "name")
     protected String name;
-    @Column(name = "client_status")
     protected boolean status;
-    @Column(name = "password")
     protected String password;
-    @Id
-    @Column(name = "login")
     protected String login;
 
     public Person(){
@@ -25,14 +16,12 @@ public class Person {
         this.status = false;
     }
 
-    public Person(String name,String login,String password){
+    public Person(String name, String login, String password){
         this.name = name;
         this.login = login;
         this.password = password;
         this.status = false;
     }
-
-
 
     public Person (Person person){
         this.name = person.getName();
