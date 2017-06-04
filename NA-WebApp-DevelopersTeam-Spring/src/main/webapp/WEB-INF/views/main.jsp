@@ -26,7 +26,8 @@
                 <app:sideNav/>
             </div>
             <div class="col-lg-9">
-
+                <h2>Developers team application</h2>
+                <p>Welcome to modern Java Enterprise application</p>
             </div>
         </div>
     </div>

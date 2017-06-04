@@ -14,15 +14,8 @@
 </head>
 <body>
 
-    <app:topNav/>
-
     <c:url var="login" value="/login" />
-    <c:url var="home" value="/home" />
 
-    <c:if test="${not empty sessionScope.user}">
-        <%-- TODO: Is it MVC friendly? --%>
-        <jsp:forward page="${home}" />
-    </c:if>
     <div class="jumbotron text-center">
         <h1>Developers Team</h1>
         <p>A Modern Java Enterprise Application</p>
