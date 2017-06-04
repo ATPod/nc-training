@@ -3,13 +3,13 @@ package by.training.nc.dev5.service.impl;
 import by.training.nc.dev5.dao.DaoFactory;
 import by.training.nc.dev5.dao.DeveloperDao;
 import by.training.nc.dev5.dao.ProjectDao;
+import by.training.nc.dev5.dao.TermsOfReferenceDao;
 import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
-import by.training.nc.dev5.dto.DeveloperDto;
-import by.training.nc.dev5.dto.ManagerDto;
-import by.training.nc.dev5.dto.ProjectDto;
-import by.training.nc.dev5.dto.QualificationDto;
+import by.training.nc.dev5.dto.*;
 import by.training.nc.dev5.entity.Developer;
+import by.training.nc.dev5.entity.Manager;
 import by.training.nc.dev5.entity.Project;
+import by.training.nc.dev5.entity.TermsOfReference;
 import by.training.nc.dev5.exception.DataAccessException;
 import by.training.nc.dev5.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,16 @@ import java.util.Collection;
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DataAccessException.class)
 public class ProjectServiceImpl implements ProjectService {
+    private final ProjectDao projectDao;
+    private final DeveloperDao developerDao;
+    private final TermsOfReferenceDao termsOfReferenceDao;
+
     @Autowired
-    private ProjectDao projectDao;
-    @Autowired
-    private DeveloperDao developerDao;
+    public ProjectServiceImpl(ProjectDao projectDao, DeveloperDao developerDao, TermsOfReferenceDao termsOfReferenceDao) {
+        this.projectDao = projectDao;
+        this.developerDao = developerDao;
+        this.termsOfReferenceDao = termsOfReferenceDao;
+    }
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Collection<ProjectDto> getProjectsByManager(ManagerDto user) {
@@ -84,5 +90,19 @@ public class ProjectServiceImpl implements ProjectService {
             developer.setProject(project);
             developerDao.update(developer);
         }
+    }
+
+    @Override
+    public void createProject(ProjectDto projectDto, TermsOfReferenceDto termsOfReferenceDto) {
+        Project project = new Project();
+        TermsOfReference terms = new TermsOfReference();
+        Manager manager = new Manager();
+
+        terms.setId(termsOfReferenceDto.getId());
+        manager.setId(projectDto.getManager().getId());
+        project.setTermsOfReference(terms);
+        project.setManager(manager);
+
+        projectDto.setId(projectDao.create(project));
     }
 }
