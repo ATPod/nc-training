@@ -20,7 +20,7 @@
 <body>
     <app:topNav/>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-lg-3">
                 <app:sideNav/>

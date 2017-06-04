@@ -4,6 +4,7 @@ import by.training.nc.dev5.dto.*;
 import by.training.nc.dev5.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -93,10 +94,15 @@ public class ManagerController {
     @RequestMapping(value = "/assignDevelopers", method = RequestMethod.POST)
     public String assignDevelopers(
             @RequestParam int projectId,
-            @RequestParam("developerId") Collection<Integer> developerIds) {
+            @RequestParam(value = "developerId", required = false)
+                    Collection<Integer> developerIds) {
 
         Collection<DeveloperDto> developerDtos = new ArrayList<>();
         ProjectDto projectDto = new ProjectDto();
+
+        if (developerIds == null || developerIds.size() == 0) {
+            return "redirect:/manager/projects";
+        }
 
         for (int developerId : developerIds) {
             DeveloperDto developerDto = new DeveloperDto();

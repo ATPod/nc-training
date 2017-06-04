@@ -14,6 +14,7 @@ import org.springframework.web.bind.support.SessionStatus;
  */
 @Controller
 @SessionAttributes("user")
+@Scope("session")
 public class LoginController {
     private final AuthenticationService authenticationService;
 

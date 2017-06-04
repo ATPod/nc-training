@@ -73,6 +73,19 @@
         <session-timeout>10</session-timeout>
     </session-config>
 
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/views/error/forbidden-error.html</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/error/internal-error.html</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/error/not-found-error.html</location>
+    </error-page>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>    
