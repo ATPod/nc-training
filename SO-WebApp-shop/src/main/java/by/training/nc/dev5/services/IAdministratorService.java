@@ -10,4 +10,5 @@ public interface IAdministratorService {
 
     Administrator findAdministratorByParameters(String name, String password) throws DaoException, NotFoundException;
 
+    Administrator findAdministratorByName(String name) throws DaoException, NotFoundException;
 }

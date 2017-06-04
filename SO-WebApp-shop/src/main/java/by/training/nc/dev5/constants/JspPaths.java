@@ -3,10 +3,8 @@ package by.training.nc.dev5.constants;
 public class JspPaths {
 
     //common pages
-    public static final String INDEX = "/index";
     public static final String LOGIN = "/login";
     public static final String REGISTRATION = "/registration";
-    public static final String ERROR = "/error/error";
 
     //client pages
     public static final String CLIENT_CATALOG = "/client/catalog";

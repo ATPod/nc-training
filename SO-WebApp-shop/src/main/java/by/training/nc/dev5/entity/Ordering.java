@@ -1,5 +1,8 @@
 package by.training.nc.dev5.entity;
 
+import org.hibernate.annotations.Fetch;
+import org.springframework.context.annotation.Lazy;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -23,7 +26,7 @@ public class Ordering extends AbstractEntity{
         this.paid = paid;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="ordering_product",
             joinColumns=@JoinColumn(name="idOrdering", referencedColumnName="ID"),
             inverseJoinColumns=@JoinColumn(name="idProduct", referencedColumnName="ID"))

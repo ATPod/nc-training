@@ -25,4 +25,8 @@ public class AdministratorService implements IAdministratorService {
     public Administrator findAdministratorByParameters(String name, String password) throws DaoException, NotFoundException{
         return administratorDao.getByParameters(name, password);
     }
+
+    public Administrator findAdministratorByName(String name) throws DaoException, NotFoundException{
+        return administratorDao.getByName(name);
+    }
 }

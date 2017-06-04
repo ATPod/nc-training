@@ -1,0 +1,56 @@
+body{
+    background: url("../img/2.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    /*background-image: url("../img/logo500.png");
+    background-repeat: repeat-x;
+    background-position: left;
+    background-color: #dce775;*/
+}
+
+@font-face {
+    font-family: Lobster;
+    src: url(../fonts/lobster.ttf);
+}
+
+.table{
+    background-color: white;
+    border: solid 1px lightgray;
+}
+
+h1 {
+    font-family: Lobster;
+    color: #555555;
+    font-size: 45px;
+}
+
+td, th{
+    text-align: center;
+    vertical-align: middle;
+}
+
+caption{
+    color: #3c3c3c;
+    font-weight: bold;
+}
+
+form{
+    margin: 0px 0px 0px 0px;
+}
+
+.mainBlock{
+    margin-top: 5%;
+    background-color: white;
+    padding: 0px 50px 20px;
+    border: solid 1px lightgray;
+}
+
+.alert{
+    margin: 0px 0px 0px 0px;
+}
+
+.total{
+    color: #3c3c3c;
+    font-weight: bold;
+    font-size: 18px;
+}

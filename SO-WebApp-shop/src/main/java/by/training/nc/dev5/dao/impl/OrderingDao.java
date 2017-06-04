@@ -16,6 +16,7 @@ import java.util.List;
 @Transactional
 public class OrderingDao extends AbstractDao<Ordering> implements IOrderingDao {
 
+    @Transactional(readOnly = true)
     public Ordering getById(int id) throws NotFoundException, DaoException {
         try {
             Ordering ordering = getSession().find(Ordering.class, id);
@@ -32,6 +33,7 @@ public class OrderingDao extends AbstractDao<Ordering> implements IOrderingDao {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<Ordering> getByClient(int clientId) throws DaoException {
         try {
             Query query = getSession().createNamedQuery("Ordering.findByClient");
@@ -45,6 +47,7 @@ public class OrderingDao extends AbstractDao<Ordering> implements IOrderingDao {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<Ordering> getAll() throws DaoException {
         try {
             Query query = getSession().createNamedQuery("Ordering.findAll");

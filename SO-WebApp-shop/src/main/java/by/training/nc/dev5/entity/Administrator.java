@@ -2,7 +2,8 @@ package by.training.nc.dev5.entity;
 
 import javax.persistence.*;
 
-@NamedQueries( {@NamedQuery(name = "Administrator.findByParam", query = "SELECT a FROM Administrator a WHERE a.name=?1 AND a.password=?2")} )
+@NamedQueries( {@NamedQuery(name = "Administrator.findByParam", query = "SELECT a FROM Administrator a WHERE a.name=?1 AND a.password=?2"),
+                @NamedQuery(name = "Administrator.findByName", query = "SELECT a FROM Administrator a WHERE a.name=?1")} )
 
 @Entity
 public class Administrator extends AbstractEntity{

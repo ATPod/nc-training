@@ -23,4 +23,5 @@ public interface IClientService {
 
     Client findClientByParameters(String login, String password) throws NotFoundException, DaoException;
 
+    Client findClientByEmail(String email) throws NotFoundException, DaoException;
 }

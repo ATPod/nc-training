@@ -16,6 +16,7 @@ import java.util.List;
 @Transactional
 public class ProductDao extends AbstractDao<Product> implements IProductDao {
 
+    @Transactional(readOnly = true)
     public Product getById(int id) throws DaoException, NotFoundException {
         try {
             Product product = getSession().find(Product.class, id);
@@ -32,6 +33,7 @@ public class ProductDao extends AbstractDao<Product> implements IProductDao {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<Product> getAll() throws DaoException {
         try {
             Query query = getSession().createNamedQuery("Product.findAll");

@@ -1,116 +1,64 @@
 package by.training.nc.dev5.controller;
 
-import by.training.nc.dev5.constants.JspPaths;
-import by.training.nc.dev5.constants.Parameters;
 import by.training.nc.dev5.entity.Product;
 import by.training.nc.dev5.exceptions.DaoException;
 import by.training.nc.dev5.exceptions.NotFoundException;
-import by.training.nc.dev5.logger.SystemLogger;
-import by.training.nc.dev5.resource.MessageManager;
 import by.training.nc.dev5.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.ArrayList;
 
 @Controller
+@SessionAttributes({"user", "bag"})
 public class ProductController {
 
     @Autowired
     @Qualifier("ProductService")
     IProductService productService;
 
-    @RequestMapping(value = {"/admin_products"}, method = RequestMethod.GET)
-    protected String openProducts(ModelMap modelMap) {
+    @RequestMapping(value = {"/client/add_to_bag"}, method = RequestMethod.POST)
+    protected String addToBag(@ModelAttribute("bag") ArrayList<Product> bag,
+                              @RequestParam("productId") int productId, ModelMap modelMap) {
         try {
-            modelMap.addAttribute(Parameters.LIST_PRODUCTS, productService.getAllProducts());
-        }
-        catch (DaoException e) {
-            SystemLogger.INSTANCE.logError(getClass(), e.getMessage());
-            modelMap.addAttribute(Parameters.ERROR,  MessageManager.getProperty("message.server_error"));
-        }
-        return JspPaths.ADMIN_PRODUCTS;
-    }
-
-    @RequestMapping(value = {"/client_catalog"}, method = RequestMethod.GET)
-    protected String openCatalog(ModelMap modelMap) {
-        try {
-            modelMap.addAttribute(Parameters.LIST_PRODUCTS, productService.getAllProducts());
-        } catch (DaoException e) {
-            modelMap.addAttribute(Parameters.ERROR, MessageManager.getProperty("message.server_error"));
-        }
-        return JspPaths.CLIENT_CATALOG;
-    }
-
-    @RequestMapping(value = {"/client_bag"}, method = RequestMethod.GET)
-    protected String bag() {
-        return JspPaths.CLIENT_BAG;
-    }
-
-    @RequestMapping(value = {"/client_add_to_bag"}, method = RequestMethod.POST)
-    protected String addToBag(HttpServletRequest request, ModelMap modelMap) {
-
-        List<Product> bag = (List<Product>) request.getSession().getAttribute(Parameters.BAG);
-        int productId = Integer.valueOf(request.getParameter(Parameters.ID_PRODUCT));
-
-        Product product = null;
-
-        try {
-            product = productService.getProductByID(Integer.valueOf(productId));
-            bag.add(product);
-            request.getSession().setAttribute(Parameters.BAG, bag);
-            modelMap.addAttribute(Parameters.LIST_PRODUCTS, productService.getAllProducts());
+            bag.add(productService.getProductByID(productId));
+            modelMap.addAttribute("bag", bag);
         } catch (NotFoundException | DaoException e) {
-            SystemLogger.INSTANCE.logError(getClass(), e.getMessage());
-            modelMap.addAttribute(Parameters.ERROR, MessageManager.getProperty("message.server_error"));
+            return "error";
         }
-        return JspPaths.CLIENT_CATALOG;
+        return "redirect:/client/catalog";
     }
 
-    @RequestMapping(value = {"/client_remove_from_bag"}, method = RequestMethod.POST)
-    protected String removeFromBag(HttpServletRequest request, ModelMap modelMap) {
-
-        List<Product> bag = (List<Product>) request.getSession().getAttribute(Parameters.BAG);
-        int productId = Integer.valueOf(request.getParameter(Parameters.ID_PRODUCT));
-
-        Product product = null;
-
+    @RequestMapping(value = {"/client/remove_from_bag"}, method = RequestMethod.POST)
+    protected String removeFromBag(@ModelAttribute("bag") ArrayList<Product> bag,
+                                   @RequestParam("productId") int productId, ModelMap modelMap) {
         try {
-            product = productService.getProductByID(productId);
-            bag.remove(product);
-            request.getSession().setAttribute(Parameters.BAG, bag);
+            bag.remove(productService.getProductByID(productId));
+            modelMap.addAttribute("bag", bag);
         } catch (NotFoundException | DaoException e) {
-            SystemLogger.INSTANCE.logError(getClass(), e.getMessage());
-            modelMap.addAttribute(Parameters.ERROR, MessageManager.getProperty("message.server_error"));
+            return "error";
         }
-        return JspPaths.CLIENT_BAG;
+        return "redirect:/client/bag";
     }
 
-
-    @RequestMapping(value = {"/admin_add_product"}, method = RequestMethod.POST)
-    protected String add(@RequestParam(Parameters.TITLE_PRODUCT)String title, @RequestParam(Parameters.PRICE_PRODUCT)String price,
-                         HttpServletRequest request, ModelMap modelMap) {
+    @RequestMapping(value = {"/admin/add_product"}, method = RequestMethod.POST)
+    protected String addProduct(@RequestParam("productTitle") String title,
+                                @RequestParam("productPrice") int price, ModelMap modelMap) {
         try {
-            productService.addProduct(title, Integer.valueOf(price));
-            modelMap.addAttribute(Parameters.LIST_PRODUCTS, productService.getAllProducts());
+            productService.addProduct(title, price);
         } catch (DaoException e) {
-            SystemLogger.INSTANCE.logError(getClass(), e.getMessage());
-            modelMap.addAttribute(Parameters.ERROR, MessageManager.getProperty("message.server_error"));
+            return "error";
         }
-
-        return JspPaths.ADMIN_PRODUCTS;
+        return "redirect:/admin/products";
     }
 
-    @RequestMapping(value = {"/admin_update_product"}, method = RequestMethod.POST)
-    protected String update(@RequestParam(Parameters.ID_PRODUCT) int productId, @RequestParam(Parameters.TITLE_PRODUCT)String title,
-                            @RequestParam(Parameters.PRICE_PRODUCT)String price,
-                            HttpServletRequest request, ModelMap modelMap) {
+    @RequestMapping(value = {"/admin/update_product"}, method = RequestMethod.POST)
+    protected String updateProduct(@RequestParam("productId") int productId,
+                                   @RequestParam("productTitle")String title,
+                                   @RequestParam("productPrice") String price, ModelMap modelMap) {
 
         try {
             if (price.equals("")) {
@@ -119,26 +67,20 @@ public class ProductController {
             else {
                 productService.updateProduct(productId, title, Integer.valueOf(price));
             }
-            modelMap.addAttribute(Parameters.LIST_PRODUCTS, productService.getAllProducts());
+            modelMap.addAttribute("productList", productService.getAllProducts());
         } catch (NotFoundException | DaoException e) {
-            SystemLogger.INSTANCE.logError(getClass(), e.getMessage());
-            modelMap.addAttribute(Parameters.ERROR, MessageManager.getProperty("message.server_error"));
+            return "error";
         }
-
-        return JspPaths.ADMIN_PRODUCTS;
+        return "redirect:/admin/products";
     }
 
-    @RequestMapping(value = {"/admin_remove_product"}, method = RequestMethod.POST)
-    protected String update(@RequestParam(Parameters.ID_PRODUCT) int productId,
-                            HttpServletRequest request, ModelMap modelMap) {
-
+    @RequestMapping(value = {"/admin/remove_product"}, method = RequestMethod.POST)
+    protected String update(@RequestParam("productId") int productId, ModelMap modelMap) {
         try {
             productService.removeProduct(productId);
         } catch (NotFoundException | DaoException e) {
-            SystemLogger.INSTANCE.logError(getClass(), e.getMessage());
-            modelMap.addAttribute(Parameters.ERROR, MessageManager.getProperty("message.server_error"));
+            return "error";
         }
-
-        return JspPaths.ADMIN_PRODUCTS;
+        return "redirect:/admin/products";
     }
 }
