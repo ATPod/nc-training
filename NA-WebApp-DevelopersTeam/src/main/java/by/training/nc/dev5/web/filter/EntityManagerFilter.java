@@ -4,8 +4,6 @@ import by.training.nc.dev5.util.JpaUtil;
 
 import javax.persistence.EntityManager;
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -31,7 +29,7 @@ public class EntityManagerFilter implements Filter {
             em.getTransaction().commit();
         }
 
-        JpaUtil.getInstance().releaseEntityManager(em);
+        JpaUtil.getInstance().releaseEntityManager();
     }
 
     public void destroy() {}
