@@ -6,27 +6,13 @@
 <c:url var="goCreateTor" value="/customer/createTerms" />
 <c:url var="goShowTerms" value="/customer/terms" />
 <%-- Developer's links--%>
-<c:url var="track" value="controller">
-    <c:param name="command" value="goTrack" />
-</c:url>
+<c:url var="goTrack" value="/developer/timeSheets" />
 <%-- Manager's links --%>
-<c:url var="showPendingTerms" value="controller">
-    <c:param name="command" value="goShowPendingTerms" />
-</c:url>
-<c:url var="assignDevelopers" value="controller">
-    <c:param name="command" value="goShowAssignDevelopers" />
-</c:url>
-<c:url var="showMyProjects" value="controller">
-    <c:param name="command" value="goShowProjects" />
-</c:url>
-<c:url var="issueInvoice" value="controller">
-    <c:param name="command" value="go" />
-    <c:param name="location" value="path.page.manager.issueInvoice" />
-</c:url>
-<c:url var="showTimeSheets" value="controller">
-    <c:param name="command" value="showTimeSheets" />
-</c:url>
-
+<c:url var="showPendingTerms" value="/manager/pendingTerms" />
+<c:url var="assignDevelopers" value="/manager/assignDevelopers" />
+<c:url var="showMyProjects" value="/manager/projects" />
+<c:url var="issueInvoice" value="/manager/issueInvoice" />
+<c:url var="showTimeSheets" value="/manager/timeSheets" />
 
 <div class="panel panel-default">
     <ul class="nav">
@@ -36,7 +22,7 @@
                 <li><a href="${goCreateTor}">Create terms of reference</a></li>
             </c:when>
             <c:when test="${user.userRole eq 'DEVELOPER'}">
-                <li><a href="${track}">Track My Activity</a></li>
+                <li><a href="${goTrack}">Track My Activity</a></li>
             </c:when>
             <c:when test="${user.userRole eq 'MANAGER'}">
                 <li><a href="${showPendingTerms}">Show pending terms of reference</a></li>
