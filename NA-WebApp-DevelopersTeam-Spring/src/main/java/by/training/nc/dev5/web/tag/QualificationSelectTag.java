@@ -16,27 +16,31 @@ import java.util.Collection;
  * Created by Nikita on 10.05.2017.
  */
 public class QualificationSelectTag extends SimpleTagSupport {
-    private QualificationService qualificationService;
+    // TODO: add qualificationList attribute
+    // TODO: replace with spring's select tag
+
+//    private QualificationService qualificationService;
     private String controlName;
     private String formId;
+    private Iterable<QualificationDto> qualifications;
 
-    private static DaoFactory daoFactory;
+//    private static DaoFactory daoFactory;
 
     static {
-        daoFactory = DaoFactory.getDaoFactory();
+//        daoFactory = DaoFactory.getDaoFactory();
     }
 
     {
-        QualificationDao qualificationDao = daoFactory.getQualificationDao();
-        qualificationService = new QualificationServiceImpl(qualificationDao);
+//        QualificationDao qualificationDao = daoFactory.getQualificationDao();
+//        qualificationService = new QualificationServiceImpl(qualificationDao);
     }
 
     @Override
     public void doTag() throws JspException, IOException {
         JspWriter out = getJspContext().getOut();
         String formIdAttr;
-        Collection<QualificationDto> qualifications = qualificationService
-                .getQualifications();
+//        Collection<QualificationDto> qualifications = qualificationService
+//                .getQualifications();
 
         if (formId == null) {
             formIdAttr = "";
@@ -49,7 +53,7 @@ public class QualificationSelectTag extends SimpleTagSupport {
                 "<select class='form-control' %s name='%s'>",
                 formIdAttr, controlName));
 
-        for (QualificationDto qualification : qualifications) {
+        for (QualificationDto qualification : getQualifications()) {
             out.print(String.format(
                     "<option value='%d'>%s</option>",
                     qualification.getId(),
@@ -75,5 +79,23 @@ public class QualificationSelectTag extends SimpleTagSupport {
      */
     public void setFormId(String formId) {
         this.formId = formId;
+    }
+
+    /**
+     * Gets the value of qualifications
+     *
+     * @return the value of qualifications.
+     */
+    public Iterable<QualificationDto> getQualifications() {
+        return qualifications;
+    }
+
+    /**
+     * Sets the value of qualifications
+     *
+     * @param qualifications the new value of qualifications.
+     */
+    public void setQualifications(Iterable<QualificationDto> qualifications) {
+        this.qualifications = qualifications;
     }
 }
