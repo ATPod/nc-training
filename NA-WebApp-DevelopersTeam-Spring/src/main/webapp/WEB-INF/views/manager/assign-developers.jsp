@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="app" uri="http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: F1
@@ -25,18 +26,21 @@
             <div class="col-lg-3">
                 <app:sideNav/>
             </div>
-
             <div class="col-lg-9">
-                <form method="get" action="controller">
-                    <input type="hidden" name="command" value="goShowAssignDevelopers">
+                <c:url value="/manager/assignDevelopers" var="assignDevelopers"/>
+
+                <form method="get" action="${assignDevelopers}">
                     <div class="form-group">
-                        <app:qualificationSelect controlName="qualificationId"/>
+                        <app:qualificationSelect
+                                controlName="qualificationId"
+                                qualifications="${qualifications}"/>
                     </div>
                     <button class="btn btn-primary" type="submit">
                         Show
                     </button>
                 </form>
-                <form method="post" action="controller">
+
+                <form:form method="post" action="${assignDevelopers}">
                     <input type="hidden" name="command" value="assignDevelopers">
                     <div class="form-group">
                         <label for="projectSelect">Project:</label>
@@ -63,7 +67,7 @@
                                 </td>
                                 <td>
                                     <label for="developerIdCheckbox${status.index}">
-                                        ${developer.name}
+                                            ${developer.name}
                                     </label>
                                 </td>
                                 <td>${developer.qualification.name}</td>
@@ -71,7 +75,7 @@
                         </c:forEach>
                     </table>
                     <button class="btn btn-primary" type="submit">Assign</button>
-                </form>
+                </form:form>
             </div>
         </div>
     </div>

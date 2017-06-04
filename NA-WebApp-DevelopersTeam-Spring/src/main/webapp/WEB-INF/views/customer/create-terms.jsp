@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="app"
            uri="http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -14,6 +16,7 @@
 </head>
 <body>
     <app:topNav/>
+    <fmt:requestEncoding value="866" />
 
     <div class="container">
         <div class="row">
@@ -29,7 +32,7 @@
                 <hr>
 
                 <c:url value="/customer/addTask" var="addTaskUrl" />
-                <form method="post" name="addTask" action="${addTaskUrl}">
+                <form:form method="post" name="addTask" action="${addTaskUrl}">
                     <div class="form-group">
                         <label>
                             Specification:<br />
@@ -39,7 +42,9 @@
                     <div class="form-group">
                         <label>
                             Qualification:<br />
-                            <app:qualificationSelect controlName="qualificationId" />
+                            <app:qualificationSelect
+                                    controlName="qualificationId"
+                                    qualifications="${qualifications}"/>
                         </label>
                         <br />
                     </div>
@@ -52,19 +57,19 @@
 
                     <button class="btn btn-primary" type="submit">Add</button>
                     <button class="btn btn-default" type="reset">Reset</button>
-                </form>
+                </form:form>
 
                 <c:url value="/customer/createTerms" var="createTermsUrl" />
                 <c:url value="/customer/cancelTerms" var="cancelTermsUrl" />
                 <c:if test="${not empty sessionScope.createdTerms.tasks}">
-                    <form name="createTerms" method="post" action="${createTermsUrl}">
+                    <form:form name="createTerms" method="post" action="${createTermsUrl}">
                         <button type="submit" class="btn btn-default">Create</button>
-                    </form>
-                    <form name="deleteTerms" method="post" action="${cancelTermsUrl}">
+                    </form:form>
+                    <form:form name="deleteTerms" method="post" action="${cancelTermsUrl}">
                         <div class="form-group">
                             <button type="submit" class="btn btn-default">Cancel</button>
                         </div>
-                    </form>
+                    </form:form>
                 </c:if>
             </div>
         </div>

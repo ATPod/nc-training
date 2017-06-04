@@ -1,5 +1,7 @@
 <%@ taglib prefix="app"
            uri="http://nikitatroshenko.ddns.net/NA-DevelopersTeam/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: F1
@@ -26,18 +28,29 @@
                 <app:sideNav/>
             </div>
             <div class="col-lg-9">
-                <form method="post" name="issueInvoiceForm" action="controller">
-                    <input type="hidden" name="command" value="issueInvoice">
+                <c:url value="/manager/issueInvoice" var="issueInvoice" />
+
+                <form:form method="post" id="issueInvoiceForm" action="${issueInvoice}">
                     <div class="form-group">
-                        <app:projectSelect parameterName="projectId" />
+                        <app:projectSelect
+                                parameterName="projectId"
+                                projectsList="${projectsByManager}"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="price">
+                        <input type="text" id="invoicePrice" class="form-control" name="price">
                     </div>
                     <button class="btn btn-primary" type="submit">Issue</button>
-                </form>
+                </form:form>
             </div>
         </div>
     </div>
+
+    <script>
+        $('#issueInvoiceForm').submit(function () {
+            var price = $('#invoicePrice').attribute('value');
+
+            return /^[0-9]*\.?[0-9]*/.test(price);
+        })
+    </script>
 </body>
 </html>

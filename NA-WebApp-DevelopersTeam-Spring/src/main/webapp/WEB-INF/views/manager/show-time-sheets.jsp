@@ -3,7 +3,7 @@
   User: F1
   Date: 23.05.2017
   Time: 23:45
-  To change this template use File | Settings | File Templates.
+  To change this transactionTemplate use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="app" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -26,27 +26,29 @@
             <div class="col-lg-3">
                 <app:sideNav/>
             </div>
-        </div>
-        <div class="col-lg-9">
-            <form method="get" action="controller">
-                <input type="hidden" name="command" value="showTimeSheets">
+            <div class="col-lg-9">
+                <c:url value="/manager/timeSheets" var="showTimeSheets" />
 
-                <div class="form-group">
-                    <label for="projectSelect">Project:</label>
-                    <select class="form-control" name="projectId" id="projectSelect">
-                        <c:forEach var="project" items="${requestScope.projectsByManager}">
-                            <option value="${project.id}">#${project.id}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Show</button>
-            </form>
+                <form method="get" action="${showTimeSheets}">
+                    <input type="hidden" name="command" value="showTimeSheets">
 
-            <app:timeSheetHolder>
-                <c:forEach var="timeSheet" items="${requestScope.timeSheets}">
-                    <app:timeSheetItem timeSheet="${timeSheet}" />
-                </c:forEach>
-            </app:timeSheetHolder>
+                    <div class="form-group">
+                        <label for="projectSelect">Project:</label>
+                        <select class="form-control" name="projectId" id="projectSelect">
+                            <c:forEach var="project" items="${requestScope.projectsByManager}">
+                                <option value="${project.id}">#${project.id}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Show</button>
+                </form>
+
+                <app:timeSheetHolder>
+                    <c:forEach var="timeSheet" items="${requestScope.timeSheets}">
+                        <app:timeSheetItem timeSheet="${timeSheet}" />
+                    </c:forEach>
+                </app:timeSheetHolder>
+            </div>
         </div>
     </div>
 </body>
