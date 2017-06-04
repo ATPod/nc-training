@@ -2,25 +2,24 @@ package by.training.nc.dev5.dao.persistence;
 
 import by.training.nc.dev5.dao.AbstractDao;
 import by.training.nc.dev5.exception.DataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Nikita on 04.05.2017.
  */
 public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
-    private EntityManager entityManager;
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
     private Class<E> eClass;
 
-    public AbstractJpaDao(EntityManager entityManager, Class<E> eClass) {
-        this.entityManager = entityManager;
+    public AbstractJpaDao(EntityManagerFactory entityManagerFactory, Class<E> eClass) {
+        this.entityManagerFactory = entityManagerFactory;
         this.eClass = eClass;
     }
 
@@ -30,7 +29,7 @@ public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
      * @return the value of entityManager.
      */
     protected EntityManager getEntityManager() {
-        return entityManager;
+        return entityManagerFactory.createEntityManager();
     }
 
     /**
@@ -41,15 +40,19 @@ public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
      * @throws DataAccessException when database access error occurs
      */
     public Collection<E> getAll() throws DataAccessException {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<E> cq = cb.createQuery(eClass);
-        Root<E> fromE = cq.from(eClass);
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<E> cq = cb.createQuery(eClass);
+            Root<E> fromE = cq.from(eClass);
 
-        cq.select(fromE);
+            cq.select(fromE);
 
-        TypedQuery<E> q = getEntityManager().createQuery(cq);
+            TypedQuery<E> q = getEntityManager().createQuery(cq);
 
-        return q.getResultList();
+            return q.getResultList();
+        } catch (PersistenceException e) {
+            throw new DataAccessException(e);
+        }
     }
 
     /**
@@ -60,7 +63,11 @@ public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
      * @throws DataAccessException when database access error occurs
      */
     public E getEntityById(K id) throws DataAccessException {
-        return getEntityManager().find(eClass, id);
+        try {
+            return getEntityManager().find(eClass, id);
+        } catch (PersistenceException e) {
+            throw new DataAccessException(e);
+        }
     }
 
     /**
@@ -73,21 +80,24 @@ public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
      * @throws DataAccessException when database access error occurs
      */
     public boolean update(E entity) throws DataAccessException {
-        EntityManager em = getEntityManager();
+        try {
+            EntityManager em = getEntityManager();
 
-        Object pk = em.getEntityManagerFactory().getPersistenceUnitUtil()
-                .getIdentifier(entity);
-        E e = em.find(eClass, pk);
+            Object pk = em.getEntityManagerFactory().getPersistenceUnitUtil()
+                    .getIdentifier(entity);
+            E found = em.find(eClass, pk);
 
-        if (e == null) {
-            return false;
+            if (found == null) {
+                return false;
+            }
+
+            em.remove(found);
+            em.persist(entity);
+
+            return true;
+        } catch (PersistenceException e) {
+            throw new DataAccessException(e);
         }
-
-        em.remove(e);
-        em.persist(entity);
-
-        return true;
-
     }
 
     /**
@@ -98,17 +108,21 @@ public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
      * @throws DataAccessException when database access error occurs
      */
     public boolean delete(K id) throws DataAccessException {
-        EntityManager em = getEntityManager();
+        try {
+            EntityManager em = getEntityManager();
 
-        E e = getEntityById(id);
+            E entityById = getEntityById(id);
 
-        if (e == null) {
-            return false;
+            if (entityById == null) {
+                return false;
+            }
+
+            em.remove(entityById);
+
+            return true;
+        } catch (PersistenceException e) {
+            throw new DataAccessException(e);
         }
-
-        em.remove(e);
-
-        return true;
     }
 
     /**
@@ -120,18 +134,22 @@ public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
      * @throws DataAccessException when database access error occurs
      */
     public K create(E entity) throws DataAccessException {
-        EntityManager em = getEntityManager();
-        Object id;
-
         try {
-//            em.getTransaction().begin();
-            em.persist(entity);
-//            em.getTransaction().commit();
-            id = em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
-        } catch (EntityExistsException e) {
-            return null;
-        }
+            EntityManager em = getEntityManager();
+            Object id;
 
-        return (K) id;
+            try {
+    //            em.getTransaction().begin();
+                em.persist(entity);
+    //            em.getTransaction().commit();
+                id = em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
+            } catch (EntityExistsException e) {
+                return null;
+            }
+
+            return (K) id;
+        } catch (PersistenceException e) {
+            throw new DataAccessException(e);
+        }
     }
 }

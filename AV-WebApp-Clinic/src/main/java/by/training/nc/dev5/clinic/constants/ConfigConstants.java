@@ -8,7 +8,6 @@ public class ConfigConstants {
     public static final int MAX_STRING_LENGTH = 50;
 
     public static final String CONFIGS_SOURCE = "configs";
-    public static final String MESSAGES_SOURCE = "messages";
 
     public static final String INDEX_PAGE_PATH = "path.page.index";
     public static final String REGISTRATION_PAGE_PATH = "path.page.registration";

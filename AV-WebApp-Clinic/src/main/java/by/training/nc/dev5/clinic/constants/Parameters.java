@@ -4,9 +4,6 @@ package by.training.nc.dev5.clinic.constants;
  * Created by user on 04.04.2017.
  */
 public class Parameters {
-    public static final String LOGIN = "login";
-    public static final String PASSWORD = "password";
-    public static final String USERTYPE = "userType";
     public static final String PATIENTS_LIST = "patientsList";
     public static final String DIAGNOSIS_LIST = "diagnosisesList";
     public static final String DRUGS_LIST = "drugsList";
@@ -24,5 +21,6 @@ public class Parameters {
     public static final String SURGERY_NAME = "surgeryName";
     public static final String USER = "user";
     public static final String OPERATION_MESSAGE = "operationMessage";
+    public static final String WRONG_LOGIN_OR_PASSWORD = "errorLoginOrPassword";
 
 }

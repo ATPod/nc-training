@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sform" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <html>
 <head>
-    <title>Регистрация</title>
+    <title><s:message code="registration.title"/></title>
     <link href="${pageContext.request.contextPath}/resources/css/page_style.css" rel="stylesheet" >
     <link href="${pageContext.request.contextPath}/resources/css/logo_style.css" rel="stylesheet" >
 </head>
@@ -12,29 +13,29 @@
         <div class="header" align="left">
             <%@include file="../views/elements/header.jsp" %>
         </div>
-        <a href="/index">Вход в систему</a>>Регистрация<br/>
+        <a href="/index"><s:message code="index.title"/></a>><s:message code="registration.title"/><br/>
         <div align="center">
-            <s:form method="post" modelAttribute="user" action="/registration">
+            <sform:form method="post" modelAttribute="user" action="/registration">
                 <table>
                     <tr>
-                        <td>Логин:</td>
-                        <td><s:input type="text" path="login" value="" size="20"/></td>
+                        <td><s:message code="common.login"/></td>
+                        <td><sform:input type="text" path="login" value="" size="20"/></td>
                     </tr>
                     <tr>
-                        <td>Пароль:</td>
-                        <td><s:input type="password" path="password" value="" size="20" /></td>
+                        <td><s:message code="common.password"/></td>
+                        <td><sform:input type="password" path="password" value="" size="20" /></td>
                     </tr>
                     <tr>
-                        <td>Специальность:</td>
+                        <td><s:message code="registration.accesslevel"/></td>
                         <td>
-                            <s:radiobutton path="accessLevel" value="DOCTOR"/>Врач<br/>
-                            <s:radiobutton path="accessLevel" value="NURSE"/>Медсестра
+                            <sform:radiobutton path="accessLevel" value="DOCTOR"/><s:message code="registration.doctor"/><br/>
+                            <sform:radiobutton path="accessLevel" value="NURSE"/><s:message code="registration.nurse"/>
                         </td>
                     </tr>
                 </table>
-                <s:button>Зарегистрировать</s:button><br />
+                <sform:button><s:message code="common.submit"/></sform:button><br />
                 ${operationMessage}<br />
-            </s:form>
+            </sform:form>
         </div>
         <div class="footer" align="center">
             <%@include file="../views/elements/footer.jsp" %>

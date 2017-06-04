@@ -6,6 +6,8 @@ import by.training.nc.dev5.clinic.entities.prescribings.MedProcedure;
 import by.training.nc.dev5.clinic.dao.IMedProcedureDAO;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
 import by.training.nc.dev5.clinic.exceptions.*;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
@@ -13,8 +15,8 @@ import java.util.List;
 /**
  * Created by user on 06.04.2017.
  */
+@Repository
 public class MedProcedureMySQLDAO extends AbstractDAO<MedProcedure> implements IMedProcedureDAO {
-    private static MedProcedureMySQLDAO instance;
 
     private MedProcedureMySQLDAO(){
         super(MedProcedure.class);
@@ -31,10 +33,4 @@ public class MedProcedureMySQLDAO extends AbstractDAO<MedProcedure> implements I
         }
     }
 
-    public static synchronized MedProcedureMySQLDAO getInstance(){
-        if(instance == null){
-            instance = new MedProcedureMySQLDAO();
-        }
-        return instance;
-    }
 }

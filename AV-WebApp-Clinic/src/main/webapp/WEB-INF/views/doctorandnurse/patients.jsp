@@ -1,44 +1,50 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Пациенты</title>
+    <title><s:message code="patients.title"/></title>
     <link href="${pageContext.request.contextPath}/resources/css/page_style.css" rel="stylesheet" >
     <link href="${pageContext.request.contextPath}/resources/css/logo_style.css" rel="stylesheet" >
+    <link href="${pageContext.request.contextPath}/resources/css/table_style.css" rel="stylesheet" >
 </head>
 <body>
     <div class="container">
         <div class="header" align="left">
-            <%@include file="../../views/elements/header.jsp" %>
+            <%@include file="../../views/elements/header_with_logout.jsp" %>
         </div>
-        <a href="/index">Вход в систему</a>>
-        Выбор карточки пациента<br/>
+        <s:message code="patients.title"/><br/>
         <div align="center">
             <form name="choosePatientForm" method="POST" action="/choosepatient">
-                Выберите пациента:
-                <table border="1">
-                    <tr bgcolor="#CCCCCC">
-                        <td align="center"> </td>
-                        <td align="center"><strong>ФИО</strong></td>
+                <s:message code="patients.choosepatientcard"/>
+                <table class="table">
+                    <tr class="tr">
+                        <th class="th"><strong><s:message code="patients.fullname"/></strong></th>
                     </tr>
                     <c:if test="${empty patientsList}">
-                        <tr>
-                            <td></td>
-                            <td>Нет записей</td>
+                        <tr class="tr">
+                            <td class="td"><s:message code="common.emptylist"/></td>
                         </tr>
                     </c:if>
                     <c:forEach var="patient" items="${patientsList}">
-                        <tr>
-                            <td><input type="radio" name="patientId" value="${ patient.id }"/></td>
-                            <td><c:out value="${ patient.name }" /></td>
+                        <tr class="tr">
+                            <td class="td">
+                                <label>
+                                    <input type="radio" name="patientId" value="${ patient.id }"/>
+                                    <c:out value="${ patient.name }" />
+                                </label>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
-                <input type="submit" value="Выбрать"/>  <br/>
-                <c:if test="${userType=='DOCTOR'}">
-                    <a href="/addpatient">Добавить пациента</a> <br/>
-                </c:if>
+                <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
+                <s:message var="button" code="common.submit"/>
+                <input type="submit" value="${button}"/>  <br/>
+                <sec:authorize access="hasRole('ROLE_DOCTOR')">
+                    <a href="/addpatient"><s:message code="add.patient.title"/></a> <br/>
+                </sec:authorize>
             </form>
             ${operationMessage}<br />
         </div>

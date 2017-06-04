@@ -15,9 +15,9 @@ public abstract class DAOFactory {
     // There will be a method for each DAO that can be
     // created. The concrete factories will have to
     // implement these methods.
-    public abstract ClientDAO getClientDAO();
+    public abstract ClientDAO getEmpoyeeDAO();
 
-    public abstract CreditCardDAO getCreditCardDAO();
+    public abstract CreditCardDAO getTrainingDAO();
 
     public static DAOFactory getDAOFactory(
             int whichFactory) {

@@ -1,6 +1,8 @@
 package by.training.nc.dev5.tools;
 
-import by.training.nc.dev5.entities.Account;
+import by.training.nc.dev5.entities.CreditCard;
+import sun.util.resources.cldr.ebu.CalendarData_ebu_KE;
+
 import java.io.*;
 
 /**
@@ -8,14 +10,14 @@ import java.io.*;
  */
 public class Serialization implements Serializable {
 
-    public static boolean serialization(Account account, String path){
+    public static boolean serialization(CreditCard creditCard, String path){
         boolean result = false;
         File fr = new File(path);
         ObjectOutputStream oos = null;
         try {
             FileOutputStream fos = new FileOutputStream(fr);
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(account);
+            oos.writeObject(creditCard);
             oos.flush();
             oos.close();
             result = true;
@@ -37,14 +39,14 @@ public class Serialization implements Serializable {
         return result;
     }
 
-    public static Account deserialization(String path) throws InvalidObjectException{
+    public static CreditCard deserialization(String path) throws InvalidObjectException{
         File fr = new File(path);
         ObjectInputStream oin = null;
         try {
             FileInputStream fis = new FileInputStream(fr);
             oin = new ObjectInputStream(fis);
-            Account account  = (Account) oin.readObject();
-            return account;
+            CreditCard creditCard  = (CreditCard) oin.readObject();
+            return creditCard;
         }catch (FileNotFoundException e){
             System.out.println("File not found " + e);
         }catch (IOException e) {

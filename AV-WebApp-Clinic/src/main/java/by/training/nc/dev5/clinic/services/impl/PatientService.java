@@ -1,33 +1,38 @@
 package by.training.nc.dev5.clinic.services.impl;
 
+import by.training.nc.dev5.clinic.dao.IPatientDAO;
 import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.dao.impl.PatientMySQLDAO;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
 import by.training.nc.dev5.clinic.exceptions.NotFoundException;
+import by.training.nc.dev5.clinic.services.AbstractService;
 import by.training.nc.dev5.clinic.services.IPatientService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by user on 22.04.2017.
  */
-public class PatientService implements IPatientService{
-    private static PatientService instance;
+@Service
+public class PatientService extends AbstractService<Patient>  implements IPatientService{
 
-    public static synchronized PatientService getInstance(){
-        if(instance == null){
-            instance = new PatientService();
-        }
-        return instance;
+    private IPatientDAO patientDAO;
+
+    @Autowired
+    public PatientService(IPatientDAO patientDAO){
+        super(patientDAO);
+        this.patientDAO=patientDAO;
     }
 
     public List<Patient> getAll()throws DAOException {
-        return PatientMySQLDAO.getInstance().getAll();
+        return patientDAO.getAll();
     }
 
     public boolean isNewPatient(String name)throws DAOException{
         try {
-            PatientMySQLDAO.getInstance().getByName(name);
+            patientDAO.getByName(name);
             return false;
         } catch (NotFoundException e){
             return true;
@@ -35,14 +40,14 @@ public class PatientService implements IPatientService{
     }
 
     public void add(Patient patient)throws DAOException{
-        PatientMySQLDAO.getInstance().add(patient);
+        patientDAO.add(patient);
     }
 
     public Patient getById(int id)throws DAOException {
-        return PatientMySQLDAO.getInstance().getById(id);
+        return patientDAO.getById(id);
     }
 
     public void delete(int id)throws DAOException{
-        PatientMySQLDAO.getInstance().delete(id);
+        patientDAO.delete(id);
     }
 }

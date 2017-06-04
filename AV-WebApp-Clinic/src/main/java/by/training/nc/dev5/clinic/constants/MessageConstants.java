@@ -12,5 +12,4 @@ public class MessageConstants {
     public static final String SUCCESS_OPERATION = "message.successoperation";
     public static final String EMPTY_FIELDS = "message.emptyfields";
     public static final String TOO_LONG_STRING = "message.toolongstring";
-    public static final String ERROR_DATABASE = "message.databaseerror";
 }

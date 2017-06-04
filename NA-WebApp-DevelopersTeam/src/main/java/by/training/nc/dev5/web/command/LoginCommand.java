@@ -31,10 +31,12 @@ public class LoginCommand implements Command {
         String password = request.getParameter("password");
         PersonDto user;
 
-        if (login == null || password == null) {
+        if (login == null || login.length() == 0 ||
+                password == null || password.length() == 0) {
             request.setAttribute(
                     "loginErrorMessage", "No login/password provided");
             router.forward(request, response, "login");
+            return;
         }
 
         user = authenticationService.authenticate(login, password);
@@ -58,19 +60,5 @@ public class LoginCommand implements Command {
 
     private void setSessionAttributes(HttpSession session, PersonDto user) {
         session.setAttribute("user", user);
-        session.setAttribute("sidenavUri", resolveSidenavPath(user));
-    }
-
-    private String resolveSidenavPath(PersonDto user) {
-        switch (user.getUserRole()) {
-            case CUSTOMER:
-                return router.resolvePath("path.page.customer.sidenav");
-            case DEVELOPER:
-                return router.resolvePath("path.page.manager.sidenav");
-            case MANAGER:
-                return router.resolvePath("path.page.developer.sidenav");
-        }
-
-        return null;
     }
 }

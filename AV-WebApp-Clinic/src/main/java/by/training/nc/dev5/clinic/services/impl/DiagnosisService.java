@@ -6,32 +6,35 @@ import by.training.nc.dev5.clinic.entities.prescribings.Diagnosis;
 import by.training.nc.dev5.clinic.dao.impl.DiagnosisMySQLDAO;
 import by.training.nc.dev5.clinic.entities.Patient;
 import by.training.nc.dev5.clinic.exceptions.DAOException;
+import by.training.nc.dev5.clinic.services.AbstractService;
 import by.training.nc.dev5.clinic.services.IDiagnosisService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by user on 22.04.2017.
  */
-public class DiagnosisService implements IDiagnosisService {
-    private static DiagnosisService instance;
+@Service
+public class DiagnosisService extends AbstractService<Diagnosis> implements IDiagnosisService {
+    private IDiagnosisDAO diagnosisDAO;
 
-    public static synchronized DiagnosisService getInstance(){
-        if(instance == null){
-            instance = new DiagnosisService();
-        }
-        return instance;
+    @Autowired
+    public DiagnosisService(IDiagnosisDAO diagnosisDAO){
+        super(diagnosisDAO);
+        this.diagnosisDAO=diagnosisDAO;
     }
 
     public List<Diagnosis> getByPatient(Patient patient)throws DAOException {
-        return DiagnosisMySQLDAO.getInstance().getByPatient(patient);
+        return diagnosisDAO.getByPatient(patient);
     }
 
     public void add(Diagnosis diagnosis)throws DAOException{
-        DiagnosisMySQLDAO.getInstance().add(diagnosis);
+        diagnosisDAO.add(diagnosis);
     }
 
     public void delete(int id)throws DAOException{
-        DiagnosisMySQLDAO.getInstance().delete(id);
+        diagnosisDAO.delete(id);
     }
 }

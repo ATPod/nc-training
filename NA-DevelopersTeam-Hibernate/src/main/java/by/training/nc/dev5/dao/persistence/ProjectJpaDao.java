@@ -1,15 +1,16 @@
 package by.training.nc.dev5.dao.persistence;
 
 import by.training.nc.dev5.dao.ProjectDao;
+import by.training.nc.dev5.entity.Developer;
 import by.training.nc.dev5.entity.Project;
 import by.training.nc.dev5.entity.TermsOfReference;
 import by.training.nc.dev5.entity.metamodel.Project_;
 import by.training.nc.dev5.entity.metamodel.TermsOfReference_;
 import by.training.nc.dev5.exception.DataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
@@ -19,14 +20,17 @@ import java.util.Collection;
 /**
  * Created by Nikita on 07.05.2017.
  */
+@Repository
 public class ProjectJpaDao
         extends AbstractJpaDao<Project, Integer>
         implements ProjectDao {
-    public ProjectJpaDao(EntityManager em) {
-        super(em, Project.class);
+
+    @Autowired
+    public ProjectJpaDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, Project.class);
     }
 
-    public Project getProject(Integer termsOfReferenceId)
+    public Project getProjectByTerms(Integer termsOfReferenceId)
             throws DataAccessException {
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -45,19 +49,40 @@ public class ProjectJpaDao
             return q.getSingleResult();
         } catch (NoResultException e) {
             return null;
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             throw new DataAccessException("Persistence exception occurred", e);
+        }
+    }
+
+    public Project getProjectByDeveloper(int developerId) throws DataAccessException {
+        TypedQuery<Project> q = getEntityManager().createQuery(
+                "select p from Developer d " +
+                        "left join d.project p " +
+                        "where d.id = :developerId",
+                Project.class
+        );
+
+        try {
+            return q.setParameter("developerId", developerId).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (PersistenceException e) {
+            throw new DataAccessException(e);
         }
     }
 
     public Collection<Project> getProjects(int managerId)
             throws DataAccessException {
 
-        TypedQuery<Project> q = getEntityManager().createQuery(
-                "select p from Project p where p.manager.id = :managerId",
-                Project.class
-        );
+        try {
+            TypedQuery<Project> q = getEntityManager().createQuery(
+                    "select p from Project p where p.manager.id = :managerId",
+                    Project.class
+            );
 
-        return q.setParameter("managerId", managerId).getResultList();
+            return q.setParameter("managerId", managerId).getResultList();
+        } catch (PersistenceException e) {
+            throw new DataAccessException(e);
+        }
     }
 }
