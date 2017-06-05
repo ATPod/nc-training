@@ -1,6 +1,7 @@
 <%@ page contentType="text/html"
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="app" tagdir="/WEB-INF/tags" %>
 
 <html>
 <head>
@@ -13,12 +14,11 @@
 </head>
 <body>
 
+    <app:topNav/>
+
     <c:url var="login" value="controller">
         <c:param name="command" value="go" />
         <c:param name="location" value="login" />
-    </c:url>
-    <c:url var="logout" value="controller">
-        <c:param name="command" value="logout" />
     </c:url>
     <c:url var="home" value="controller">
         <c:param name="command" value="go" />

@@ -31,6 +31,12 @@ public class MysqlInvoiceDao
     private static final String INSERT_INVOICE_QUERY =
             "INSERT INTO invoice(project_id, price, paid)" +
                     " VALUES (?, ?, ?)";
+    private static final String SELECT_INVOICES_BY_CUSTOMER_QUERY =
+            "SELECT i.id, paid, price, project_id \n" +
+                "FROM invoice i\n" +
+                "JOIN project p ON i.project_id = p.id\n" +
+                "JOIN terms_of_reference terms ON p.terms_of_reference_id = terms.id\n" +
+                "WHERE terms.customer_id = ?";
 
     public Collection<Invoice> getAll() throws DataAccessException {
         return getAll(SELECT_ALL_INVOICES_QUERY);
@@ -112,5 +118,10 @@ public class MysqlInvoiceDao
         } finally {
             disposeConnection(conn);
         }
+    }
+
+    public Collection<Invoice> getInvoicesByCustomer(int customerId) {
+        return getCollectionByIntParameter(customerId,
+                SELECT_INVOICES_BY_CUSTOMER_QUERY);
     }
 }

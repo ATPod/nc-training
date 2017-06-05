@@ -42,6 +42,12 @@ public class MysqlProjectDao
             "SELECT id, terms_of_reference_id, manager_id" +
             " FROM project" +
             " WHERE manager_id = ?";
+    private static final String SELECT_PROJECT_BY_DEVELOPER_QUERY =
+            "SELECT p.id, p.manager_id, p.terms_of_reference_id\n" +
+            "FROM project p\n" +
+            "  RIGHT JOIN developer d\n" +
+            "  ON p.id = d.project_id\n" +
+            "WHERE d.id = ?";
 
     protected Project fetchEntity(ResultSet rs) throws DataAccessException {
         Project project = new Project();
@@ -123,9 +129,14 @@ public class MysqlProjectDao
         }
     }
 
-    public Project getProject(Integer termsOfReferenceId) throws DataAccessException {
+    public Project getProjectByTerms(Integer termsOfReferenceId) throws DataAccessException {
         return getSingleResultByIntParameter(termsOfReferenceId,
                 SELECT_PROJECT_BY_TERMS_OF_REFERENCE_QUERY);
+    }
+
+    public Project getProjectByDeveloper(int developerId) throws DataAccessException {
+        return getSingleResultByIntParameter(developerId,
+                SELECT_PROJECT_BY_DEVELOPER_QUERY);
     }
 
     public Collection<Project> getProjects(int managerId) throws DataAccessException {

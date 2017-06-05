@@ -4,30 +4,21 @@ package by.training.nc.dev5.entities;
 import by.training.nc.dev5.exceptions.NotCorrectIdException;
 import by.training.nc.dev5.exceptions.NotCorrectPasswordException;
 
-import javax.persistence.*;
-
 
 /**
  * Created by AsusPC on 15.03.17.
  */
-@Entity
-@Table(name = "creditcard")
 public class CreditCard {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "crditcard_id")
-    private String id;
-    @Column(name = "pass")
-    private String password;
-    @Column(name = "client_login")
-    private String clientLogin;
-    @Transient
     private Account account;
+    private String id;
+    private String password;
+    String clientLogin;
 
     public CreditCard(){
         this.id = new String();
         this.password = new String();
         account = new Account();
+        clientLogin = new String();
     }
 
     public CreditCard(CreditCard creditCard){

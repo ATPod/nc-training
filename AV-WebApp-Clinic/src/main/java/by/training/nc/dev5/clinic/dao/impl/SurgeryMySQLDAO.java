@@ -6,6 +6,8 @@ import by.training.nc.dev5.clinic.entities.prescribings.Surgery;
 import by.training.nc.dev5.clinic.dao.ISurgeryDAO;
 import by.training.nc.dev5.clinic.utils.HibernateUtil;
 import by.training.nc.dev5.clinic.exceptions.*;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
@@ -13,8 +15,8 @@ import java.util.List;
 /**
  * Created by user on 06.04.2017.
  */
+@Repository
 public class SurgeryMySQLDAO extends AbstractDAO<Surgery> implements ISurgeryDAO {
-    private static SurgeryMySQLDAO instance;
 
     private SurgeryMySQLDAO(){
         super(Surgery.class);
@@ -31,10 +33,4 @@ public class SurgeryMySQLDAO extends AbstractDAO<Surgery> implements ISurgeryDAO
         }
     }
 
-    public static synchronized SurgeryMySQLDAO getInstance(){
-        if(instance == null){
-            instance = new SurgeryMySQLDAO();
-        }
-        return instance;
-    }
 }

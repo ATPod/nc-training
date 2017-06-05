@@ -12,6 +12,8 @@ public class TimeSheet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Basic
+    @Column(name = "work_date")
     private Date date;
     @ManyToOne
     @JoinColumn(name = "developer_id")

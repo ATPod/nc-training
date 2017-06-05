@@ -33,14 +33,6 @@
         <path>/WEB-INF/tags/termsItem.tag</path>
     </tag-file>
     <tag-file>
-        <name>customerSideNav</name>
-        <path>/WEB-INF/tags/customerSideNav.tag</path>
-    </tag-file>
-    <tag-file>
-        <name>managerSideNav</name>
-        <path>/WEB-INF/tags/managerSideNav.tag</path>
-    </tag-file>
-    <tag-file>
         <name>topNav</name>
         <path>/WEB-INF/tags/topNav.tag</path>
     </tag-file>
@@ -51,6 +43,22 @@
     <tag-file>
         <name>projectItem</name>
         <path>/WEB-INF/tags/projectItem.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>timeSheetHolder</name>
+        <path>/WEB-INF/tags/timeSheetHolder.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>timeSheetItem</name>
+        <path>/WEB-INF/tags/timeSheetItem.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>projectSelect</name>
+        <path>/WEB-INF/tags/projectSelect.tag</path>
+    </tag-file>
+    <tag-file>
+        <name>sideNav</name>
+        <path>/WEB-INF/tags/sideNav.tag</path>
     </tag-file>
     <!-- Invoke 'Generate' action to add tags or functions -->
 

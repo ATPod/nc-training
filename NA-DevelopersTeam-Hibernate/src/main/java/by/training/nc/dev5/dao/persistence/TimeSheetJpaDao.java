@@ -5,8 +5,12 @@ import by.training.nc.dev5.entity.Developer;
 import by.training.nc.dev5.entity.TimeSheet;
 import by.training.nc.dev5.entity.metamodel.TimeSheet_;
 import by.training.nc.dev5.exception.DataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,12 +21,14 @@ import java.util.Collection;
 /**
  * Created by Nikita on 07.05.2017.
  */
+//@Repository
 public class TimeSheetJpaDao
         extends AbstractJpaDao<TimeSheet, Integer>
         implements TimeSheetDao {
 
-    public TimeSheetJpaDao(EntityManager em) {
-        super(em, TimeSheet.class);
+//    @Autowired
+    public TimeSheetJpaDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, TimeSheet.class);
     }
 
     /**
@@ -32,14 +38,18 @@ public class TimeSheetJpaDao
      * @return a collection of {@link TimeSheet} objects
      */
     public Collection<TimeSheet> getTimeSheets(Integer developerId) throws DataAccessException {
-        TypedQuery<TimeSheet> q = getEntityManager().createQuery(
-                "select t from TimeSheet t" +
-                        " where t.developer.id = :developerId",
-                TimeSheet.class
-        );
+        try {
+            TypedQuery<TimeSheet> q = getEntityManager().createQuery(
+                    "select t from TimeSheet t" +
+                            " where t.developer.id = :developerId",
+                    TimeSheet.class
+            );
 
-        q.setParameter("developerId", developerId);
+            q.setParameter("developerId", developerId);
 
-        return q.getResultList();
+            return q.getResultList();
+        } catch (PersistenceException e) {
+            throw new DataAccessException(e);
+        }
     }
 }

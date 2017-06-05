@@ -4,8 +4,6 @@ import by.training.nc.dev5.util.JpaUtil;
 
 import javax.persistence.EntityManager;
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -21,14 +19,17 @@ public class EntityManagerFilter implements Filter {
 
         EntityManager em = JpaUtil.getInstance().getEntityManager();
 
+        // TODO: BAAAAAAAAAAAAAAAAAD
         // TODO: how to filter forwarded requests?
         if (!em.getTransaction().isActive()) {
             em.getTransaction().begin();
         }
         filterChain.doFilter(servletRequest, servletResponse);
-        em.getTransaction().commit();
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().commit();
+        }
 
-        JpaUtil.getInstance().releaseEntityManager(em);
+        JpaUtil.getInstance().releaseEntityManager();
     }
 
     public void destroy() {}

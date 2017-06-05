@@ -6,6 +6,7 @@ import by.training.nc.dev5.clinic.entities.prescribings.MedProcedure;
 import by.training.nc.dev5.clinic.entities.prescribings.Surgery;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @NamedQueries({@NamedQuery(name = "Patient.findAll", query = "SELECT o FROM Patient o"),
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by user on 25.04.2017.
  */
 @Entity
-public class Patient extends AbstractEntity {
+public class Patient extends AbstractEntity implements Serializable {
 
     private String name;
     private List<Diagnosis> diagnosises;

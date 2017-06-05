@@ -102,7 +102,7 @@ public class ClientService {
     public static Person login(String login, String password){
         MySQLDAOFactory factory = new MySQLDAOFactory();
         ClientMySQLDAO clientMySQLDAO = new ClientMySQLDAO();
-        Person pPerson = new Person(clientMySQLDAO.findPerson(login));
+        Person pPerson = new Person(clientMySQLDAO.findPerson(login,password));
         if(pPerson.getPassword().equals(password)) return pPerson;
         return null;
     }

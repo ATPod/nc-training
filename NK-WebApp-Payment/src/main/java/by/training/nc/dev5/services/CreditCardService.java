@@ -1,7 +1,5 @@
 package by.training.nc.dev5.services;
 
-import by.training.nc.dev5.commands.user.ShowYourCreditCards;
-import by.training.nc.dev5.constants.JspPaths;
 import by.training.nc.dev5.dao.CreditCardMySQLDAO;
 import by.training.nc.dev5.dao.factory.MySQLDAOFactory;
 import by.training.nc.dev5.entities.Account;
@@ -11,10 +9,8 @@ import by.training.nc.dev5.exceptions.NotCorrectPasswordException;
 import by.training.nc.dev5.tools.Serialization;
 import by.training.nc.dev5.entities.CreditCard;
 
-import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by AsusPC on 25.03.17.
@@ -31,25 +27,26 @@ public class CreditCardService {
     private static void deserialize(CreditCard creditcard,String password, String path) throws Exception{
         if(isPasswordRight(creditcard,password)) {
             try{
-                creditcard.setAccount(Serialization.deserialization(path));
+                creditcard = Serialization.deserialization(path);
             }catch(InvalidObjectException e){
-
+                e.printStackTrace();
             }
         }
     }
 
     public static String moneyOperation(String id,String password, double money,int flag){
-        MySQLDAOFactory factory = new MySQLDAOFactory();
         CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
         CreditCard creditCard = new CreditCard(creditCardMySQLDAO.findCreditCard(id));
         if (creditCard != null) {
             if(creditCard.getPassword().equals(password) && !creditCard.getAccount().isBlocked()) {
                 switch (flag) {
                     case 1:
-                        AccountService.refill(creditCard.getAccount(), money);
+                        creditCard.getAccount().setMoney(creditCard.getAccount().getMoney() + money);
                         break;
                     case 2:
-                        AccountService.payment(creditCard.getAccount(), money);
+                        if(creditCard.getAccount().getMoney() >= money)
+                            creditCard.getAccount().setMoney(creditCard.getAccount().getMoney() - money);
+                        else return "not enough money";
                         break;
                     default:
                         break;
@@ -57,9 +54,9 @@ public class CreditCardService {
                 creditCardMySQLDAO.updateCreditCard(creditCard);
                 return null;
             }
-            else return "not enough money";
+            else return "invalid password or account is blocked";
         }
-        return "invalid password";
+        return "no succh credit cards";
     }
 
     public static void creditCardOperation(CreditCard creditcard,String password,int flag){
@@ -69,7 +66,7 @@ public class CreditCardService {
                     creditcard.getAccount().setBlocked(true);
                     break;
                 case 2:
-                    AccountService.viewAccount(creditcard.getAccount());
+                   CreditCardService.viewCreditCard(creditcard);
                     break;
             }
         }
@@ -79,7 +76,7 @@ public class CreditCardService {
         if(isPasswordRight(creditcard,password) && creditcard.getAccount().isBlocked() != true) {
             switch (flag) {
                 case 1:
-                    AccountService.serialize(creditcard.getAccount(),path);
+                    Serialization.serialization(creditcard,path);
                     break;
                 case 2:
                     CreditCardService.deserialize(creditcard,password,path);
@@ -109,7 +106,8 @@ public class CreditCardService {
     public static String deleteCreditCard(String id, Person person){
         CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
         try {
-            CreditCard creditCard = new CreditCard(id, "1111", null, person.getLogin());
+            Account account = new Account(0,false);
+            CreditCard creditCard = new CreditCard(id, "1111", account, person.getLogin());
             creditCardMySQLDAO.deleteCreditCard(creditCard);
             return null;
         } catch (NotCorrectIdException e){
@@ -121,9 +119,9 @@ public class CreditCardService {
 
     public static String insertCreditCard(String id, String password,double money, Person person){
         CreditCardMySQLDAO creditCardMySQLDAO = new CreditCardMySQLDAO();
-        Account account = new Account(money,false);
         try {
-            CreditCard creditCard = new CreditCard(id, password, account, person.getLogin());
+            Account account = new Account(money,false);
+            CreditCard creditCard = new CreditCard(id, password, account , person.getLogin());
             creditCardMySQLDAO.insertCreditCard(creditCard);
             return null;
         } catch (NotCorrectIdException e){
