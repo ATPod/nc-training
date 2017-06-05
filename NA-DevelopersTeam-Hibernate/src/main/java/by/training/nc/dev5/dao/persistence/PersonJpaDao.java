@@ -2,13 +2,9 @@ package by.training.nc.dev5.dao.persistence;
 
 import by.training.nc.dev5.dao.PersonDao;
 import by.training.nc.dev5.entity.Person;
-import by.training.nc.dev5.entity.metamodel.Person_;
 import by.training.nc.dev5.exception.DataAccessException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
-import javax.persistence.criteria.*;
 
 /**
  * Created by Nikita on 04.05.2017.

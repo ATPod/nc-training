@@ -53,7 +53,6 @@ public class CustomerController extends MultiActionController {
             params = {"specification", "qualificationId", "developersNumber"})
     public String addTask(
             @ModelAttribute("createdTerms") TermsOfReferenceDto createdTerms,
-            @ModelAttribute("user") CustomerDto user,
             @RequestParam("qualificationId") int qualificationId,
             @RequestParam("specification") String specification,
             @RequestParam("developersNumber") int developersNumber) {

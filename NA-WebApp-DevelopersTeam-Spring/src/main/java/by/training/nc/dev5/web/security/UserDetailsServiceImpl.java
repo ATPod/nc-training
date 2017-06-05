@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,16 +25,18 @@ import java.util.Set;
 @Service("userDetailsService")
 @SessionAttributes("user")
 public class UserDetailsServiceImpl implements UserDetailsService {
+    private final PersonDao personDao;
+    private final ProjectDao projectDao;
+
     @Autowired
-    private PersonDao personDao;
-    @Autowired
-    private ProjectDao projectDao;
-    @Autowired
-    private HttpServletRequest request;
+    public UserDetailsServiceImpl(PersonDao personDao, ProjectDao projectDao) {
+        this.personDao = personDao;
+        this.projectDao = projectDao;
+    }
 
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Person user = personDao.getPersonByLogin(login);
-        UserDetails userDetails;
+        PersonUserDetails userDetails;
 
         if (user == null) {
             throw new UsernameNotFoundException(login);
@@ -44,10 +45,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
         PersonDto personDto = instantiatePersonDto(user);
 
-        request.getSession().setAttribute("user", personDto);
-
         roles.add(new SimpleGrantedAuthority("ROLE_" + user.getUserRole()));
-        userDetails = new User(user.getLogin(), user.getPassword(), roles);
+        userDetails = new PersonUserDetails(
+                new User(user.getLogin(), user.getPassword(), roles));
+        userDetails.setPersonDto(personDto);
 
         return userDetails;
     }
@@ -61,7 +62,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 break;
             case DEVELOPER:
                 dto = new DeveloperDto();
-                setDeveloperDto((DeveloperDto) dto, (Developer) person);
+                populateDeveloperDto((DeveloperDto) dto, (Developer) person);
                 break;
             case MANAGER:
                 dto = new ManagerDto();
@@ -76,7 +77,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return dto;
     }
 
-    private void setDeveloperDto(DeveloperDto dto, Developer entity) {
+    private void populateDeveloperDto(DeveloperDto dto, Developer entity) {
         Project project = projectDao.getProjectByDeveloper(entity.getId());
         ProjectDto projectDto = null;
         QualificationDto qualificationDto = new QualificationDto();

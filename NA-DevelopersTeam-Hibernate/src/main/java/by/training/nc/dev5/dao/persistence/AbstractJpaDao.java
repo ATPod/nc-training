@@ -14,7 +14,6 @@ import java.util.Collection;
  * Created by Nikita on 04.05.2017.
  */
 public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
-    @Autowired
     private EntityManagerFactory entityManagerFactory;
     private Class<E> eClass;
 
@@ -139,10 +138,9 @@ public class AbstractJpaDao<E, K> implements AbstractDao<E, K> {
             Object id;
 
             try {
-    //            em.getTransaction().begin();
                 em.persist(entity);
-    //            em.getTransaction().commit();
-                id = em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
+                id = em.getEntityManagerFactory().getPersistenceUnitUtil()
+                        .getIdentifier(entity);
             } catch (EntityExistsException e) {
                 return null;
             }

@@ -2,10 +2,8 @@ package by.training.nc.dev5.web.command.manager;
 
 import by.training.nc.dev5.dto.DeveloperDto;
 import by.training.nc.dev5.dto.ProjectDto;
-import by.training.nc.dev5.entity.Developer;
-import by.training.nc.dev5.entity.Project;
-import by.training.nc.dev5.exception.ServiceException;
-import by.training.nc.dev5.service.*;
+import by.training.nc.dev5.service.ProjectService;
+import by.training.nc.dev5.service.ProjectServiceImpl;
 import by.training.nc.dev5.web.command.Command;
 import by.training.nc.dev5.web.routing.Router;
 

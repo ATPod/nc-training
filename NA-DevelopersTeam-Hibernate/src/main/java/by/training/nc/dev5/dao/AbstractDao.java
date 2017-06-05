@@ -1,6 +1,5 @@
 package by.training.nc.dev5.dao;
 
-import by.training.nc.dev5.exception.ConnectionException;
 import by.training.nc.dev5.exception.DataAccessException;
 
 import java.util.Collection;
