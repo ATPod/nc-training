@@ -23,7 +23,6 @@
                     <spring:message code="test.name.format.error" var="test_name_error"/>
                     <sf:input id="testName" name="testName" type="text" value="" placeholder="${name_placeholder}"
                               class="form-control input-md" path="testName"
-                              pattern="(\b[a-zA-Zа-яА-Я]+ *)+"
                               data-minlength="1"
                               data-error="${test_name_error}"/>
                               <div class="help-block with-errors"></div>
@@ -34,7 +33,7 @@
                 <div class="col-md-4">
                     <spring:message code="page.test.creation.input.questions.placeholder" var="question_placeholder"/>
                     <spring:message code="question.amount.format.error" var="question_number_error"/>
-                    <sf:input id="questionAmount" name="questionAmount" type="text" value=""
+                    <sf:input id="questionAmount" name="questionAmount" type="text" value="1"
                               placeholder="${question_placeholder}"
                               class="form-control input-md" path="questionAmount"
                               data-error="${question_number_error}"
@@ -47,7 +46,7 @@
                 <div class="col-md-4">
                     <spring:message code="page.test.creation.input.options.placeholder" var="option_placeholder"/>
                     <spring:message code="option.amount.format.error" var="option_number_error"/>
-                    <sf:input id="optionAmount" name="optionAmount" type="text" value=""
+                    <sf:input id="optionAmount" name="optionAmount" type="text" value="1"
                               placeholder="${option_placeholder}"
                               class="form-control input-md"
                               path="optionAmount"

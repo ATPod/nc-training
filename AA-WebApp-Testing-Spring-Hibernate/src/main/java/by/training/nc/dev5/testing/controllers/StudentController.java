@@ -1,11 +1,7 @@
 package by.training.nc.dev5.testing.controllers;
 
 import by.training.nc.dev5.testing.dto.StudentDTO;
-import by.training.nc.dev5.testing.entities.test.Option;
-import by.training.nc.dev5.testing.entities.test.Question;
-import by.training.nc.dev5.testing.entities.test.Test;
 import by.training.nc.dev5.testing.entities.users.Student;
-import by.training.nc.dev5.testing.entities.users.User;
 import by.training.nc.dev5.testing.services.exceptions.ServiceException;
 import by.training.nc.dev5.testing.services.interfaces.IStudentService;
 import by.training.nc.dev5.testing.services.interfaces.ITutorService;
@@ -17,11 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class StudentController {
@@ -70,30 +63,5 @@ public class StudentController {
         return "students";
     }
 
-    @RequestMapping(value = "/showTestResult", method = RequestMethod.GET)
-    public String showCreateTestForm(WebRequest request, @ModelAttribute("test") Test test,
-                                     @ModelAttribute("sessionUser") User user, ModelMap model) {
-        try {
-            List<Question> questions = test.getQuestions();
-            Student student = (Student) user;
-            List<List<Integer>> questionAnswers = new ArrayList<>();
-            for (Question question : questions) {
-                List<Integer> questionAnswer = new ArrayList<>();
-                for (Option option : question.getAnswerOptions()) {
-                    String answerParameter = "answer" + option.getId();
-                    if (("1").equals(request.getParameter(answerParameter))) {
-                        questionAnswer.add(option.getNumber());
-                    }
-                }
-                questionAnswers.add(questionAnswer);
-            }
-            int result = studentService.passTest(student, test, questionAnswers);
-            model.addAttribute("result", result);
-            model.addAttribute("questionAnswers", questionAnswers);
-            return "show_result";
-        } catch (ServiceException e) {
-            model.addAttribute("errorMessage", "Database error!");
-            return "error";
-        }
-    }
+
 }

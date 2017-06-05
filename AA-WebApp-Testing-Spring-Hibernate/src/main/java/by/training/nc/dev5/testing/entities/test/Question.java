@@ -15,7 +15,7 @@ public class Question {
     private String text;
     @Column(name = "scores", nullable = false)
     private int scores;
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinTable(
             name = "questions_options",
             joinColumns = @JoinColumn(name = "question_id"),

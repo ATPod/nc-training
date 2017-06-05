@@ -9,8 +9,8 @@
     <title><spring:message code="page.students.title"/></title>
 </head>
 <body>
-<div class="page-header" align="center"><h1><spring:message code="page.students.title"/></h1></div>
 <jsp:include page="tutor_nav.jsp"/>
+<div class="page-header" align="center"><h1><spring:message code="page.students.title"/></h1></div>
 <div class="col-md-12" align="center">
     <div class="row">
         <div class="col-md-4" align="center"><b><spring:message code="page.students.student.name"/></b></div>

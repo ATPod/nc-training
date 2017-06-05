@@ -12,11 +12,11 @@
     <title><spring:message code="page.tests.title"/></title>
 </head>
 <body>
-<div class="page-header" align="center"><h1><spring:message code="page.tests.title"/></h1></div>
 <!-- отображение формы ввода сооб-
 щения, только если пользователь обладает определенной привилегией-->
 <security:authorize access="hasRole('ROLE_STUDENT')">
     <jsp:include page="student_nav.jsp"/>
+    <div class="page-header" align="center"><h1><spring:message code="page.tests.title"/></h1></div>
     <div class="col-md-12" align="center">
         <form name="testsTable" method="POST" action="${pageContext.request.contextPath}/showTest">
             <input type="hidden" name="command" value="ShowTest"/>
@@ -30,6 +30,7 @@
                     <div class="col-md-4" align="center">${test.name}</div>
                     <div class="col-md-4" align="center">${test.subject}</div>
                     <div class="col-md-2">
+                        <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}"/>
                         <button value="${test.id}" name="testId" class="btn btn-success"><spring:message code="page.tests.test.button"/></button>
                     </div>
                 </div>
@@ -39,6 +40,7 @@
 </security:authorize>
 <security:authorize access="hasRole('ROLE_TUTOR')">
     <jsp:include page="tutor_nav.jsp"/>
+    <div class="page-header" align="center"><h1><spring:message code="page.tests.title"/></h1></div>
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-4"><b><spring:message code="page.tests.test.name"/></b></div>

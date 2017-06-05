@@ -20,7 +20,7 @@
     <h5>
         <p><b><spring:message code="page.name"/>: </b>${sessionUser.name}</p>
         <p><b><spring:message code="page.surname"/>: </b>${sessionUser.surname}</p>
-        <p><b><spring:message code="page.surname"/>: </b>${sessionUser.subject}</p>
+        <p><b><spring:message code="page.subject"/>: </b>${sessionUser.subject}</p>
     </h5>
 </div>
     </div>

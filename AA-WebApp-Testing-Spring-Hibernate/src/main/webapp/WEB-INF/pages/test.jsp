@@ -10,7 +10,7 @@
 </head>
 <body>
 <div>
-    <form class="form-horizontal" name="testsTable" method="POST" action="${pageContext.request.contextPath}/showTest">
+    <form class="form-horizontal" name="testsTable" method="POST" action="${pageContext.request.contextPath}/showTestResult">
         <input type="hidden" name="testId" value="${test.id}"/>
         <input type="hidden" name="command" value="ShowResult"/>
         <fieldset>
@@ -36,6 +36,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="singlebutton"></label>
                     <div class="col-md-4">
+                        <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}"/>
                         <button id="singlebutton" name="result" class="btn btn-success">Отправить результат</button>
                     </div>
                 </div>
