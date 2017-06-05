@@ -1,15 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
-    <title>Прохождение теста</title>
+    <title><spring:message code="page.tests.test.button"/></title>
 </head>
 <body>
-<div >
-    <form class="form-horizontal" name="testsTable" method="POST" action="${pageContext.request.contextPath}/showTest">
+<div>
+    <form class="form-horizontal" name="testsTable" method="POST" action="${pageContext.request.contextPath}/showTestResult">
         <input type="hidden" name="testId" value="${test.id}"/>
         <input type="hidden" name="command" value="ShowResult"/>
         <fieldset>
@@ -35,6 +36,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="singlebutton"></label>
                     <div class="col-md-4">
+                        <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}"/>
                         <button id="singlebutton" name="result" class="btn btn-success">Отправить результат</button>
                     </div>
                 </div>

@@ -27,7 +27,6 @@ import java.util.Set;
 public class AuthenticationService implements UserDetailsService {
     @Autowired
     private IUserService userService;
-
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
