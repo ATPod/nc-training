@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "by.training.nc.dev5")
-public class MvcConfiguration extends WebMvcConfigurerAdapter
+public class MvcConfig extends WebMvcConfigurerAdapter
 {
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {

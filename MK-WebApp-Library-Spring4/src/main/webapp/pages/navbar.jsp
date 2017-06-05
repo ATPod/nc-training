@@ -23,8 +23,6 @@
                 <a class="nav-link" href="/loans">Loans </a>
             </li>
             </c:if>
-
-
         </ul>
         <ul class="nav navbar-nav navbar-right  my-2 my-lg-0" >
             <c:if test="${user==null}">
@@ -40,8 +38,6 @@
                     <a class="nav-link" href="/logout">Logout</a>
                 </li>
             </c:if>
-
-
         </ul>
     </div>
 </nav>

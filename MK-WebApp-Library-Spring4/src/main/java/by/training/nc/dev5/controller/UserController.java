@@ -89,14 +89,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/signup", method = {RequestMethod.GET})
-    String showSignup( ){
+    String showSignup() {
         return Pages.SIGNUP_PAGE;
     }
 
 
     @RequestMapping(value = "/signup", method = {RequestMethod.POST})
     String signup(@RequestParam("user-name") String name, @RequestParam("user-password") String password,
-                  @RequestParam("user-role") String role,HttpServletRequest request, ExtendedModelMap modelMap) {
+                  @RequestParam("user-role") String role, HttpServletRequest request, ExtendedModelMap modelMap) {
         try {
             User user = new User();
             user.setName(name);
@@ -104,7 +104,7 @@ public class UserController {
             user.setRole(role);
             userService.insertUser(user);// лучше возвращать юзера и проверять есть ли уже такой
             return Pages.LOGIN_PAGE;
-            } catch (DbException e) {
+        } catch (DbException e) {
             e.printStackTrace();
         }
         return "/signup";

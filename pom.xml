@@ -25,6 +25,8 @@
     <module>NA-WebApp-DevelopersTeam</module>
     <module>NA-DevelopersTeam-Hibernate</module>
     <module>NA-WebApp-DevelopersTeam-Spring</module>
+        <module>MK-WebApp-Library-Spring4</module>
+        <module>MK-WebApp-Library</module>
   </modules>
     <dependencies>
         <dependency>

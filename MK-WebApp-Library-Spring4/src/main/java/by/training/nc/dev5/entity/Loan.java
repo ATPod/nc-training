@@ -21,7 +21,6 @@ public class Loan {
     @Column(name = "id" ,nullable = false, unique = true)
     private int id;
 
-
     @OneToOne
     @JoinColumn(name = "id_user")
     private User user;

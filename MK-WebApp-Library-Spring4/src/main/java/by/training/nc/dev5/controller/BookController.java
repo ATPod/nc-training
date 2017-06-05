@@ -1,7 +1,6 @@
 package by.training.nc.dev5.controller;
 
 import by.training.nc.dev5.entity.Book;
-import by.training.nc.dev5.entity.Loan;
 import by.training.nc.dev5.exception.DbException;
 import by.training.nc.dev5.jpaservice.BookService;
 import by.training.nc.dev5.jpaservice.LoanService;

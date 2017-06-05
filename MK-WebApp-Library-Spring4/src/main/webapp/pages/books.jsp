@@ -10,7 +10,8 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp"></jsp:include>
-<div style="height: 70% !important;
+<%@ page errorPage="error.jsp" %>
+<div style="height: 50% ;
     overflow-y: auto;">
 <table class="table" >
     <thead class="thead-inverse">

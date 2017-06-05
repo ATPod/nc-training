@@ -10,6 +10,7 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp"></jsp:include>
+<%@ page errorPage="error.jsp" %>
 <table class="table ">
     <thead class="thead-inverse">
     <tr>

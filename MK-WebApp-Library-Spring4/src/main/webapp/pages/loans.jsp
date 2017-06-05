@@ -10,8 +10,7 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp"></jsp:include>
-<%--
-<button type="button" class="btn btn-primary" name="add-loan">Primary</button>--%>
+<%@ page errorPage="error.jsp" %>
 <table class="table">
     <thead class="thead-inverse">
     <tr>

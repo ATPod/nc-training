@@ -16,12 +16,7 @@ public class BookService {
 
     public void insertBook(Book book)throws DbException{
 
-        try {
-            bookJPA.insertBook(book);    
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        
+        bookJPA.insertBook(book);
     }
 
     public Book findBookById(int id){

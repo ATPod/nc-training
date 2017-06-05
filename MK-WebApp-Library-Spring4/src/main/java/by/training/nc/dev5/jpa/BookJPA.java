@@ -1,7 +1,6 @@
 package by.training.nc.dev5.jpa;
 
 import by.training.nc.dev5.entity.Book;
-import by.training.nc.dev5.entity.Loan;
 import by.training.nc.dev5.util.JPAUtil;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -14,7 +13,6 @@ import java.util.List;
 @SuppressWarnings("Duplicates")
 @Repository
 public class BookJPA {
-
 
     public Book insertBook(Book book){
         EntityManager em = JPAUtil.getEntityManager();
