@@ -39,7 +39,7 @@ public class UserService {
         return userJPA.findByNameAndPassword(name, password);
     }
 
-    public User findByName(String name ){
+    public User findByName(String name ) throws DbException {
 
         return userJPA.findByName(name);
     }

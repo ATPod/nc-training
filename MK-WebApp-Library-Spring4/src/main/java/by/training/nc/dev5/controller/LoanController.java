@@ -62,7 +62,12 @@ public class LoanController {
     String addLoan(@RequestParam("loan-book-id") int id, @RequestParam("loan-type") String type,
                    HttpServletRequest request, ExtendedModelMap modelMap){
         User user = (User) request.getSession().getAttribute(Attributes.USER);
-        Book book = bookService.findBookById(id);
+        Book book = null;
+        try {
+            book = bookService.findBookById(id);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
         Loan loan = new Loan();
         loan.setUser(user);
         loan.setBook(book);

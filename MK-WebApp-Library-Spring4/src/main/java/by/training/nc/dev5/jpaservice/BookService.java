@@ -19,7 +19,7 @@ public class BookService {
         bookJPA.insertBook(book);
     }
 
-    public Book findBookById(int id){
+    public Book findBookById(int id) throws DbException {
 
         return bookJPA.findBookById(id);
     }

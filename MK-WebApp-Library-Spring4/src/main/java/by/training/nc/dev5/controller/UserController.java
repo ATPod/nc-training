@@ -67,10 +67,11 @@ public class UserController {
         List<User> users = Collections.emptyList();
         try {
             User user = userService.findById(id);
-            user.setName(name);
-            userService.updateUser(user);
+            if(name!=null||name.trim()!="") {
+                user.setName(name);
+                userService.updateUser(user);
+            }
             users = userService.selectUsers();
-            System.out.println(user);
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -92,13 +93,8 @@ public class UserController {
         return Pages.UPDATE_USER;
     }
 
-
-
-
-
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
     String showLogin() {
-
         return "login";
     }
 

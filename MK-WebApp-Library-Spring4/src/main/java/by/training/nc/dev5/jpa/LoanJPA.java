@@ -3,6 +3,7 @@ package by.training.nc.dev5.jpa;
 import by.training.nc.dev5.entity.Book;
 import by.training.nc.dev5.entity.Loan;
 import by.training.nc.dev5.entity.User;
+import by.training.nc.dev5.exception.DbException;
 import by.training.nc.dev5.util.JPAUtil;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,7 @@ import java.util.List;
 @Repository
 public class LoanJPA {
 
-    public void insertLoan (Loan loan){
+    public void insertLoan(Loan loan) throws DbException {
         Session s = JPAUtil.getSession();
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
@@ -27,37 +28,38 @@ public class LoanJPA {
 
     }
 
-    public void deleteLoan(int id){
+    public void deleteLoan(int id) throws DbException {
         Session s = JPAUtil.getSession();
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
-        s.delete(s.find(Loan.class,id));
+        s.delete(s.find(Loan.class, id));
         s.flush();
         transaction.commit();
     }
-    public void deleteByBook(int id){
+
+    public void deleteByBook(int id) throws DbException {
         Session s = JPAUtil.getSession();
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
         Query query = s.createNamedQuery("Loan.deleteByBook");
-        query.setParameter("b_id",id);
+        query.setParameter("b_id", id);
         query.executeUpdate();
         s.flush();
         transaction.commit();
     }
 
-    public void deleteByUser(int id){
+    public void deleteByUser(int id) throws DbException {
         Session s = JPAUtil.getSession();
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
         Query query = s.createNamedQuery("Loan.deleteByUser");
-        query.setParameter("u_id",id);
+        query.setParameter("u_id", id);
         query.executeUpdate();
         s.flush();
         transaction.commit();
     }
 
-    public void updateLoan(Loan loan){
+    public void updateLoan(Loan loan) throws DbException {
         Session s = JPAUtil.getSession();
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
@@ -66,7 +68,7 @@ public class LoanJPA {
     }
 
 
-    public List<Loan> selectLoans(){
+    public List<Loan> selectLoans() throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
         Query query = em.createNamedQuery("Loan.selectAll");
         List<Loan> loans = query.getResultList();

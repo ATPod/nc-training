@@ -1,6 +1,7 @@
 package by.training.nc.dev5.security;
 
 import by.training.nc.dev5.entity.User;
+import by.training.nc.dev5.exception.DbException;
 import by.training.nc.dev5.jpaservice.UserService;
 import by.training.nc.dev5.util.Attributes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,12 @@ public class IUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        User user = userService.findByName(name);
+        User user = null;
+        try {
+            user = userService.findByName(name);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         if(user!=null){
             request.getSession().setAttribute(Attributes.USER,user);

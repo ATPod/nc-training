@@ -29,13 +29,13 @@ public class LoanService {
         loanJPA.deleteLoan(id);
     }
 
-    public void deleteByBook(int book_id){
+    public void deleteByBook(int book_id) throws DbException {
 
         loanJPA.deleteByBook(book_id);
 
     }
 
-    public void deleteByUser(int book_id){
+    public void deleteByUser(int book_id) throws DbException {
 
         loanJPA.deleteByBook(book_id);
 

@@ -8,6 +8,8 @@
 <body>
 <jsp:include page="navbar.jsp"></jsp:include>
 <body>
+<br>
+<br>
 <div class="container-fluid">
     <div class="panel panel-success">
         <div class="panel-heading" align="center">
