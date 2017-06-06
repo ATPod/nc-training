@@ -1,6 +1,8 @@
 package by.training.nc.dev5.jpa;
 
+import by.training.nc.dev5.entity.Book;
 import by.training.nc.dev5.entity.Loan;
+import by.training.nc.dev5.entity.User;
 import by.training.nc.dev5.util.JPAUtil;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -20,6 +22,7 @@ public class LoanJPA {
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
         s.saveOrUpdate(loan);
+        s.flush();
         transaction.commit();
 
     }
@@ -43,12 +46,22 @@ public class LoanJPA {
         transaction.commit();
     }
 
+    public void deleteByUser(int id){
+        Session s = JPAUtil.getSession();
+        EntityTransaction transaction = s.getTransaction();
+        transaction.begin();
+        Query query = s.createNamedQuery("Loan.deleteByUser");
+        query.setParameter("u_id",id);
+        query.executeUpdate();
+        s.flush();
+        transaction.commit();
+    }
+
     public void updateLoan(Loan loan){
         Session s = JPAUtil.getSession();
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
-        EntityManager em = JPAUtil.getEntityManager();
-        em.merge(loan);
+        s.merge(loan);
         transaction.commit();
     }
 
@@ -60,7 +73,7 @@ public class LoanJPA {
         return loans;
     }
 
-/*    public static void main(String[] args) {
+   /* public static void main(String[] args) {
          LoanJPA lj = new LoanJPA();
          BookJPA bj = new BookJPA();
          UserJPA uj = new UserJPA();

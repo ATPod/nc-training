@@ -28,8 +28,7 @@ public class UserJPA {
         Session s = JPAUtil.getSession();
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
-        EntityManager em = JPAUtil.getEntityManager();
-        em.merge(user);
+        s.merge(user);
         transaction.commit();
 
     }
@@ -38,8 +37,7 @@ public class UserJPA {
         Session s = JPAUtil.getSession();
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
-        EntityManager em = JPAUtil.getEntityManager();
-        em.merge(em.find(User.class,id));
+        s.remove(s.find(User.class,id));
         transaction.commit();
     }
 

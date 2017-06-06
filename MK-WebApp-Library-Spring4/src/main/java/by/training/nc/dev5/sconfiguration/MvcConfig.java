@@ -22,4 +22,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter
         resolver.setViewClass(JstlView.class);
         registry.viewResolver(resolver);
     }
+
+
 }

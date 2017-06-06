@@ -46,10 +46,11 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/users/delete"})
-    String deleteUsers(@RequestParam("user-delete-id") int id, Model modelMap, HttpServletRequest request) {
+    String deleteUser(@RequestParam("user-delete-id") int id, Model modelMap, HttpServletRequest request) {
 
         List<User> users = Collections.emptyList();
         try {
+            loanService.deleteByUser(id);
             userService.deleteUser(id);
             users = userService.selectUsers();
         } catch (DbException e) {
@@ -59,6 +60,40 @@ public class UserController {
 
         return Pages.USERS_PAGE;
     }
+
+    @RequestMapping(value = {"/users/update"},method = RequestMethod.POST)
+    String updateUser(@RequestParam("user-update-id") int id,@RequestParam("user-new-name") String name, Model modelMap, HttpServletRequest request) {
+
+        List<User> users = Collections.emptyList();
+        try {
+            User user = userService.findById(id);
+            user.setName(name);
+            userService.updateUser(user);
+            users = userService.selectUsers();
+            System.out.println(user);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
+        modelMap.addAttribute(Attributes.USERS, users);
+        return Pages.USERS_PAGE;
+    }
+
+    @RequestMapping(value = {"/users/update"},method = RequestMethod.GET)
+    String showUpdateUser(Model modelMap){
+
+        List<User> users = Collections.EMPTY_LIST;
+        try {
+            users = userService.selectUsers();
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        modelMap.addAttribute(Attributes.USERS,users);
+        return Pages.UPDATE_USER;
+    }
+
+
+
 
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET})

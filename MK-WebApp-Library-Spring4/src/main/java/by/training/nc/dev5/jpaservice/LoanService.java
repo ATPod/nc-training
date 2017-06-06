@@ -35,6 +35,12 @@ public class LoanService {
 
     }
 
+    public void deleteByUser(int book_id){
+
+        loanJPA.deleteByBook(book_id);
+
+    }
+
     public List<Loan> selectLoans() throws DbException {
 
         return loanJPA.selectLoans();
