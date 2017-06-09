@@ -11,7 +11,8 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "Loan.selectAll", query = "SELECT l FROM loans l "),
         @NamedQuery(name = "Loan.deleteByBook", query = "DELETE FROM loans l WHERE l.book.id=:b_id "),
-        @NamedQuery(name = "Loan.deleteByUser", query = "DELETE FROM loans l WHERE l.user.id=:u_id ")})
+        @NamedQuery(name = "Loan.deleteByUser", query = "DELETE FROM loans l WHERE l.user.id=:u_id "),
+        @NamedQuery(name = "Loan.selectByUser", query = "SELECT l FROM loans l WHERE l.user.id=:u_id ")})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

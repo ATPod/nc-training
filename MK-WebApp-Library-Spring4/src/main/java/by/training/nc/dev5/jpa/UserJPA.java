@@ -66,7 +66,6 @@ public class UserJPA {
         }
     }
 
-
     public User findByName(String name) throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
 
@@ -75,9 +74,8 @@ public class UserJPA {
         List<User> users = query.getResultList();
         if (!users.isEmpty()) {
             return (User) query.getResultList().get(0);
-        } else {
-            return null;
         }
+        return null;
     }
 
     public List<User> selectUsers() throws DbException {
@@ -88,14 +86,5 @@ public class UserJPA {
 
         return users;
     }
-/*
-    public static void main(String[] args) {
-        UserJPA ujpa = new UserJPA();
-        User u = ujpa.findByNameAndPassword("qwe","qwe");
-        System.out.println(u+ "------------------");
-
-        ujpa.selectUsers().forEach(System.out::println);
-
-    }*/
 
 }

@@ -1,8 +1,6 @@
 package by.training.nc.dev5.util;
 
-/**
- * Created by ASUS on 25.04.2017.
- */
+
 public class Pages {
 
     public static final String BASE_URL ="localhost:8089";

@@ -1,5 +1,6 @@
 package by.training.nc.dev5.sconfiguration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -22,6 +23,4 @@ public class MvcConfig extends WebMvcConfigurerAdapter
         resolver.setViewClass(JstlView.class);
         registry.viewResolver(resolver);
     }
-
-
 }

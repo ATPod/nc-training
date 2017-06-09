@@ -4,7 +4,6 @@
 <head>
     <title>Error</title>
 </head>
-
 <%@ page isErrorPage="true" %>
 <body>
 <div>Что-то пошло не так</div>

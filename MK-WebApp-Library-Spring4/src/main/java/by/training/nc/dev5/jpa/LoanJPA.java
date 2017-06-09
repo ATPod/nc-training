@@ -1,8 +1,6 @@
 package by.training.nc.dev5.jpa;
 
-import by.training.nc.dev5.entity.Book;
 import by.training.nc.dev5.entity.Loan;
-import by.training.nc.dev5.entity.User;
 import by.training.nc.dev5.exception.DbException;
 import by.training.nc.dev5.util.JPAUtil;
 import org.hibernate.Session;
@@ -67,6 +65,12 @@ public class LoanJPA {
         transaction.commit();
     }
 
+    public List<Loan> selectLoansById(int u_id) throws DbException {
+        EntityManager em = JPAUtil.getEntityManager();
+        Query query = em.createNamedQuery("Loan.selectByUser");
+        List<Loan> loans = query.getResultList();
+        return loans;
+    }
 
     public List<Loan> selectLoans() throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
@@ -75,18 +79,4 @@ public class LoanJPA {
         return loans;
     }
 
-   /* public static void main(String[] args) {
-         LoanJPA lj = new LoanJPA();
-         BookJPA bj = new BookJPA();
-         UserJPA uj = new UserJPA();
-         User user = uj.findById(111);
-         Book book = bj.findBookById(2);
-
-         Loan l = new Loan();
-
-         l.setBook(book);
-         l.setUser(user);
-         l.setLoanType("wall");
-         lj.insertLoan(l);
-    }*/
 }

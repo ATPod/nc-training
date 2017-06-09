@@ -61,16 +61,16 @@ public class UserController {
         return Pages.USERS_PAGE;
     }
 
-    @RequestMapping(value = {"/users/update"},method = RequestMethod.POST)
-    String updateUser(@RequestParam("user-update-id") int id,@RequestParam("user-new-name") String name, Model modelMap, HttpServletRequest request) {
+    @RequestMapping(value = {"/users/update"}, method = RequestMethod.POST)
+    String updateUser(@RequestParam("user-update-id") int id, @RequestParam("user-new-name") String name, Model modelMap, HttpServletRequest request) {
 
         List<User> users = Collections.emptyList();
         try {
             User user = userService.findById(id);
-            if(name!=null||name.trim()!="") {
-                user.setName(name);
-                userService.updateUser(user);
-            }
+
+            user.setName(name);
+            userService.updateUser(user);
+
             users = userService.selectUsers();
         } catch (DbException e) {
             e.printStackTrace();
@@ -80,8 +80,8 @@ public class UserController {
         return Pages.USERS_PAGE;
     }
 
-    @RequestMapping(value = {"/users/update"},method = RequestMethod.GET)
-    String showUpdateUser(Model modelMap){
+    @RequestMapping(value = {"/users/update"}, method = RequestMethod.GET)
+    String showUpdateUser(Model modelMap) {
 
         List<User> users = Collections.EMPTY_LIST;
         try {
@@ -89,7 +89,7 @@ public class UserController {
         } catch (DbException e) {
             e.printStackTrace();
         }
-        modelMap.addAttribute(Attributes.USERS,users);
+        modelMap.addAttribute(Attributes.USERS, users);
         return Pages.UPDATE_USER;
     }
 
@@ -127,18 +127,18 @@ public class UserController {
 
     @RequestMapping(value = "/signup", method = {RequestMethod.POST})
     String signup(@RequestParam("user-name") String name, @RequestParam("user-password") String password,
-                  @RequestParam("user-role") String role, HttpServletRequest request, ExtendedModelMap modelMap) {
+                  @RequestParam("user-role") String role) {
         try {
             User user = new User();
             user.setName(name);
             user.setPassword(password);
             user.setRole(role);
-            userService.insertUser(user);// лучше возвращать юзера и проверять есть ли уже такой
+            userService.insertUser(user);
             return Pages.LOGIN_PAGE;
         } catch (DbException e) {
             e.printStackTrace();
         }
-        return "/signup";
+        return Pages.SIGNUP_PAGE;
     }
 
     @RequestMapping(value = "/logout")

@@ -30,7 +30,7 @@
                                 </select>
                                 <label>New username</label>
                                 <div>
-                                <input type="text" name="user-new-name" class="form-control" placeholder="enter new name">
+                                <input type="text" name="user-new-name" class="form-control" required placeholder="enter new name">
                                 </div>
                             </div>
                             <button type="submit" style="width: 100%;" class="btn btn-large btn btn-success btn-lg btn-block"><b>Update</b></button>

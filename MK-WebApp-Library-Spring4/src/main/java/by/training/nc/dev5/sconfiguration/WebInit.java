@@ -8,12 +8,12 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{MvcConfig.class};
+        return new Class<?>[0];
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[0];
+        return new Class<?>[]{MvcConfig.class};
     }
 
     @Override

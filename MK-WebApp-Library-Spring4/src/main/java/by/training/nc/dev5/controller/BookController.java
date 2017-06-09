@@ -17,10 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by ASUS on 28.05.2017.
- */
-
 @Controller
 @RequestMapping(value = "/books")
 public class BookController {
@@ -33,7 +29,6 @@ public class BookController {
     @RequestMapping(value = {"","/all"})
     String getBooks(HttpServletRequest request, Model model){
         try {
-            //request.getSession().setAttribute(Attributes.LOANS,loanService.selectLoans());
             List<Book> books = bookService.selectBooks();
             model.addAttribute(Attributes.BOOKS,books);
             return Pages.BOOKS_PAGE;

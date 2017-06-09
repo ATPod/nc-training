@@ -1,7 +1,6 @@
 package by.training.nc.dev5.jpa;
 
 import by.training.nc.dev5.entity.Book;
-import by.training.nc.dev5.entity.Loan;
 import by.training.nc.dev5.exception.DbException;
 import by.training.nc.dev5.util.JPAUtil;
 import org.hibernate.Session;
@@ -15,7 +14,6 @@ import java.util.List;
 @SuppressWarnings("Duplicates")
 @Repository
 public class BookJPA {
-
 
     public Book insertBook(Book book) throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
@@ -45,7 +43,6 @@ public class BookJPA {
         return b;
     }
 
-
     public void updateBook(Book book) throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -54,13 +51,10 @@ public class BookJPA {
         transaction.commit();
     }
 
-
     public List<Book> selectBooks() throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
         Query query = em.createNamedQuery("Book.selectAll");
         List<Book> books = query.getResultList();
         return books;
     }
-
-
 }
