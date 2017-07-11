@@ -17,6 +17,50 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <c:url var="getDevelopers" value="/rest/developers/" />
+
+    <script>
+        var $getDevelopersForm;
+        var $developersPlaceholder;
+
+        $(document).ready(function () {
+            $getDevelopersForm = $("#getDevelopersForm");
+            $developersPlaceholder = $("#developersPlaceholder");
+
+            $getDevelopersForm.submit(function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: "${getDevelopers}?qualificationId=" + $("#qualificationId").val(),
+                    timeout: 100000,
+                    success: function (data) {
+                        $("tr.dataRow").remove();
+
+                        for (var i = 0; i < data.length; i++) {
+                            $developersPlaceholder.append(createRow(data[i]));
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR: ", e);
+                    }
+                });
+            });
+        });
+
+        function createRow(developer) {
+            var developerRow = $("<tr></tr>").addClass("dataRow");
+
+            developerRow.append($("<td></td>").append($("<input>").attr("type", "checkbox")
+                .attr("name", "developerId").attr("value", developer["id"])));
+            developerRow.append($("<td></td>").text(developer["name"]));
+            developerRow.append($("<td></td>").text(developer["qualification"]["name"]));
+
+            return developerRow;
+        }
+    </script>
 </head>
 <body>
     <app:topNav/>
@@ -29,9 +73,10 @@
             <div class="col-lg-9">
                 <c:url value="/manager/assignDevelopers" var="assignDevelopers"/>
 
-                <form method="get" action="${assignDevelopers}">
+                <form id="getDevelopersForm" method="get" action="${assignDevelopers}">
                     <div class="form-group">
                         <app:qualificationSelect
+                                idAttr="qualificationId"
                                 controlName="qualificationId"
                                 qualifications="${qualifications}"/>
                     </div>
@@ -52,27 +97,27 @@
                     </div>
                     <!-- TODO: show tasks here -->
 
-                    <table class="table">
+                    <table id="developersPlaceholder" class="table">
                         <tr><th>Select</th><th>Name</th><th>Qualification</th></tr>
-                        <c:forEach
-                                var="developer"
-                                varStatus="status"
-                                items="${requestScope.unassignedDevelopers}">
-                            <tr>
-                                <td><input
-                                        id="developerIdCheckbox${status.index}"
-                                        type="checkbox"
-                                        name="developerId"
-                                        value="${developer.id}">
-                                </td>
-                                <td>
-                                    <label for="developerIdCheckbox${status.index}">
-                                            ${developer.name}
-                                    </label>
-                                </td>
-                                <td>${developer.qualification.name}</td>
-                            </tr>
-                        </c:forEach>
+                        <%--<c:forEach--%>
+                                <%--var="developer"--%>
+                                <%--varStatus="status"--%>
+                                <%--items="${requestScope.unassignedDevelopers}">--%>
+                            <%--<tr>--%>
+                                <%--<td><input--%>
+                                        <%--id="developerIdCheckbox${status.index}"--%>
+                                        <%--type="checkbox"--%>
+                                        <%--name="developerId"--%>
+                                        <%--value="${developer.id}">--%>
+                                <%--</td>--%>
+                                <%--<td>--%>
+                                    <%--<label for="developerIdCheckbox${status.index}">--%>
+                                            <%--${developer.name}--%>
+                                    <%--</label>--%>
+                                <%--</td>--%>
+                                <%--<td>${developer.qualification.name}</td>--%>
+                            <%--</tr>--%>
+                        <%--</c:forEach>--%>
                     </table>
                     <button class="btn btn-primary" type="submit">Assign</button>
                 </form:form>

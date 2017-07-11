@@ -28,7 +28,7 @@
                 <li><a href="${showPendingTerms}">Show pending terms of reference</a></li>
                 <li><a href="${assignDevelopers}">Assign developers</a></li>
                 <li><a href="${showMyProjects}">Show My Projects</a></li>
-                <li><a href="${issueInvoice}">Issue Invoice</a></li>
+                <%--<li><a href="${issueInvoice}">Issue Invoice</a></li>--%>
                 <li><a href="${showTimeSheets}">Show Time Sheets</a> </li>
             </c:when>
         </c:choose>

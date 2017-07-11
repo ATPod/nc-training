@@ -22,6 +22,7 @@ public class QualificationSelectTag extends SimpleTagSupport {
 //    private QualificationService qualificationService;
     private String controlName;
     private String formId;
+    private String idAttr;
     private Iterable<QualificationDto> qualifications;
 
 //    private static DaoFactory daoFactory;
@@ -39,6 +40,7 @@ public class QualificationSelectTag extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         JspWriter out = getJspContext().getOut();
         String formIdAttr;
+        String id;
 //        Collection<QualificationDto> qualifications = qualificationService
 //                .getQualifications();
 
@@ -48,11 +50,18 @@ public class QualificationSelectTag extends SimpleTagSupport {
             formIdAttr = String.format("form='%s'", formId);
         }
 
+        if (idAttr == null) {
+            id = "";
+        } else {
+            id = String.format("id='%s'", idAttr);
+        }
+
         // TODO: add optionCss attr
         out.print(String.format(
-                "<select class='form-control' %s name='%s'>",
-                formIdAttr, controlName));
+                "<select class='form-control' %s %s name='%s'>",
+                formIdAttr, id, controlName));
 
+        out.print("<option value=''>All</option>");
         for (QualificationDto qualification : getQualifications()) {
             out.print(String.format(
                     "<option value='%d'>%s</option>",
@@ -97,5 +106,14 @@ public class QualificationSelectTag extends SimpleTagSupport {
      */
     public void setQualifications(Iterable<QualificationDto> qualifications) {
         this.qualifications = qualifications;
+    }
+
+    /**
+     * Sets the value of idAttr
+     *
+     * @param idAttr the new value of idAttr.
+     */
+    public void setIdAttr(String idAttr) {
+        this.idAttr = idAttr;
     }
 }

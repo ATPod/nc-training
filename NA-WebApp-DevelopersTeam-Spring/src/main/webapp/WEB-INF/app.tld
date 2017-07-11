@@ -29,6 +29,11 @@
             <name>formId</name>
             <required>false</required>
         </attribute>
+        <attribute>
+            <name>idAttr</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
     <tag-file>
         <name>termsHolder</name>

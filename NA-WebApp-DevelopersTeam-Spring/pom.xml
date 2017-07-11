@@ -25,15 +25,10 @@
         <taglibs.version>1.1.2</taglibs.version>
         <jstl.version>1.2-rev-1</jstl.version>
         <spring.security.version>4.0.3.RELEASE</spring.security.version>
+        <jackson.version>2.6.3</jackson.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>by.training.nc.dev5</groupId>
             <artifactId>NA-DevelopersTeam-Hibernate</artifactId>
@@ -83,6 +78,17 @@
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
             <version>${taglibs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
 
