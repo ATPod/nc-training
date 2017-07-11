@@ -20,16 +20,16 @@
         <div class="panel-body"align="center">
             <div class="container " style=" margin-bottom: 10%;">
                 <div class="panel panel-success" style="max-width: 35%;" align="left">
-                    <div class="panel-body" >
-                        <form name="loginForm" action="/login" method="post"  >
+                    <div class="panel-body" ><%--/login--%>
+                        <form name="loginForm" action="/spring_security_login" method="post"  >
                             <div class="form-group">
-                                <label >User Name</label>
-                                <input type="text" class="form-control" name="user-name" id="user-name-id"
+                                <label >User Name</label><%--user-name--%>
+                                <input type="text" class="form-control" name="username" id="user-name-id"
                                     placeholder="Name" required="required">
                             </div>
                             <div class="form-group">
-                                <label >Password</label>
-                                <input type="password" class="form-control" name="user-password" id="user-password-id"
+                                <label >Password</label><%--user-password--%>
+                                <input type="password" class="form-control" name="password" id="user-password-id"
                                     placeholder="Password" required="required">
                             </div>
                             <button type="submit" style="width: 100%;" class="btn btn-large btn btn-success btn-lg btn-block"><b>Login</b></button>

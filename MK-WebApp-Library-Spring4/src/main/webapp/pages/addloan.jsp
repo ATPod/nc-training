@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
           integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 </head>
+<jsp:include page="navbar.jsp"></jsp:include>
 <body>
+<br>
+<br>
 <div class="container-fluid">
     <div class="panel panel-success">
         <div class="panel-heading" align="center">

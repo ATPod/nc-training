@@ -1,16 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page isELIgnored="false" %>
 <html>
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
           integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-
 </head>
 <body>
 <jsp:include page="navbar.jsp"></jsp:include>
-<div style="height: 70% !important;
+<%@ page errorPage="error.jsp" %>
+<div style="height: 50% ;
     overflow-y: auto;">
 <table class="table" >
     <thead class="thead-inverse">
@@ -46,10 +47,12 @@
 </table>
 </div>
 <div>
+
+<sec:authorize access="hasRole('ADMIN')">
     <form action="/books/add" method="get">
         <button type="submit" class="btn btn-primary">Add Book</button>
     </form>
 </div>
-
+</sec:authorize>
 </body>
 </html>

@@ -1,7 +1,7 @@
 package by.training.nc.dev5.jpa;
 
 import by.training.nc.dev5.entity.Book;
-import by.training.nc.dev5.entity.Loan;
+import by.training.nc.dev5.exception.DbException;
 import by.training.nc.dev5.util.JPAUtil;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -15,8 +15,7 @@ import java.util.List;
 @Repository
 public class BookJPA {
 
-
-    public Book insertBook(Book book){
+    public Book insertBook(Book book) throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
@@ -25,27 +24,26 @@ public class BookJPA {
         return book;
     }
 
-    public void deleteBook(int id){
+    public void deleteBook(int id) throws DbException {
         Session session = JPAUtil.getSession();
         EntityTransaction transaction = session.getTransaction();
         transaction.begin();
-        session.delete(session.find(Book.class,id));
+        session.delete(session.find(Book.class, id));
         session.flush();
         transaction.commit();
 
     }
 
-    public Book findBookById(int id){
+    public Book findBookById(int id) throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        Book b = em.find(Book.class,id);
+        Book b = em.find(Book.class, id);
         transaction.commit();
         return b;
     }
 
-
-    public void updateBook(Book book){
+    public void updateBook(Book book) throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
@@ -53,14 +51,10 @@ public class BookJPA {
         transaction.commit();
     }
 
-
-    public List<Book> selectBooks(){
+    public List<Book> selectBooks() throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
         Query query = em.createNamedQuery("Book.selectAll");
         List<Book> books = query.getResultList();
         return books;
     }
-
-
-
 }

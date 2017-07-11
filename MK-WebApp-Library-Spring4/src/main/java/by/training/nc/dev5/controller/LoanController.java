@@ -16,10 +16,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.w3c.dom.Attr;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -64,7 +62,12 @@ public class LoanController {
     String addLoan(@RequestParam("loan-book-id") int id, @RequestParam("loan-type") String type,
                    HttpServletRequest request, ExtendedModelMap modelMap){
         User user = (User) request.getSession().getAttribute(Attributes.USER);
-        Book book = bookService.findBookById(id);
+        Book book = null;
+        try {
+            book = bookService.findBookById(id);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
         Loan loan = new Loan();
         loan.setUser(user);
         loan.setBook(book);

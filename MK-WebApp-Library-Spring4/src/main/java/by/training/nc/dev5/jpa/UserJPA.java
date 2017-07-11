@@ -1,6 +1,7 @@
 package by.training.nc.dev5.jpa;
 
 import by.training.nc.dev5.entity.User;
+import by.training.nc.dev5.exception.DbException;
 import by.training.nc.dev5.util.JPAUtil;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -16,8 +16,7 @@ import java.util.List;
 @Repository
 public class UserJPA {
 
-
-    public void insertUser(User user){
+    public void insertUser(User user) throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
@@ -26,40 +25,33 @@ public class UserJPA {
 
     }
 
-    @Transactional
-    public void updateUser(User user){
+    public void updateUser(User user) throws DbException {
         Session s = JPAUtil.getSession();
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
-        EntityManager em = JPAUtil.getEntityManager();
-        em.merge(user);
+        s.merge(user);
         transaction.commit();
 
     }
 
-    @Transactional
-    public void deleteUser(int id){
+    public void deleteUser(int id) throws DbException {
         Session s = JPAUtil.getSession();
         EntityTransaction transaction = s.getTransaction();
         transaction.begin();
-        EntityManager em = JPAUtil.getEntityManager();
-        em.merge(em.find(User.class,id));
+        s.remove(s.find(User.class, id));
         transaction.commit();
     }
 
-    @Transactional
-    public User findById(int id){
+    public User findById(int id) throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        User user = em.find(User.class,id);
+        User user = em.find(User.class, id);
         transaction.commit();
-        //em.flush(); пропихнуть данные в бд иначе произойдет после коммита транзакции
         return user;
     }
 
-    @Transactional
-    public User findByNameAndPassword(String name , String password){
+    public User findByNameAndPassword(String name, String password) throws DbException {
         EntityManager em = JPAUtil.getEntityManager();
 
         Query query = em.createNamedQuery("User.findByNameAndPassword");
@@ -67,15 +59,26 @@ public class UserJPA {
         query.setParameter(2, password);
 
         List<User> users = query.getResultList();
-        if(!users.isEmpty()) {
-            return  (User) query.getResultList().get(0);
-        }else {
-            return null ;
+        if (!users.isEmpty()) {
+            return (User) query.getResultList().get(0);
+        } else {
+            return null;
         }
     }
 
+    public User findByName(String name) throws DbException {
+        EntityManager em = JPAUtil.getEntityManager();
 
-    public List<User> selectUsers(){
+        Query query = em.createNamedQuery("User.findByName");
+        query.setParameter(1, name);
+        List<User> users = query.getResultList();
+        if (!users.isEmpty()) {
+            return (User) query.getResultList().get(0);
+        }
+        return null;
+    }
+
+    public List<User> selectUsers() throws DbException {
 
         EntityManager em = JPAUtil.getEntityManager();
         Query query = em.createNamedQuery("User.selectAll");
@@ -83,14 +86,5 @@ public class UserJPA {
 
         return users;
     }
-/*
-    public static void main(String[] args) {
-        UserJPA ujpa = new UserJPA();
-        User u = ujpa.findByNameAndPassword("qwe","qwe");
-        System.out.println(u+ "------------------");
-
-        ujpa.selectUsers().forEach(System.out::println);
-
-    }*/
 
 }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page isELIgnored="false" %>
 <html>
 <head>
@@ -9,7 +10,9 @@
 
 </head>
 <body>
+
 <jsp:include page="navbar.jsp"></jsp:include>
+<%@ page errorPage="error.jsp" %>
 <table class="table ">
     <thead class="thead-inverse">
     <tr>
@@ -46,5 +49,10 @@
     </c:if>
     </tbody>
 </table>
+<sec:authorize access="hasRole('ADMIN')">
+<form action="/users/update" method="get">
+    <button type="submit" class="btn btn-primary">Update user</button>
+</form>
+</sec:authorize>
 </body>
 </html>

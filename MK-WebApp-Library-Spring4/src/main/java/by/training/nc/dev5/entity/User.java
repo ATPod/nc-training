@@ -7,9 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 
-@NamedQueries( {@NamedQuery(name = "User.findByNameAndPassword",
+@NamedQueries({ @NamedQuery(name = "User.findByNameAndPassword",
                     query = "SELECT u FROM users u WHERE u.name=?1 AND u.password=?2"),
-                @NamedQuery(name = "User.selectAll", query = "SELECT u FROM users u")})
+                @NamedQuery(name = "User.selectAll",
+                    query = "SELECT u FROM users u"),
+                @NamedQuery(name = "User.findByName",
+                    query = "SELECT u FROM users u WHERE u.name=?1 ")})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,17 +20,17 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @Column(name = "id" ,nullable = false, unique = true)
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "role" ,nullable = false)
+    @Column(name = "role", nullable = false)
     private String role;
 
-    @Column(name = "name" ,nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "password" ,nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
 }

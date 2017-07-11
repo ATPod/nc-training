@@ -10,8 +10,7 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp"></jsp:include>
-<%--
-<button type="button" class="btn btn-primary" name="add-loan">Primary</button>--%>
+<%@ page errorPage="error.jsp" %>
 <table class="table">
     <thead class="thead-inverse">
     <tr>
@@ -29,16 +28,14 @@
     <tbody><%--isLogged==--%>
     <c:if test="${user!=null}">
         <c:forEach var="loan" items="${loans}" varStatus="index">
-            <%-- <c:url var="deleteUrl" value="/controller?command=loan?delete=true?id=${loan.id}"/>--%>
             <tr>
                 <td>${index.index+1}</td>
                 <td><c:out value="${loan.id}"></c:out></td>
-                <td><c:out value="${loan.user}"></c:out></td>
-                <td><c:out value="${loan.book}"></c:out></td>
+                <td><c:out value="${loan.user.name}"></c:out></td>
+                <td><c:out value="${loan.book.title}"></c:out></td>
                 <td><c:out value="${loan.loanType}"></c:out></td>
 
                 <c:if test="${user.role==\"ADMIN\"||user.id==loan.user.id}">
-                    <%--<td><a href="/loan/delete?id=${loan.id}" methods="">Delete</a></td>--%>
                     <td>
                         <form method="POST" action="/loans/delete">
                             <input type="hidden" name="loan-id" value="${ loan.id }"/>

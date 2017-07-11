@@ -1,8 +1,6 @@
 package by.training.nc.dev5.util;
 
-/**
- * Created by ASUS on 25.04.2017.
- */
+
 public class Pages {
 
     public static final String BASE_URL ="localhost:8089";
@@ -17,4 +15,5 @@ public class Pages {
     public static final String BOOKS_PAGE = "/books" ;
     public static final String TO_ADD_LOAN ="/addloan" ;
     public static final String ERROR ="/error" ;
+    public static final String UPDATE_USER = "/updateuser";
 }
