@@ -1,4 +1,4 @@
-#NA-WebApp-DevelopersTeam-Spring
+# NA-WebApp-DevelopersTeam-Spring
 
 A spring web-interface for Developers Team application.
 See DB creation scripts in NA-DevelopersTeam module
