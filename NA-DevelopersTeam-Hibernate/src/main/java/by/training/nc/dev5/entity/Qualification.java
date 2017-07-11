@@ -1,14 +1,12 @@
 package by.training.nc.dev5.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Nikita on 26.03.2017.
  */
 @Entity
+@Table(name = "qualification")
 public class Qualification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
