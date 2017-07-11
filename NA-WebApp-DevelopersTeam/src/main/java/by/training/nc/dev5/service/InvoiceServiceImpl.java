@@ -9,6 +9,7 @@ import by.training.nc.dev5.dto.InvoiceDto;
 import by.training.nc.dev5.dto.ProjectDto;
 import by.training.nc.dev5.entity.Invoice;
 import by.training.nc.dev5.entity.Project;
+import by.training.nc.dev5.util.JpaUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +23,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     private ProjectDao projectDao;
 
     static {
-        daoFactory = new JpaDaoFactory();
+        daoFactory = new JpaDaoFactory(JpaUtil.getInstance());
     }
 
     {

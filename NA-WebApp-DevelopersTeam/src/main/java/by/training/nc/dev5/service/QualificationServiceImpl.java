@@ -5,6 +5,7 @@ import by.training.nc.dev5.dao.QualificationDao;
 import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
 import by.training.nc.dev5.dto.QualificationDto;
 import by.training.nc.dev5.entity.Qualification;
+import by.training.nc.dev5.util.JpaUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +17,7 @@ public class QualificationServiceImpl implements QualificationService {
     private static DaoFactory daoFactory;
 
     static {
-        daoFactory = new JpaDaoFactory();
+        daoFactory = new JpaDaoFactory(JpaUtil.getInstance());
     }
 
     private QualificationDao qualificationDao;

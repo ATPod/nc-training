@@ -10,6 +10,7 @@ import by.training.nc.dev5.dto.ProjectDto;
 import by.training.nc.dev5.dto.QualificationDto;
 import by.training.nc.dev5.entity.Developer;
 import by.training.nc.dev5.entity.Project;
+import by.training.nc.dev5.util.JpaUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +24,7 @@ public class ProjectServiceImpl implements ProjectService {
     private DeveloperDao developerDao;
 
     static {
-        daoFactory = new JpaDaoFactory();
+        daoFactory = new JpaDaoFactory(JpaUtil.getInstance());
     }
 
     {

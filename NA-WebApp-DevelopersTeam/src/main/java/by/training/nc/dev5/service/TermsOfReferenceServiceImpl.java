@@ -10,6 +10,7 @@ import by.training.nc.dev5.dto.QualificationDto;
 import by.training.nc.dev5.dto.TaskDto;
 import by.training.nc.dev5.dto.TermsOfReferenceDto;
 import by.training.nc.dev5.entity.*;
+import by.training.nc.dev5.util.JpaUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +24,7 @@ public class TermsOfReferenceServiceImpl implements TermsOfReferenceService {
     private static DaoFactory daoFactory;
 
     static {
-        daoFactory = new JpaDaoFactory();
+        daoFactory = new JpaDaoFactory(JpaUtil.getInstance());
     }
 
     private TermsOfReferenceDao termsDao;

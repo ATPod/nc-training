@@ -10,6 +10,7 @@ import by.training.nc.dev5.dto.ProjectDto;
 import by.training.nc.dev5.dto.TimeSheetDto;
 import by.training.nc.dev5.entity.Developer;
 import by.training.nc.dev5.entity.TimeSheet;
+import by.training.nc.dev5.util.JpaUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +26,7 @@ public class TimeTrackingServiceImpl implements TimeTrackingService {
     private ProjectDao projectDao;
 
     static {
-        daoFactory = new JpaDaoFactory();
+        daoFactory = new JpaDaoFactory(JpaUtil.getInstance());
     }
 
     {

@@ -6,6 +6,7 @@ import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
 import by.training.nc.dev5.dto.DeveloperDto;
 import by.training.nc.dev5.dto.QualificationDto;
 import by.training.nc.dev5.entity.Developer;
+import by.training.nc.dev5.util.JpaUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +19,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     private DeveloperDao developerDao;
 
     static {
-        daoFactory = new JpaDaoFactory();
+        daoFactory = new JpaDaoFactory(JpaUtil.getInstance());
     }
 
     {

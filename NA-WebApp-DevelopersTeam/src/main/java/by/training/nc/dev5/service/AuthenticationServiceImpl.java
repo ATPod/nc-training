@@ -8,6 +8,7 @@ import by.training.nc.dev5.dao.ProjectDao;
 import by.training.nc.dev5.dao.persistence.JpaDaoFactory;
 import by.training.nc.dev5.dto.*;
 import by.training.nc.dev5.entity.*;
+import by.training.nc.dev5.util.JpaUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +22,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private ProjectDao projectDao;
 
     static {
-        daoFactory = new JpaDaoFactory();
+        daoFactory = new JpaDaoFactory(JpaUtil.getInstance());
     }
 
     {
