@@ -16,6 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Current Database: `na_developersteam`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `na_developersteam` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `na_developersteam`;
+
+--
 -- Table structure for table `customer`
 --
 
@@ -65,7 +73,7 @@ CREATE TABLE `invoice` (
   PRIMARY KEY (`id`),
   KEY `fk_INVOICE_PROJECT_idx` (`project_id`),
   CONSTRAINT `fk_INVOICE_PROJECT` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +108,7 @@ CREATE TABLE `person` (
   UNIQUE KEY `login` (`login`),
   KEY `fk_person_role` (`role_id`),
   CONSTRAINT `fk_person_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3004 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +128,7 @@ CREATE TABLE `project` (
   KEY `fk_PROJECT_PERSON` (`manager_id`),
   CONSTRAINT `fk_PROJECT_PERSON` FOREIGN KEY (`manager_id`) REFERENCES `person` (`id`),
   CONSTRAINT `fk_PROJECT_TERMS_OF_REFERENCE1` FOREIGN KEY (`terms_of_reference_id`) REFERENCES `terms_of_reference` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +142,7 @@ CREATE TABLE `qualification` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,7 +173,7 @@ CREATE TABLE `task` (
   PRIMARY KEY (`id`),
   KEY `fk_TASK_TERMS_OF_REFERENCE_idx` (`terms_of_reference_id`),
   CONSTRAINT `fk_TASK_TERMS_OF_REFERENCE` FOREIGN KEY (`terms_of_reference_id`) REFERENCES `terms_of_reference` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +193,7 @@ CREATE TABLE `task_quota` (
   KEY `fk_TASK_QUOTA_QUALIFICATION_idx` (`qualification_id`),
   CONSTRAINT `fk_TASK_QUOTA_QUALIFICATION` FOREIGN KEY (`qualification_id`) REFERENCES `qualification` (`id`) ON DELETE NO ACTION,
   CONSTRAINT `fk_TASK_QUOTA_TASK` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +209,7 @@ CREATE TABLE `terms_of_reference` (
   PRIMARY KEY (`id`),
   KEY `fk_terms_of_reference_person` (`customer_id`),
   CONSTRAINT `fk_terms_of_reference_person` FOREIGN KEY (`customer_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10008 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10011 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,7 +230,7 @@ CREATE TABLE `time_sheet` (
   KEY `fk_TIMESHEET_DEVELOPER_idx` (`developer_id`),
   CONSTRAINT `fk_TIMESHEET_PROJECT` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE NO ACTION,
   CONSTRAINT `time_sheet_ibfk_1` FOREIGN KEY (`developer_id`) REFERENCES `developer` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -234,4 +242,4 @@ CREATE TABLE `time_sheet` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-09 15:25:32
+-- Dump completed on 2017-07-11  8:50:40

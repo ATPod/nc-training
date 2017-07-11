@@ -31,7 +31,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `developer` WRITE;
 /*!40000 ALTER TABLE `developer` DISABLE KEYS */;
-INSERT INTO `developer` VALUES (3001,3,1);
+INSERT INTO `developer` VALUES (3001,NULL,1),(3002,NULL,2),(3003,7,3);
 /*!40000 ALTER TABLE `developer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -41,6 +41,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `invoice` WRITE;
 /*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
+INSERT INTO `invoice` VALUES (3,7,1000000,0),(4,7,10,0),(5,7,100,0);
 /*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +61,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1001,'И.Ильф','ilya97','123456',1),(1002,'Е.Петров','e.petroff','654321',1),(2001,'О.Бендер','ostap.bender','MyDadWasTurkishPartial',2),(2002,'А.Балаганов','shoora','IamSchmidtSon',2),(3001,'Р.Бородач','borodach','27182818284',3);
+INSERT INTO `person` VALUES (1001,'И.Ильф','ilya97','123456',1),(1002,'Е.Петров','e.petroff','654321',1),(2001,'О.Бендер','ostap.bender','MyDadWasTurkishPartial',2),(2002,'А.Балаганов','shoora','IamSchmidtSon',2),(3001,'Р.Бородач','borodach','27182818284',3),(3002,'С.Беляков','belyakov','tv4eva',3),(3003,'И.Дулин','dulin','michalych',3);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +71,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
-INSERT INTO `project` VALUES (3,10007,2002),(4,10001,2002),(5,10006,2002);
+INSERT INTO `project` VALUES (7,10004,2002),(11,10009,2002),(12,10003,2002);
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,7 +81,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `qualification` WRITE;
 /*!40000 ALTER TABLE `qualification` DISABLE KEYS */;
-INSERT INTO `qualification` VALUES (1,'Java Developer'),(2,'.NET Developer'),(3,'QA'),(4,'Frontend Developer'),(5,'Designer');
+INSERT INTO `qualification` VALUES (1,'Java Developer'),(2,'.NET Developer'),(3,'QA'),(4,'Frontend Developer'),(5,'Designer'),(6,'Database Designer');
 /*!40000 ALTER TABLE `qualification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +101,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `task` WRITE;
 /*!40000 ALTER TABLE `task` DISABLE KEYS */;
-INSERT INTO `task` VALUES (4,10001,'olol'),(6,10005,'implement frontend'),(7,10005,'write frontend'),(8,10006,'spec1'),(9,10006,'frontend'),(10,10006,'design'),(11,10007,'Write features'),(12,10007,'Test features');
+INSERT INTO `task` VALUES (25,10003,'Store data in database'),(26,10003,'Create web interface'),(27,10003,'Create RESTful API'),(28,10004,'Specification'),(29,10005,'Simple task for two QA'),(30,10005,'Complex task for 3 Java developers'),(34,10009,'Write C# code'),(35,10009,'Test code'),(36,10009,'Write web pages'),(37,10010,'blahblah'),(38,10010,'souhfouh');
 /*!40000 ALTER TABLE `task` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +111,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `task_quota` WRITE;
 /*!40000 ALTER TABLE `task_quota` DISABLE KEYS */;
-INSERT INTO `task_quota` VALUES (1,2,1,6),(2,1,4,7),(3,3,1,8),(4,2,4,9),(5,1,5,10),(6,2,2,11),(7,1,3,12);
+INSERT INTO `task_quota` VALUES (18,1,6,25),(19,2,4,26),(20,2,1,27),(21,2,3,28),(22,2,3,29),(23,3,1,30),(27,2,2,34),(28,1,3,35),(29,2,1,36),(30,2,1,37),(31,1,4,38);
 /*!40000 ALTER TABLE `task_quota` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +121,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `terms_of_reference` WRITE;
 /*!40000 ALTER TABLE `terms_of_reference` DISABLE KEYS */;
-INSERT INTO `terms_of_reference` VALUES (10001,1001),(10004,1001),(10005,1001),(10006,1001),(10007,1001);
+INSERT INTO `terms_of_reference` VALUES (10003,1001),(10004,1001),(10005,1001),(10009,1001),(10010,1001);
 /*!40000 ALTER TABLE `terms_of_reference` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,6 +131,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `time_sheet` WRITE;
 /*!40000 ALTER TABLE `time_sheet` DISABLE KEYS */;
+INSERT INTO `time_sheet` VALUES (5,'2017-06-05',7,3003,100);
 /*!40000 ALTER TABLE `time_sheet` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -142,4 +144,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-09 15:25:36
+-- Dump completed on 2017-07-11  8:50:46
